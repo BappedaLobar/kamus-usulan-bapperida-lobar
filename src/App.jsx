@@ -584,13 +584,13 @@ export default function App() {
             />
             <div className="navbar-brand-text">
               <span className="navbar-badge">
-                <Check size={11} strokeWidth={3} /> PEMKAB LOMBOK BARAT • BAPPERIDA
+                <Check size={10} strokeWidth={3} /> PEMKAB LOMBOK BARAT • BAPPERIDA
               </span>
               <h1 className="navbar-title">
                 Kamus Usulan Perencanaan Daerah
               </h1>
               <p className="navbar-subtitle">
-                Pedoman Musrenbang RKPD & Program Satu Desa Satu Miliar (2027–2029)
+                Pedoman Musrenbang RKPD &amp; Program Satu Desa Satu Miliar
               </p>
             </div>
           </div>
@@ -649,26 +649,13 @@ export default function App() {
                   showToast(`Beralih ke Tahun Perencanaan ${yr}`);
                 }}
                 title="Pilih Tahun Perencanaan RKPD"
-                style={{
-                  background: "#ffffff",
-                  color: "#0369a1",
-                  border: "2px solid #facc15",
-                  borderRadius: "var(--radius-md)",
-                  fontWeight: 800,
-                  fontSize: "12.5px",
-                  padding: "7px 34px 7px 12px",
-                  cursor: "pointer",
-                  appearance: "none",
-                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-                  outline: "none"
-                }}
               >
-                <option value="2027">📅 Tahun 2027 ({count2027} Item • Tabel)</option>
-                <option value="2028">📅 Tahun 2028 ({count2028} Item)</option>
-                <option value="2029">📅 Tahun 2029 (Belum Final / Kosong)</option>
+                <option value="2027">📅 RKPD 2027</option>
+                <option value="2028">📅 RKPD 2028</option>
+                <option value="2029">📅 RKPD 2029 (Kosong)</option>
               </select>
               <ChevronDown
-                size={15}
+                size={14}
                 color="#0369a1"
                 style={{
                   position: "absolute",
