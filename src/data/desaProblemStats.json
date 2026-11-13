@@ -26,6 +26,24 @@
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya",
       "Produktivitas Kepemilikan Aset Desa"
+    ],
+    "masalahSedangDetail": [
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes"
     ]
   },
   "GERUNG_GAPUK": {
@@ -62,6 +80,21 @@
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Publikasi Informasi Pelayanan kepada masyarakat desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Penyelesaian Konflik secara damai",
+      "Operasional Angkutan Perdesaan/Angkutan Lokal/Sejenis di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Kepemilikan Aset berupa Tanah Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "GERUNG_SUKA MAKMUR": {
@@ -109,6 +142,23 @@
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Rata-rata kejadian pencemaran lingkungan",
+      "Ketersediaan Akses Telepon di sebagian besar wilayah Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "GERUNG_BANYU URIP": {
@@ -145,6 +195,21 @@
       "Ketersediaan Fasilitas Mitigasi Bencana",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "GERUNG_BABUSSALAM": {
@@ -179,6 +244,24 @@
       "Ketersediaan Pemanfaatan Sampah di desa",
       "Ketersediaan Aspek informasi Kebencanaan",
       "inventarisasi Aset Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Bidan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Operasional Angkutan Perdesaan/Angkutan Lokal/Sejenis di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Peningkatan PADes"
     ]
   },
   "GERUNG_DASAN TAPEN": {
@@ -210,6 +293,21 @@
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Operasional Taman Bacaan Masyarakat/ Perpustakaan Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Kepemilikan Aset berupa Tanah Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "GERUNG_BELEKA": {
@@ -234,6 +332,16 @@
       "Ketersediaan Fasilitas Mitigasi Bencana",
       "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Peningkatan PADes"
     ]
   },
   "GERUNG_TEMPOS": {
@@ -272,6 +380,17 @@
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan akses menuju Sarana Kesehatan",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "GERUNG_MESANGGOK": {
@@ -302,6 +421,21 @@
       "Pendapatan Asli Desa",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Operasional ketersediaan layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "GERUNG_TAMAN AYU": {
@@ -333,6 +467,19 @@
       "Rata-rata kejadian pencemaran lingkungan",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "GERUNG_GIRI TEMBESI": {
@@ -373,6 +520,20 @@
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "KEDIRI_KEDIRI": {
@@ -399,6 +560,16 @@
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa",
       "Kepemilikan Aset berupa Tanah Desa"
+    ],
+    "masalahSedangDetail": [
+      "Operasional ketersediaan layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus"
     ]
   },
   "KEDIRI_MONTONG ARE": {
@@ -432,6 +603,18 @@
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "KEDIRI_JAGARAGA INDAH": {
@@ -469,6 +652,26 @@
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "KEDIRI_GELOGOR": {
@@ -489,6 +692,21 @@
       "Ketersediaan Pengolahan Sampah di desa",
       "Ketersediaan Pemanfaatan Sampah di desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Operasional BUM Desa/BUM Desa Bersama",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Peningkatan PADes"
     ]
   },
   "KEDIRI_RUMAK": {
@@ -511,6 +729,17 @@
       "Ketersediaan Aspek informasi Kebencanaan",
       "Ketersediaan Fasilitas Mitigasi Bencana",
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Penyelesaian Konflik secara damai",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Kepemilikan Aset berupa Pasar Desa"
     ]
   },
   "KEDIRI_BANYUMULEK": {
@@ -541,6 +770,28 @@
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Bidan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Rata-rata kejadian pencemaran lingkungan",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "KEDIRI_OMBE BARU": {
@@ -573,6 +824,26 @@
       "Ketersediaan Aspek informasi Kebencanaan",
       "Ketersediaan Fasilitas Mitigasi Bencana",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Operasional layanan perbankan",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Operasional desa dalam penyediaan penerangan di jalan-jalan utama di desa",
+      "Peningkatan PADes"
     ]
   },
   "KEDIRI_DASAN BARU": {
@@ -607,6 +878,15 @@
       "Ketersediaan Fasilitas Mitigasi Bencana",
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa"
     ]
   },
   "KEDIRI_KEDIRI SELATAN": {
@@ -637,6 +917,23 @@
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Persentase keanggotaan BPJS",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Operasional Taman Bacaan Masyarakat/ Perpustakaan Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "KEDIRI_LELEDE": {
@@ -671,6 +968,18 @@
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Ketersediaan Air Minum untuk warga desa",
+      "Operasional Taman Bacaan Masyarakat/ Perpustakaan Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Operasional layanan perbankan",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Operasional desa dalam penyediaan penerangan di jalan-jalan utama di desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_LEMBUAK": {
@@ -696,6 +1005,17 @@
       "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Persentase keanggotaan BPJS",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_NYUR LEMBANG": {
@@ -726,6 +1046,21 @@
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya",
       "inventarisasi Aset Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan dokter di desa",
+      "Penyedia layanan dokter di desa",
+      "Persentase keanggotaan BPJS",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_PERESAK": {
@@ -759,6 +1094,21 @@
       "Ketersediaan Aspek informasi Kebencanaan",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_KERU": {
@@ -786,6 +1136,27 @@
       "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan dokter di desa",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Operasional Taman Bacaan Masyarakat/ Perpustakaan Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Ketersediaan Tangki Septik (Komunal/ Bersama)",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa"
     ]
   },
   "NARMADA_BATU KUTA": {
@@ -813,6 +1184,20 @@
       "Ketersediaan Aspek informasi Kebencanaan",
       "Ketersediaan Fasilitas Mitigasi Bencana",
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Ketersediaan Tangki Septik (Komunal/ Bersama)",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Jenis Permukaan Jalan sebagian besar di desa"
     ]
   },
   "NARMADA_TANAK BEAK": {
@@ -848,6 +1233,29 @@
       "Peningkatan PADes",
       "Kepemilikan Aset berupa Pasar Desa",
       "inventarisasi Aset Desa"
+    ],
+    "masalahSedangDetail": [
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Fasilitas Puskesmas Pembantu (Pustu) termasuk Kesehatan Poskesdes/Polindes",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Operasional layanan perbankan",
+      "Ketersediaan Akses Telepon di sebagian besar wilayah Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Kepemilikan Aset berupa Kantor Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_SEDAU": {
@@ -881,6 +1289,24 @@
       "Peningkatan PADes",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Operasional ketersediaan layanan dokter di desa",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Penyedia layanan Bidan di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Penyelesaian Konflik secara damai",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_SURANADI": {
@@ -913,6 +1339,22 @@
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya",
       "inventarisasi Aset Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan dokter di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Operasional BUM Desa/BUM Desa Bersama",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_SELAT": {
@@ -947,6 +1389,21 @@
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan dokter di desa",
+      "Penyedia layanan dokter di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Penyelesaian Konflik secara damai",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Ketersediaan Tangki Septik (Komunal/ Bersama)",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_LEBAH SEMPAGE": {
@@ -993,6 +1450,23 @@
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Persentase keanggotaan BPJS",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_SESAOT": {
@@ -1022,6 +1496,18 @@
       "Peningkatan PADes",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Operasional ketersediaan layanan dokter di desa",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_DASAN TERENG": {
@@ -1050,6 +1536,20 @@
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Persentase keanggotaan BPJS",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Operasional Taman Bacaan Masyarakat/ Perpustakaan Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_BADRAIN": {
@@ -1080,6 +1580,21 @@
       "Ketersediaan Pengolahan Sampah di desa",
       "Ketersediaan Fasilitas Mitigasi Bencana",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Peningkatan PADes",
+      "Kepemilikan Aset berupa Tanah Desa",
+      "Kepemilikan Aset Lainnya",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_SEMBUNG": {
@@ -1118,6 +1633,22 @@
       "Peningkatan PADes",
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Operasional BUM Desa/BUM Desa Bersama",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir"
     ]
   },
   "NARMADA_KRAMA JAYA": {
@@ -1158,6 +1689,26 @@
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Operasional layanan perbankan",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_GERIMAX INDAH": {
@@ -1201,6 +1752,19 @@
       "Peningkatan PADes",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Persentase keanggotaan BPJS",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_PAKUAN": {
@@ -1235,6 +1799,24 @@
       "Operasional Angkutan Perdesaan/Angkutan Lokal/Sejenis di Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Fasilitas Posyandu",
+      "Persentase keanggotaan BPJS",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Ketersediaan Akses Telepon di sebagian besar wilayah Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_GOLONG": {
@@ -1264,6 +1846,19 @@
       "Ketersediaan Pemanfaatan Sampah di desa",
       "Ketersediaan Fasilitas Mitigasi Bencana",
       "Peningkatan PADes"
+    ],
+    "masalahSedangDetail": [
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Penyelesaian Konflik secara damai",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Frekuensi Musyawarah Desa selama setahun terakhir"
     ]
   },
   "NARMADA_MEKARSARI": {
@@ -1290,6 +1885,25 @@
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Sarana Kesehatan",
+      "Persentase keanggotaan BPJS",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_BUWUN SEJATI": {
@@ -1339,6 +1953,19 @@
       "Operasional Angkutan Perdesaan/Angkutan Lokal/Sejenis di Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Persentase keanggotaan BPJS",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Ketersediaan Akses Telepon di sebagian besar wilayah Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "NARMADA_NARMADA": {
@@ -1373,6 +2000,15 @@
       "Pelayanan Pengaduan untuk masyarakat desa",
       "Pelayanan Lainnya untuk masyarakat desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa"
     ]
   },
   "SEKOTONG_SEKOTONG TENGAH": {
@@ -1392,6 +2028,16 @@
       "Ketersediaan Pengolahan Sampah di desa",
       "Pembuangan Air Limbah Cair Rumah",
       "Peningkatan PADes"
+    ],
+    "masalahSedangDetail": [
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Operasional Taman Bacaan Masyarakat/ Perpustakaan Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Kepemilikan Aset Lainnya"
     ]
   },
   "SEKOTONG_SEKOTONG BARAT": {
@@ -1418,6 +2064,23 @@
       "Ketersediaan Pemanfaatan Sampah di desa",
       "Ketersediaan Aspek informasi Kebencanaan",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Operasional layanan perbankan",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes",
+      "Kepemilikan Aset Lainnya",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "SEKOTONG_PELANGAN": {
@@ -1450,6 +2113,17 @@
       "Ketersediaan Pemanfaatan Sampah di desa",
       "Ketersediaan Fasilitas Mitigasi Bencana",
       "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Operasional layanan perbankan",
+      "Operasional Angkutan Perdesaan/Angkutan Lokal/Sejenis di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa"
     ]
   },
   "SEKOTONG_BUWUN MAS": {
@@ -1476,6 +2150,24 @@
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Pendapatan Asli Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan akses menuju Fasilitas Puskesmas Pembantu (Pustu) termasuk Kesehatan Poskesdes/Polindes",
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Operasional Taman Bacaan Masyarakat/ Perpustakaan Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Ketersediaan Tangki Septik (Komunal/ Bersama)",
+      "Jenis Permukaan Jalan sebagian besar di desa",
+      "Peningkatan PADes"
     ]
   },
   "SEKOTONG_KEDARO": {
@@ -1522,6 +2214,27 @@
       "Pendapatan Asli Desa",
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Jenis Permukaan Jalan sebagian besar di desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Peningkatan PADes",
+      "Kepemilikan Aset berupa Kantor Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "SEKOTONG_BATU PUTIH": {
@@ -1556,6 +2269,24 @@
       "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Fasilitas Puskesmas Pembantu (Pustu) termasuk Kesehatan Poskesdes/Polindes",
+      "Penyedia layanan Bidan di desa",
+      "Operasional Ketersediaan Air Minum di Desa dalam seminggu",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Operasional Taman Bacaan Masyarakat/ Perpustakaan Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Jenis Permukaan Jalan sebagian besar di desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Peningkatan PADes"
     ]
   },
   "SEKOTONG_GILI GEDE INDAH": {
@@ -1597,6 +2328,24 @@
       "Pembuangan Air Limbah Cair Rumah",
       "Ketersediaan Aspek informasi Kebencanaan",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Operasional Ketersediaan Air Minum di Desa dalam seminggu",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Ketersediaan Tangki Septik (Komunal/ Bersama)",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Jenis Permukaan Jalan sebagian besar di desa",
+      "Operasional desa dalam penyediaan penerangan di jalan-jalan utama di desa",
+      "Peningkatan PADes"
     ]
   },
   "SEKOTONG_CENDI MANIK": {
@@ -1626,6 +2375,27 @@
       "Ketersediaan Aspek informasi Kebencanaan",
       "Pendapatan Asli Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Jenis Permukaan Jalan sebagian besar di desa",
+      "Peningkatan PADes"
     ]
   },
   "SEKOTONG_TAMAN BARU": {
@@ -1662,6 +2432,25 @@
       "Operasional Angkutan Perdesaan/Angkutan Lokal/Sejenis di Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Jenis Permukaan Jalan sebagian besar di desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LABUAPI_BENGKEL": {
@@ -1689,6 +2478,15 @@
       "Ketersediaan Pemanfaatan Sampah di desa",
       "Pendapatan Asli Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Peningkatan PADes"
     ]
   },
   "LABUAPI_MEREMBU": {
@@ -1728,6 +2526,24 @@
       "Pendapatan Asli Desa",
       "Peningkatan PADes",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Fasilitas Puskesmas Pembantu (Pustu) termasuk Kesehatan Poskesdes/Polindes",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Operasional BUM Desa/BUM Desa Bersama",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana"
     ]
   },
   "LABUAPI_BAGIK POLAK": {
@@ -1765,6 +2581,25 @@
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Operasional ketersediaan layanan dokter di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes",
+      "Kepemilikan Aset berupa Tanah Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LABUAPI_TELAGAWARU": {
@@ -1791,6 +2626,15 @@
       "Pembuangan Air Limbah Cair Rumah",
       "Peningkatan PADes",
       "inventarisasi Aset Desa"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Bidan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa"
     ]
   },
   "LABUAPI_PERAMPUAN": {
@@ -1823,6 +2667,16 @@
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Operasional BUM Desa/BUM Desa Bersama",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LABUAPI_BAJUR": {
@@ -1843,6 +2697,22 @@
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Rata-rata kejadian pencemaran lingkungan",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LABUAPI_TERONG TAWAH": {
@@ -1885,6 +2755,25 @@
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Persentase keanggotaan BPJS",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Operasional Taman Bacaan Masyarakat/ Perpustakaan Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Operasional BUM Desa/BUM Desa Bersama",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Operasional Angkutan Perdesaan/Angkutan Lokal/Sejenis di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes",
+      "Kepemilikan Aset berupa Tanah Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LABUAPI_KURANJI": {
@@ -1917,6 +2806,21 @@
       "Terdapat pemanfaatan Energi Baru Terbarukan di desa",
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Operasional BUM Desa/BUM Desa Bersama",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Kepemilikan Aset Lainnya",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LABUAPI_KARANG BONGKOT": {
@@ -1952,6 +2856,20 @@
       "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Kepemilikan Aset berupa Tanah Desa"
+    ],
+    "masalahSedangDetail": [
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa"
     ]
   },
   "LABUAPI_LABUAPI": {
@@ -1978,6 +2896,13 @@
       "Ketersediaan Pengolahan Sampah di desa",
       "Ketersediaan Pemanfaatan Sampah di desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan akses menuju Fasilitas Puskesmas Pembantu (Pustu) termasuk Kesehatan Poskesdes/Polindes",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa"
     ]
   },
   "LABUAPI_BAGIK POLAK BARAT": {
@@ -2010,6 +2935,26 @@
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Fasilitas Puskesmas Pembantu (Pustu) termasuk Kesehatan Poskesdes/Polindes",
+      "Operasional ketersediaan layanan dokter di desa",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Penyedia layanan Bidan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LABUAPI_KURANJI DALANG": {
@@ -2044,6 +2989,25 @@
       "Pendapatan Asli Desa",
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa",
       "Kepemilikan Aset berupa Tanah Desa"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Operasional desa dalam penyediaan penerangan di jalan-jalan utama di desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Peningkatan PADes",
+      "Kepemilikan Aset berupa Pasar Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "GUNUNGSARI_GUNUNGSARI": {
@@ -2062,6 +3026,19 @@
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Kepemilikan Aset berupa Kantor Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Kepemilikan Aset Lainnya",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "GUNUNGSARI_MIDANG": {
@@ -2080,6 +3057,17 @@
       "Terdapat pemanfaatan Energi Baru Terbarukan di desa",
       "Peningkatan PADes",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan akses menuju Fasilitas Puskesmas Pembantu (Pustu) termasuk Kesehatan Poskesdes/Polindes",
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Bidan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa"
     ]
   },
   "GUNUNGSARI_SESELA": {
@@ -2096,6 +3084,14 @@
       "Keberadaan Layanan Fasilitas Kredit Berupa KKP-E",
       "Terdapat pemanfaatan Energi Baru Terbarukan di desa",
       "Ketersediaan Fasilitas Mitigasi Bencana"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa"
     ]
   },
   "GUNUNGSARI_KEKAIT": {
@@ -2132,6 +3128,23 @@
       "Ketersediaan penerangan di jalan-jalan utama di desa",
       "Operasional desa dalam penyediaan penerangan di jalan-jalan utama di desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Fasilitas Puskesmas Pembantu (Pustu) termasuk Kesehatan Poskesdes/Polindes",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Operasional Taman Bacaan Masyarakat/ Perpustakaan Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Pelaksanaan Pelayanan dan Administrasi Desa"
     ]
   },
   "GUNUNGSARI_KEKERI": {
@@ -2178,6 +3191,21 @@
       "Peningkatan PADes",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Operasional desa dalam penyediaan penerangan di jalan-jalan utama di desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Kepemilikan Aset berupa Tanah Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "GUNUNGSARI_MAMBALAN": {
@@ -2222,6 +3250,17 @@
       "Keberadaan Angkutan Perdesaan/Angkutan Lokal/ Sejenis di Desa",
       "Operasional Angkutan Perdesaan/Angkutan Lokal/Sejenis di Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Bidan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Peningkatan PADes"
     ]
   },
   "GUNUNGSARI_DOPANG": {
@@ -2266,6 +3305,21 @@
       "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Penyedia layanan dokter di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Operasional Angkutan Perdesaan/Angkutan Lokal/Sejenis di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Peningkatan PADes"
     ]
   },
   "GUNUNGSARI_PENIMBUNG": {
@@ -2298,6 +3352,24 @@
       "Pendapatan Asli Desa",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "GUNUNGSARI_TAMAN SARI": {
@@ -2336,6 +3408,20 @@
       "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Pelayanan Pengaduan untuk masyarakat desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Ketersediaan Akses Telepon di sebagian besar wilayah Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes"
     ]
   },
   "GUNUNGSARI_JATISELA": {
@@ -2364,6 +3450,18 @@
       "Ketersediaan Aspek informasi Kebencanaan",
       "Ketersediaan Fasilitas Mitigasi Bencana",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Bidan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa"
     ]
   },
   "GUNUNGSARI_GUNTUR MACAN": {
@@ -2417,6 +3515,21 @@
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Sarana Kesehatan",
+      "Persentase keanggotaan BPJS",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Ketersediaan Akses Telepon di sebagian besar wilayah Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "GUNUNGSARI_MEKAR SARI": {
@@ -2475,6 +3588,20 @@
       "Pendapatan Asli Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Operasional Ketersediaan Air Minum di Desa dalam seminggu",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Ketersediaan Akses Telepon di sebagian besar wilayah Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "GUNUNGSARI_RANJOK": {
@@ -2509,6 +3636,17 @@
       "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Persentase keanggotaan BPJS",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "GUNUNGSARI_GELANGSAR": {
@@ -2551,6 +3689,28 @@
       "Ketersediaan Pemanfaatan Sampah di desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Produktivitas Kepemilikan Aset Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Sarana Kesehatan",
+      "Kemudahan akses menuju Fasilitas Puskesmas Pembantu (Pustu) termasuk Kesehatan Poskesdes/Polindes",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Ketersediaan Akses Telepon di sebagian besar wilayah Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Kepemilikan Aset berupa Tanah Desa",
+      "Kepemilikan Aset berupa Kantor Desa",
+      "Kepemilikan Aset Lainnya"
     ]
   },
   "GUNUNGSARI_JERINGO": {
@@ -2607,6 +3767,26 @@
       "Operasional desa dalam penyediaan penerangan di jalan-jalan utama di desa",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "GUNUNGSARI_BUKITTINGGI": {
@@ -2644,6 +3824,13 @@
       "Ketersediaan Fasilitas Mitigasi Bencana",
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Peningkatan PADes"
     ]
   },
   "LINGSAR_LINGSAR": {
@@ -2658,6 +3845,15 @@
       "Terdapat pemanfaatan Energi Baru Terbarukan di desa",
       "Peningkatan PADes",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kepemilikan Aset berupa Tanah Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LINGSAR_BATU KUMBUNG": {
@@ -2671,6 +3867,19 @@
       "Terdapat pemanfaatan Energi Baru Terbarukan di desa",
       "Publikasi Informasi Pelayanan kepada masyarakat desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Operasional layanan perbankan",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Ketersediaan Tangki Septik (Komunal/ Bersama)",
+      "Frekuensi Musyawarah Desa selama setahun terakhir"
     ]
   },
   "LINGSAR_SIGERONGAN": {
@@ -2694,6 +3903,20 @@
       "Ketersediaan Fasilitas Mitigasi Bencana",
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Operasional Taman Bacaan Masyarakat/ Perpustakaan Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Operasional desa dalam penyediaan penerangan di jalan-jalan utama di desa"
     ]
   },
   "LINGSAR_DUMAN": {
@@ -2718,6 +3941,28 @@
       "Terdapat pemanfaatan Energi Baru Terbarukan di desa",
       "Ketersediaan Pemanfaatan Sampah di desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Sarana Kesehatan",
+      "Kemudahan akses menuju Fasilitas Puskesmas Pembantu (Pustu) termasuk Kesehatan Poskesdes/Polindes",
+      "Kemudahan akses menuju Fasilitas Posyandu",
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Rata-rata kejadian pencemaran lingkungan",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Operasional desa dalam penyediaan penerangan di jalan-jalan utama di desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa"
     ]
   },
   "LINGSAR_KARANG BAYAN": {
@@ -2751,6 +3996,25 @@
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Peningkatan PADes",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Operasional desa dalam penyediaan penerangan di jalan-jalan utama di desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa"
     ]
   },
   "LINGSAR_LANGKO": {
@@ -2774,6 +4038,13 @@
       "Terdapat pemanfaatan Energi Baru Terbarukan di desa",
       "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Peningkatan PADes"
     ]
   },
   "LINGSAR_DASAN GERIA": {
@@ -2797,6 +4068,13 @@
       "Ketersediaan Pengolahan Sampah di desa",
       "Pendapatan Asli Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Operasional ketersediaan layanan dokter di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Peningkatan PADes"
     ]
   },
   "LINGSAR_PETELUAN INDAH": {
@@ -2819,6 +4097,20 @@
       "Pendapatan Asli Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Operasional layanan perbankan",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Jenis Permukaan Jalan sebagian besar di desa",
+      "Tersedia Lama Durasi layanan Listrik di Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LINGSAR_GEGERUNG": {
@@ -2855,6 +4147,19 @@
       "Terdapat pemanfaatan Energi Baru Terbarukan di desa",
       "Pendapatan Asli Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Bidan di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Rata-rata kejadian pencemaran lingkungan",
+      "Peningkatan PADes"
     ]
   },
   "LINGSAR_BATU MEKAR": {
@@ -2873,6 +4178,21 @@
       "Peningkatan PADes",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan dokter di desa",
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Kepemilikan Aset berupa Tanah Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LINGSAR_GIRI MADIA": {
@@ -2914,6 +4234,22 @@
       "Pendapatan Asli Desa",
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan akses menuju Fasilitas Puskesmas Pembantu (Pustu) termasuk Kesehatan Poskesdes/Polindes",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Operasional Taman Bacaan Masyarakat/ Perpustakaan Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Peningkatan PADes"
     ]
   },
   "LINGSAR_BUG-BUG": {
@@ -2941,6 +4277,14 @@
       "Ketersediaan Fasilitas Mitigasi Bencana",
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Operasional layanan perbankan",
+      "Operasional Angkutan Perdesaan/Angkutan Lokal/Sejenis di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Peningkatan PADes"
     ]
   },
   "LINGSAR_GEGELANG": {
@@ -2964,6 +4308,25 @@
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan dokter di desa",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Penyelesaian Konflik secara damai",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LINGSAR_SARIBAYE": {
@@ -2982,6 +4345,19 @@
       "Ketersediaan Penginapan di Desa",
       "Terdapat pemanfaatan Energi Baru Terbarukan di desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Operasional layanan perbankan",
+      "Ketersediaan Tangki Septik (Komunal/ Bersama)",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes"
     ]
   },
   "LINGSAR_GONTORAN": {
@@ -3003,6 +4379,21 @@
       "Terdapat kegiatan pelestarian lingkungan berbasis kearifan lokal di bidang lingkungan di Desa",
       "Terdapat pemanfaatan Energi Baru Terbarukan di desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa"
     ]
   },
   "LEMBAR_LEMBAR": {
@@ -3049,6 +4440,23 @@
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Operasional BUM Desa/BUM Desa Bersama",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LEMBAR_JEMBATAN KEMBAR": {
@@ -3098,6 +4506,24 @@
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya",
       "inventarisasi Aset Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan dokter di desa",
+      "Penyedia layanan dokter di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LEMBAR_MAREJE": {
@@ -3154,6 +4580,22 @@
       "Ketersediaan Penyertaan Modal dari Dana Desa kepada BUMDesa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Sarana Kesehatan",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Operasional layanan perbankan",
+      "Ketersediaan Akses Telepon di sebagian besar wilayah Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LEMBAR_SEKOTONG TIMUR": {
@@ -3215,6 +4657,25 @@
       "Ketersediaan penerangan di jalan-jalan utama di desa",
       "Operasional desa dalam penyediaan penerangan di jalan-jalan utama di desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Operasional layanan perbankan",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Kepemilikan Aset berupa Tanah Desa",
+      "Kepemilikan Aset Lainnya",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LEMBAR_LABUAN TERENG": {
@@ -3249,6 +4710,25 @@
       "Pendapatan Asli Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Operasional Taman Bacaan Masyarakat/ Perpustakaan Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Operasional BUM Desa/BUM Desa Bersama",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Peningkatan PADes",
+      "Kepemilikan Aset berupa Tanah Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LEMBAR_JEMBATAN GANTUNG": {
@@ -3286,6 +4766,23 @@
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya",
       "inventarisasi Aset Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Sarana Kesehatan",
+      "Operasional ketersediaan layanan dokter di desa",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "LEMBAR_LEMBAR SELATAN": {
@@ -3310,6 +4807,17 @@
       "Keberfungsian jamban",
       "Pembuangan Air Limbah Cair Rumah",
       "Kepemilikan Aset berupa Kantor Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Bidan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Kemudahan akses menuju toko/pertokoan di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir"
     ]
   },
   "LEMBAR_MAREJE TIMUR": {
@@ -3346,6 +4854,17 @@
       "Ketersediaan Aspek informasi Kebencanaan",
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan dokter di desa",
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa"
     ]
   },
   "LEMBAR_JEMBATAN KEMBAR TIMUR": {
@@ -3380,6 +4899,21 @@
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Pelayanan Pengaduan untuk masyarakat desa",
       "Pelayanan Lainnya untuk masyarakat desa"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan dokter di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes"
     ]
   },
   "LEMBAR_EYAT MAYANG": {
@@ -3423,6 +4957,24 @@
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya",
       "Produktivitas Kepemilikan Aset Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Fasilitas Puskesmas Pembantu (Pustu) termasuk Kesehatan Poskesdes/Polindes",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Operasional layanan perbankan",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Kepemilikan Aset berupa Kantor Desa"
     ]
   },
   "BATU LAYAR_BATULAYAR": {
@@ -3450,6 +5002,23 @@
       "Ketersediaan Fasilitas Mitigasi Bencana",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Operasional Ketersediaan Air Minum di Desa dalam seminggu",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Jenis Permukaan Jalan sebagian besar di desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "BATU LAYAR_MENINTING": {
@@ -3475,6 +5044,15 @@
       "Ketersediaan Pemanfaatan Sampah di desa",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "BATU LAYAR_SANDIK": {
@@ -3495,6 +5073,26 @@
       "Pelayanan Pengaduan untuk masyarakat desa",
       "Peningkatan PADes",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan dokter di desa",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Penyedia layanan Bidan di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir"
     ]
   },
   "BATU LAYAR_LEMBAH SARI": {
@@ -3537,6 +5135,21 @@
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Ketersediaan Akses Telepon di sebagian besar wilayah Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "BATU LAYAR_SENTELUK": {
@@ -3563,6 +5176,19 @@
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Penyedia layanan dokter di desa",
+      "Penyedia layanan Bidan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "BATU LAYAR_SENGGIGI": {
@@ -3582,6 +5208,37 @@
       "Terdapat pemanfaatan Energi Baru Terbarukan di desa",
       "Ketersediaan Pengolahan Sampah di desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Sarana Kesehatan",
+      "Kemudahan akses menuju Fasilitas Puskesmas Pembantu (Pustu) termasuk Kesehatan Poskesdes/Polindes",
+      "Kemudahan akses menuju Fasilitas Posyandu",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Kepemilikan Aset berupa Tanah Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "BATU LAYAR_BENGKAUNG": {
@@ -3616,6 +5273,24 @@
       "Pendapatan Asli Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Operasional Taman Bacaan Masyarakat/ Perpustakaan Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Operasional BUM Desa/BUM Desa Bersama",
+      "Ketersediaan Tangki Septik (Komunal/ Bersama)",
+      "Jenis Permukaan Jalan sebagian besar di desa",
+      "Ketersediaan Akses Telepon di sebagian besar wilayah Desa",
+      "Peningkatan PADes",
+      "Kepemilikan Aset berupa Tanah Desa",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "BATU LAYAR_PUSUK LESTARI": {
@@ -3656,6 +5331,24 @@
       "Ketersediaan Aspek informasi Kebencanaan",
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Fasilitas Posyandu",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Operasional layanan perbankan",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Terdapat aktivitas Mitigasi dan atau Rehabilitasi Bencana di Desa",
+      "Ketersediaan Akses Telepon di sebagian besar wilayah Desa",
+      "Ketersediaan Akses Internet di sebagian besar wilayah Desa",
+      "Peningkatan PADes"
     ]
   },
   "BATU LAYAR_BATU LAYAR BARAT": {
@@ -3687,6 +5380,27 @@
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMA/SMK/MA/MAK/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Fasilitas Puskesmas Pembantu (Pustu) termasuk Kesehatan Poskesdes/Polindes",
+      "Operasional ketersediaan layanan dokter di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan akses menuju pasar di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Jenis Permukaan Jalan sebagian besar di desa",
+      "Ketersediaan Akses Telepon di sebagian besar wilayah Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "KURIPAN_KURIPAN": {
@@ -3701,6 +5415,11 @@
       "Terdapat pemanfaatan Energi Baru Terbarukan di desa",
       "Ketersediaan Fasilitas Mitigasi Bencana",
       "Peningkatan PADes"
+    ],
+    "masalahSedangDetail": [
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus"
     ]
   },
   "KURIPAN_JAGARAGA": {
@@ -3717,6 +5436,14 @@
       "Terdapat pemanfaatan Energi Baru Terbarukan di desa",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Peningkatan PADes",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "KURIPAN_KURIPAN UTARA": {
@@ -3734,6 +5461,25 @@
       "Ketersediaan Pengolahan Sampah di desa",
       "Ketersediaan Pemanfaatan Sampah di desa",
       "Kepemilikan Aset berupa Tanah Desa"
+    ],
+    "masalahSedangDetail": [
+      "Operasional ketersediaan layanan dokter di desa",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Penyedia layanan Bidan di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keterlibatan Angkatan Kerja pada Pendidikan Non-formal/Pusat Keterampilan/Kursus",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Peningkatan PADes"
     ]
   },
   "KURIPAN_KURIPAN SELATAN": {
@@ -3768,6 +5514,30 @@
       "Ketersediaan Fasilitas Aspek Tanggap Darurat Bencana",
       "Kepemilikan Aset berupa Tanah Desa",
       "Kepemilikan Aset berupa Pasar Desa"
+    ],
+    "masalahSedangDetail": [
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Operasional ketersediaan layanan dokter di desa",
+      "Penyedia layanan dokter di desa",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Operasional ketersediaan layanan Tenaga Kesehatan di desa",
+      "Penyedia layanan Tenaga Kesehatan di desa",
+      "Persentase keanggotaan BPJS",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Operasional layanan perbankan",
+      "Rata-rata kejadian pencemaran lingkungan",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Kepemilikan Aset Lainnya",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "KURIPAN_KURIPAN TIMUR": {
@@ -3802,6 +5572,32 @@
       "Operasional Angkutan Perdesaan/Angkutan Lokal/Sejenis di Desa",
       "Kepemilikan Aset berupa Pasar Desa",
       "Kepemilikan Aset Lainnya"
+    ],
+    "masalahSedangDetail": [
+      "Keberadaan PAUD/TK/Sederajat di Desa",
+      "Kemudahan Akses menuju PAUD/TK/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SD/MI/Sederajat terdekat di Desa",
+      "Kemudahan Akses menuju SMP/MTs/Sederajat terdekat di Desa",
+      "Kemudahan akses menuju Sarana Kesehatan",
+      "Operasional ketersediaan layanan Bidan di desa",
+      "Kemudahan akses Air Minum untuk warga di desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Kegiatan Gotong Royong di desa",
+      "Keterlibatan warga dalam kegiatan gotong royong",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Penyelesaian Konflik secara damai",
+      "Aktivitas Satuan Keamanan Lingkungan (Satkamling) di Desa",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Keragaman Aktivitas Ekonomi di Desa",
+      "Kemudahan akses menuju Kedai/Rumah Makan di Desa",
+      "Kemudahan akses menuju Penginapan di Desa",
+      "Terdapat upaya menjaga/mempertahankan/melestarikan kearifan lingkungan berupa atraksi alam/sumberdaya alam/keindahan alam yang ada di desa",
+      "Ketersediaan Tangki Septik (Komunal/ Bersama)",
+      "Kemudahan Akses Menuju Fasilitas Mitigasi Bencana",
+      "Pelaksanaan Pelayanan dan Administrasi Desa",
+      "Frekuensi Musyawarah Desa selama setahun terakhir",
+      "Produktivitas Kepemilikan Aset Desa"
     ]
   },
   "KURIPAN_GIRI SASAK": {
@@ -3828,6 +5624,17 @@
       "Keberadaan Angkutan Perdesaan/Angkutan Lokal/ Sejenis di Desa",
       "Operasional Angkutan Perdesaan/Angkutan Lokal/Sejenis di Desa",
       "Kepemilikan Aset berupa Tanah Desa"
+    ],
+    "masalahSedangDetail": [
+      "Angka Partisipasi Murni (APM) anak usia 3 - 6 tahun yang bersekolah PAUD/TK/Sederajat di desa",
+      "Penyedia layanan dokter di desa",
+      "Ketersediaan Air Minum untuk warga desa",
+      "Jumlah Kearifan budaya/sosial yang masih dipertahankan/dilestarikan",
+      "Frekuensi Aktivitas Kegiatan Olahraga dilakukan dalam satu bulan",
+      "Ketersediaan Fasilitas dan kondisi/keadaan sebagian besar Fasilitas olahraga di Desa",
+      "Keberadaan ruang publik terbuka/keadaan sebagian besar Fasilitas Ruang Publik Terbuka di Desa",
+      "Kemudahan akses menuju Layanan Pos dan Logistik di Desa",
+      "Peningkatan PADes"
     ]
   }
 }

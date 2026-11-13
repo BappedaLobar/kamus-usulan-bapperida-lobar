@@ -33,7 +33,11 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   ChevronDown,
-  Calendar
+  Calendar,
+  User,
+  Navigation,
+  Mail,
+  Globe
 } from "lucide-react";
 import rawKamusData from "./data/kamusData.json";
 import {
@@ -349,6 +353,30 @@ export default function App() {
     });
   }, [customIndeksDesa]);
 
+  // Ringkasan Statistik 122 Wilayah Sheet RUMUSAN
+  const desaSummaryStats = useMemo(() => {
+    let mandiri = 0;
+    let maju = 0;
+    let berkembang = 0;
+    let adaSektorKritis = 0;
+    wilayahList.forEach((w) => {
+      if (w.statusKemendesa === "MANDIRI") mandiri++;
+      else if (w.statusKemendesa === "MAJU") maju++;
+      else berkembang++;
+      const tr = getTriageStatusDesa(w);
+      if (tr.kritis.length > 0) adaSektorKritis++;
+    });
+    return {
+      total: wilayahList.length,
+      desaCount: wilayahList.filter((w) => w.tipe === "Desa").length,
+      kelurahanCount: wilayahList.filter((w) => w.tipe === "Kelurahan").length,
+      mandiri,
+      maju,
+      berkembang,
+      adaSektorKritis
+    };
+  }, [wilayahList]);
+
   const filteredWilayah = useMemo(() => {
     const q = desaSearch.trim().toLowerCase();
     return wilayahList.filter((w) => {
@@ -368,7 +396,10 @@ export default function App() {
       return (
         w.nama.toLowerCase().includes(q) ||
         w.kecamatan.toLowerCase().includes(q) ||
-        w.kodeWilayah.toLowerCase().includes(q)
+        w.kodeWilayah.toLowerCase().includes(q) ||
+        (w.namaKepalaDesa || "").toLowerCase().includes(q) ||
+        (w.alamatDesa || "").toLowerCase().includes(q) ||
+        (w.koordinatDesa || "").toLowerCase().includes(q)
       );
     });
   }, [wilayahList, selectedKecamatan, desaSearch, filterTriaseDesaTab]);
@@ -1885,12 +1916,32 @@ export default function App() {
           <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
             <div className="desktop-helper-banner">
               <strong style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
-                <MapPin size={16} color="var(--gov-navy-700)" /> Indeks Permasalahan 119 Desa & 3 Kelurahan (10 Kecamatan):
+                <MapPin size={16} color="var(--gov-navy-700)" /> Direktori &amp; Diagnosa 119 Desa &amp; 3 Kelurahan (Sheet RUMUSAN &amp; Raw Data 2026):
               </strong>
               <p style={{ marginTop: "4px" }}>
-                Gunakan direktori wilayah ini untuk melihat tingkat prioritas intervensi desa Anda,
-                catatan hasil Musrenbang, serta langsung menyaring kamus usulan yang direkomendasikan untuk pagu program <b>Rp 1 Miliar per Desa (SDD)</b>.
+                Data skor indeks Kemendesa &amp; Bappenas, rincian 6 dimensi &amp; 12 sub-dimensi dari <b>Sheet RUMUSAN</b>, serta profil pemerintahan desa (<b>Kepala Desa, Koordinat, Alamat Kantor</b> dari <b>Sheet Raw Data</b>) selaras langsung dengan filter triase pada menu <b>Kamus Usulan</b>.
               </p>
+
+              {/* Strip Statistik Ringkas Sheet RUMUSAN */}
+              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "10px" }}>
+                <span className="badge" style={{ background: "#e0f2fe", color: "#0369a1", border: "1px solid #bae6fd", fontWeight: 800 }}>
+                  Total Wilayah: {desaSummaryStats.total} ({desaSummaryStats.desaCount} Desa + {desaSummaryStats.kelurahanCount} Kel.)
+                </span>
+                <span className="badge" style={{ background: "#dcfce7", color: "#15803d", border: "1px solid #bbf7d0", fontWeight: 800 }}>
+                  Mandiri: {desaSummaryStats.mandiri} Wilayah
+                </span>
+                <span className="badge" style={{ background: "#dbeafe", color: "#1d4ed8", border: "1px solid #bfdbfe", fontWeight: 800 }}>
+                  Maju: {desaSummaryStats.maju} Wilayah
+                </span>
+                {desaSummaryStats.berkembang > 0 && (
+                  <span className="badge" style={{ background: "#fef3c7", color: "#b45309", border: "1px solid #fde68a", fontWeight: 800 }}>
+                    Berkembang: {desaSummaryStats.berkembang} Wilayah
+                  </span>
+                )}
+                <span className="badge" style={{ background: "#ffe4e6", color: "#be123c", border: "1px solid #fecdd3", fontWeight: 800 }}>
+                  🔴 Memiliki Sektor Kritis (&lt;70%): {desaSummaryStats.adaSektorKritis} Wilayah
+                </span>
+              </div>
             </div>
 
             {/* Filter Bar Wilayah & Filter Triase Masalah Desa */}
@@ -1912,7 +1963,7 @@ export default function App() {
                   <input
                     type="text"
                     className="form-input"
-                    placeholder="Ketik nama Desa atau Kelurahan (contoh: Kuripan, Banyumulek, Senggigi)..."
+                    placeholder="Cari nama Desa/Kelurahan, Kepala Desa, Alamat, atau Kode Wilayah..."
                     value={desaSearch}
                     onChange={(e) => setDesaSearch(e.target.value)}
                   />
@@ -1925,7 +1976,7 @@ export default function App() {
                     onChange={(e) => setSelectedKecamatan(e.target.value)}
                   >
                     <option value="Semua Kecamatan">
-                      📍 Semua 10 Kecamatan (119 Desa & 3 Kelurahan)
+                      📍 Semua 10 Kecamatan (119 Desa &amp; 3 Kelurahan)
                     </option>
                     {DAFTAR_KECAMATAN.map((k) => (
                       <option key={k.kode} value={k.nama}>
@@ -1982,13 +2033,6 @@ export default function App() {
             {/* Grid 2 Kolom untuk Kartu Desa (Proporsional, Tidak Melebar) */}
             <div className="desktop-desa-grid">
               {filteredWilayah.map((w) => {
-                const badgeColor =
-                  w.indeksKomposit >= 72
-                    ? { bg: "var(--gov-rose-50)", text: "var(--gov-rose-700)" }
-                    : w.indeksKomposit >= 65
-                    ? { bg: "var(--gov-amber-50)", text: "var(--gov-amber-700)" }
-                    : { bg: "var(--gov-emerald-50)", text: "var(--gov-emerald-700)" };
-
                 return (
                   <article key={w.id} className="desa-card">
                     <div className="desa-header-row">
@@ -2013,7 +2057,7 @@ export default function App() {
                           {w.tipe} {w.nama}
                         </h3>
                         <p style={{ fontSize: "11.5px", color: "var(--slate-500)", marginTop: "2px" }}>
-                          Kode: {w.kodeWilayah} • Skor ID 2026: <b>{w.skorKemendesa}</b> (Nilai: <b>{w.nilaiTotal}/635</b>) • Bappenas: <b>{w.skorBappenas}%</b>
+                          Kode: <b>{w.kodeWilayah}</b> • Skor ID 2026: <b>{w.skorKemendesa}</b> (Nilai: <b>{w.nilaiTotal}/635</b>) • Bappenas: <b>{w.skorBappenas}%</b>
                         </p>
                       </div>
 
@@ -2041,6 +2085,50 @@ export default function App() {
                         <div style={{ fontSize: "8.5px", fontWeight: 800, textTransform: "uppercase" }}>
                           Skor Kemendesa
                         </div>
+                      </div>
+                    </div>
+
+                    {/* Kotak Detail Profil Pemerintahan & Lokasi Desa (Sheet Raw Data) */}
+                    <div
+                      style={{
+                        background: "#f0f9ff",
+                        border: "1px solid #bae6fd",
+                        borderLeft: "4px solid #0284c7",
+                        borderRadius: "var(--radius-md)",
+                        padding: "9px 12px",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "5px",
+                        fontSize: "11.5px",
+                        color: "#0f172a"
+                      }}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", gap: "7px", flexWrap: "wrap" }}>
+                        <User size={13} color="#0284c7" style={{ flexShrink: 0 }} />
+                        <span>
+                          <b style={{ color: "#0369a1" }}>{w.tipe === "Kelurahan" ? "Lurah:" : "Kepala Desa:"}</b>{" "}
+                          <strong>{w.namaKepalaDesa || "-"}</strong>
+                          {w.statusKepalaDesa ? (
+                            <span style={{ color: "#475569", marginLeft: "5px", fontSize: "10.5px" }}>
+                              ({w.statusKepalaDesa})
+                            </span>
+                          ) : null}
+                        </span>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "7px", flexWrap: "wrap" }}>
+                        <Navigation size={13} color="#0284c7" style={{ flexShrink: 0 }} />
+                        <span>
+                          <b style={{ color: "#0369a1" }}>Koordinat:</b>{" "}
+                          <span style={{ fontFamily: "monospace", fontSize: "11px", color: "#1e293b" }}>
+                            {w.koordinatDesa || "-"}
+                          </span>
+                        </span>
+                      </div>
+                      <div style={{ display: "flex", alignItems: "flex-start", gap: "7px" }}>
+                        <Building2 size={13} color="#0284c7" style={{ flexShrink: 0, marginTop: "2px" }} />
+                        <span>
+                          <b style={{ color: "#0369a1" }}>Alamat Kantor:</b> {w.alamatDesa || "-"}
+                        </span>
                       </div>
                     </div>
 
@@ -2209,7 +2297,7 @@ export default function App() {
                               🟡 Sedang ({wTr.jmlSedang} Indikator): {wTr.sedang.length > 0 ? wTr.sedang.map((s) => `${s.nama} (${s.persen}%)`).join(", ") : "Nihil"}
                             </span>
                             <span style={{ fontWeight: 700, color: "#16a34a" }}>
-                              🟢 Aman ({wTr.jmlAman} Indikator • {wTr.aman.length} Sektor)
+                              🟢 Aman ({wTr.jmlAman} Indikator • {wTr.aman.length} Sektor • {wTr.opdAman.length} OPD 🔒)
                             </span>
                           </div>
                         </div>
@@ -2227,7 +2315,7 @@ export default function App() {
                         style={{ flex: 1 }}
                         onClick={() => setSelectedDesaDetail(w)}
                       >
-                        Detail Dimensi
+                        Detail Info &amp; Rumusan
                       </button>
                       <button
                         className="btn btn-primary"
@@ -2707,7 +2795,85 @@ export default function App() {
               </div>
 
               <div className="modal-dialog-body" style={{ maxHeight: "75vh", overflowY: "auto" }}>
-                {/* Ringkasan Triase 3 Tingkat */}
+                {/* Bagian 1: Profil Pemerintahan & Lokasi Desa (Sheet Raw Data 2026) */}
+                <div
+                  style={{
+                    background: "#f0f9ff",
+                    border: "1px solid #bae6fd",
+                    borderLeft: "5px solid #0070b8",
+                    borderRadius: "var(--radius-md)",
+                    padding: "12px 14px",
+                    marginBottom: "12px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "6px"
+                  }}
+                >
+                  <div style={{ fontSize: "11px", fontWeight: 800, color: "#0369a1", textTransform: "uppercase", letterSpacing: "0.4px", marginBottom: "2px" }}>
+                    Profil Pemerintahan &amp; Lokasi Desa (Sumber: Sheet Raw Data 2026)
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "8px 16px", fontSize: "12px", color: "#0f172a" }}>
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: "7px" }}>
+                      <User size={14} color="#0284c7" style={{ marginTop: "2px", flexShrink: 0 }} />
+                      <div>
+                        <div style={{ fontSize: "10.5px", color: "#475569", fontWeight: 700 }}>
+                          {selectedDesaDetail.tipe === "Kelurahan" ? "Nama Lurah" : "Nama Kepala Desa / Plt"}
+                        </div>
+                        <div style={{ fontWeight: 800, color: "#0f172a" }}>
+                          {selectedDesaDetail.namaKepalaDesa || "-"}
+                        </div>
+                        {(selectedDesaDetail.statusKepalaDesa || selectedDesaDetail.periodeKades || selectedDesaDetail.masaJabatanKades) && (
+                          <div style={{ fontSize: "10.5px", color: "#475569", marginTop: "1px" }}>
+                            {selectedDesaDetail.statusKepalaDesa || "-"}
+                            {selectedDesaDetail.periodeKades && selectedDesaDetail.periodeKades !== "-" ? ` • ${selectedDesaDetail.periodeKades}` : ""}
+                            {selectedDesaDetail.masaJabatanKades && selectedDesaDetail.masaJabatanKades !== "-" ? ` (${selectedDesaDetail.masaJabatanKades})` : ""}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: "7px" }}>
+                      <Navigation size={14} color="#0284c7" style={{ marginTop: "2px", flexShrink: 0 }} />
+                      <div>
+                        <div style={{ fontSize: "10.5px", color: "#475569", fontWeight: 700 }}>
+                          Titik Koordinat Desa (Timestamp)
+                        </div>
+                        <div style={{ fontFamily: "monospace", fontWeight: 700, color: "#0369a1", fontSize: "12px" }}>
+                          {selectedDesaDetail.koordinatDesa || "-"}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: "7px", gridColumn: "1 / -1" }}>
+                      <Building2 size={14} color="#0284c7" style={{ marginTop: "2px", flexShrink: 0 }} />
+                      <div>
+                        <div style={{ fontSize: "10.5px", color: "#475569", fontWeight: 700 }}>
+                          Alamat Lengkap Kantor Desa
+                        </div>
+                        <div style={{ fontWeight: 600, color: "#1e293b" }}>
+                          {selectedDesaDetail.alamatDesa || "-"}
+                        </div>
+                      </div>
+                    </div>
+
+                    {(selectedDesaDetail.emailDesa || selectedDesaDetail.webDesa) && (
+                      <div style={{ display: "flex", alignItems: "center", gap: "14px", flexWrap: "wrap", gridColumn: "1 / -1", borderTop: "1px dashed #bae6fd", paddingTop: "6px", fontSize: "11px", color: "#334155" }}>
+                        {selectedDesaDetail.emailDesa && (
+                          <span style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}>
+                            <Mail size={12} color="#0284c7" /> {selectedDesaDetail.emailDesa}
+                          </span>
+                        )}
+                        {selectedDesaDetail.webDesa && (
+                          <span style={{ display: "inline-flex", alignItems: "center", gap: "5px" }}>
+                            <Globe size={12} color="#0284c7" /> {selectedDesaDetail.webDesa}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Bagian 2: Ringkasan Triase 3 Tingkat */}
                 <div style={{
                   display: "grid",
                   gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
@@ -2741,7 +2907,7 @@ export default function App() {
                         : "Tidak Ada (Nihil)"}
                     </div>
                     <div style={{ fontSize: "10px", color: "#854d0e", marginTop: "2px" }}>
-                      Pengawalan & pemeliharaan
+                      Pengawalan &amp; pemeliharaan
                     </div>
                   </div>
 
@@ -2758,10 +2924,10 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Audit 6 Dimensi Sheet RUMUSAN */}
+                {/* Bagian 3: Audit 6 Dimensi & 12 Sub-Dimensi Sheet RUMUSAN */}
                 <div>
-                  <h4 style={{ fontSize: "13px", fontWeight: 800, color: "var(--gov-navy-900)", margin: "8px 0 10px 0" }}>
-                    Status Capaian 6 Dimensi Bappenas & Kemendesa (Skala Maksimum 635):
+                  <h4 style={{ fontSize: "13px", fontWeight: 800, color: "var(--gov-navy-900)", margin: "12px 0 10px 0" }}>
+                    Audit 6 Dimensi &amp; 12 Sub-Dimensi Sheet RUMUSAN (Skala Maksimum 635):
                   </h4>
 
                   <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -2789,7 +2955,7 @@ export default function App() {
                             background: isKritis ? "#fff1f2" : isSedang ? "#fffbeb" : "#f0fdf4"
                           }}
                         >
-                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "6px" }}>
                             <div>
                               <strong style={{ fontSize: "12.5px", color: "var(--slate-900)" }}>{dim.label}</strong>
                               <span style={{ fontSize: "11px", color: "var(--slate-600)", marginLeft: "8px" }}>
@@ -2816,6 +2982,28 @@ export default function App() {
                             />
                           </div>
 
+                          {/* Rincian Sub-Dimensi Sheet RUMUSAN */}
+                          {dData.subList && dData.subList.length > 0 && (
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "8px" }}>
+                              {dData.subList.map((sub) => (
+                                <span
+                                  key={sub.kode}
+                                  style={{
+                                    fontSize: "10.5px",
+                                    background: "rgba(255, 255, 255, 0.85)",
+                                    border: "1px solid rgba(148, 163, 184, 0.45)",
+                                    borderRadius: "6px",
+                                    padding: "2px 8px",
+                                    color: "#1e293b",
+                                    fontWeight: 600
+                                  }}
+                                >
+                                  <b>{sub.kode} {sub.nama}:</b> {sub.skor}/{sub.maks} ({sub.persen}%)
+                                </span>
+                              ))}
+                            </div>
+                          )}
+
                           <div style={{ fontSize: "11px", color: "var(--slate-600)", marginTop: "6px" }}>
                             <strong>OPD Pengampu: </strong>
                             {DIMENSI_CONFIG[dim.key]?.opdPengampu?.join(", ") || "-"}
@@ -2831,8 +3019,40 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="dossier-problem-box" style={{ fontSize: "12px", marginTop: "8px" }}>
-                  <strong>Catatan Defisit Empiris Musrenbang: </strong>
+                {/* Bagian 4: Daftar Indikator Masalah Kritis Lapangan (Skor 1 dari 127 Indikator Sheet RUMUSAN) */}
+                {modalTriage.masalahKritisDetail && modalTriage.masalahKritisDetail.length > 0 && (
+                  <div style={{ marginTop: "12px" }}>
+                    <h4 style={{ fontSize: "12.5px", fontWeight: 800, color: "#9f1239", marginBottom: "8px" }}>
+                      Daftar {modalTriage.jmlKritis} Indikator Masalah Kritis (Skor 1 dari 127 Indikator Sheet RUMUSAN):
+                    </h4>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "5px", maxHeight: "200px", overflowY: "auto", paddingRight: "4px" }}>
+                      {modalTriage.masalahKritisDetail.map((indName, idx) => (
+                        <div
+                          key={idx}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            padding: "6px 10px",
+                            background: "#fff5f5",
+                            border: "1px solid #fecdd3",
+                            borderRadius: "6px",
+                            fontSize: "11.5px",
+                            color: "#881337"
+                          }}
+                        >
+                          <span style={{ background: "#e11d48", color: "#fff", fontSize: "10px", fontWeight: 800, padding: "1px 6px", borderRadius: "99px" }}>
+                            #{idx + 1}
+                          </span>
+                          <span style={{ fontWeight: 600 }}>{indName}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="dossier-problem-box" style={{ fontSize: "12px", marginTop: "12px" }}>
+                  <strong>Catatan Defisit Empiris Sheet RUMUSAN: </strong>
                   {selectedDesaDetail.catatanMusrenbang}
                 </div>
               </div>

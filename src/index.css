@@ -240,7 +240,9 @@ body {
   color: var(--pure-white);
 }
 
-.desktop-tab-btn.active {
+.desktop-tab-btn.active,
+.desktop-tab-btn.active:hover,
+.desktop-tab-btn.active:focus-visible {
   background: var(--pure-white);
   color: #0369a1;
   font-weight: 800;
