@@ -432,7 +432,7 @@ export default function App() {
         "SIMPAN_USULAN_DESA",
         `Menyimpan usulan [${item.id}] untuk ${activeDesaPengusul}`
       );
-      showToast("Tersimpan ke daftar UsulanKu!");
+      showToast("Tersimpan ke daftar Usulan Desa!");
     }
     setSavedUsulanDesa(updated);
     const res = saveSecureData("SAVED_USULAN_DESA", updated);
@@ -634,7 +634,7 @@ export default function App() {
               onClick={() => setActiveTab("kamus")}
             >
               <BookOpen size={16} />
-              <span>Kamus Usulan</span>
+              <span>Kamus Usulan OPD</span>
             </button>
 
             <button
@@ -642,7 +642,7 @@ export default function App() {
               onClick={() => setActiveTab("desa")}
             >
               <MapPin size={16} />
-              <span>122 Desa & Kelurahan</span>
+              <span>Rumusan Indeks Desa</span>
             </button>
 
             <button
@@ -650,7 +650,7 @@ export default function App() {
               onClick={() => setActiveTab("usulanku")}
             >
               <Bookmark size={16} />
-              <span>UsulanKu</span>
+              <span>Usulan Desa</span>
               {savedUsulanDesa.length > 0 && (
                 <span className="tab-badge-count">{savedUsulanDesa.length}</span>
               )}
@@ -1014,7 +1014,7 @@ export default function App() {
                     {selectedYear === "2027" ? (
                       <span>
                         • <b>Tabel Resmi Tahun 2027:</b> Ditampilkan dalam format tabel resmi lengkap dengan <b>scroll horizontal</b> (geser ke kanan untuk melihat uraian masalah, 9 Aksi, dan 56 Intervensi) serta <b>paginasi per halaman</b> di bagian bawah.<br />
-                        • Gunakan tombol <b>"Pilih"</b> di kolom kanan tabel untuk menyimpan usulan ke daftar <b>UsulanKu</b> desa Anda.
+                        • Gunakan tombol <b>"Pilih"</b> di kolom kanan tabel untuk menyimpan usulan ke daftar <b>Usulan Desa</b> Anda.
                       </span>
                     ) : (
                       <span>
@@ -1976,7 +1976,7 @@ export default function App() {
                 <MapPin size={16} color="var(--gov-navy-700)" /> Direktori &amp; Diagnosa 119 Desa &amp; 3 Kelurahan (Sheet RUMUSAN &amp; Raw Data 2026):
               </strong>
               <p style={{ marginTop: "4px" }}>
-                Data skor indeks Kemendesa &amp; Bappenas, rincian 6 dimensi &amp; 12 sub-dimensi dari <b>Sheet RUMUSAN</b>, serta profil pemerintahan desa (<b>Kepala Desa, Koordinat, Alamat Kantor</b> dari <b>Sheet Raw Data</b>) selaras langsung dengan filter triase pada menu <b>Kamus Usulan</b>.
+                Data skor indeks Kemendesa &amp; Bappenas, rincian 6 dimensi &amp; 12 sub-dimensi dari <b>Sheet RUMUSAN</b>, serta profil pemerintahan desa (<b>Kepala Desa, Koordinat, Alamat Kantor</b> dari <b>Sheet Raw Data</b>) selaras langsung dengan filter triase pada menu <b>Kamus Usulan OPD</b>.
               </p>
 
               {/* Strip Statistik Ringkas Sheet RUMUSAN */}
@@ -2394,7 +2394,7 @@ export default function App() {
                           setSelectedYear("2027");
                           setViewMode("table");
                           setActiveTab("kamus");
-                          showToast(`Menampilkan Kamus Usulan 2027 (Prioritas Kritis) untuk ${w.tipe} ${w.nama}`);
+                          showToast(`Menampilkan Kamus Usulan OPD 2027 (Prioritas Kritis) untuk ${w.tipe} ${w.nama}`);
                         }}
                       >
                         <Sparkles size={14} />
@@ -2523,7 +2523,7 @@ export default function App() {
                   Belum Ada Usulan yang Dipilih
                 </h3>
                 <p style={{ fontSize: "13px", color: "var(--slate-500)", marginTop: "4px" }}>
-                  Buka tab <b>Kamus Usulan</b>, temukan program yang dibutuhkan desa Anda, lalu tekan tombol <b>"Pilih Usulan Desa"</b>.
+                  Buka tab <b>Kamus Usulan OPD</b>, temukan program yang dibutuhkan desa Anda, lalu tekan tombol <b>"Pilih Usulan Desa"</b>.
                 </p>
               </div>
             ) : (
@@ -3168,10 +3168,10 @@ export default function App() {
                     setViewMode("table");
                     setActiveTab("kamus");
                     setSelectedDesaDetail(null);
-                    showToast(`Kamus Usulan disaring untuk sektor KRITIS ${selectedDesaDetail.nama}`);
+                    showToast(`Kamus Usulan OPD disaring untuk sektor KRITIS ${selectedDesaDetail.nama}`);
                   }}
                 >
-                  <Sparkles size={14} /> Saring Kamus Usulan Sektor Kritis Desa Ini
+                  <Sparkles size={14} /> Saring Kamus Usulan OPD Sektor Kritis Desa Ini
                 </button>
               </div>
             </div>
@@ -3281,10 +3281,10 @@ export default function App() {
                   setSelectedYear("2027");
                   setViewMode("table");
                   setShowProblemListModal(false);
-                  showToast(`Kamus Usulan disaring untuk ${desaTriage.jmlKritis} masalah kritis ${activeDesaObj.nama}`);
+                  showToast(`Kamus Usulan OPD disaring untuk ${desaTriage.jmlKritis} masalah kritis ${activeDesaObj.nama}`);
                 }}
               >
-                <Sparkles size={14} /> Terapkan Saring Usulan di Kamus
+                <Sparkles size={14} /> Terapkan Saring Usulan di Kamus OPD
               </button>
             </div>
           </div>
