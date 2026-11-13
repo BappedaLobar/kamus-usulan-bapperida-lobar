@@ -9925,3 +9925,138 @@ export function getDimensiByOpd(opdName) {
   }
   return res.length > 0 ? res : ["Layanan Dasar"];
 }
+
+// Ambang Batas Klasifikasi Masalah Desa (Bappenas & Kemendesa Sheet RUMUSAN)
+export const THRESHOLD_KRITIS = 70.0; // < 70.0% = Kritis (Merah 🔴) - Intervensi Sangat Mendesak
+export const THRESHOLD_SEDANG = 80.0; // 70.0% - 79.9% = Sedang (Kuning 🟡) - Perlu Perhatian
+// >= 80.0% = Aman (Hijau 🟢) - Kebutuhan Terpenuhi / Mandiri
+
+/**
+ * Menganalisis status triase 6 dimensi masalah desa dan memetakan OPD pengampu
+ * @param {Object} desa - Objek desa dari WILAYAH_LOBAR
+ * @returns {Object} Hasil klasifikasi triase Kritis, Sedang, Aman beserta pemetaan OPD
+ */
+export function getTriageStatusDesa(desa) {
+  if (!desa || !desa.dimensi) {
+    return {
+      kritis: [],
+      sedang: [],
+      aman: [],
+      opdKritis: [],
+      opdSedang: [],
+      opdAman: [],
+      dimensiMap: {},
+      opdStatusMap: {}
+    };
+  }
+
+  const kritis = [];
+  const sedang = [];
+  const aman = [];
+  const dimensiMap = {};
+  const dimKeys = ["layananDasar", "sosial", "ekonomi", "lingkungan", "aksesibilitas", "tataKelola"];
+
+  dimKeys.forEach((key) => {
+    const d = desa.dimensi[key];
+    const cfg = DIMENSI_CONFIG[key];
+    if (!d || !cfg) return;
+
+    const persen = d.persen !== undefined ? Number(d.persen) : Math.round((d.skor / cfg.skorMaks) * 1000) / 10;
+    const item = {
+      key,
+      nama: cfg.nama,
+      skor: d.skor,
+      maks: cfg.skorMaks,
+      persen,
+      opdPengampu: cfg.opdPengampu || [],
+      subBidang: cfg.subBidang || []
+    };
+
+    if (persen < THRESHOLD_KRITIS) {
+      item.status = "kritis";
+      item.statusLabel = "KRITIS (🔴)";
+      kritis.push(item);
+    } else if (persen < THRESHOLD_SEDANG) {
+      item.status = "sedang";
+      item.statusLabel = "SEDANG (🟡)";
+      sedang.push(item);
+    } else {
+      item.status = "aman";
+      item.statusLabel = "AMAN (🟢)";
+      aman.push(item);
+    }
+
+    dimensiMap[key] = item;
+  });
+
+  // Urutkan Kritis dari persentase capaian terendah (paling parah)
+  kritis.sort((a, b) => a.persen - b.persen);
+  sedang.sort((a, b) => a.persen - b.persen);
+  aman.sort((a, b) => b.persen - a.persen);
+
+  // Kumpulkan OPD Kritis, Sedang, Aman
+  const opdStatusMap = {};
+
+  // 1. OPD Kritis (dimensi persen < 70%)
+  const opdKritisSet = new Set();
+  kritis.forEach((it) => {
+    it.opdPengampu.forEach((opd) => {
+      opdKritisSet.add(opd);
+      if (!opdStatusMap[opd] || opdStatusMap[opd].persen > it.persen) {
+        opdStatusMap[opd] = {
+          status: "kritis",
+          persen: it.persen,
+          dimensi: it.nama,
+          dimensiKey: it.key
+        };
+      }
+    });
+  });
+
+  // 2. OPD Sedang (dimensi persen 70% - 79.9%)
+  const opdSedangSet = new Set();
+  sedang.forEach((it) => {
+    it.opdPengampu.forEach((opd) => {
+      if (!opdKritisSet.has(opd)) {
+        opdSedangSet.add(opd);
+        if (!opdStatusMap[opd] || opdStatusMap[opd].persen > it.persen) {
+          opdStatusMap[opd] = {
+            status: "sedang",
+            persen: it.persen,
+            dimensi: it.nama,
+            dimensiKey: it.key
+          };
+        }
+      }
+    });
+  });
+
+  // 3. OPD Aman (hanya mengampu dimensi persen >= 80% dan tidak ada di kritis/sedang)
+  const opdAmanSet = new Set();
+  aman.forEach((it) => {
+    it.opdPengampu.forEach((opd) => {
+      if (!opdKritisSet.has(opd) && !opdSedangSet.has(opd)) {
+        opdAmanSet.add(opd);
+        if (!opdStatusMap[opd]) {
+          opdStatusMap[opd] = {
+            status: "aman",
+            persen: it.persen,
+            dimensi: it.nama,
+            dimensiKey: it.key
+          };
+        }
+      }
+    });
+  });
+
+  return {
+    kritis,
+    sedang,
+    aman,
+    opdKritis: Array.from(opdKritisSet),
+    opdSedang: Array.from(opdSedangSet),
+    opdAman: Array.from(opdAmanSet),
+    dimensiMap,
+    opdStatusMap
+  };
+}

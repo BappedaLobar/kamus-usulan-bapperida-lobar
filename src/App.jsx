@@ -16,6 +16,10 @@ import {
   Trash2,
   Share2,
   Lock,
+  Unlock,
+  AlertTriangle,
+  AlertOctagon,
+  CheckCircle,
   Building2,
   Layers,
   RotateCcw,
@@ -35,7 +39,10 @@ import {
   DAFTAR_KECAMATAN,
   DIMENSI_CONFIG,
   getOpdByDimensi,
-  getDimensiByOpd
+  getDimensiByOpd,
+  getTriageStatusDesa,
+  THRESHOLD_KRITIS,
+  THRESHOLD_SEDANG
 } from "./data/desaLobarData.js";
 import {
   saveSecureData,
@@ -118,7 +125,10 @@ export default function App() {
   const [selectedDesaDetail, setSelectedDesaDetail] = useState(null);
   const [selectedKecamatanPengusul, setSelectedKecamatanPengusul] = useState("Kuripan");
   const [activeDesaPengusul, setActiveDesaPengusul] = useState("Desa Kuripan (Kec. Kuripan)");
-  const [filterHanyaRekomendasiDesa, setFilterHanyaRekomendasiDesa] = useState(false);
+  
+  // Mode Filter Smart Triase: "kritis" (Strict / Hanya Kritis), "kritis_sedang" (Kritis & Sedang), "off" (Semua Sektor)
+  const [smartFilterMode, setSmartFilterMode] = useState("kritis");
+  const [filterTriaseDesaTab, setFilterTriaseDesaTab] = useState("all"); // "all" | "kritis" | "sedang" | "aman"
 
   // State Data yang Disimpan di Secure LocalStorage
   const [customKamusList, setCustomKamusList] = useState([]);
@@ -230,6 +240,11 @@ export default function App() {
     );
   }, [activeDesaPengusul]);
 
+  // Analisis Diagnosa Triase 6 Dimensi Desa Pengusul Aktif (Sheet RUMUSAN)
+  const desaTriage = useMemo(() => {
+    return getTriageStatusDesa(activeDesaObj);
+  }, [activeDesaObj]);
+
   // Sinkronkan pilihan Kecamatan jika Desa Pengusul berganti dari kartu wilayah
   useEffect(() => {
     if (activeDesaObj && activeDesaObj.kecamatan && activeDesaObj.kecamatan !== selectedKecamatanPengusul) {
@@ -242,41 +257,61 @@ export default function App() {
     return WILAYAH_LOBAR.filter((w) => w.kecamatan === selectedKecamatanPengusul);
   }, [selectedKecamatanPengusul]);
 
-  // OPD Pengampu yang relevan menyelesaikan masalah prioritas desa terpilih (Sheet RUMUSAN)
-  const targetOpdForActiveDesa = useMemo(() => {
-    if (!activeDesaObj || !activeDesaObj.targetDimensi) return [];
-    const opds = new Set();
-    activeDesaObj.targetDimensi.forEach((dimName) => {
-      const list = getOpdByDimensi(dimName);
-      list.forEach((o) => opds.add(o));
-    });
-    return Array.from(opds);
-  }, [activeDesaObj]);
+  // Hitung jumlah usulan tahun aktif yang OPD-nya berstatus AMAN bagi desa tersebut (Terkunci)
+  const lockedOpdCount = useMemo(() => {
+    return allKamusForYear.filter((item) => desaTriage.opdAman.includes(item.opd)).length;
+  }, [allKamusForYear, desaTriage.opdAman]);
 
-  // Hasil Filter Kamus Usulan (Dilengkapi Filter Cerdas Masalah Desa RUMUSAN)
+  // Hasil Filter Kamus Usulan (Dilengkapi Filter Cerdas Masalah Desa RUMUSAN Mode Ketat)
   const filteredKamus = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     return allKamusForYear.filter((item) => {
-      if (filterHanyaRekomendasiDesa) {
-        if (!targetOpdForActiveDesa.includes(item.opd)) {
+      // 1. FILTER CERDAS STATUS MASALAH DESA (STRICT TRIAGE MODE)
+      if (smartFilterMode === "kritis") {
+        // Mode Ketat: HANYA usulan dari OPD berstatus Kritis (<70%)
+        // Jika desa tersebut tidak memiliki dimensi kritis sama sekali (14 desa mandiri), buka dimensi sedang
+        const allowedOpds = desaTriage.opdKritis.length > 0 ? desaTriage.opdKritis : desaTriage.opdSedang;
+        if (!allowedOpds.includes(item.opd)) {
+          return false;
+        }
+        // Pastikan OPD Aman selalu dikunci & tidak ditampilkan
+        if (desaTriage.opdAman.includes(item.opd)) {
+          return false;
+        }
+      } else if (smartFilterMode === "kritis_sedang") {
+        // Mode Kritis & Sedang: Usulan dari OPD Kritis + Sedang
+        const allowedOpds = [...desaTriage.opdKritis, ...desaTriage.opdSedang];
+        if (!allowedOpds.includes(item.opd)) {
+          return false;
+        }
+        // OPD Aman tetap dikunci & tidak ditampilkan
+        if (desaTriage.opdAman.includes(item.opd)) {
           return false;
         }
       }
+
+      // 2. Filter Kategori
       if (
         selectedKategori !== "Semua Kategori" &&
         item.kategoriMudah !== selectedKategori
       ) {
         return false;
       }
+
+      // 3. Filter OPD
       if (selectedOpd !== "Semua OPD" && item.opd !== selectedOpd) {
         return false;
       }
+
+      // 4. Filter Aksi Prioritas
       if (
         selectedAksi !== "Semua Aksi Prioritas" &&
         item.aksiPrioritas !== selectedAksi
       ) {
         return false;
       }
+
+      // 5. Pencarian teks bebas
       if (!q) return true;
       const haystack = `${item.usulanKegiatan} ${item.usulanPermasalahan} ${item.opd} ${item.program} ${item.kegiatan} ${item.subKegiatan} ${item.sasaranPenerima} ${item.kategoriMudah}`.toLowerCase();
       return haystack.includes(q);
@@ -287,8 +322,8 @@ export default function App() {
     selectedKategori,
     selectedOpd,
     selectedAksi,
-    filterHanyaRekomendasiDesa,
-    targetOpdForActiveDesa
+    smartFilterMode,
+    desaTriage
   ]);
 
   // Perhitungan Paginasi untuk Tabel
@@ -320,6 +355,12 @@ export default function App() {
       ) {
         return false;
       }
+      if (filterTriaseDesaTab !== "all") {
+        const tr = getTriageStatusDesa(w);
+        if (filterTriaseDesaTab === "kritis" && tr.kritis.length === 0) return false;
+        if (filterTriaseDesaTab === "sedang" && (tr.kritis.length > 0 || tr.sedang.length === 0)) return false;
+        if (filterTriaseDesaTab === "aman" && (tr.kritis.length > 0 || tr.sedang.length > 0)) return false;
+      }
       if (!q) return true;
       return (
         w.nama.toLowerCase().includes(q) ||
@@ -327,7 +368,7 @@ export default function App() {
         w.kodeWilayah.toLowerCase().includes(q)
       );
     });
-  }, [wilayahList, selectedKecamatan, desaSearch]);
+  }, [wilayahList, selectedKecamatan, desaSearch, filterTriaseDesaTab]);
 
   // Fungsi Simpan / Hapus Item ke Daftar Usulan Desa Saya (LocalStorage)
   const handleToggleSaveUsulan = (item) => {
@@ -780,18 +821,61 @@ export default function App() {
 
                   {/* Dropdown Dinas / OPD */}
                   <div className="filter-field-group">
-                    <label className="filter-label">Dinas / OPD Pengampu:</label>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                      <label className="filter-label" style={{ marginBottom: 0 }}>Dinas / OPD Pengampu:</label>
+                      {desaTriage.opdStatusMap[selectedOpd] && (
+                        <span style={{ fontSize: "10px", fontWeight: 800 }}>
+                          {desaTriage.opdStatusMap[selectedOpd].status === "kritis" && (
+                            <span style={{ color: "#e11d48" }}>🔴 Kritis</span>
+                          )}
+                          {desaTriage.opdStatusMap[selectedOpd].status === "sedang" && (
+                            <span style={{ color: "#d97706" }}>🟡 Sedang</span>
+                          )}
+                          {desaTriage.opdStatusMap[selectedOpd].status === "aman" && (
+                            <span style={{ color: "#16a34a" }}>🟢 Aman (Terkunci)</span>
+                          )}
+                        </span>
+                      )}
+                    </div>
                     <select
                       className="form-select"
                       value={selectedOpd}
                       onChange={(e) => setSelectedOpd(e.target.value)}
                     >
-                      {opdOptions.map((opd) => (
-                        <option key={opd} value={opd}>
-                          {opd === "Semua OPD" ? "Semua Dinas / OPD Pengampu" : opd}
-                        </option>
-                      ))}
+                      {opdOptions.map((opd) => {
+                        if (opd === "Semua OPD") {
+                          return <option key={opd} value={opd}>Semua Dinas / OPD Pengampu</option>;
+                        }
+                        const st = desaTriage.opdStatusMap[opd];
+                        let prefix = "";
+                        if (st) {
+                          if (st.status === "kritis") prefix = `🔴 [KRITIS ${st.persen}%] `;
+                          else if (st.status === "sedang") prefix = `🟡 [SEDANG ${st.persen}%] `;
+                          else if (st.status === "aman") prefix = `🟢 [AMAN ${st.persen}% - Terkunci] `;
+                        }
+                        return (
+                          <option key={opd} value={opd}>
+                            {prefix}{opd}
+                          </option>
+                        );
+                      })}
                     </select>
+
+                    {/* Peringatan interaktif jika memilih OPD yang sektornya sudah aman */}
+                    {selectedOpd !== "Semua OPD" && desaTriage.opdStatusMap[selectedOpd]?.status === "aman" && (
+                      <div style={{
+                        marginTop: "6px",
+                        padding: "6px 9px",
+                        background: "#f0fdf4",
+                        border: "1px solid #bbf7d0",
+                        borderRadius: "6px",
+                        fontSize: "11px",
+                        color: "#166534",
+                        lineHeight: 1.4
+                      }}>
+                        🔒 <b>Sektor Aman di {activeDesaObj.nama}:</b> Capaian sektor ini sudah mencapai <b>{desaTriage.opdStatusMap[selectedOpd].persen}%</b>. Berdasarkan prioritas Sheet RUMUSAN, usulan desa disarankan fokus pada sektor Kritis (🔴).
+                      </div>
+                    )}
                   </div>
 
                   {/* Dropdown 9 Aksi Prioritas Bupati */}
@@ -888,129 +972,278 @@ export default function App() {
               )}
 
               {/* ========================================================
-                  BANNER DIAGNOSA MASALAH DESA DARI SHEET RUMUSAN 2026
+                  BANNER DIAGNOSA MASALAH DESA TRIASE 3 TINGKAT (SHEET RUMUSAN 2026)
                   ======================================================== */}
-              <div className="village-diagnostic-banner">
-                <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap", flex: 1 }}>
+              <div className="village-diagnostic-banner" style={{ flexDirection: "column", gap: "14px" }}>
+                {/* Baris Atas: Pemilih Wilayah 2-Tahap & Pengatur Mode Filter */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", flexWrap: "wrap", width: "100%" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+                    <div
+                      style={{
+                        width: "38px",
+                        height: "38px",
+                        borderRadius: "50%",
+                        background: "rgba(200, 150, 62, 0.2)",
+                        border: "1px solid var(--gov-gold-500)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "var(--gov-gold-400)",
+                        flexShrink: 0
+                      }}
+                    >
+                      <MapPin size={18} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "10.5px", fontWeight: 800, color: "var(--gov-gold-400)", letterSpacing: "0.5px", textTransform: "uppercase" }}>
+                        DIAGNOSA KEBUTUHAN PRIORITAS DESA (SHEET RUMUSAN 2026):
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px", flexWrap: "wrap" }}>
+                        {/* Langkah 1: Pilih Kecamatan */}
+                        <select
+                          className="form-select form-select-sm"
+                          style={{
+                            background: "#0f172a",
+                            color: "#fde047",
+                            borderColor: "rgba(200, 150, 62, 0.6)",
+                            fontWeight: 800,
+                            fontSize: "12px",
+                            padding: "4px 8px",
+                            minWidth: "140px"
+                          }}
+                          value={selectedKecamatanPengusul}
+                          onChange={(e) => {
+                            const newKec = e.target.value;
+                            setSelectedKecamatanPengusul(newKec);
+                            const firstInKec = WILAYAH_LOBAR.find((w) => w.kecamatan === newKec);
+                            if (firstInKec) {
+                              setActiveDesaPengusul(`${firstInKec.tipe} ${firstInKec.nama} (Kec. ${firstInKec.kecamatan})`);
+                            }
+                          }}
+                          title="Langkah 1: Pilih Kecamatan"
+                        >
+                          {DAFTAR_KECAMATAN.map((k) => (
+                            <option key={k.kode} value={k.nama}>
+                              📍 Kec. {k.nama}
+                            </option>
+                          ))}
+                        </select>
+
+                        {/* Langkah 2: Baru Pilih Desa */}
+                        <select
+                          className="form-select form-select-sm"
+                          style={{
+                            background: "#0f172a",
+                            color: "#f8fafc",
+                            borderColor: "rgba(200, 150, 62, 0.6)",
+                            fontWeight: 700,
+                            fontSize: "12px",
+                            padding: "4px 10px",
+                            minWidth: "220px"
+                          }}
+                          value={activeDesaPengusul}
+                          onChange={(e) => setActiveDesaPengusul(e.target.value)}
+                          title="Langkah 2: Pilih Desa / Kelurahan"
+                        >
+                          {villagesInSelectedKecamatan.map((w) => (
+                            <option key={w.id} value={`${w.tipe} ${w.nama} (Kec. ${w.kecamatan})`}>
+                              {w.tipe} {w.nama} • {w.statusKemendesa} (Skor ID: {w.skorKemendesa})
+                            </option>
+                          ))}
+                        </select>
+
+                        <span
+                          className={`badge ${
+                            activeDesaObj.statusKemendesa === "MANDIRI"
+                              ? "badge-mandiri"
+                              : activeDesaObj.statusKemendesa === "MAJU"
+                              ? "badge-maju"
+                              : "badge-berkembang"
+                          }`}
+                        >
+                          {activeDesaObj.statusKemendesa}
+                        </span>
+                        <span style={{ fontSize: "11px", color: "var(--slate-300)" }}>
+                          Nilai: <b>{activeDesaObj.nilaiTotal}/635</b> ({activeDesaObj.skorBappenas}%)
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Switcher Mode Filter Smart Ketat */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                    <span style={{ fontSize: "10.5px", fontWeight: 800, color: "var(--gov-gold-300)", textTransform: "uppercase" }}>
+                      Filter Smart Masalah Desaku:
+                    </span>
+                    <div className="smart-mode-segmented">
+                      <button
+                        className={`smart-mode-btn ${smartFilterMode === "kritis" ? "active-kritis" : ""}`}
+                        onClick={() => {
+                          setSmartFilterMode("kritis");
+                          showToast(`Mode Ketat Aktif: Hanya menampilkan usulan sektor KRITIS ${activeDesaObj.nama}`);
+                        }}
+                        title="Hanya tampilkan usulan dari OPD sektor KRITIS (<70%). Sektor AMAN dikunci."
+                      >
+                        🔴 Sektor Kritis Saja (Ketat)
+                      </button>
+                      <button
+                        className={`smart-mode-btn ${smartFilterMode === "kritis_sedang" ? "active-sedang" : ""}`}
+                        onClick={() => {
+                          setSmartFilterMode("kritis_sedang");
+                          showToast(`Menampilkan usulan sektor Kritis & Sedang ${activeDesaObj.nama}`);
+                        }}
+                        title="Tampilkan usulan sektor Kritis & Sedang (<80%). Sektor AMAN tetap dikunci."
+                      >
+                        🔴🟡 Kritis & Sedang
+                      </button>
+                      <button
+                        className={`smart-mode-btn ${smartFilterMode === "off" ? "active-all" : ""}`}
+                        onClick={() => {
+                          setSmartFilterMode("off");
+                          showToast("Filter cerdas dimatikan: Menampilkan seluruh kamus usulan.");
+                        }}
+                        title="Matikan filter masalah: Tampilkan seluruh OPD dan usulan."
+                      >
+                        ⚪ Semua Sektor
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Baris Tengah: 3 Box Triase Status Masalah Desa (🔴 Kritis, 🟡 Sedang, 🟢 Aman) */}
+                <div className="triage-grid">
+                  {/* BOX 1: 🔴 SEKTOR KRITIS */}
+                  <div className="triage-card triage-card-kritis">
+                    <div className="triage-card-header">
+                      <div className="triage-title triage-title-kritis">
+                        <span>🔴 1. SEKTOR KRITIS (&lt; 70%)</span>
+                      </div>
+                      <span className="triage-pill-count pill-kritis">
+                        {desaTriage.kritis.length > 0 ? `${desaTriage.kritis.length} Dimensi Mendesak` : "Nihil (0)"}
+                      </span>
+                    </div>
+
+                    <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                      {desaTriage.kritis.length > 0 ? (
+                        desaTriage.kritis.map((k) => (
+                          <div key={k.key} className="triage-item-row">
+                            <div>
+                              <strong style={{ color: "#ffe4e6" }}>{k.nama}</strong>: {k.skor}/{k.maks}
+                              <div className="triage-opd-preview">
+                                OPD: {k.opdPengampu.join(", ")}
+                              </div>
+                            </div>
+                            <span style={{ fontWeight: 800, color: "#f43f5e", fontSize: "12px" }}>
+                              {k.persen}%
+                            </span>
+                          </div>
+                        ))
+                      ) : (
+                        <div style={{ fontSize: "11px", color: "var(--slate-300)", padding: "4px 0" }}>
+                          ✓ Seluruh indikator sektor telah melampaui ambang batas 70%. Desa tidak memiliki krisis sektoral.
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* BOX 2: 🟡 SEKTOR SEDANG */}
+                  <div className="triage-card triage-card-sedang">
+                    <div className="triage-card-header">
+                      <div className="triage-title triage-title-sedang">
+                        <span>🟡 2. SEKTOR SEDANG (70 - 79.9%)</span>
+                      </div>
+                      <span className="triage-pill-count pill-sedang">
+                        {desaTriage.sedang.length > 0 ? `${desaTriage.sedang.length} Dimensi Terpantau` : "Nihil (0)"}
+                      </span>
+                    </div>
+
+                    <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                      {desaTriage.sedang.length > 0 ? (
+                        desaTriage.sedang.map((s) => (
+                          <div key={s.key} className="triage-item-row">
+                            <div>
+                              <strong style={{ color: "#fef08a" }}>{s.nama}</strong>: {s.skor}/{s.maks}
+                              <div className="triage-opd-preview">
+                                OPD: {s.opdPengampu.join(", ")}
+                              </div>
+                            </div>
+                            <span style={{ fontWeight: 800, color: "#eab308", fontSize: "12px" }}>
+                              {s.persen}%
+                            </span>
+                          </div>
+                        ))
+                      ) : (
+                        <div style={{ fontSize: "11px", color: "var(--slate-300)", padding: "4px 0" }}>
+                          ✓ Tidak ada sektor dalam kategori sedang (70–79.9%).
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* BOX 3: 🟢 SEKTOR AMAN (TERKUNCI) */}
+                  <div className="triage-card triage-card-aman">
+                    <div className="triage-card-header">
+                      <div className="triage-title triage-title-aman">
+                        <span>🟢 3. SEKTOR AMAN (≥ 80%) • TERKUNCI 🔒</span>
+                      </div>
+                      <span className="triage-pill-count pill-aman">
+                        {desaTriage.aman.length} Dimensi Mandiri
+                      </span>
+                    </div>
+
+                    <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                      {desaTriage.aman.length > 0 ? (
+                        desaTriage.aman.map((a) => (
+                          <div key={a.key} className="triage-item-row">
+                            <div>
+                              <strong style={{ color: "#a7f3d0" }}>{a.nama}</strong>: {a.skor}/{a.maks}
+                              <div className="triage-opd-preview">
+                                {a.opdPengampu.length} OPD Pengampu Dikunci
+                              </div>
+                            </div>
+                            <span style={{ fontWeight: 800, color: "#10b981", fontSize: "12px" }}>
+                              {a.persen}%
+                            </span>
+                          </div>
+                        ))
+                      ) : (
+                        <div style={{ fontSize: "11px", color: "var(--slate-300)", padding: "4px 0" }}>
+                          Belum ada sektor yang mencapai 80%.
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Notifikasi Penguncian Sektor Aman Jika Filter Smart Aktif */}
+                {smartFilterMode !== "off" && (
                   <div
                     style={{
-                      width: "40px",
-                      height: "40px",
-                      borderRadius: "50%",
-                      background: "rgba(200, 150, 62, 0.2)",
-                      border: "1px solid var(--gov-gold-500)",
+                      background: "rgba(15, 23, 42, 0.85)",
+                      border: "1px solid rgba(245, 158, 11, 0.4)",
+                      borderRadius: "6px",
+                      padding: "8px 12px",
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "center",
-                      color: "var(--gov-gold-400)",
-                      flexShrink: 0
+                      justifyContent: "space-between",
+                      gap: "10px",
+                      fontSize: "11.5px",
+                      color: "#fef3c7"
                     }}
                   >
-                    <MapPin size={20} />
+                    <span>
+                      🔒 <b>PENGUNCIAN SEKTOR AMAN AKTIF:</b> Sebanyak <b>{lockedOpdCount} usulan</b> dari <b>{desaTriage.opdAman.length} OPD</b> sektor AMAN ({desaTriage.opdAman.slice(0, 3).join(", ")}{desaTriage.opdAman.length > 3 ? ", dll" : ""}) telah <b>dikunci dan disembunyikan</b> agar usulan Musrenbang {activeDesaObj.tipe} {activeDesaObj.nama} 100% fokus menyelesaikan masalah KRITIS.
+                    </span>
+                    <button
+                      className="btn btn-secondary btn-sm"
+                      style={{ padding: "3px 8px", fontSize: "11px", whiteSpace: "nowrap" }}
+                      onClick={() => setSmartFilterMode("off")}
+                      title="Tampilkan seluruh usulan termasuk sektor aman"
+                    >
+                      Buka Kunci Sementara
+                    </button>
                   </div>
-                  <div>
-                    <div style={{ fontSize: "11px", fontWeight: 700, color: "var(--gov-gold-400)", letterSpacing: "0.5px", textTransform: "uppercase" }}>
-                      DIAGNOSA PERMASALAHAN DESA PENGUSUL (SHEET RUMUSAN 2026):
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px", flexWrap: "wrap" }}>
-                      {/* Langkah 1: Pilih Kecamatan */}
-                      <select
-                        className="form-select form-select-sm"
-                        style={{
-                          background: "#0f172a",
-                          color: "#fde047",
-                          borderColor: "rgba(200, 150, 62, 0.6)",
-                          fontWeight: 800,
-                          fontSize: "12.5px",
-                          padding: "5px 10px",
-                          minWidth: "155px"
-                        }}
-                        value={selectedKecamatanPengusul}
-                        onChange={(e) => {
-                          const newKec = e.target.value;
-                          setSelectedKecamatanPengusul(newKec);
-                          const firstInKec = WILAYAH_LOBAR.find((w) => w.kecamatan === newKec);
-                          if (firstInKec) {
-                            setActiveDesaPengusul(`${firstInKec.tipe} ${firstInKec.nama} (Kec. ${firstInKec.kecamatan})`);
-                          }
-                        }}
-                        title="Pilih Kecamatan terlebih dahulu"
-                      >
-                        {DAFTAR_KECAMATAN.map((k) => (
-                          <option key={k.kode} value={k.nama}>
-                            📍 Kec. {k.nama}
-                          </option>
-                        ))}
-                      </select>
-
-                      {/* Langkah 2: Baru Pilih Desa dalam Kecamatan Tersebut */}
-                      <select
-                        className="form-select form-select-sm"
-                        style={{
-                          background: "#0f172a",
-                          color: "#f8fafc",
-                          borderColor: "rgba(200, 150, 62, 0.6)",
-                          fontWeight: 700,
-                          fontSize: "12.5px",
-                          padding: "5px 12px",
-                          minWidth: "230px"
-                        }}
-                        value={activeDesaPengusul}
-                        onChange={(e) => setActiveDesaPengusul(e.target.value)}
-                        title="Pilih Desa / Kelurahan di dalam Kecamatan"
-                      >
-                        {villagesInSelectedKecamatan.map((w) => (
-                          <option key={w.id} value={`${w.tipe} ${w.nama} (Kec. ${w.kecamatan})`}>
-                            {w.tipe} {w.nama} • {w.statusKemendesa} (Skor: {w.skorKemendesa})
-                          </option>
-                        ))}
-                      </select>
-
-                      <span
-                        className={`badge ${
-                          activeDesaObj.statusKemendesa === "MANDIRI"
-                            ? "badge-mandiri"
-                            : activeDesaObj.statusKemendesa === "MAJU"
-                            ? "badge-maju"
-                            : "badge-berkembang"
-                        }`}
-                      >
-                        {activeDesaObj.statusKemendesa}
-                      </span>
-                      <span style={{ fontSize: "11.5px", color: "var(--slate-300)" }}>
-                        Nilai: <b>{activeDesaObj.nilaiTotal}/635</b>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
-                  <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: "11px", color: "var(--slate-300)" }}>
-                      Fokus Kebutuhan / Defisit Terendah:
-                    </div>
-                    <div style={{ fontSize: "12px", fontWeight: 700, color: "#fef08a" }}>
-                      {activeDesaObj.masalahPrioritas?.join(" • ") || "Layanan Dasar"}
-                    </div>
-                  </div>
-
-                  <button
-                    className={`btn btn-sm ${filterHanyaRekomendasiDesa ? "btn-gold" : "btn-secondary"}`}
-                    onClick={() => {
-                      const next = !filterHanyaRekomendasiDesa;
-                      setFilterHanyaRekomendasiDesa(next);
-                      if (next) {
-                        showToast(`Menyaring usulan OPD yang menyelesaikan masalah ${activeDesaObj.nama}`);
-                      } else {
-                        showToast("Menampilkan seluruh kamus usulan");
-                      }
-                    }}
-                    title="Saring tabel agar hanya menampilkan usulan dari OPD yang menyelesaikan masalah desa ini"
-                  >
-                    <Sparkles size={14} />
-                    {filterHanyaRekomendasiDesa ? "✓ Filter Masalah Desaku Aktif" : "Filter Sesuai Masalah Desaku"}
-                  </button>
-                </div>
+                )}
               </div>
 
               {/* Bar Ringkasan Hasil & Toolbar Tampilan */}
@@ -1232,9 +1465,19 @@ export default function App() {
                                     <span className="badge badge-opd">
                                       {item.opd}
                                     </span>
-                                    {targetOpdForActiveDesa.includes(item.opd) && (
-                                      <span className="badge-rekomendasi" title={`Sesuai dengan diagnosa defisit ${activeDesaObj.nama}`}>
-                                        ★ Solusi Desa
+                                    {desaTriage.opdKritis.includes(item.opd) && (
+                                      <span className="badge-kritis-desa" title={`Sektor KRITIS di ${activeDesaObj.nama} (<70%)`}>
+                                        🔴 Prioritas Kritis
+                                      </span>
+                                    )}
+                                    {desaTriage.opdSedang.includes(item.opd) && (
+                                      <span className="badge-sedang-desa" title={`Sektor SEDANG di ${activeDesaObj.nama} (70-79.9%)`}>
+                                        🟡 Prioritas Sedang
+                                      </span>
+                                    )}
+                                    {desaTriage.opdAman.includes(item.opd) && (
+                                      <span className="badge-aman-locked" title={`Sektor AMAN / Mandiri di ${activeDesaObj.nama} (≥80%)`}>
+                                        <Lock size={10} /> Sektor Aman
                                       </span>
                                     )}
                                   </div>
@@ -1270,13 +1513,30 @@ export default function App() {
                                 <td className="td-action">
                                   <div style={{ display: "flex", flexDirection: "column", gap: "6px", alignItems: "center" }}>
                                     <button
-                                      className={`btn btn-sm ${isSaved ? "btn-success" : "btn-primary"}`}
+                                      className={`btn btn-sm ${
+                                        isSaved
+                                          ? "btn-success"
+                                          : desaTriage.opdKritis.includes(item.opd)
+                                          ? "btn-gold"
+                                          : "btn-primary"
+                                      }`}
                                       style={{ width: "100%" }}
                                       onClick={() => handleToggleSaveUsulan(item)}
+                                      title={
+                                        desaTriage.opdAman.includes(item.opd)
+                                          ? `Perhatian: Sektor ini sudah AMAN (≥80%) di ${activeDesaObj.nama}`
+                                          : isSaved
+                                          ? "Hapus dari daftar usulan desa"
+                                          : "Pilih dan simpan ke usulan desa"
+                                      }
                                     >
                                       {isSaved ? (
                                         <>
                                           <CheckCircle2 size={13} /> Terpilih
+                                        </>
+                                      ) : desaTriage.opdKritis.includes(item.opd) ? (
+                                        <>
+                                          <Sparkles size={13} /> + Usulan Kritis
                                         </>
                                       ) : (
                                         <>
@@ -1397,9 +1657,19 @@ export default function App() {
                         <div className="card-top-badges">
                           <div className="badge-tag-group">
                             <span className="badge badge-opd">{item.opd}</span>
-                            {targetOpdForActiveDesa.includes(item.opd) && (
-                              <span className="badge-rekomendasi" title={`Sesuai dengan diagnosa defisit ${activeDesaObj.nama}`}>
-                                ★ Solusi Desa
+                            {desaTriage.opdKritis.includes(item.opd) && (
+                              <span className="badge-kritis-desa" title={`Sektor KRITIS di ${activeDesaObj.nama} (<70%)`}>
+                                🔴 Prioritas Kritis
+                              </span>
+                            )}
+                            {desaTriage.opdSedang.includes(item.opd) && (
+                              <span className="badge-sedang-desa" title={`Sektor SEDANG di ${activeDesaObj.nama} (70-79.9%)`}>
+                                🟡 Prioritas Sedang
+                              </span>
+                            )}
+                            {desaTriage.opdAman.includes(item.opd) && (
+                              <span className="badge-aman-locked" title={`Sektor AMAN / Mandiri di ${activeDesaObj.nama} (≥80%)`}>
+                                <Lock size={10} /> Sektor Aman
                               </span>
                             )}
                             <span className="badge badge-kat">{item.kategoriMudah}</span>
@@ -1492,7 +1762,7 @@ export default function App() {
               </p>
             </div>
 
-            {/* Filter Bar Wilayah */}
+            {/* Filter Bar Wilayah & Filter Triase Masalah Desa */}
             <div
               style={{
                 background: "var(--pure-white)",
@@ -1501,38 +1771,76 @@ export default function App() {
                 border: "1px solid var(--slate-200)",
                 boxShadow: "var(--shadow-sm)",
                 display: "flex",
-                gap: "14px",
-                alignItems: "center",
-                flexWrap: "wrap"
+                flexDirection: "column",
+                gap: "12px"
               }}
             >
-              <div style={{ flex: 1, minWidth: "260px" }} className="search-input-wrap">
-                <Search size={15} color="#64748b" style={{ position: "absolute", left: "12px" }} />
-                <input
-                  type="text"
-                  className="form-input"
-                  placeholder="Ketik nama Desa atau Kelurahan (contoh: Kuripan, Banyumulek, Senggigi)..."
-                  value={desaSearch}
-                  onChange={(e) => setDesaSearch(e.target.value)}
-                />
+              <div style={{ display: "flex", gap: "14px", alignItems: "center", flexWrap: "wrap", width: "100%" }}>
+                <div style={{ flex: 1, minWidth: "260px" }} className="search-input-wrap">
+                  <Search size={15} color="#64748b" style={{ position: "absolute", left: "12px" }} />
+                  <input
+                    type="text"
+                    className="form-input"
+                    placeholder="Ketik nama Desa atau Kelurahan (contoh: Kuripan, Banyumulek, Senggigi)..."
+                    value={desaSearch}
+                    onChange={(e) => setDesaSearch(e.target.value)}
+                  />
+                </div>
+
+                <div style={{ width: "320px" }}>
+                  <select
+                    className="form-select"
+                    value={selectedKecamatan}
+                    onChange={(e) => setSelectedKecamatan(e.target.value)}
+                  >
+                    <option value="Semua Kecamatan">
+                      📍 Semua 10 Kecamatan (119 Desa & 3 Kelurahan)
+                    </option>
+                    {DAFTAR_KECAMATAN.map((k) => (
+                      <option key={k.kode} value={k.nama}>
+                        Kecamatan {k.nama} ({k.jumlahDesa} Desa
+                        {k.jumlahKelurahan > 0 ? `, ${k.jumlahKelurahan} Kelurahan` : ""})
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
 
-              <div style={{ width: "320px" }}>
-                <select
-                  className="form-select"
-                  value={selectedKecamatan}
-                  onChange={(e) => setSelectedKecamatan(e.target.value)}
-                >
-                  <option value="Semua Kecamatan">
-                    📍 Semua 10 Kecamatan (119 Desa & 3 Kelurahan)
-                  </option>
-                  {DAFTAR_KECAMATAN.map((k) => (
-                    <option key={k.kode} value={k.nama}>
-                      Kecamatan {k.nama} ({k.jumlahDesa} Desa
-                      {k.jumlahKelurahan > 0 ? `, ${k.jumlahKelurahan} Kelurahan` : ""})
-                    </option>
-                  ))}
-                </select>
+              {/* Bilah Segmented Filter Triase Masalah Desa */}
+              <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center", borderTop: "1px solid var(--slate-100)", paddingTop: "10px" }}>
+                <span style={{ fontSize: "11.5px", fontWeight: 700, color: "var(--slate-600)", textTransform: "uppercase" }}>
+                  Filter Status Masalah Desa:
+                </span>
+                <div className="smart-mode-segmented">
+                  <button
+                    className={`smart-mode-btn ${filterTriaseDesaTab === "all" ? "active-all" : ""}`}
+                    onClick={() => setFilterTriaseDesaTab("all")}
+                  >
+                    Semua ({wilayahList.length})
+                  </button>
+                  <button
+                    className={`smart-mode-btn ${filterTriaseDesaTab === "kritis" ? "active-kritis" : ""}`}
+                    onClick={() => setFilterTriaseDesaTab("kritis")}
+                    title="Tampilkan hanya desa yang memiliki sektor defisit kritis (<70%)"
+                  >
+                    🔴 Memiliki Sektor Kritis (&lt;70%)
+                  </button>
+                  <button
+                    className={`smart-mode-btn ${filterTriaseDesaTab === "sedang" ? "active-sedang" : ""}`}
+                    onClick={() => setFilterTriaseDesaTab("sedang")}
+                    title="Tampilkan desa yang sektor terendahnya berstatus sedang (70-79.9%)"
+                  >
+                    🟡 Sektor Sedang (70-79.9%)
+                  </button>
+                  <button
+                    className={`smart-mode-btn ${filterTriaseDesaTab === "aman" ? "active-kritis" : ""}`}
+                    style={filterTriaseDesaTab === "aman" ? { background: "#16a34a" } : {}}
+                    onClick={() => setFilterTriaseDesaTab("aman")}
+                    title="Tampilkan desa yang seluruh sektornya sudah mandiri / aman (≥80%)"
+                  >
+                    🟢 Seluruh Sektor Aman (≥80%)
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -1744,6 +2052,39 @@ export default function App() {
                       </div>
                     </div>
 
+                    {/* Status Triase 3 Tingkat (🔴 Kritis, 🟡 Sedang, 🟢 Aman) */}
+                    {(() => {
+                      const wTr = getTriageStatusDesa(w);
+                      return (
+                        <div
+                          style={{
+                            background: "#ffffff",
+                            padding: "8px 12px",
+                            borderRadius: "var(--radius-md)",
+                            border: "1px solid var(--slate-200)",
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "4px",
+                            fontSize: "11px"
+                          }}
+                        >
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <span style={{ fontWeight: 800, color: wTr.kritis.length > 0 ? "#e11d48" : "#64748b" }}>
+                              🔴 Kritis (&lt;70%): {wTr.kritis.length > 0 ? wTr.kritis.map((k) => `${k.nama} (${k.persen}%)`).join(", ") : "Nihil (Aman)"}
+                            </span>
+                          </div>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <span style={{ fontWeight: 700, color: wTr.sedang.length > 0 ? "#d97706" : "#64748b" }}>
+                              🟡 Sedang (70-79%): {wTr.sedang.length > 0 ? wTr.sedang.map((s) => `${s.nama} (${s.persen}%)`).join(", ") : "Nihil"}
+                            </span>
+                            <span style={{ fontWeight: 700, color: "#16a34a" }}>
+                              🟢 Aman: {wTr.aman.length} Sektor Mandiri (Terkunci)
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })()}
+
                     <div className="dossier-problem-box" style={{ fontSize: "11.5px" }}>
                       <strong>Fokus Kebutuhan Lapangan (Sheet RUMUSAN): </strong>
                       {w.catatanMusrenbang}
@@ -1763,15 +2104,16 @@ export default function App() {
                         onClick={() => {
                           const desaLabel = `${w.tipe} ${w.nama} (Kec. ${w.kecamatan})`;
                           setActiveDesaPengusul(desaLabel);
-                          setFilterHanyaRekomendasiDesa(true);
+                          setSelectedKecamatanPengusul(w.kecamatan);
+                          setSmartFilterMode("kritis"); // Mode Ketat otomatis aktif
                           setSelectedYear("2027");
                           setViewMode("table");
                           setActiveTab("kamus");
-                          showToast(`Menampilkan Kamus Usulan 2027 penyelesai masalah ${w.tipe} ${w.nama}`);
+                          showToast(`Menampilkan Kamus Usulan 2027 (Prioritas Kritis) untuk ${w.tipe} ${w.nama}`);
                         }}
                       >
                         <Sparkles size={14} />
-                        <span>Lihat Solusi di Kamus</span>
+                        <span>Lihat Solusi Kritis</span>
                       </button>
                     </div>
                   </article>
@@ -2187,86 +2529,208 @@ export default function App() {
       )}
 
       {/* ========================================================
-          MODAL ATUR INDEKS MASALAH DESA
+          MODAL DETAIL DIAGNOSA TRIASE 6 DIMENSI DESA
           ======================================================== */}
-      {selectedDesaDetail && (
-        <div className="desktop-modal-backdrop" onClick={() => setSelectedDesaDetail(null)}>
-          <div className="desktop-modal-dialog" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-dialog-header">
-              <div>
-                <span className="badge badge-opd">PEMUTAKHIRAN INDEKS PERMASALAHAN DESA</span>
-                <h3 style={{ fontSize: "15px", fontWeight: 800, marginTop: "3px" }}>
-                  {selectedDesaDetail.tipe} {selectedDesaDetail.nama} (Kec. {selectedDesaDetail.kecamatan})
-                </h3>
-              </div>
-              <button
-                onClick={() => setSelectedDesaDetail(null)}
-                style={{
-                  background: "var(--slate-200)",
-                  border: "none",
-                  borderRadius: "99px",
-                  width: "32px",
-                  height: "32px",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center"
-                }}
-              >
-                <X size={16} />
-              </button>
-            </div>
-
-            <div className="modal-dialog-body">
-              <p style={{ fontSize: "12.5px", color: "var(--slate-600)" }}>
-                Sesuaikan skor indikator permasalahan (skala 20–98). Perubahan langsung disimpan ke <b>LocalStorage</b> dan memperbarui rekomendasi usulan desa.
-              </p>
-
-              {[
-                { key: "infrastruktur", label: "1. Masalah Jalan, Jembatan & Irigasi Desa" },
-                { key: "pertanianPangan", label: "2. Masalah Pertanian, Sarana & Ketahanan Pangan" },
-                { key: "pendidikanSDM", label: "3. Masalah Fasilitas SD/SMP & Anak Tidak Sekolah" },
-                { key: "kesehatanStunting", label: "4. Masalah Fasilitas Posyandu, Air Bersih & Stunting" },
-                { key: "ekonomiUMKM", label: "5. Masalah Permodalan UMKM, Usaha & Pelatihan Kerja" },
-                { key: "lingkunganSampah", label: "6. Masalah Sampah Lingkungan & Mitigasi Bencana" }
-              ].map((ind) => {
-                const currentDesa =
-                  wilayahList.find((w) => w.id === selectedDesaDetail.id) || selectedDesaDetail;
-                const val = currentDesa.indikator[ind.key];
-                return (
-                  <div key={ind.key} style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12.5px", fontWeight: 700 }}>
-                      <span>{ind.label}</span>
-                      <span style={{ color: "var(--gov-navy-700)" }}>{val} / 100</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="20"
-                      max="98"
-                      value={val}
-                      onChange={(e) =>
-                        handleUpdateIndikatorDesa(selectedDesaDetail.id, ind.key, e.target.value)
-                      }
-                    />
+      {selectedDesaDetail && (() => {
+        const modalTriage = getTriageStatusDesa(selectedDesaDetail);
+        return (
+          <div className="desktop-modal-backdrop" onClick={() => setSelectedDesaDetail(null)}>
+            <div className="desktop-modal-dialog" style={{ maxWidth: "720px" }} onClick={(e) => e.stopPropagation()}>
+              <div className="modal-dialog-header">
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "3px" }}>
+                    <span className="badge badge-opd">AUDIT TRIASE 6 DIMENSI SHEET RUMUSAN</span>
+                    <span className={`badge ${
+                      selectedDesaDetail.statusKemendesa === "MANDIRI"
+                        ? "badge-mandiri"
+                        : selectedDesaDetail.statusKemendesa === "MAJU"
+                        ? "badge-maju"
+                        : "badge-berkembang"
+                    }`}>
+                      {selectedDesaDetail.statusKemendesa}
+                    </span>
                   </div>
-                );
-              })}
-            </div>
+                  <h3 style={{ fontSize: "16px", fontWeight: 800 }}>
+                    {selectedDesaDetail.tipe} {selectedDesaDetail.nama} (Kecamatan {selectedDesaDetail.kecamatan})
+                  </h3>
+                  <div style={{ fontSize: "11.5px", color: "var(--slate-500)", marginTop: "2px" }}>
+                    Kode Wilayah: <b>{selectedDesaDetail.kodeWilayah}</b> • Skor IDM: <b>{selectedDesaDetail.skorKemendesa}</b> • Nilai Total: <b>{selectedDesaDetail.nilaiTotal}/635</b> ({selectedDesaDetail.skorBappenas}%)
+                  </div>
+                </div>
+                <button
+                  onClick={() => setSelectedDesaDetail(null)}
+                  style={{
+                    background: "var(--slate-200)",
+                    border: "none",
+                    borderRadius: "99px",
+                    width: "32px",
+                    height: "32px",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <X size={16} />
+                </button>
+              </div>
 
-            <div className="modal-dialog-footer">
-              <button
-                className="btn btn-primary"
-                onClick={() => {
-                  setSelectedDesaDetail(null);
-                  showToast("Indeks permasalahan desa berhasil diperbarui!");
-                }}
-              >
-                Selesai & Simpan ke LocalStorage
-              </button>
+              <div className="modal-dialog-body" style={{ maxHeight: "75vh", overflowY: "auto" }}>
+                {/* Ringkasan Triase 3 Tingkat */}
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                  gap: "10px",
+                  background: "var(--slate-50)",
+                  padding: "12px",
+                  borderRadius: "var(--radius-md)",
+                  border: "1px solid var(--slate-200)"
+                }}>
+                  <div style={{ padding: "8px", background: "#fff1f2", borderRadius: "6px", border: "1px solid #fecdd3" }}>
+                    <div style={{ fontSize: "11px", fontWeight: 800, color: "#be123c" }}>
+                      🔴 SEKTOR KRITIS (&lt;70%)
+                    </div>
+                    <div style={{ fontSize: "12px", fontWeight: 700, color: "#881337", marginTop: "4px" }}>
+                      {modalTriage.kritis.length > 0
+                        ? modalTriage.kritis.map((k) => `${k.nama} (${k.persen}%)`).join(", ")
+                        : "Tidak Ada (Nihil)"}
+                    </div>
+                    <div style={{ fontSize: "10px", color: "#9f1239", marginTop: "2px" }}>
+                      {modalTriage.kritis.length > 0 ? "Wajib diintervensi APBD" : "Standar terpenuhi"}
+                    </div>
+                  </div>
+
+                  <div style={{ padding: "8px", background: "#fefce8", borderRadius: "6px", border: "1px solid #fef08a" }}>
+                    <div style={{ fontSize: "11px", fontWeight: 800, color: "#a16207" }}>
+                      🟡 SEKTOR SEDANG (70-79%)
+                    </div>
+                    <div style={{ fontSize: "12px", fontWeight: 700, color: "#713f12", marginTop: "4px" }}>
+                      {modalTriage.sedang.length > 0
+                        ? modalTriage.sedang.map((s) => `${s.nama} (${s.persen}%)`).join(", ")
+                        : "Tidak Ada (Nihil)"}
+                    </div>
+                    <div style={{ fontSize: "10px", color: "#854d0e", marginTop: "2px" }}>
+                      Pengawalan & pemeliharaan
+                    </div>
+                  </div>
+
+                  <div style={{ padding: "8px", background: "#f0fdf4", borderRadius: "6px", border: "1px solid #bbf7d0" }}>
+                    <div style={{ fontSize: "11px", fontWeight: 800, color: "#15803d" }}>
+                      🟢 SEKTOR AMAN (≥80%) • TERKUNCI 🔒
+                    </div>
+                    <div style={{ fontSize: "12px", fontWeight: 700, color: "#14532d", marginTop: "4px" }}>
+                      {modalTriage.aman.length} Sektor Mandiri
+                    </div>
+                    <div style={{ fontSize: "10px", color: "#166534", marginTop: "2px" }}>
+                      {modalTriage.opdAman.length} OPD Terkunci
+                    </div>
+                  </div>
+                </div>
+
+                {/* Audit 6 Dimensi Sheet RUMUSAN */}
+                <div>
+                  <h4 style={{ fontSize: "13px", fontWeight: 800, color: "var(--gov-navy-900)", margin: "8px 0 10px 0" }}>
+                    Status Capaian 6 Dimensi Bappenas & Kemendesa (Skala Maksimum 635):
+                  </h4>
+
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    {[
+                      { key: "layananDasar", label: "1. Layanan Dasar (Pendidikan, Kesehatan, RTLH/Air Bersih)", maks: 170 },
+                      { key: "sosial", label: "2. Sosial (Pemuda, Olahraga, Konflik, Kelembagaan)", maks: 85 },
+                      { key: "ekonomi", label: "3. Ekonomi (Pertanian, Pangan, UMKM, Pasar Desa)", maks: 160 },
+                      { key: "lingkungan", label: "4. Lingkungan (Pengelolaan Sampah, Sanitasi, Bencana)", maks: 90 },
+                      { key: "aksesibilitas", label: "5. Aksesibilitas (Jalan Poros Desa, Jembatan, PJU)", maks: 50 },
+                      { key: "tataKelola", label: "6. Tata Kelola (Administrasi Desa, BUMDes, SPBE)", maks: 80 }
+                    ].map((dim) => {
+                      const dData = selectedDesaDetail.dimensi?.[dim.key] || { skor: 0, persen: 0 };
+                      const persen = dData.persen !== undefined ? dData.persen : Math.round((dData.skor / dim.maks) * 100);
+                      const isKritis = persen < 70;
+                      const isSedang = persen >= 70 && persen < 80;
+                      const isAman = persen >= 80;
+
+                      return (
+                        <div
+                          key={dim.key}
+                          style={{
+                            border: `1px solid ${isKritis ? "#fca5a5" : isSedang ? "#fde047" : "#bbf7d0"}`,
+                            borderRadius: "var(--radius-md)",
+                            padding: "10px 14px",
+                            background: isKritis ? "#fff1f2" : isSedang ? "#fffbeb" : "#f0fdf4"
+                          }}
+                        >
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <div>
+                              <strong style={{ fontSize: "12.5px", color: "var(--slate-900)" }}>{dim.label}</strong>
+                              <span style={{ fontSize: "11px", color: "var(--slate-600)", marginLeft: "8px" }}>
+                                ({dData.skor} dari {dim.maks} poin)
+                              </span>
+                            </div>
+                            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                              <span style={{ fontSize: "13px", fontWeight: 800, color: isKritis ? "#be123c" : isSedang ? "#a16207" : "#15803d" }}>
+                                {persen}%
+                              </span>
+                              <span className={`badge ${isKritis ? "badge-kritis-desa" : isSedang ? "badge-sedang-desa" : "badge-aman-locked"}`}>
+                                {isKritis ? "🔴 Kritis" : isSedang ? "🟡 Sedang" : "🟢 Aman 🔒"}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="indeks-bar-bg" style={{ marginTop: "6px", height: "7px" }}>
+                            <div
+                              className="indeks-bar-fill"
+                              style={{
+                                width: `${persen}%`,
+                                background: isKritis ? "var(--gov-rose-500)" : isSedang ? "var(--gov-gold-500)" : "var(--gov-emerald-500)"
+                              }}
+                            />
+                          </div>
+
+                          <div style={{ fontSize: "11px", color: "var(--slate-600)", marginTop: "6px" }}>
+                            <strong>OPD Pengampu: </strong>
+                            {DIMENSI_CONFIG[dim.key]?.opdPengampu?.join(", ") || "-"}
+                            {isAman && (
+                              <span style={{ color: "#166534", fontWeight: 700, marginLeft: "6px" }}>
+                                (Dikunci untuk usulan baru)
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="dossier-problem-box" style={{ fontSize: "12px", marginTop: "8px" }}>
+                  <strong>Catatan Defisit Empiris Musrenbang: </strong>
+                  {selectedDesaDetail.catatanMusrenbang}
+                </div>
+              </div>
+
+              <div className="modal-dialog-footer">
+                <button className="btn btn-secondary" onClick={() => setSelectedDesaDetail(null)}>
+                  Tutup
+                </button>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    const desaLabel = `${selectedDesaDetail.tipe} ${selectedDesaDetail.nama} (Kec. ${selectedDesaDetail.kecamatan})`;
+                    setActiveDesaPengusul(desaLabel);
+                    setSelectedKecamatanPengusul(selectedDesaDetail.kecamatan);
+                    setSmartFilterMode("kritis");
+                    setSelectedYear("2027");
+                    setViewMode("table");
+                    setActiveTab("kamus");
+                    setSelectedDesaDetail(null);
+                    showToast(`Kamus Usulan disaring untuk sektor KRITIS ${selectedDesaDetail.nama}`);
+                  }}
+                >
+                  <Sparkles size={14} /> Saring Kamus Usulan Sektor Kritis Desa Ini
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* ========================================================
           MODAL INPUT KAMUS USULAN BARU
