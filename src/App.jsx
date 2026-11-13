@@ -364,7 +364,7 @@ export default function App() {
       else if (w.statusKemendesa === "MAJU") maju++;
       else berkembang++;
       const tr = getTriageStatusDesa(w);
-      if (tr.kritis.length > 0) adaSektorKritis++;
+      if (tr.kritisMakro && tr.kritisMakro.length > 0) adaSektorKritis++;
     });
     return {
       total: wilayahList.length,
@@ -388,9 +388,10 @@ export default function App() {
       }
       if (filterTriaseDesaTab !== "all") {
         const tr = getTriageStatusDesa(w);
-        if (filterTriaseDesaTab === "kritis" && tr.kritis.length === 0) return false;
-        if (filterTriaseDesaTab === "sedang" && (tr.kritis.length > 0 || tr.sedang.length === 0)) return false;
-        if (filterTriaseDesaTab === "aman" && (tr.kritis.length > 0 || tr.sedang.length > 0)) return false;
+        const hasMacroKritis = tr.kritisMakro && tr.kritisMakro.length > 0;
+        if (filterTriaseDesaTab === "kritis" && !hasMacroKritis) return false;
+        if (filterTriaseDesaTab === "sedang" && (hasMacroKritis || tr.sedang.length === 0)) return false;
+        if (filterTriaseDesaTab === "aman" && (hasMacroKritis || tr.sedang.length > 0)) return false;
       }
       if (!q) return true;
       return (
@@ -1170,35 +1171,60 @@ export default function App() {
 
                 {/* Baris Tengah: 3 Box Triase Status Masalah Desa (🔴 Kritis, 🟡 Sedang, 🟢 Aman) */}
                 <div className="triage-grid">
-                  {/* BOX 1: 🔴 SEKTOR KRITIS */}
+                  {/* BOX 1: 🔴 SEKTOR & INDIKATOR KRITIS */}
                   <div className="triage-card triage-card-kritis">
                     <div className="triage-card-header">
                       <div className="triage-title triage-title-kritis">
-                        <span>🔴 1. SEKTOR KRITIS (&lt; 70%)</span>
+                        <span>🔴 1. SEKTOR &amp; INDIKATOR KRITIS</span>
                       </div>
                       <span className="triage-pill-count pill-kritis">
                         🔴 Kritis ({desaTriage.jmlKritis} Masalah)
                       </span>
                     </div>
 
-                    <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
                       {desaTriage.kritis.length > 0 ? (
                         desaTriage.kritis.map((k) => (
                           <div key={k.key} className="triage-item-row">
-                            <div>
-                              <strong style={{ color: "#9f1239" }}>{k.nama}</strong>: {k.skor}/{k.maks}
+                            <div style={{ flex: 1 }}>
+                              <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
+                                <strong style={{ color: "#9f1239" }}>{k.nama}</strong>
+                                <span style={{ fontSize: "11px", color: "#881337" }}>
+                                  ({k.skor}/{k.maks})
+                                </span>
+                                {k.jmlKritis > 0 && (
+                                  <span
+                                    style={{
+                                      background: "#ffe4e6",
+                                      color: "#be123c",
+                                      border: "1px solid #fda4af",
+                                      borderRadius: "99px",
+                                      padding: "0px 6px",
+                                      fontSize: "10px",
+                                      fontWeight: 800
+                                    }}
+                                  >
+                                    {k.jmlKritis} Masalah Skor 1
+                                  </span>
+                                )}
+                              </div>
+                              {k.triageReason && (
+                                <div style={{ fontSize: "10.5px", fontWeight: 700, color: "#be123c", marginTop: "1px" }}>
+                                  • {k.triageReason}
+                                </div>
+                              )}
                               <div className="triage-opd-preview">
-                                OPD: {k.opdPengampu.join(", ")}
+                                OPD Prioritas: {(k.opdKritisAktif && k.opdKritisAktif.length > 0 ? k.opdKritisAktif : k.opdPengampu).join(", ")}
                               </div>
                             </div>
-                            <span style={{ fontWeight: 800, color: "#e11d48", fontSize: "12px" }}>
+                            <span style={{ fontWeight: 800, color: "#e11d48", fontSize: "12px", marginLeft: "6px" }}>
                               {k.persen}%
                             </span>
                           </div>
                         ))
                       ) : (
                         <div style={{ fontSize: "11px", color: "var(--slate-600)", padding: "4px 0" }}>
-                          ✓ Seluruh indikator sektor telah melampaui ambang batas 70%. Desa tidak memiliki krisis sektoral.
+                          ✓ Seluruh indikator dan sub-dimensi sektor telah melampaui ambang batas (0 Masalah Skor 1).
                         </div>
                       )}
 
@@ -1239,17 +1265,39 @@ export default function App() {
                       </span>
                     </div>
 
-                    <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
                       {desaTriage.sedang.length > 0 ? (
                         desaTriage.sedang.map((s) => (
                           <div key={s.key} className="triage-item-row">
-                            <div>
-                              <strong style={{ color: "#854d0e" }}>{s.nama}</strong>: {s.skor}/{s.maks}
+                            <div style={{ flex: 1 }}>
+                              <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
+                                <strong style={{ color: "#854d0e" }}>{s.nama}</strong>: {s.skor}/{s.maks}
+                                {s.jmlSedang > 0 && (
+                                  <span
+                                    style={{
+                                      background: "#fef9c3",
+                                      color: "#a16207",
+                                      border: "1px solid #fde047",
+                                      borderRadius: "99px",
+                                      padding: "0px 6px",
+                                      fontSize: "10px",
+                                      fontWeight: 800
+                                    }}
+                                  >
+                                    {s.jmlSedang} Indikator Sedang
+                                  </span>
+                                )}
+                              </div>
+                              {s.subNote && (
+                                <div style={{ fontSize: "10.5px", fontWeight: 700, color: "#a16207", marginTop: "1px" }}>
+                                  • Sub-Dimensi Sedang: {s.subNote}
+                                </div>
+                              )}
                               <div className="triage-opd-preview">
                                 OPD: {s.opdPengampu.join(", ")}
                               </div>
                             </div>
-                            <span style={{ fontWeight: 800, color: "#d97706", fontSize: "12px" }}>
+                            <span style={{ fontWeight: 800, color: "#d97706", fontSize: "12px", marginLeft: "6px" }}>
                               {s.persen}%
                             </span>
                           </div>
@@ -1273,17 +1321,26 @@ export default function App() {
                       </span>
                     </div>
 
-                    <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
                       {desaTriage.aman.length > 0 ? (
                         desaTriage.aman.map((a) => (
                           <div key={a.key} className="triage-item-row">
-                            <div>
+                            <div style={{ flex: 1 }}>
                               <strong style={{ color: "#14532d" }}>{a.nama}</strong>: {a.skor}/{a.maks}
                               <div className="triage-opd-preview">
-                                {a.opdPengampu.length} OPD Pengampu Dikunci
+                                {a.opdDibukaKhusus && a.opdDibukaKhusus.length > 0 ? (
+                                  <span>
+                                    🔒 {a.opdTerkunci?.length || 0} OPD Dikunci •{" "}
+                                    <span style={{ color: "#be123c", fontWeight: 700 }}>
+                                      🔓 {a.opdDibukaKhusus.length} OPD Dibuka ({a.jmlKritis} Skor 1)
+                                    </span>
+                                  </span>
+                                ) : (
+                                  <span>🔒 {a.opdTerkunci?.length || a.opdPengampu.length} OPD Pengampu Dikunci (0 Masalah Kritis)</span>
+                                )}
                               </div>
                             </div>
-                            <span style={{ fontWeight: 800, color: "#16a34a", fontSize: "12px" }}>
+                            <span style={{ fontWeight: 800, color: "#16a34a", fontSize: "12px", marginLeft: "6px" }}>
                               {a.persen}%
                             </span>
                           </div>
@@ -2289,7 +2346,16 @@ export default function App() {
                         >
                           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "4px" }}>
                             <span style={{ fontWeight: 800, color: wTr.jmlKritis > 0 ? "#e11d48" : "#64748b" }}>
-                              🔴 Kritis ({wTr.jmlKritis} Masalah): {wTr.kritis.length > 0 ? wTr.kritis.map((k) => `${k.nama} (${k.persen}%)`).join(", ") : "Nihil (Aman)"}
+                              🔴 Kritis ({wTr.jmlKritis} Masalah):{" "}
+                              {wTr.kritis.length > 0
+                                ? wTr.kritis
+                                    .map((k) =>
+                                      k.jmlKritis > 0
+                                        ? `${k.nama} (${k.persen}% • ${k.jmlKritis} Skor 1)`
+                                        : `${k.nama} (${k.persen}%)`
+                                    )
+                                    .join(", ")
+                                : "Nihil (Aman)"}
                             </span>
                           </div>
                           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "4px" }}>
@@ -2885,15 +2951,17 @@ export default function App() {
                 }}>
                   <div style={{ padding: "10px", background: "#fff1f2", borderRadius: "8px", border: "1px solid #fecdd3" }}>
                     <div style={{ fontSize: "11px", fontWeight: 800, color: "#be123c" }}>
-                      🔴 SEKTOR KRITIS ({modalTriage.jmlKritis} Masalah)
+                      🔴 SEKTOR &amp; INDIKATOR KRITIS ({modalTriage.jmlKritis} Masalah)
                     </div>
-                    <div style={{ fontSize: "12px", fontWeight: 700, color: "#881337", marginTop: "4px" }}>
+                    <div style={{ fontSize: "11.5px", fontWeight: 700, color: "#881337", marginTop: "4px" }}>
                       {modalTriage.kritis.length > 0
-                        ? modalTriage.kritis.map((k) => `${k.nama} (${k.persen}%)`).join(", ")
+                        ? modalTriage.kritis
+                            .map((k) => (k.jmlKritis > 0 ? `${k.nama} (${k.jmlKritis} Skor 1)` : `${k.nama} (${k.persen}%)`))
+                            .join(", ")
                         : "Tidak Ada (Nihil)"}
                     </div>
                     <div style={{ fontSize: "10px", color: "#9f1239", marginTop: "2px" }}>
-                      {modalTriage.kritis.length > 0 ? "Wajib diintervensi APBD" : "Standar terpenuhi"}
+                      {modalTriage.opdKritis.length} OPD Prioritas Kritis dibuka
                     </div>
                   </div>
 
@@ -2962,12 +3030,27 @@ export default function App() {
                                 ({dData.skor} dari {dim.maks} poin)
                               </span>
                             </div>
-                            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                              {dData.jmlKritis > 0 && (
+                                <span
+                                  style={{
+                                    background: "#ffe4e6",
+                                    color: "#be123c",
+                                    border: "1px solid #fda4af",
+                                    borderRadius: "99px",
+                                    padding: "1px 7px",
+                                    fontSize: "10px",
+                                    fontWeight: 800
+                                  }}
+                                >
+                                  🔴 {dData.jmlKritis} Masalah Skor 1
+                                </span>
+                              )}
                               <span style={{ fontSize: "13px", fontWeight: 800, color: isKritis ? "#be123c" : isSedang ? "#a16207" : "#15803d" }}>
                                 {persen}%
                               </span>
                               <span className={`badge ${isKritis ? "badge-kritis-desa" : isSedang ? "badge-sedang-desa" : "badge-aman-locked"}`}>
-                                {isKritis ? "🔴 Kritis" : isSedang ? "🟡 Sedang" : "🟢 Aman 🔒"}
+                                {isKritis ? "🔴 Kritis" : isSedang ? "🟡 Sedang" : dData.jmlKritis > 0 ? "🟢 Makro ≥80% (Ada Skor 1)" : "🟢 Aman 🔒"}
                               </span>
                             </div>
                           </div>
@@ -2985,31 +3068,44 @@ export default function App() {
                           {/* Rincian Sub-Dimensi Sheet RUMUSAN */}
                           {dData.subList && dData.subList.length > 0 && (
                             <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "8px" }}>
-                              {dData.subList.map((sub) => (
-                                <span
-                                  key={sub.kode}
-                                  style={{
-                                    fontSize: "10.5px",
-                                    background: "rgba(255, 255, 255, 0.85)",
-                                    border: "1px solid rgba(148, 163, 184, 0.45)",
-                                    borderRadius: "6px",
-                                    padding: "2px 8px",
-                                    color: "#1e293b",
-                                    fontWeight: 600
-                                  }}
-                                >
-                                  <b>{sub.kode} {sub.nama}:</b> {sub.skor}/{sub.maks} ({sub.persen}%)
-                                </span>
-                              ))}
+                              {dData.subList.map((sub) => {
+                                const subIsKritis = sub.persen < 70 || (sub.jmlKritis || 0) > 0;
+                                return (
+                                  <span
+                                    key={sub.kode}
+                                    style={{
+                                      fontSize: "10.5px",
+                                      background: sub.persen < 70 ? "#ffe4e6" : "rgba(255, 255, 255, 0.85)",
+                                      border: `1px solid ${subIsKritis ? "#fda4af" : "rgba(148, 163, 184, 0.45)"}`,
+                                      borderRadius: "6px",
+                                      padding: "2px 8px",
+                                      color: sub.persen < 70 ? "#9f1239" : "#1e293b",
+                                      fontWeight: 600
+                                    }}
+                                  >
+                                    <b>{sub.kode} {sub.nama}:</b> {sub.skor}/{sub.maks} ({sub.persen}%)
+                                    {sub.jmlKritis > 0 ? (
+                                      <span style={{ color: "#e11d48", fontWeight: 800, marginLeft: "4px" }}>
+                                        • 🔴 {sub.jmlKritis} Skor 1
+                                      </span>
+                                    ) : null}
+                                  </span>
+                                );
+                              })}
                             </div>
                           )}
 
                           <div style={{ fontSize: "11px", color: "var(--slate-600)", marginTop: "6px" }}>
                             <strong>OPD Pengampu: </strong>
                             {DIMENSI_CONFIG[dim.key]?.opdPengampu?.join(", ") || "-"}
-                            {isAman && (
+                            {isAman && (!dData.jmlKritis || dData.jmlKritis === 0) && (
                               <span style={{ color: "#166534", fontWeight: 700, marginLeft: "6px" }}>
-                                (Dikunci untuk usulan baru)
+                                (Dikunci penuh — 0 Masalah Skor 1)
+                              </span>
+                            )}
+                            {isAman && dData.jmlKritis > 0 && (
+                              <span style={{ color: "#be123c", fontWeight: 700, marginLeft: "6px" }}>
+                                (OPD terkait {dData.jmlKritis} masalah Skor 1 tetap dibuka: {(dData.opdKritisSpesifik || []).join(", ")})
                               </span>
                             )}
                           </div>
