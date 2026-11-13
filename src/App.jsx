@@ -31,7 +31,9 @@ import {
   ChevronsLeft,
   ChevronsRight,
   PanelLeftClose,
-  PanelLeftOpen
+  PanelLeftOpen,
+  ChevronDown,
+  Calendar
 } from "lucide-react";
 import rawKamusData from "./data/kamusData.json";
 import {
@@ -267,8 +269,8 @@ export default function App() {
   const filteredKamus = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     return allKamusForYear.filter((item) => {
-      // 1. FILTER CERDAS STATUS MASALAH DESA (STRICT TRIAGE MODE)
-      if (smartFilterMode === "kritis") {
+      // 1. FILTER CERDAS STATUS MASALAH DESA (STRICT TRIAGE MODE) - Hanya aktif jika bukan Tahun 2029
+      if (selectedYear !== "2029" && smartFilterMode === "kritis") {
         // Mode Ketat: HANYA usulan dari OPD berstatus Kritis (<70%)
         // Jika desa tersebut tidak memiliki dimensi kritis sama sekali (14 desa mandiri), buka dimensi sedang
         const allowedOpds = desaTriage.opdKritis.length > 0 ? desaTriage.opdKritis : desaTriage.opdSedang;
@@ -279,7 +281,7 @@ export default function App() {
         if (desaTriage.opdAman.includes(item.opd)) {
           return false;
         }
-      } else if (smartFilterMode === "kritis_sedang") {
+      } else if (selectedYear !== "2029" && smartFilterMode === "kritis_sedang") {
         // Mode Kritis & Sedang: Usulan dari OPD Kritis + Sedang
         const allowedOpds = [...desaTriage.opdKritis, ...desaTriage.opdSedang];
         if (!allowedOpds.includes(item.opd)) {
@@ -631,17 +633,65 @@ export default function App() {
             </button>
           </nav>
 
-          {/* Tombol Input Usulan Baru (Gold Theme CTA) */}
-          <button
-            className="btn btn-gold"
-            onClick={() => {
-              setNewKamusForm((prev) => ({ ...prev, tahun: selectedYear }));
-              setShowAddModal(true);
-            }}
-          >
-            <Plus size={15} strokeWidth={2.5} />
-            <span>Input Usulan</span>
-          </button>
+          {/* Kelompok Aksi Kanan Header: Dropdown Pilihan Tahun & Input Usulan */}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+            {/* Dropdown Menu Pilihan Tahun Perencanaan */}
+            <div style={{ position: "relative" }}>
+              <select
+                className="header-year-select"
+                value={selectedYear}
+                onChange={(e) => {
+                  const yr = e.target.value;
+                  setSelectedYear(yr);
+                  if (yr === "2027") {
+                    setViewMode("table");
+                  }
+                  showToast(`Beralih ke Tahun Perencanaan ${yr}`);
+                }}
+                title="Pilih Tahun Perencanaan RKPD"
+                style={{
+                  background: "#ffffff",
+                  color: "#0369a1",
+                  border: "2px solid #facc15",
+                  borderRadius: "var(--radius-md)",
+                  fontWeight: 800,
+                  fontSize: "12.5px",
+                  padding: "7px 34px 7px 12px",
+                  cursor: "pointer",
+                  appearance: "none",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+                  outline: "none"
+                }}
+              >
+                <option value="2027">📅 Tahun 2027 ({count2027} Item • Tabel)</option>
+                <option value="2028">📅 Tahun 2028 ({count2028} Item)</option>
+                <option value="2029">📅 Tahun 2029 (Belum Final / Kosong)</option>
+              </select>
+              <ChevronDown
+                size={15}
+                color="#0369a1"
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  pointerEvents: "none"
+                }}
+              />
+            </div>
+
+            {/* Tombol Input Usulan Baru (Gold Theme CTA) */}
+            <button
+              className="btn btn-gold"
+              onClick={() => {
+                setNewKamusForm((prev) => ({ ...prev, tahun: selectedYear }));
+                setShowAddModal(true);
+              }}
+            >
+              <Plus size={15} strokeWidth={2.5} />
+              <span>Input Usulan</span>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -667,67 +717,58 @@ export default function App() {
           MAIN PROPORTIONAL CONTAINER (ANTI-STRETCH MAX-WIDTH: 1240PX)
           ======================================================== */}
       <div className="desktop-main-container">
-        {/* SUB-BAR: EXECUTIVE YEAR SWITCHER & KPI METRIC CARDS */}
+        {/* SUB-BAR: STATUS TAHUN AKTIF & KPI METRIC CARDS */}
         <section className="desktop-subbar">
-          <div className="year-switcher-container">
-            <span className="year-switcher-label">Pilihan Tahun:</span>
-            <button
-              className={`btn-year-segment ${selectedYear === "2027" ? "active" : ""}`}
-              onClick={() => {
-                setSelectedYear("2027");
-                setViewMode("table"); // Otomatis mode tabel untuk 2027
+          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "7px",
+                background: selectedYear === "2029" ? "#fef3c7" : "#e0f2fe",
+                color: selectedYear === "2029" ? "#92400e" : "#0369a1",
+                padding: "6px 14px",
+                borderRadius: "var(--radius-md)",
+                fontSize: "13px",
+                fontWeight: 800,
+                border: selectedYear === "2029" ? "1px solid #fde68a" : "1px solid #bae6fd"
               }}
-              title="Kamus Usulan RKPD Tahun 2027 (Fix 17 Januari 2026 - Tampilan Tabel)"
             >
-              <span>Tahun 2027</span>
-              <span className="year-pill-counter">{count2027} item (Tabel)</span>
-            </button>
-            <button
-              className={`btn-year-segment ${selectedYear === "2028" ? "active" : ""}`}
-              onClick={() => setSelectedYear("2028")}
-              title="Kamus Usulan RKPD Tahun 2028 (Rekap 6 November 2026)"
-            >
-              <span>Tahun 2028</span>
-              <span className="year-pill-counter">{count2028} item</span>
-            </button>
-            <button
-              className={`btn-year-segment ${selectedYear === "2029" ? "active" : ""}`}
-              onClick={() => setSelectedYear("2029")}
-              title="Kamus Usulan RKPD Tahun 2029 (Belum Ada Dokumen Final - Masih Dikosongkan)"
-            >
-              <span>Tahun 2029</span>
+              <Calendar size={15} />
+              Tahun Perencanaan: <strong>RKPD {selectedYear}</strong>
               <span
-                className="year-pill-counter"
-                style={
-                  count2029 === 0
-                    ? {
-                        background: "rgba(239, 68, 68, 0.25)",
-                        color: "#fee2e2",
-                        border: "1px solid rgba(239, 68, 68, 0.4)"
-                      }
-                    : {}
-                }
+                style={{
+                  fontSize: "11px",
+                  fontWeight: 800,
+                  padding: "1px 7px",
+                  borderRadius: "10px",
+                  background: selectedYear === "2029" ? "#fde68a" : "#0284c7",
+                  color: selectedYear === "2029" ? "#92400e" : "#ffffff",
+                  marginLeft: "4px"
+                }}
               >
-                {count2029 > 0 ? `${count2029} item` : "Belum Final"}
+                {selectedYear === "2027" && `${count2027} Item • Tabel Resmi`}
+                {selectedYear === "2028" && `${count2028} Item • Rekap`}
+                {selectedYear === "2029" && "Belum Ada Rancangan Final"}
               </span>
-            </button>
+            </span>
           </div>
 
           <div className="kpi-metrics-group">
             <div className="kpi-mini-card">
-              <Layers size={15} color="var(--gov-navy-700)" />
+              <Layers size={15} color="#0070b8" />
               <span>
                 Total Aktif: <strong>{filteredKamus.length}</strong> Usulan
               </span>
             </div>
             <div className="kpi-mini-card">
-              <Building2 size={15} color="var(--gov-navy-700)" />
+              <Building2 size={15} color="#0070b8" />
               <span>
                 Cakupan: <strong>{opdOptions.length - 1}</strong> OPD Pengampu
               </span>
             </div>
             <div className="kpi-mini-card">
-              <MapPin size={15} color="var(--gov-navy-700)" />
+              <MapPin size={15} color="#0070b8" />
               <span>
                 Wilayah: <strong>119 Desa • 3 Kelurahan</strong>
               </span>
@@ -973,9 +1014,11 @@ export default function App() {
               )}
 
               {/* ========================================================
-                  BANNER DIAGNOSA MASALAH DESA TRIASE 3 TINGKAT (SHEET RUMUSAN 2026 - LIGHT LOBAR THEME)
+                  BANNER DIAGNOSA MASALAH DESA TRIASE 3 TINGKAT (HANYA MUNCUL DI TAHUN 2027 & 2028)
+                  TAHUN 2029 DIKOSONGKAN AGAR TIDAK MEMBUAT BINGUNG PENGGUNA
                   ======================================================== */}
-              <div className="village-diagnostic-banner" style={{ flexDirection: "column", gap: "14px" }}>
+              {selectedYear !== "2029" ? (
+                <div className="village-diagnostic-banner" style={{ flexDirection: "column", gap: "14px" }}>
                 {/* Baris Atas: Pemilih Wilayah 2-Tahap & Pengatur Mode Filter */}
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", flexWrap: "wrap", width: "100%" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
@@ -1274,6 +1317,84 @@ export default function App() {
                   </div>
                 )}
               </div>
+            ) : (
+              /* CALLOUT KHUSUS TAHUN 2029: INDEKS DESA & KAMUS USULAN DIKOSONGKAN */
+              <div
+                style={{
+                  background: "#ffffff",
+                  border: "1.5px dashed #cbd5e1",
+                  borderLeft: "5px solid #0284c7",
+                  borderRadius: "var(--radius-lg)",
+                  padding: "16px 20px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "16px",
+                  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
+                  flexWrap: "wrap",
+                  marginBottom: "8px"
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", maxWidth: "780px" }}>
+                  <div
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      background: "#f0f9ff",
+                      border: "1.5px solid #bae6fd",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#0284c7",
+                      flexShrink: 0
+                    }}
+                  >
+                    <Info size={20} />
+                  </div>
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap", marginBottom: "3px" }}>
+                      <span
+                        style={{
+                          fontSize: "10.5px",
+                          fontWeight: 800,
+                          padding: "2px 8px",
+                          borderRadius: "10px",
+                          background: "#e0f2fe",
+                          color: "#0369a1",
+                          letterSpacing: "0.5px"
+                        }}
+                      >
+                        STATUS INDEKS DESA 2029
+                      </span>
+                      <span style={{ fontSize: "13px", fontWeight: 800, color: "var(--gov-navy-900)" }}>
+                        Indeks Permasalahan Desa Tahun 2029 Dikosongkan Sementara
+                      </span>
+                    </div>
+                    <p style={{ fontSize: "12px", color: "var(--slate-600)", margin: 0, lineHeight: 1.55 }}>
+                      Sesuai arahan, penyelarasan <b>Indeks Permasalahan Desa (127 Indikator)</b> untuk <b>Tahun Perencanaan 2029</b> saat ini sengaja dikosongkan dan tidak disamakan dengan data tahun 2026/2027, karena kamus usulan dan rancangan teknis RKPD 2029 belum ditetapkan secara final oleh Bapperida &amp; OPD pengampu. Untuk melihat diagnosa masalah dan kamus usulan resmi, silakan beralih ke <b>Tahun 2027</b> atau <b>Tahun 2028</b>.
+                    </p>
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+                  <button
+                    className="btn btn-primary btn-sm"
+                    onClick={() => setSelectedYear("2027")}
+                    style={{ fontSize: "12px", padding: "6px 12px" }}
+                  >
+                    <TableIcon size={14} /> Buka Tahun 2027
+                  </button>
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => setSelectedYear("2028")}
+                    style={{ fontSize: "12px", padding: "6px 12px" }}
+                  >
+                    <BookOpen size={14} /> Buka Tahun 2028
+                  </button>
+                </div>
+              </div>
+            )}
 
               {/* Bar Ringkasan Hasil & Toolbar Tampilan */}
               <div className="results-summary-bar">
