@@ -116,6 +116,7 @@ export default function App() {
   const [selectedKecamatan, setSelectedKecamatan] = useState("Semua Kecamatan");
   const [desaSearch, setDesaSearch] = useState("");
   const [selectedDesaDetail, setSelectedDesaDetail] = useState(null);
+  const [selectedKecamatanPengusul, setSelectedKecamatanPengusul] = useState("Kuripan");
   const [activeDesaPengusul, setActiveDesaPengusul] = useState("Desa Kuripan (Kec. Kuripan)");
   const [filterHanyaRekomendasiDesa, setFilterHanyaRekomendasiDesa] = useState(false);
 
@@ -228,6 +229,18 @@ export default function App() {
       ) || WILAYAH_LOBAR[0]
     );
   }, [activeDesaPengusul]);
+
+  // Sinkronkan pilihan Kecamatan jika Desa Pengusul berganti dari kartu wilayah
+  useEffect(() => {
+    if (activeDesaObj && activeDesaObj.kecamatan && activeDesaObj.kecamatan !== selectedKecamatanPengusul) {
+      setSelectedKecamatanPengusul(activeDesaObj.kecamatan);
+    }
+  }, [activeDesaObj, selectedKecamatanPengusul]);
+
+  // Daftar Desa / Kelurahan di dalam Kecamatan yang sedang dipilih
+  const villagesInSelectedKecamatan = useMemo(() => {
+    return WILAYAH_LOBAR.filter((w) => w.kecamatan === selectedKecamatanPengusul);
+  }, [selectedKecamatanPengusul]);
 
   // OPD Pengampu yang relevan menyelesaikan masalah prioritas desa terpilih (Sheet RUMUSAN)
   const targetOpdForActiveDesa = useMemo(() => {
@@ -900,22 +913,55 @@ export default function App() {
                       DIAGNOSA PERMASALAHAN DESA PENGUSUL (SHEET RUMUSAN 2026):
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px", flexWrap: "wrap" }}>
+                      {/* Langkah 1: Pilih Kecamatan */}
+                      <select
+                        className="form-select form-select-sm"
+                        style={{
+                          background: "#0f172a",
+                          color: "#fde047",
+                          borderColor: "rgba(200, 150, 62, 0.6)",
+                          fontWeight: 800,
+                          fontSize: "12.5px",
+                          padding: "5px 10px",
+                          minWidth: "155px"
+                        }}
+                        value={selectedKecamatanPengusul}
+                        onChange={(e) => {
+                          const newKec = e.target.value;
+                          setSelectedKecamatanPengusul(newKec);
+                          const firstInKec = WILAYAH_LOBAR.find((w) => w.kecamatan === newKec);
+                          if (firstInKec) {
+                            setActiveDesaPengusul(`${firstInKec.tipe} ${firstInKec.nama} (Kec. ${firstInKec.kecamatan})`);
+                          }
+                        }}
+                        title="Pilih Kecamatan terlebih dahulu"
+                      >
+                        {DAFTAR_KECAMATAN.map((k) => (
+                          <option key={k.kode} value={k.nama}>
+                            📍 Kec. {k.nama}
+                          </option>
+                        ))}
+                      </select>
+
+                      {/* Langkah 2: Baru Pilih Desa dalam Kecamatan Tersebut */}
                       <select
                         className="form-select form-select-sm"
                         style={{
                           background: "#0f172a",
                           color: "#f8fafc",
-                          borderColor: "rgba(200, 150, 62, 0.5)",
+                          borderColor: "rgba(200, 150, 62, 0.6)",
                           fontWeight: 700,
-                          fontSize: "13px",
-                          padding: "5px 12px"
+                          fontSize: "12.5px",
+                          padding: "5px 12px",
+                          minWidth: "230px"
                         }}
                         value={activeDesaPengusul}
                         onChange={(e) => setActiveDesaPengusul(e.target.value)}
+                        title="Pilih Desa / Kelurahan di dalam Kecamatan"
                       >
-                        {WILAYAH_LOBAR.map((w) => (
+                        {villagesInSelectedKecamatan.map((w) => (
                           <option key={w.id} value={`${w.tipe} ${w.nama} (Kec. ${w.kecamatan})`}>
-                            {w.tipe} {w.nama} (Kec. {w.kecamatan}) • Status: {w.statusKemendesa} (Skor: {w.skorKemendesa})
+                            {w.tipe} {w.nama} • {w.statusKemendesa} (Skor: {w.skorKemendesa})
                           </option>
                         ))}
                       </select>
@@ -1764,23 +1810,47 @@ export default function App() {
             >
               <div style={{ flex: 1, minWidth: "300px" }}>
                 <label className="filter-label">
-                  Wilayah Desa / Kelurahan Pengusul Aktif:
+                  Wilayah Desa / Kelurahan Pengusul Aktif (Pilih Kecamatan → Baru Pilih Desa):
                 </label>
-                <select
-                  className="form-select"
-                  style={{ marginTop: "4px" }}
-                  value={activeDesaPengusul}
-                  onChange={(e) => setActiveDesaPengusul(e.target.value)}
-                >
-                  {WILAYAH_LOBAR.map((w) => {
-                    const label = `${w.tipe} ${w.nama} (Kec. ${w.kecamatan})`;
-                    return (
-                      <option key={w.id} value={label}>
-                        {label}
+                <div style={{ display: "flex", gap: "8px", marginTop: "4px" }}>
+                  <select
+                    className="form-select"
+                    style={{ width: "38%" }}
+                    value={selectedKecamatanPengusul}
+                    onChange={(e) => {
+                      const newKec = e.target.value;
+                      setSelectedKecamatanPengusul(newKec);
+                      const firstInKec = WILAYAH_LOBAR.find((w) => w.kecamatan === newKec);
+                      if (firstInKec) {
+                        setActiveDesaPengusul(`${firstInKec.tipe} ${firstInKec.nama} (Kec. ${firstInKec.kecamatan})`);
+                      }
+                    }}
+                    title="Pilih Kecamatan"
+                  >
+                    {DAFTAR_KECAMATAN.map((k) => (
+                      <option key={k.kode} value={k.nama}>
+                        Kecamatan {k.nama}
                       </option>
-                    );
-                  })}
-                </select>
+                    ))}
+                  </select>
+
+                  <select
+                    className="form-select"
+                    style={{ width: "62%" }}
+                    value={activeDesaPengusul}
+                    onChange={(e) => setActiveDesaPengusul(e.target.value)}
+                    title="Pilih Desa / Kelurahan di Kecamatan Terpilih"
+                  >
+                    {villagesInSelectedKecamatan.map((w) => {
+                      const label = `${w.tipe} ${w.nama} (Kec. ${w.kecamatan})`;
+                      return (
+                        <option key={w.id} value={label}>
+                          {label} • {w.statusKemendesa} (Skor: {w.skorKemendesa})
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
               </div>
 
               <div style={{ display: "flex", gap: "10px" }}>
