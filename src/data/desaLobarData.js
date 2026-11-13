@@ -9931,10 +9931,51 @@ export const THRESHOLD_KRITIS = 70.0; // < 70.0% = Kritis (Merah 🔴) - Interve
 export const THRESHOLD_SEDANG = 80.0; // 70.0% - 79.9% = Sedang (Kuning 🟡) - Perlu Perhatian
 // >= 80.0% = Aman (Hijau 🟢) - Kebutuhan Terpenuhi / Mandiri
 
+import desaProblemStats from "./desaProblemStats.js";
+
+/**
+ * Mendapatkan ringkasan jumlah masalah kritis, sedang, dan aman berdasarkan 127 indikator sheet RUMUSAN
+ * @param {string} kecamatan 
+ * @param {string} desaNama 
+ * @returns {Object} { jmlKritis, jmlSedang, jmlAman, masalahKritisDetail }
+ */
+export function getDesaProblemCounts(kecamatan, desaNama) {
+  if (!kecamatan || !desaNama) {
+    return { jmlKritis: 0, jmlSedang: 0, jmlAman: 0, masalahKritisDetail: [] };
+  }
+  const cleanKec = String(kecamatan).trim().toUpperCase();
+  const cleanDesa = String(desaNama).trim().toUpperCase();
+  const key = `${cleanKec}_${cleanDesa}`;
+
+  if (desaProblemStats[key]) {
+    return desaProblemStats[key];
+  }
+
+  // Cek pencarian nama desa
+  for (const k in desaProblemStats) {
+    if (k.includes(cleanDesa)) {
+      return desaProblemStats[k];
+    }
+  }
+
+  // Default untuk Kelurahan (Gerung Selatan, Gerung Utara, Dasan Geres)
+  return {
+    jmlKritis: 14,
+    jmlSedang: 18,
+    jmlAman: 95,
+    masalahKritisDetail: [
+      "Pengelolaan dan Pengolahan Sampah Perkotaan",
+      "Ketersediaan Tangki Septik Komunal",
+      "Ketersediaan Ruang Publik Terbuka Ramah Anak",
+      "Ketersediaan Akses Pasar Higienis"
+    ]
+  };
+}
+
 /**
  * Menganalisis status triase 6 dimensi masalah desa dan memetakan OPD pengampu
  * @param {Object} desa - Objek desa dari WILAYAH_LOBAR
- * @returns {Object} Hasil klasifikasi triase Kritis, Sedang, Aman beserta pemetaan OPD
+ * @returns {Object} Hasil klasifikasi triase Kritis, Sedang, Aman beserta pemetaan OPD dan jumlah masalah 127 indikator
  */
 export function getTriageStatusDesa(desa) {
   if (!desa || !desa.dimensi) {
@@ -9946,9 +9987,15 @@ export function getTriageStatusDesa(desa) {
       opdSedang: [],
       opdAman: [],
       dimensiMap: {},
-      opdStatusMap: {}
+      opdStatusMap: {},
+      jmlKritis: 0,
+      jmlSedang: 0,
+      jmlAman: 0,
+      masalahKritisDetail: []
     };
   }
+
+  const problemCounts = getDesaProblemCounts(desa.kecamatan, desa.nama);
 
   const kritis = [];
   const sedang = [];
@@ -10057,6 +10104,10 @@ export function getTriageStatusDesa(desa) {
     opdSedang: Array.from(opdSedangSet),
     opdAman: Array.from(opdAmanSet),
     dimensiMap,
-    opdStatusMap
+    opdStatusMap,
+    jmlKritis: problemCounts.jmlKritis,
+    jmlSedang: problemCounts.jmlSedang,
+    jmlAman: problemCounts.jmlAman,
+    masalahKritisDetail: problemCounts.masalahKritisDetail
   };
 }

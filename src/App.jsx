@@ -129,6 +129,7 @@ export default function App() {
   // Mode Filter Smart Triase: "kritis" (Strict / Hanya Kritis), "kritis_sedang" (Kritis & Sedang), "off" (Semua Sektor)
   const [smartFilterMode, setSmartFilterMode] = useState("kritis");
   const [filterTriaseDesaTab, setFilterTriaseDesaTab] = useState("all"); // "all" | "kritis" | "sedang" | "aman"
+  const [showProblemListModal, setShowProblemListModal] = useState(false);
 
   // State Data yang Disimpan di Secure LocalStorage
   const [customKamusList, setCustomKamusList] = useState([]);
@@ -972,7 +973,7 @@ export default function App() {
               )}
 
               {/* ========================================================
-                  BANNER DIAGNOSA MASALAH DESA TRIASE 3 TINGKAT (SHEET RUMUSAN 2026)
+                  BANNER DIAGNOSA MASALAH DESA TRIASE 3 TINGKAT (SHEET RUMUSAN 2026 - LIGHT LOBAR THEME)
                   ======================================================== */}
               <div className="village-diagnostic-banner" style={{ flexDirection: "column", gap: "14px" }}>
                 {/* Baris Atas: Pemilih Wilayah 2-Tahap & Pengatur Mode Filter */}
@@ -983,19 +984,19 @@ export default function App() {
                         width: "38px",
                         height: "38px",
                         borderRadius: "50%",
-                        background: "rgba(200, 150, 62, 0.2)",
-                        border: "1px solid var(--gov-gold-500)",
+                        background: "rgba(0, 112, 184, 0.12)",
+                        border: "1.5px solid #0070b8",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        color: "var(--gov-gold-400)",
+                        color: "#0070b8",
                         flexShrink: 0
                       }}
                     >
                       <MapPin size={18} />
                     </div>
                     <div>
-                      <div style={{ fontSize: "10.5px", fontWeight: 800, color: "var(--gov-gold-400)", letterSpacing: "0.5px", textTransform: "uppercase" }}>
+                      <div style={{ fontSize: "11px", fontWeight: 800, color: "#0070b8", letterSpacing: "0.5px", textTransform: "uppercase" }}>
                         DIAGNOSA KEBUTUHAN PRIORITAS DESA (SHEET RUMUSAN 2026):
                       </div>
                       <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px", flexWrap: "wrap" }}>
@@ -1003,13 +1004,14 @@ export default function App() {
                         <select
                           className="form-select form-select-sm"
                           style={{
-                            background: "#0f172a",
-                            color: "#fde047",
-                            borderColor: "rgba(200, 150, 62, 0.6)",
+                            background: "#ffffff",
+                            color: "#0f172a",
+                            borderColor: "#0284c7",
                             fontWeight: 800,
                             fontSize: "12px",
-                            padding: "4px 8px",
-                            minWidth: "140px"
+                            padding: "5px 10px",
+                            minWidth: "145px",
+                            boxShadow: "0 1px 3px rgba(0, 112, 184, 0.12)"
                           }}
                           value={selectedKecamatanPengusul}
                           onChange={(e) => {
@@ -1033,13 +1035,14 @@ export default function App() {
                         <select
                           className="form-select form-select-sm"
                           style={{
-                            background: "#0f172a",
-                            color: "#f8fafc",
-                            borderColor: "rgba(200, 150, 62, 0.6)",
+                            background: "#ffffff",
+                            color: "#0f172a",
+                            borderColor: "#0284c7",
                             fontWeight: 700,
                             fontSize: "12px",
-                            padding: "4px 10px",
-                            minWidth: "220px"
+                            padding: "5px 12px",
+                            minWidth: "230px",
+                            boxShadow: "0 1px 3px rgba(0, 112, 184, 0.12)"
                           }}
                           value={activeDesaPengusul}
                           onChange={(e) => setActiveDesaPengusul(e.target.value)}
@@ -1063,7 +1066,7 @@ export default function App() {
                         >
                           {activeDesaObj.statusKemendesa}
                         </span>
-                        <span style={{ fontSize: "11px", color: "var(--slate-300)" }}>
+                        <span style={{ fontSize: "11.5px", color: "var(--slate-700)" }}>
                           Nilai: <b>{activeDesaObj.nilaiTotal}/635</b> ({activeDesaObj.skorBappenas}%)
                         </span>
                       </div>
@@ -1072,7 +1075,7 @@ export default function App() {
 
                   {/* Switcher Mode Filter Smart Ketat */}
                   <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-                    <span style={{ fontSize: "10.5px", fontWeight: 800, color: "var(--gov-gold-300)", textTransform: "uppercase" }}>
+                    <span style={{ fontSize: "11px", fontWeight: 800, color: "var(--slate-700)", textTransform: "uppercase" }}>
                       Filter Smart Masalah Desaku:
                     </span>
                     <div className="smart-mode-segmented">
@@ -1119,7 +1122,7 @@ export default function App() {
                         <span>🔴 1. SEKTOR KRITIS (&lt; 70%)</span>
                       </div>
                       <span className="triage-pill-count pill-kritis">
-                        {desaTriage.kritis.length > 0 ? `${desaTriage.kritis.length} Dimensi Mendesak` : "Nihil (0)"}
+                        🔴 Kritis ({desaTriage.jmlKritis} Masalah)
                       </span>
                     </div>
 
@@ -1128,20 +1131,44 @@ export default function App() {
                         desaTriage.kritis.map((k) => (
                           <div key={k.key} className="triage-item-row">
                             <div>
-                              <strong style={{ color: "#ffe4e6" }}>{k.nama}</strong>: {k.skor}/{k.maks}
+                              <strong style={{ color: "#9f1239" }}>{k.nama}</strong>: {k.skor}/{k.maks}
                               <div className="triage-opd-preview">
                                 OPD: {k.opdPengampu.join(", ")}
                               </div>
                             </div>
-                            <span style={{ fontWeight: 800, color: "#f43f5e", fontSize: "12px" }}>
+                            <span style={{ fontWeight: 800, color: "#e11d48", fontSize: "12px" }}>
                               {k.persen}%
                             </span>
                           </div>
                         ))
                       ) : (
-                        <div style={{ fontSize: "11px", color: "var(--slate-300)", padding: "4px 0" }}>
+                        <div style={{ fontSize: "11px", color: "var(--slate-600)", padding: "4px 0" }}>
                           ✓ Seluruh indikator sektor telah melampaui ambang batas 70%. Desa tidak memiliki krisis sektoral.
                         </div>
+                      )}
+
+                      {/* Tombol Lihat Rincian Masalah Lapangan */}
+                      {desaTriage.jmlKritis > 0 && (
+                        <button
+                          className="btn btn-sm"
+                          style={{
+                            background: "#ffe4e6",
+                            color: "#9f1239",
+                            border: "1px solid #fecdd3",
+                            fontSize: "11px",
+                            fontWeight: 700,
+                            marginTop: "6px",
+                            width: "100%",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: "6px"
+                          }}
+                          onClick={() => setShowProblemListModal(true)}
+                          title="Lihat daftar lengkap indikator masalah kritis di desa ini"
+                        >
+                          <Search size={12} /> Buka Rincian {desaTriage.jmlKritis} Masalah Kritis Lapangan
+                        </button>
                       )}
                     </div>
                   </div>
@@ -1153,7 +1180,7 @@ export default function App() {
                         <span>🟡 2. SEKTOR SEDANG (70 - 79.9%)</span>
                       </div>
                       <span className="triage-pill-count pill-sedang">
-                        {desaTriage.sedang.length > 0 ? `${desaTriage.sedang.length} Dimensi Terpantau` : "Nihil (0)"}
+                        🟡 Sedang ({desaTriage.jmlSedang} Indikator)
                       </span>
                     </div>
 
@@ -1162,18 +1189,18 @@ export default function App() {
                         desaTriage.sedang.map((s) => (
                           <div key={s.key} className="triage-item-row">
                             <div>
-                              <strong style={{ color: "#fef08a" }}>{s.nama}</strong>: {s.skor}/{s.maks}
+                              <strong style={{ color: "#854d0e" }}>{s.nama}</strong>: {s.skor}/{s.maks}
                               <div className="triage-opd-preview">
                                 OPD: {s.opdPengampu.join(", ")}
                               </div>
                             </div>
-                            <span style={{ fontWeight: 800, color: "#eab308", fontSize: "12px" }}>
+                            <span style={{ fontWeight: 800, color: "#d97706", fontSize: "12px" }}>
                               {s.persen}%
                             </span>
                           </div>
                         ))
                       ) : (
-                        <div style={{ fontSize: "11px", color: "var(--slate-300)", padding: "4px 0" }}>
+                        <div style={{ fontSize: "11px", color: "var(--slate-600)", padding: "4px 0" }}>
                           ✓ Tidak ada sektor dalam kategori sedang (70–79.9%).
                         </div>
                       )}
@@ -1187,7 +1214,7 @@ export default function App() {
                         <span>🟢 3. SEKTOR AMAN (≥ 80%) • TERKUNCI 🔒</span>
                       </div>
                       <span className="triage-pill-count pill-aman">
-                        {desaTriage.aman.length} Dimensi Mandiri
+                        🟢 Aman ({desaTriage.jmlAman} Indikator)
                       </span>
                     </div>
 
@@ -1196,18 +1223,18 @@ export default function App() {
                         desaTriage.aman.map((a) => (
                           <div key={a.key} className="triage-item-row">
                             <div>
-                              <strong style={{ color: "#a7f3d0" }}>{a.nama}</strong>: {a.skor}/{a.maks}
+                              <strong style={{ color: "#14532d" }}>{a.nama}</strong>: {a.skor}/{a.maks}
                               <div className="triage-opd-preview">
                                 {a.opdPengampu.length} OPD Pengampu Dikunci
                               </div>
                             </div>
-                            <span style={{ fontWeight: 800, color: "#10b981", fontSize: "12px" }}>
+                            <span style={{ fontWeight: 800, color: "#16a34a", fontSize: "12px" }}>
                               {a.persen}%
                             </span>
                           </div>
                         ))
                       ) : (
-                        <div style={{ fontSize: "11px", color: "var(--slate-300)", padding: "4px 0" }}>
+                        <div style={{ fontSize: "11px", color: "var(--slate-600)", padding: "4px 0" }}>
                           Belum ada sektor yang mencapai 80%.
                         </div>
                       )}
@@ -1219,24 +1246,26 @@ export default function App() {
                 {smartFilterMode !== "off" && (
                   <div
                     style={{
-                      background: "rgba(15, 23, 42, 0.85)",
-                      border: "1px solid rgba(245, 158, 11, 0.4)",
-                      borderRadius: "6px",
-                      padding: "8px 12px",
+                      background: "#eff6ff",
+                      border: "1.5px solid #bfdbfe",
+                      borderLeft: "5px solid #0070b8",
+                      borderRadius: "8px",
+                      padding: "10px 14px",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
-                      gap: "10px",
-                      fontSize: "11.5px",
-                      color: "#fef3c7"
+                      gap: "12px",
+                      fontSize: "12px",
+                      color: "#1e3a8a",
+                      boxShadow: "0 1px 3px rgba(0, 112, 184, 0.08)"
                     }}
                   >
                     <span>
-                      🔒 <b>PENGUNCIAN SEKTOR AMAN AKTIF:</b> Sebanyak <b>{lockedOpdCount} usulan</b> dari <b>{desaTriage.opdAman.length} OPD</b> sektor AMAN ({desaTriage.opdAman.slice(0, 3).join(", ")}{desaTriage.opdAman.length > 3 ? ", dll" : ""}) telah <b>dikunci dan disembunyikan</b> agar usulan Musrenbang {activeDesaObj.tipe} {activeDesaObj.nama} 100% fokus menyelesaikan masalah KRITIS.
+                      🔒 <b>PENGUNCIAN SEKTOR AMAN AKTIF:</b> Menampilkan usulan untuk <b>{desaTriage.jmlKritis} masalah kritis</b> desa. Sebanyak <b>{lockedOpdCount} usulan</b> dari <b>{desaTriage.opdAman.length} OPD</b> sektor AMAN ({desaTriage.opdAman.slice(0, 3).join(", ")}{desaTriage.opdAman.length > 3 ? ", dll" : ""}) telah <b>dikunci dan disembunyikan</b> agar usulan Musrenbang {activeDesaObj.tipe} {activeDesaObj.nama} 100% fokus menyelesaikan masalah KRITIS.
                     </span>
                     <button
                       className="btn btn-secondary btn-sm"
-                      style={{ padding: "3px 8px", fontSize: "11px", whiteSpace: "nowrap" }}
+                      style={{ padding: "4px 10px", fontSize: "11px", whiteSpace: "nowrap", border: "1px solid #93c5fd" }}
                       onClick={() => setSmartFilterMode("off")}
                       title="Tampilkan seluruh usulan termasuk sektor aman"
                     >
@@ -2059,26 +2088,26 @@ export default function App() {
                         <div
                           style={{
                             background: "#ffffff",
-                            padding: "8px 12px",
+                            padding: "9px 12px",
                             borderRadius: "var(--radius-md)",
                             border: "1px solid var(--slate-200)",
                             display: "flex",
                             flexDirection: "column",
-                            gap: "4px",
+                            gap: "5px",
                             fontSize: "11px"
                           }}
                         >
-                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            <span style={{ fontWeight: 800, color: wTr.kritis.length > 0 ? "#e11d48" : "#64748b" }}>
-                              🔴 Kritis (&lt;70%): {wTr.kritis.length > 0 ? wTr.kritis.map((k) => `${k.nama} (${k.persen}%)`).join(", ") : "Nihil (Aman)"}
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "4px" }}>
+                            <span style={{ fontWeight: 800, color: wTr.jmlKritis > 0 ? "#e11d48" : "#64748b" }}>
+                              🔴 Kritis ({wTr.jmlKritis} Masalah): {wTr.kritis.length > 0 ? wTr.kritis.map((k) => `${k.nama} (${k.persen}%)`).join(", ") : "Nihil (Aman)"}
                             </span>
                           </div>
-                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            <span style={{ fontWeight: 700, color: wTr.sedang.length > 0 ? "#d97706" : "#64748b" }}>
-                              🟡 Sedang (70-79%): {wTr.sedang.length > 0 ? wTr.sedang.map((s) => `${s.nama} (${s.persen}%)`).join(", ") : "Nihil"}
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "4px" }}>
+                            <span style={{ fontWeight: 700, color: wTr.jmlSedang > 0 ? "#d97706" : "#64748b" }}>
+                              🟡 Sedang ({wTr.jmlSedang} Indikator): {wTr.sedang.length > 0 ? wTr.sedang.map((s) => `${s.nama} (${s.persen}%)`).join(", ") : "Nihil"}
                             </span>
                             <span style={{ fontWeight: 700, color: "#16a34a" }}>
-                              🟢 Aman: {wTr.aman.length} Sektor Mandiri (Terkunci)
+                              🟢 Aman ({wTr.jmlAman} Indikator • {wTr.aman.length} Sektor)
                             </span>
                           </div>
                         </div>
@@ -2586,9 +2615,9 @@ export default function App() {
                   borderRadius: "var(--radius-md)",
                   border: "1px solid var(--slate-200)"
                 }}>
-                  <div style={{ padding: "8px", background: "#fff1f2", borderRadius: "6px", border: "1px solid #fecdd3" }}>
+                  <div style={{ padding: "10px", background: "#fff1f2", borderRadius: "8px", border: "1px solid #fecdd3" }}>
                     <div style={{ fontSize: "11px", fontWeight: 800, color: "#be123c" }}>
-                      🔴 SEKTOR KRITIS (&lt;70%)
+                      🔴 SEKTOR KRITIS ({modalTriage.jmlKritis} Masalah)
                     </div>
                     <div style={{ fontSize: "12px", fontWeight: 700, color: "#881337", marginTop: "4px" }}>
                       {modalTriage.kritis.length > 0
@@ -2600,9 +2629,9 @@ export default function App() {
                     </div>
                   </div>
 
-                  <div style={{ padding: "8px", background: "#fefce8", borderRadius: "6px", border: "1px solid #fef08a" }}>
+                  <div style={{ padding: "10px", background: "#fefce8", borderRadius: "8px", border: "1px solid #fef08a" }}>
                     <div style={{ fontSize: "11px", fontWeight: 800, color: "#a16207" }}>
-                      🟡 SEKTOR SEDANG (70-79%)
+                      🟡 SEKTOR SEDANG ({modalTriage.jmlSedang} Indikator)
                     </div>
                     <div style={{ fontSize: "12px", fontWeight: 700, color: "#713f12", marginTop: "4px" }}>
                       {modalTriage.sedang.length > 0
@@ -2614,9 +2643,9 @@ export default function App() {
                     </div>
                   </div>
 
-                  <div style={{ padding: "8px", background: "#f0fdf4", borderRadius: "6px", border: "1px solid #bbf7d0" }}>
+                  <div style={{ padding: "10px", background: "#f0fdf4", borderRadius: "8px", border: "1px solid #bbf7d0" }}>
                     <div style={{ fontSize: "11px", fontWeight: 800, color: "#15803d" }}>
-                      🟢 SEKTOR AMAN (≥80%) • TERKUNCI 🔒
+                      🟢 SEKTOR AMAN ({modalTriage.jmlAman} Indikator) • TERKUNCI 🔒
                     </div>
                     <div style={{ fontSize: "12px", fontWeight: 700, color: "#14532d", marginTop: "4px" }}>
                       {modalTriage.aman.length} Sektor Mandiri
@@ -2731,6 +2760,118 @@ export default function App() {
           </div>
         );
       })()}
+
+      {/* ========================================================
+          MODAL DAFTAR LENGKAP INDIKATOR MASALAH KRITIS (SKOR 1 DARI 127 INDIKATOR)
+          ======================================================== */}
+      {showProblemListModal && (
+        <div className="desktop-modal-backdrop" onClick={() => setShowProblemListModal(false)}>
+          <div className="desktop-modal-dialog" style={{ maxWidth: "680px" }} onClick={(e) => e.stopPropagation()}>
+            <div className="modal-dialog-header" style={{ background: "#fff1f2", borderBottom: "1px solid #fecdd3" }}>
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                  <span className="badge" style={{ background: "#e11d48", color: "#ffffff", fontWeight: 800 }}>
+                    127 INDIKATOR EMPIRIS SHEET RUMUSAN
+                  </span>
+                </div>
+                <h3 style={{ fontSize: "16px", fontWeight: 800, color: "#9f1239", marginTop: "3px" }}>
+                  Daftar {desaTriage.jmlKritis} Masalah Kritis Lapangan (Skor 1)
+                </h3>
+                <div style={{ fontSize: "12px", color: "#881337" }}>
+                  Wilayah: <b>{activeDesaObj.tipe} {activeDesaObj.nama}</b> (Kecamatan {activeDesaObj.kecamatan})
+                </div>
+              </div>
+              <button
+                onClick={() => setShowProblemListModal(false)}
+                style={{
+                  background: "#fecdd3",
+                  color: "#9f1239",
+                  border: "none",
+                  borderRadius: "99px",
+                  width: "32px",
+                  height: "32px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <div className="modal-dialog-body" style={{ maxHeight: "65vh", overflowY: "auto" }}>
+              <div style={{ padding: "10px 14px", background: "#fefce8", border: "1px solid #fef08a", borderRadius: "8px", fontSize: "11.5px", color: "#854d0e", lineHeight: 1.5 }}>
+                💡 <b>Catatan Regulasi Kemendesa & Bappenas:</b> Indikator berikut memiliki nilai <b>Skor 1</b> pada kuesioner resmi Indeks Desa 2026 (Sheet RUMUSAN), menandakan ketiadaan sarana, operasional nihil, atau akses yang sangat sulit. Indikator ini merupakan sasaran prioritas utama intervensi bantuan program <b>Rp 1 Miliar per Desa (SDD)</b>.
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginTop: "6px" }}>
+                {desaTriage.masalahKritisDetail && desaTriage.masalahKritisDetail.length > 0 ? (
+                  desaTriage.masalahKritisDetail.map((item, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: "10px",
+                        padding: "9px 12px",
+                        background: "#fff5f5",
+                        border: "1px solid #fed7aa",
+                        borderRadius: "6px",
+                        fontSize: "12px",
+                        color: "#9f1239"
+                      }}
+                    >
+                      <span
+                        style={{
+                          background: "#e11d48",
+                          color: "#ffffff",
+                          fontSize: "10px",
+                          fontWeight: 800,
+                          padding: "2px 7px",
+                          borderRadius: "99px",
+                          flexShrink: 0,
+                          marginTop: "2px"
+                        }}
+                      >
+                        #{idx + 1}
+                      </span>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontWeight: 700, color: "#881337" }}>{item}</div>
+                        <div style={{ fontSize: "10.5px", color: "#b91c1c", marginTop: "2px" }}>
+                          Status: <b>Defisit Akut (Skor 1 dari 5)</b> • Membutuhkan alokasi kegiatan OPD / APBD
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div style={{ textAlign: "center", padding: "20px", color: "#64748b" }}>
+                    Desa ini tidak memiliki indikator berskor 1. Seluruh layanan berada pada kategori Sedang atau Baik.
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="modal-dialog-footer" style={{ background: "#fff1f2", borderTop: "1px solid #fecdd3" }}>
+              <button className="btn btn-secondary" onClick={() => setShowProblemListModal(false)}>
+                Tutup
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  setSmartFilterMode("kritis");
+                  setSelectedYear("2027");
+                  setViewMode("table");
+                  setShowProblemListModal(false);
+                  showToast(`Kamus Usulan disaring untuk ${desaTriage.jmlKritis} masalah kritis ${activeDesaObj.nama}`);
+                }}
+              >
+                <Sparkles size={14} /> Terapkan Saring Usulan di Kamus
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ========================================================
           MODAL INPUT KAMUS USULAN BARU
