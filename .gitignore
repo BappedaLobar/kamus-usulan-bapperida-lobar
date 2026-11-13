@@ -21,6 +21,10 @@ dist-ssr/
 !.env.example
 .DS_Store
 Thumbs.db
+~$*
+*.tmp
+scratch_*.py
+build_desa_data.py
 
 # IDE / Editor
 .vscode/

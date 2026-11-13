@@ -1110,6 +1110,60 @@ body {
 }
 
 /* ==========================================================================
+   VILLAGE DIAGNOSTIC BANNER & RECOMMENDATION PILLS
+   ========================================================================== */
+.village-diagnostic-banner {
+  background: linear-gradient(135deg, #0b1a30 0%, #1e293b 100%);
+  border: 1px solid rgba(200, 150, 62, 0.4);
+  border-left: 4px solid var(--gov-gold-500);
+  border-radius: var(--radius-lg);
+  padding: 14px 18px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+}
+
+.badge-mandiri {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #86efac;
+  font-weight: 800;
+}
+
+.badge-maju {
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #7dd3fc;
+  font-weight: 800;
+}
+
+.badge-berkembang {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+  font-weight: 800;
+}
+
+.badge-rekomendasi {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fcd34d;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
    MODAL DIALOG (DESKTOP CENTERED DIALOG)
    ========================================================================== */
 .desktop-modal-backdrop {

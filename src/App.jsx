@@ -30,7 +30,13 @@ import {
   PanelLeftOpen
 } from "lucide-react";
 import rawKamusData from "./data/kamusData.json";
-import { WILAYAH_LOBAR, DAFTAR_KECAMATAN } from "./data/desaLobarData.js";
+import {
+  WILAYAH_LOBAR,
+  DAFTAR_KECAMATAN,
+  DIMENSI_CONFIG,
+  getOpdByDimensi,
+  getDimensiByOpd
+} from "./data/desaLobarData.js";
 import {
   saveSecureData,
   loadSecureData,
@@ -106,11 +112,12 @@ export default function App() {
     intervensiPrioritas: "Pengembangan Pertanian, Peternakan, Perkebunan Dan Perikanan Berkelanjutan"
   });
 
-  // State Tab Desa (119 Desa & 3 Kelurahan)
+  // State Tab Desa (119 Desa & 3 Kelurahan) & Rekomendasi Masalah RUMUSAN
   const [selectedKecamatan, setSelectedKecamatan] = useState("Semua Kecamatan");
   const [desaSearch, setDesaSearch] = useState("");
   const [selectedDesaDetail, setSelectedDesaDetail] = useState(null);
   const [activeDesaPengusul, setActiveDesaPengusul] = useState("Desa Kuripan (Kec. Kuripan)");
+  const [filterHanyaRekomendasiDesa, setFilterHanyaRekomendasiDesa] = useState(false);
 
   // State Data yang Disimpan di Secure LocalStorage
   const [customKamusList, setCustomKamusList] = useState([]);
@@ -213,10 +220,35 @@ export default function App() {
     return counts;
   }, [allKamusForYear]);
 
-  // Hasil Filter Kamus Usulan
+  // Objek Desa Pengusul Aktif dari data Sheet RUMUSAN 2026
+  const activeDesaObj = useMemo(() => {
+    return (
+      WILAYAH_LOBAR.find(
+        (w) => `${w.tipe} ${w.nama} (Kec. ${w.kecamatan})` === activeDesaPengusul
+      ) || WILAYAH_LOBAR[0]
+    );
+  }, [activeDesaPengusul]);
+
+  // OPD Pengampu yang relevan menyelesaikan masalah prioritas desa terpilih (Sheet RUMUSAN)
+  const targetOpdForActiveDesa = useMemo(() => {
+    if (!activeDesaObj || !activeDesaObj.targetDimensi) return [];
+    const opds = new Set();
+    activeDesaObj.targetDimensi.forEach((dimName) => {
+      const list = getOpdByDimensi(dimName);
+      list.forEach((o) => opds.add(o));
+    });
+    return Array.from(opds);
+  }, [activeDesaObj]);
+
+  // Hasil Filter Kamus Usulan (Dilengkapi Filter Cerdas Masalah Desa RUMUSAN)
   const filteredKamus = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     return allKamusForYear.filter((item) => {
+      if (filterHanyaRekomendasiDesa) {
+        if (!targetOpdForActiveDesa.includes(item.opd)) {
+          return false;
+        }
+      }
       if (
         selectedKategori !== "Semua Kategori" &&
         item.kategoriMudah !== selectedKategori
@@ -236,7 +268,15 @@ export default function App() {
       const haystack = `${item.usulanKegiatan} ${item.usulanPermasalahan} ${item.opd} ${item.program} ${item.kegiatan} ${item.subKegiatan} ${item.sasaranPenerima} ${item.kategoriMudah}`.toLowerCase();
       return haystack.includes(q);
     });
-  }, [allKamusForYear, searchQuery, selectedKategori, selectedOpd, selectedAksi]);
+  }, [
+    allKamusForYear,
+    searchQuery,
+    selectedKategori,
+    selectedOpd,
+    selectedAksi,
+    filterHanyaRekomendasiDesa,
+    targetOpdForActiveDesa
+  ]);
 
   // Perhitungan Paginasi untuk Tabel
   const totalPages = Math.ceil(filteredKamus.length / rowsPerPage) || 1;
@@ -251,25 +291,9 @@ export default function App() {
     return WILAYAH_LOBAR.map((w) => {
       const override = customIndeksDesa[w.id];
       if (!override) return w;
-      const ind = { ...w.indikator, ...override };
-      const indeksKomposit = Number(
-        (
-          ind.infrastruktur * 0.25 +
-          ind.pertanianPangan * 0.2 +
-          ind.pendidikanSDM * 0.15 +
-          ind.kesehatanStunting * 0.15 +
-          ind.ekonomiUMKM * 0.15 +
-          ind.lingkunganSampah * 0.1
-        ).toFixed(1)
-      );
-      let statusPrioritas = "Prioritas Sedang";
-      if (indeksKomposit >= 72) statusPrioritas = "Prioritas Sangat Tinggi";
-      else if (indeksKomposit >= 65) statusPrioritas = "Prioritas Tinggi";
       return {
         ...w,
-        indikator: ind,
-        indeksKomposit,
-        statusPrioritas
+        ...override
       };
     });
   }, [customIndeksDesa]);
@@ -304,10 +328,13 @@ export default function App() {
       );
       showToast("Usulan dihapus dari daftar Desa Anda");
     } else {
+      const dimensiSektor = getDimensiByOpd(item.opd).join(" & ");
       const entry = {
         ...item,
         desaPengusul: activeDesaPengusul,
         lokasiDusun: "Dusun Prioritas",
+        dimensiMasalah: dimensiSektor,
+        justifikasiMasalah: `Berdasarkan data Sheet RUMUSAN Indeks Desa 2026, ${activeDesaPengusul} memiliki fokus kebutuhan pada sektor ${dimensiSektor}, sehingga usulan ini relevan diusulkan ke ${item.opd}.`,
         estimasiPagu: 100000000,
         savedAt: new Date().toISOString()
       };
@@ -847,6 +874,99 @@ export default function App() {
                 </div>
               )}
 
+              {/* ========================================================
+                  BANNER DIAGNOSA MASALAH DESA DARI SHEET RUMUSAN 2026
+                  ======================================================== */}
+              <div className="village-diagnostic-banner">
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap", flex: 1 }}>
+                  <div
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      background: "rgba(200, 150, 62, 0.2)",
+                      border: "1px solid var(--gov-gold-500)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "var(--gov-gold-400)",
+                      flexShrink: 0
+                    }}
+                  >
+                    <MapPin size={20} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "11px", fontWeight: 700, color: "var(--gov-gold-400)", letterSpacing: "0.5px", textTransform: "uppercase" }}>
+                      DIAGNOSA PERMASALAHAN DESA PENGUSUL (SHEET RUMUSAN 2026):
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px", flexWrap: "wrap" }}>
+                      <select
+                        className="form-select form-select-sm"
+                        style={{
+                          background: "#0f172a",
+                          color: "#f8fafc",
+                          borderColor: "rgba(200, 150, 62, 0.5)",
+                          fontWeight: 700,
+                          fontSize: "13px",
+                          padding: "5px 12px"
+                        }}
+                        value={activeDesaPengusul}
+                        onChange={(e) => setActiveDesaPengusul(e.target.value)}
+                      >
+                        {WILAYAH_LOBAR.map((w) => (
+                          <option key={w.id} value={`${w.tipe} ${w.nama} (Kec. ${w.kecamatan})`}>
+                            {w.tipe} {w.nama} (Kec. {w.kecamatan}) • Status: {w.statusKemendesa} (Skor: {w.skorKemendesa})
+                          </option>
+                        ))}
+                      </select>
+
+                      <span
+                        className={`badge ${
+                          activeDesaObj.statusKemendesa === "MANDIRI"
+                            ? "badge-mandiri"
+                            : activeDesaObj.statusKemendesa === "MAJU"
+                            ? "badge-maju"
+                            : "badge-berkembang"
+                        }`}
+                      >
+                        {activeDesaObj.statusKemendesa}
+                      </span>
+                      <span style={{ fontSize: "11.5px", color: "var(--slate-300)" }}>
+                        Nilai: <b>{activeDesaObj.nilaiTotal}/635</b>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: "11px", color: "var(--slate-300)" }}>
+                      Fokus Kebutuhan / Defisit Terendah:
+                    </div>
+                    <div style={{ fontSize: "12px", fontWeight: 700, color: "#fef08a" }}>
+                      {activeDesaObj.masalahPrioritas?.join(" • ") || "Layanan Dasar"}
+                    </div>
+                  </div>
+
+                  <button
+                    className={`btn btn-sm ${filterHanyaRekomendasiDesa ? "btn-gold" : "btn-secondary"}`}
+                    onClick={() => {
+                      const next = !filterHanyaRekomendasiDesa;
+                      setFilterHanyaRekomendasiDesa(next);
+                      if (next) {
+                        showToast(`Menyaring usulan OPD yang menyelesaikan masalah ${activeDesaObj.nama}`);
+                      } else {
+                        showToast("Menampilkan seluruh kamus usulan");
+                      }
+                    }}
+                    title="Saring tabel agar hanya menampilkan usulan dari OPD yang menyelesaikan masalah desa ini"
+                  >
+                    <Sparkles size={14} />
+                    {filterHanyaRekomendasiDesa ? "✓ Filter Masalah Desaku Aktif" : "Filter Sesuai Masalah Desaku"}
+                  </button>
+                </div>
+              </div>
+
               {/* Bar Ringkasan Hasil & Toolbar Tampilan */}
               <div className="results-summary-bar">
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
@@ -1062,9 +1182,16 @@ export default function App() {
                               <tr key={item.id} className={isSaved ? "row-saved" : ""}>
                                 <td className="td-no">{rowNumber}</td>
                                 <td>
-                                  <span className="badge badge-opd" style={{ marginBottom: "4px", display: "inline-block" }}>
-                                    {item.opd}
-                                  </span>
+                                  <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap", marginBottom: "4px" }}>
+                                    <span className="badge badge-opd">
+                                      {item.opd}
+                                    </span>
+                                    {targetOpdForActiveDesa.includes(item.opd) && (
+                                      <span className="badge-rekomendasi" title={`Sesuai dengan diagnosa defisit ${activeDesaObj.nama}`}>
+                                        ★ Solusi Desa
+                                      </span>
+                                    )}
+                                  </div>
                                   <div style={{ fontSize: "11px", color: "var(--slate-500)" }}>
                                     {item.bidang}
                                   </div>
@@ -1224,6 +1351,11 @@ export default function App() {
                         <div className="card-top-badges">
                           <div className="badge-tag-group">
                             <span className="badge badge-opd">{item.opd}</span>
+                            {targetOpdForActiveDesa.includes(item.opd) && (
+                              <span className="badge-rekomendasi" title={`Sesuai dengan diagnosa defisit ${activeDesaObj.nama}`}>
+                                ★ Solusi Desa
+                              </span>
+                            )}
                             <span className="badge badge-kat">{item.kategoriMudah}</span>
                             <span className="badge badge-syarat">
                               Syarat: {item.sasaranPenerima}
@@ -1376,84 +1508,198 @@ export default function App() {
                   <article key={w.id} className="desa-card">
                     <div className="desa-header-row">
                       <div>
-                        <span className="badge badge-opd">
-                          {w.tipe.toUpperCase()} • KEC. {w.kecamatan.toUpperCase()}
-                        </span>
-                        <h3 style={{ fontSize: "16px", fontWeight: 800, color: "var(--slate-900)", marginTop: "4px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap", marginBottom: "4px" }}>
+                          <span className="badge badge-opd">
+                            {w.tipe.toUpperCase()} • KEC. {w.kecamatan.toUpperCase()}
+                          </span>
+                          <span
+                            className={`badge ${
+                              w.statusKemendesa === "MANDIRI"
+                                ? "badge-mandiri"
+                                : w.statusKemendesa === "MAJU"
+                                ? "badge-maju"
+                                : "badge-berkembang"
+                            }`}
+                          >
+                            {w.statusKemendesa}
+                          </span>
+                        </div>
+                        <h3 style={{ fontSize: "16px", fontWeight: 800, color: "var(--slate-900)", marginTop: "2px" }}>
                           {w.tipe} {w.nama}
                         </h3>
-                        <p style={{ fontSize: "11.5px", color: "var(--slate-500)" }}>
-                          Kode: {w.kodeWilayah} • {w.jumlahDusun} Dusun/Lingkungan • Pagu Indikatif: Rp 1 Miliar
+                        <p style={{ fontSize: "11.5px", color: "var(--slate-500)", marginTop: "2px" }}>
+                          Kode: {w.kodeWilayah} • Skor ID 2026: <b>{w.skorKemendesa}</b> (Nilai: <b>{w.nilaiTotal}/635</b>) • Bappenas: <b>{w.skorBappenas}%</b>
                         </p>
                       </div>
 
                       <div
                         className="desa-score-badge"
-                        style={{ background: badgeColor.bg, color: badgeColor.text }}
+                        style={{
+                          background:
+                            w.statusKemendesa === "MANDIRI"
+                              ? "#dcfce7"
+                              : w.statusKemendesa === "MAJU"
+                              ? "#e0f2fe"
+                              : "#fef3c7",
+                          color:
+                            w.statusKemendesa === "MANDIRI"
+                              ? "#15803d"
+                              : w.statusKemendesa === "MAJU"
+                              ? "#0369a1"
+                              : "#92400e",
+                          border: "1px solid rgba(0,0,0,0.08)"
+                        }}
                       >
-                        <div style={{ fontSize: "17px", fontWeight: 800, lineHeight: 1.1 }}>
-                          {w.indeksKomposit}
+                        <div style={{ fontSize: "16px", fontWeight: 800, lineHeight: 1.1 }}>
+                          {w.skorKemendesa}
                         </div>
-                        <div style={{ fontSize: "9.5px", fontWeight: 700 }}>
-                          Indeks Masalah
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Progress Bar Indikator */}
-                    <div className="desa-indicators-grid">
-                      <div>
-                        <div style={{ display: "flex", justifyContent: "space-between" }}>
-                          <span>Infrastruktur</span>
-                          <b>{w.indikator.infrastruktur}</b>
-                        </div>
-                        <div className="indeks-bar-bg">
-                          <div
-                            className="indeks-bar-fill"
-                            style={{ width: `${w.indikator.infrastruktur}%`, background: "var(--gov-navy-600)" }}
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <div style={{ display: "flex", justifyContent: "space-between" }}>
-                          <span>Pertanian & Pangan</span>
-                          <b>{w.indikator.pertanianPangan}</b>
-                        </div>
-                        <div className="indeks-bar-bg">
-                          <div
-                            className="indeks-bar-fill"
-                            style={{ width: `${w.indikator.pertanianPangan}%`, background: "var(--gov-emerald-500)" }}
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <div style={{ display: "flex", justifyContent: "space-between" }}>
-                          <span>Pendidikan & SDM</span>
-                          <b>{w.indikator.pendidikanSDM}</b>
-                        </div>
-                        <div className="indeks-bar-bg">
-                          <div
-                            className="indeks-bar-fill"
-                            style={{ width: `${w.indikator.pendidikanSDM}%`, background: "var(--gov-gold-500)" }}
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <div style={{ display: "flex", justifyContent: "space-between" }}>
-                          <span>Kesehatan & Stunting</span>
-                          <b>{w.indikator.kesehatanStunting}</b>
-                        </div>
-                        <div className="indeks-bar-bg">
-                          <div
-                            className="indeks-bar-fill"
-                            style={{ width: `${w.indikator.kesehatanStunting}%`, background: "var(--gov-rose-600)" }}
-                          />
+                        <div style={{ fontSize: "8.5px", fontWeight: 800, textTransform: "uppercase" }}>
+                          Skor Kemendesa
                         </div>
                       </div>
                     </div>
 
-                    <div className="dossier-problem-box" style={{ fontSize: "12px" }}>
-                      <strong>Catatan Aspirasi / Fokus Wilayah: </strong>
+                    {/* Progress Bar 6 Dimensi Resmi Sheet RUMUSAN 2026 */}
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr 1fr",
+                        gap: "8px 14px",
+                        background: "var(--slate-50)",
+                        padding: "12px 14px",
+                        borderRadius: "var(--radius-md)",
+                        fontSize: "11px"
+                      }}
+                    >
+                      <div>
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
+                          <span>1. Layanan Dasar ({w.dimensi?.layananDasar?.skor || 0}/170)</span>
+                          <b>{w.dimensi?.layananDasar?.persen || 0}%</b>
+                        </div>
+                        <div className="indeks-bar-bg">
+                          <div
+                            className="indeks-bar-fill"
+                            style={{
+                              width: `${w.dimensi?.layananDasar?.persen || 0}%`,
+                              background:
+                                (w.dimensi?.layananDasar?.persen || 0) >= 80
+                                  ? "var(--gov-emerald-500)"
+                                  : (w.dimensi?.layananDasar?.persen || 0) >= 70
+                                  ? "var(--gov-gold-500)"
+                                  : "var(--gov-rose-500)"
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
+                          <span>2. Sosial ({w.dimensi?.sosial?.skor || 0}/85)</span>
+                          <b>{w.dimensi?.sosial?.persen || 0}%</b>
+                        </div>
+                        <div className="indeks-bar-bg">
+                          <div
+                            className="indeks-bar-fill"
+                            style={{
+                              width: `${w.dimensi?.sosial?.persen || 0}%`,
+                              background:
+                                (w.dimensi?.sosial?.persen || 0) >= 80
+                                  ? "var(--gov-emerald-500)"
+                                  : (w.dimensi?.sosial?.persen || 0) >= 70
+                                  ? "var(--gov-gold-500)"
+                                  : "var(--gov-rose-500)"
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
+                          <span>3. Ekonomi ({w.dimensi?.ekonomi?.skor || 0}/160)</span>
+                          <b>{w.dimensi?.ekonomi?.persen || 0}%</b>
+                        </div>
+                        <div className="indeks-bar-bg">
+                          <div
+                            className="indeks-bar-fill"
+                            style={{
+                              width: `${w.dimensi?.ekonomi?.persen || 0}%`,
+                              background:
+                                (w.dimensi?.ekonomi?.persen || 0) >= 80
+                                  ? "var(--gov-emerald-500)"
+                                  : (w.dimensi?.ekonomi?.persen || 0) >= 70
+                                  ? "var(--gov-gold-500)"
+                                  : "var(--gov-rose-500)"
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
+                          <span>4. Lingkungan ({w.dimensi?.lingkungan?.skor || 0}/90)</span>
+                          <b>{w.dimensi?.lingkungan?.persen || 0}%</b>
+                        </div>
+                        <div className="indeks-bar-bg">
+                          <div
+                            className="indeks-bar-fill"
+                            style={{
+                              width: `${w.dimensi?.lingkungan?.persen || 0}%`,
+                              background:
+                                (w.dimensi?.lingkungan?.persen || 0) >= 80
+                                  ? "var(--gov-emerald-500)"
+                                  : (w.dimensi?.lingkungan?.persen || 0) >= 70
+                                  ? "var(--gov-gold-500)"
+                                  : "var(--gov-rose-500)"
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
+                          <span>5. Aksesibilitas ({w.dimensi?.aksesibilitas?.skor || 0}/50)</span>
+                          <b>{w.dimensi?.aksesibilitas?.persen || 0}%</b>
+                        </div>
+                        <div className="indeks-bar-bg">
+                          <div
+                            className="indeks-bar-fill"
+                            style={{
+                              width: `${w.dimensi?.aksesibilitas?.persen || 0}%`,
+                              background:
+                                (w.dimensi?.aksesibilitas?.persen || 0) >= 80
+                                  ? "var(--gov-emerald-500)"
+                                  : (w.dimensi?.aksesibilitas?.persen || 0) >= 70
+                                  ? "var(--gov-gold-500)"
+                                  : "var(--gov-rose-500)"
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
+                          <span>6. Tata Kelola ({w.dimensi?.tataKelola?.skor || 0}/80)</span>
+                          <b>{w.dimensi?.tataKelola?.persen || 0}%</b>
+                        </div>
+                        <div className="indeks-bar-bg">
+                          <div
+                            className="indeks-bar-fill"
+                            style={{
+                              width: `${w.dimensi?.tataKelola?.persen || 0}%`,
+                              background:
+                                (w.dimensi?.tataKelola?.persen || 0) >= 80
+                                  ? "var(--gov-emerald-500)"
+                                  : (w.dimensi?.tataKelola?.persen || 0) >= 70
+                                  ? "var(--gov-gold-500)"
+                                  : "var(--gov-rose-500)"
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="dossier-problem-box" style={{ fontSize: "11.5px" }}>
+                      <strong>Fokus Kebutuhan Lapangan (Sheet RUMUSAN): </strong>
                       {w.catatanMusrenbang}
                     </div>
 
@@ -1463,20 +1709,23 @@ export default function App() {
                         style={{ flex: 1 }}
                         onClick={() => setSelectedDesaDetail(w)}
                       >
-                        Atur Indeks
+                        Detail Dimensi
                       </button>
                       <button
                         className="btn btn-primary"
                         style={{ flex: 1.6 }}
                         onClick={() => {
-                          setActiveDesaPengusul(`${w.tipe} ${w.nama} (Kec. ${w.kecamatan})`);
-                          setSelectedKategori(w.rekomendasiKategori[0] || "Semua Kategori");
+                          const desaLabel = `${w.tipe} ${w.nama} (Kec. ${w.kecamatan})`;
+                          setActiveDesaPengusul(desaLabel);
+                          setFilterHanyaRekomendasiDesa(true);
+                          setSelectedYear("2027");
+                          setViewMode("table");
                           setActiveTab("kamus");
-                          showToast(`Menampilkan Kamus Usulan prioritas untuk ${w.tipe} ${w.nama}`);
+                          showToast(`Menampilkan Kamus Usulan 2027 penyelesai masalah ${w.tipe} ${w.nama}`);
                         }}
                       >
-                        <span>Lihat Kamus Usulan</span>
-                        <ChevronRight size={15} />
+                        <Sparkles size={14} />
+                        <span>Lihat Solusi di Kamus</span>
                       </button>
                     </div>
                   </article>
