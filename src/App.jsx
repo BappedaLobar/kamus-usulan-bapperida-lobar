@@ -633,10 +633,10 @@ export default function App() {
             </button>
           </nav>
 
-          {/* Kelompok Aksi Kanan Header: Dropdown Pilihan Tahun & Input Usulan */}
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+          {/* Kelompok Aksi Kanan Header: Dropdown Pilihan Tahun & Input Usulan (SEJAJAR 1 BARIS) */}
+          <div className="navbar-right-actions">
             {/* Dropdown Menu Pilihan Tahun Perencanaan */}
-            <div style={{ position: "relative" }}>
+            <div className="header-year-wrapper">
               <select
                 className="header-year-select"
                 value={selectedYear}
@@ -657,25 +657,19 @@ export default function App() {
               <ChevronDown
                 size={14}
                 color="#0369a1"
-                style={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  pointerEvents: "none"
-                }}
+                className="header-year-chevron"
               />
             </div>
 
-            {/* Tombol Input Usulan Baru (Gold Theme CTA) */}
+            {/* Tombol Input Usulan Baru (Gold Theme CTA - Sejajar Presisi) */}
             <button
-              className="btn btn-gold"
+              className="btn btn-gold btn-header-cta"
               onClick={() => {
                 setNewKamusForm((prev) => ({ ...prev, tahun: selectedYear }));
                 setShowAddModal(true);
               }}
             >
-              <Plus size={15} strokeWidth={2.5} />
+              <Plus size={14} strokeWidth={2.5} />
               <span>Input Usulan</span>
             </button>
           </div>
