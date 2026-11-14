@@ -1777,9 +1777,9 @@ body {
   }
 }
 
-/* 2. Layar Menengah / Split Window / Tablet Landscape (<= 1240px):
+/* 2. Layar Laptop / Split Window / Tablet Landscape (<= 1340px):
    Susun Header menjadi 2 Baris Pintar (Baris 1: Brand + Aksi Kanan, Baris 2: 5 Menu Tab Penuh) */
-@media (max-width: 1240px) {
+@media (max-width: 1340px) {
   .desktop-navbar-inner {
     padding: 10px 16px;
     gap: 10px;
