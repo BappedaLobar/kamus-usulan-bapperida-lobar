@@ -3,6 +3,9 @@ import {
   Search,
   Filter,
   BookOpen,
+  Target,
+  ExternalLink,
+  Award,
   MapPin,
   CheckCircle2,
   ShieldCheck,
@@ -40,6 +43,13 @@ import {
   Globe
 } from "lucide-react";
 import rawKamusData from "./data/kamusData.json";
+import {
+  PATJU_STATISTIK_KABUPATEN,
+  PATJU_TREATMENT_CATALOG,
+  PATJU_DESA_LIST,
+  getPatjuDesa,
+  generateDataDukungPatju
+} from "./data/patju360Data.js";
 import {
   WILAYAH_LOBAR,
   DAFTAR_KECAMATAN,
@@ -136,6 +146,12 @@ export default function App() {
   const [smartFilterMode, setSmartFilterMode] = useState("kritis");
   const [filterTriaseDesaTab, setFilterTriaseDesaTab] = useState("all"); // "all" | "kritis" | "sedang" | "aman"
   const [showProblemListModal, setShowProblemListModal] = useState(false);
+
+  // State Sinergi PATJU 360 (Kemiskinan Ekstrem & Data Sasaran)
+  const [patjuKecFilter, setPatjuKecFilter] = useState("Semua Kecamatan");
+  const [patjuSearch, setPatjuSearch] = useState("");
+  const [patjuSeverityFilter, setPatjuSeverityFilter] = useState("all");
+  const [selectedPatjuKode, setSelectedPatjuKode] = useState("5201012002"); // default Kebon Ayu
 
   // State Data yang Disimpan di Secure LocalStorage
   const [customKamusList, setCustomKamusList] = useState([]);
@@ -418,12 +434,16 @@ export default function App() {
       showToast("Usulan dihapus dari daftar Desa Anda");
     } else {
       const dimensiSektor = getDimensiByOpd(item.opd).join(" & ");
+      const patjuInfo = getPatjuDesa(null, activeDesaPengusul);
+      const justifikasi = patjuInfo
+        ? `Berdasarkan data sasaran PATJU 360 & Sheet RUMUSAN Indeks Desa 2026, ${activeDesaPengusul} tercatat memiliki ${patjuInfo.kkDesil1.toLocaleString('id-ID')} KK Desil 1 (Kemiskinan Ekstrem), ${patjuInfo.rtlhCount.toLocaleString('id-ID')} unit RTLH, dan ${patjuInfo.tanpaJambanCount.toLocaleString('id-ID')} KK tanpa jamban. Usulan program ini diajukan ke ${item.opd} sebagai intervensi prioritas percepatan penanggulangan kemiskinan dan pemenuhan layanan dasar.`
+        : `Berdasarkan data Sheet RUMUSAN Indeks Desa 2026, ${activeDesaPengusul} memiliki fokus kebutuhan pada sektor ${dimensiSektor}, sehingga usulan ini relevan diusulkan ke ${item.opd}.`;
       const entry = {
         ...item,
         desaPengusul: activeDesaPengusul,
         lokasiDusun: "Dusun Prioritas",
         dimensiMasalah: dimensiSektor,
-        justifikasiMasalah: `Berdasarkan data Sheet RUMUSAN Indeks Desa 2026, ${activeDesaPengusul} memiliki fokus kebutuhan pada sektor ${dimensiSektor}, sehingga usulan ini relevan diusulkan ke ${item.opd}.`,
+        justifikasiMasalah: justifikasi,
         estimasiPagu: 100000000,
         savedAt: new Date().toISOString()
       };
@@ -646,6 +666,15 @@ export default function App() {
             </button>
 
             <button
+              className={`desktop-tab-btn ${activeTab === "patju" ? "active" : ""}`}
+              onClick={() => setActiveTab("patju")}
+            >
+              <Target size={16} />
+              <span>Sinergi PATJU 360</span>
+              <span className="tab-badge-pill">P3KE</span>
+            </button>
+
+            <button
               className={`desktop-tab-btn ${activeTab === "usulanku" ? "active" : ""}`}
               onClick={() => setActiveTab("usulanku")}
             >
@@ -667,6 +696,18 @@ export default function App() {
 
           {/* Kelompok Aksi Kanan Header: Dropdown Pilihan Tahun & Input Usulan (SEJAJAR 1 BARIS) */}
           <div className="navbar-right-actions">
+            <a
+              href="https://github.com/BappedaLobar/patju360-hub"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="header-patju-btn"
+              title="Buka Portal Data Sasaran PATJU 360 Hub di GitHub"
+            >
+              <span className="pulse-dot"></span>
+              <Target size={13} />
+              <span>PATJU 360 Hub</span>
+              <ExternalLink size={11} />
+            </a>
             {/* Dropdown Menu Pilihan Tahun Perencanaan */}
             <div className="header-year-wrapper">
               <select
@@ -2408,6 +2449,613 @@ export default function App() {
           </div>
         )}
 
+        
+        {/* ==================== TAB: SINERGI PATJU 360 (DATA SASARAN & TREATMENT LINTAS OPD) ==================== */}
+        {activeTab === "patju" && (() => {
+          const selectedPatjuDesa = PATJU_DESA_LIST.find(d => d.kodeWilayah === selectedPatjuKode) || PATJU_DESA_LIST[0];
+          const matchedWilayahObj = WILAYAH_LOBAR.find(w => w.kodeWilayah === selectedPatjuDesa?.kodeWilayah);
+          const desaTriageObj = matchedWilayahObj ? getTriageStatusDesa(matchedWilayahObj) : null;
+
+          const filteredPatjuDesaList = PATJU_DESA_LIST.filter(d => {
+            if (patjuKecFilter !== "Semua Kecamatan" && d.kecamatan !== patjuKecFilter) return false;
+            if (patjuSearch) {
+              const q = patjuSearch.toLowerCase();
+              const matchName = d.namaDesa.toLowerCase().includes(q);
+              const matchKec = d.kecamatan.toLowerCase().includes(q);
+              const matchKode = d.kodeWilayah.includes(q);
+              if (!matchName && !matchKec && !matchKode) return false;
+            }
+            if (patjuSeverityFilter === "desil1_tinggi" && d.kkDesil1 < 250) return false;
+            if (patjuSeverityFilter === "rtlh_tinggi" && d.rtlhCount < 40) return false;
+            if (patjuSeverityFilter === "jamban_tinggi" && d.tanpaJambanCount < 100) return false;
+            if (patjuSeverityFilter === "berkembang" && d.statusIndeks !== "BERKEMBANG") return false;
+            return true;
+          });
+
+          return (
+            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              {/* 1. HERO BANNER: INTEGRASI PATJU 360 & KAMUS USULAN */}
+              <div className="patju-hero-card">
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "14px" }}>
+                  <div style={{ maxWidth: "820px" }}>
+                    <span className="patju-hero-badge">
+                      <Target size={12} strokeWidth={2.5} /> Sinergi Ekosistem Bapperida Lombok Barat
+                    </span>
+                    <h2 style={{ fontSize: "22px", fontWeight: 800, margin: "6px 0 10px 0", letterSpacing: "-0.3px" }}>
+                      Sinergi PATJU 360 × Kamus Usulan RKPD
+                    </h2>
+                    <p style={{ fontSize: "13.5px", color: "#e0f2fe", lineHeight: 1.6, margin: 0 }}>
+                      Mengintegrasikan <strong>Data Sasaran Kemiskinan Ekstrem (P3KE Desil 1–4)</strong> dan <strong>Defisit Empiris Indeks Desa 2026</strong> ke dalam <strong>Menu Program &amp; Treatment Terpadu Lintas OPD</strong> untuk Perencanaan RKPD 2027 dan Program Prioritas Satu Desa Satu Miliar.
+                    </p>
+                  </div>
+                  <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                    <a
+                      href="https://github.com/BappedaLobar/patju360-hub"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn"
+                      style={{
+                        background: "rgba(255, 255, 255, 0.15)",
+                        color: "#ffffff",
+                        border: "1px solid rgba(255, 255, 255, 0.3)",
+                        backdropFilter: "blur(6px)",
+                        fontSize: "12px",
+                        fontWeight: 700
+                      }}
+                    >
+                      <ExternalLink size={13} />
+                      <span>Buka PATJU 360 Hub</span>
+                    </a>
+                  </div>
+                </div>
+
+                {/* 6 Elemen Siklus Kerja Bapperida */}
+                <div style={{ marginTop: "18px", paddingTop: "14px", borderTop: "1px solid rgba(255,255,255,0.15)", display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                  {[
+                    "1. Satu Data Sasaran (P3KE)",
+                    "2. Satu Lokus Prioritas (122 Desa)",
+                    "3. Satu Keluarga Sasaran",
+                    "4. Satu Treatment Lintas OPD",
+                    "5. Satu Tagging Program & Pagu",
+                    "6. Satu Rapor Outcome Terukur"
+                  ].map((elem, i) => (
+                    <span
+                      key={i}
+                      style={{
+                        background: "rgba(15, 23, 42, 0.35)",
+                        padding: "4px 10px",
+                        borderRadius: "14px",
+                        fontSize: "11px",
+                        fontWeight: 600,
+                        color: "#bae6fd",
+                        border: "1px solid rgba(186, 230, 253, 0.2)"
+                      }}
+                    >
+                      {elem}
+                    </span>
+                  ))}
+                </div>
+
+                {/* KPI Metrics Agregat Kabupaten */}
+                <div className="patju-kpi-grid">
+                  <div className="patju-kpi-card">
+                    <span className="patju-kpi-title">Total Sasaran P3KE (Desil 1-4)</span>
+                    <span className="patju-kpi-val">{PATJU_STATISTIK_KABUPATEN.totalSasaranP3KE.toLocaleString('id-ID')} KK</span>
+                    <span className="patju-kpi-sub">Dari total {PATJU_STATISTIK_KABUPATEN.totalKK.toLocaleString('id-ID')} KK Kab. Lombok Barat</span>
+                  </div>
+                  <div className="patju-kpi-card" style={{ borderLeft: "3px solid #ef4444" }}>
+                    <span className="patju-kpi-title" style={{ color: "#fca5a5" }}>🔴 Miskin Ekstrem (Desil 1)</span>
+                    <span className="patju-kpi-val" style={{ color: "#fef2f2" }}>{PATJU_STATISTIK_KABUPATEN.totalDesil1.toLocaleString('id-ID')} KK</span>
+                    <span className="patju-kpi-sub">Target Prioritas Nol Kemiskinan Ekstrem</span>
+                  </div>
+                  <div className="patju-kpi-card">
+                    <span className="patju-kpi-title">Keluarga Desil 2</span>
+                    <span className="patju-kpi-val">{PATJU_STATISTIK_KABUPATEN.totalDesil2.toLocaleString('id-ID')} KK</span>
+                    <span className="patju-kpi-sub">Bantalan Perlindungan Sosial Lanjutan</span>
+                  </div>
+                  <div className="patju-kpi-card">
+                    <span className="patju-kpi-title">🏠 Rumah Tidak Layak Huni</span>
+                    <span className="patju-kpi-val">{PATJU_STATISTIK_KABUPATEN.totalRtlh.toLocaleString('id-ID')} Unit</span>
+                    <span className="patju-kpi-sub">Lokus DISPERKIM &amp; BSPS</span>
+                  </div>
+                  <div className="patju-kpi-card">
+                    <span className="patju-kpi-title">🚽 Tanpa Jamban Sehat</span>
+                    <span className="patju-kpi-val">{PATJU_STATISTIK_KABUPATEN.totalTanpaJamban.toLocaleString('id-ID')} KK</span>
+                    <span className="patju-kpi-sub">Lokus PUPR Sanitasi &amp; DINKES</span>
+                  </div>
+                  <div className="patju-kpi-card">
+                    <span className="patju-kpi-title">💧 Air Minum Rentan</span>
+                    <span className="patju-kpi-val">{PATJU_STATISTIK_KABUPATEN.totalAirTakTerlindung.toLocaleString('id-ID')} KK</span>
+                    <span className="patju-kpi-sub">Lokus PUPR Air Bersih Perdesaan</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 2. FILTER & PENCARIAN LOKUS DESA */}
+              <div
+                style={{
+                  background: "var(--pure-white)",
+                  padding: "16px 20px",
+                  borderRadius: "var(--radius-lg)",
+                  border: "1px solid var(--slate-200)",
+                  display: "flex",
+                  gap: "14px",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}
+              >
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center", flex: 1 }}>
+                  {/* Filter Kecamatan */}
+                  <select
+                    className="form-select"
+                    style={{ minWidth: "170px" }}
+                    value={patjuKecFilter}
+                    onChange={(e) => setPatjuKecFilter(e.target.value)}
+                  >
+                    <option value="Semua Kecamatan">📍 Semua Kecamatan (10)</option>
+                    {DAFTAR_KECAMATAN.map((k) => (
+                      <option key={k.kode} value={k.nama}>
+                        Kecamatan {k.nama}
+                      </option>
+                    ))}
+                  </select>
+
+                  {/* Filter Tingkat Urgensi */}
+                  <select
+                    className="form-select"
+                    style={{ minWidth: "190px" }}
+                    value={patjuSeverityFilter}
+                    onChange={(e) => setPatjuSeverityFilter(e.target.value)}
+                  >
+                    <option value="all">⚡ Semua Tingkat Urgensi</option>
+                    <option value="desil1_tinggi">🔴 Desil 1 &gt; 250 KK (Tinggi)</option>
+                    <option value="rtlh_tinggi">🏠 RTLH &gt; 40 Unit (Prioritas)</option>
+                    <option value="jamban_tinggi">🚽 Tanpa Jamban &gt; 100 KK</option>
+                    <option value="berkembang">🏷️ Status Desa Berkembang</option>
+                  </select>
+
+                  {/* Search box */}
+                  <div style={{ position: "relative", minWidth: "220px", flex: 1 }}>
+                    <Search size={14} style={{ position: "absolute", left: "10px", top: "11px", color: "var(--slate-400)" }} />
+                    <input
+                      type="text"
+                      className="form-input"
+                      style={{ paddingLeft: "32px" }}
+                      placeholder="Cari Desa atau Kode Wilayah..."
+                      value={patjuSearch}
+                      onChange={(e) => setPatjuSearch(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ fontSize: "12px", color: "var(--slate-600)", fontWeight: 600 }}>
+                  Menampilkan <strong>{filteredPatjuDesaList.length}</strong> dari 122 Wilayah
+                </div>
+              </div>
+
+              {/* 3. SPLIT VIEW: DAFTAR DESA (KIRI) VS DOSSIER TERPADU (KANAN) */}
+              <div className="patju-split-layout">
+                {/* KOLOM KIRI: DAFTAR DESA */}
+                <div className="patju-desa-list-panel">
+                  <div style={{ padding: "12px 14px", borderBottom: "1px solid var(--slate-200)", background: "#f8fafc", fontWeight: 700, fontSize: "12.5px", color: "var(--gov-navy-900)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span>Pilih Lokus Wilayah</span>
+                    <span className="badge" style={{ background: "var(--gov-navy-100)", color: "var(--gov-navy-800)" }}>
+                      {filteredPatjuDesaList.length} Wilayah
+                    </span>
+                  </div>
+                  <div className="patju-desa-list-scroll">
+                    {filteredPatjuDesaList.map((d) => {
+                      const isSelected = d.kodeWilayah === selectedPatjuDesa?.kodeWilayah;
+                      return (
+                        <button
+                          key={d.id || d.kodeWilayah}
+                          className={`patju-desa-item-btn ${isSelected ? "selected" : ""}`}
+                          onClick={() => setSelectedPatjuKode(d.kodeWilayah)}
+                        >
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <strong style={{ fontSize: "13px", color: isSelected ? "#0369a1" : "var(--slate-800)" }}>
+                              {d.tipe} {d.namaDesa}
+                            </strong>
+                            <span
+                              style={{
+                                fontSize: "10px",
+                                fontWeight: 700,
+                                padding: "2px 6px",
+                                borderRadius: "4px",
+                                background: d.statusIndeks === "MANDIRI" ? "#dcfce7" : d.statusIndeks === "MAJU" ? "#e0f2fe" : "#fef3c7",
+                                color: d.statusIndeks === "MANDIRI" ? "#15803d" : d.statusIndeks === "MAJU" ? "#0369a1" : "#b45309"
+                              }}
+                            >
+                              {d.statusIndeks}
+                            </span>
+                          </div>
+                          <div style={{ fontSize: "11px", color: "var(--slate-500)" }}>
+                            Kecamatan {d.kecamatan} • Kode: {d.kodeWilayah}
+                          </div>
+                          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginTop: "4px" }}>
+                            <span style={{ fontSize: "10.5px", background: "#fee2e2", color: "#991b1b", padding: "1px 5px", borderRadius: "3px", fontWeight: 700 }}>
+                              Desil 1: {d.kkDesil1} KK
+                            </span>
+                            <span style={{ fontSize: "10.5px", background: "#fef9c3", color: "#854d0e", padding: "1px 5px", borderRadius: "3px", fontWeight: 600 }}>
+                              RTLH: {d.rtlhCount}
+                            </span>
+                            <span style={{ fontSize: "10.5px", background: "#f1f5f9", color: "#475569", padding: "1px 5px", borderRadius: "3px", fontWeight: 600 }}>
+                              Jamban: {d.tanpaJambanCount}
+                            </span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* KOLOM KANAN: DOSSIER TERPADU DESA TERPILIH */}
+                {selectedPatjuDesa ? (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+                    {/* Header Dossier Desa */}
+                    <div
+                      style={{
+                        background: "var(--pure-white)",
+                        padding: "20px 24px",
+                        borderRadius: "var(--radius-lg)",
+                        border: "1px solid var(--slate-200)",
+                        boxShadow: "var(--shadow-sm)"
+                      }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px" }}>
+                        <div>
+                          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                            <span className="badge" style={{ background: "var(--gov-navy-800)", color: "#ffffff", fontWeight: 700 }}>
+                              LOKUS TERPADU
+                            </span>
+                            <span style={{ fontSize: "12px", color: "var(--slate-500)" }}>
+                              Kode Kemendagri: <strong>{selectedPatjuDesa.kodeWilayah}</strong>
+                            </span>
+                          </div>
+                          <h3 style={{ fontSize: "22px", fontWeight: 800, color: "var(--gov-navy-900)", margin: "6px 0 2px 0" }}>
+                            {selectedPatjuDesa.tipe} {selectedPatjuDesa.namaDesa}
+                          </h3>
+                          <div style={{ fontSize: "13px", color: "var(--slate-600)" }}>
+                            Kecamatan {selectedPatjuDesa.kecamatan} • Status Indeks Desa:{" "}
+                            <strong style={{ color: selectedPatjuDesa.statusIndeks === "MANDIRI" ? "#16a34a" : selectedPatjuDesa.statusIndeks === "MAJU" ? "#0284c7" : "#d97706" }}>
+                              {selectedPatjuDesa.statusIndeks} (Skor: {selectedPatjuDesa.skorIndeks})
+                            </strong>
+                          </div>
+                        </div>
+
+                        {/* Tombol Aksi Cepat */}
+                        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => {
+                              const desaLabel = `${selectedPatjuDesa.tipe} ${selectedPatjuDesa.namaDesa} (Kec. ${selectedPatjuDesa.kecamatan})`;
+                              setActiveDesaPengusul(desaLabel);
+                              setSelectedKecamatanPengusul(selectedPatjuDesa.kecamatan);
+                              setSmartFilterMode("kritis");
+                              setSelectedYear("2027");
+                              setViewMode("table");
+                              setActiveTab("kamus");
+                              showToast(`Kamus Usulan disaring untuk Lokus ${selectedPatjuDesa.namaDesa}`);
+                            }}
+                          >
+                            <Sparkles size={14} />
+                            <span>Buka Kamus Usulan Sesuai Lokus</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Bar Breakdown Komposisi Desil */}
+                      <div style={{ marginTop: "18px", paddingTop: "14px", borderTop: "1px solid var(--slate-200)" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "12px", fontWeight: 700, marginBottom: "6px" }}>
+                          <span>Komposisi Keluarga Sasaran P3KE (Total {selectedPatjuDesa.totalSasaranP3KE.toLocaleString('id-ID')} KK Sasaran)</span>
+                          <span style={{ color: "#dc2626" }}>
+                            Kemiskinan Ekstrem: {selectedPatjuDesa.persenMiskinEkstrem}% ({selectedPatjuDesa.kkDesil1} KK)
+                          </span>
+                        </div>
+                        <div style={{ display: "flex", height: "16px", borderRadius: "8px", overflow: "hidden", background: "#e2e8f0" }}>
+                          <div
+                            style={{
+                              width: `${(selectedPatjuDesa.kkDesil1 / (selectedPatjuDesa.totalSasaranP3KE || 1)) * 100}%`,
+                              background: "#ef4444",
+                              title: `Desil 1: ${selectedPatjuDesa.kkDesil1} KK`
+                            }}
+                          />
+                          <div
+                            style={{
+                              width: `${(selectedPatjuDesa.kkDesil2 / (selectedPatjuDesa.totalSasaranP3KE || 1)) * 100}%`,
+                              background: "#f97316",
+                              title: `Desil 2: ${selectedPatjuDesa.kkDesil2} KK`
+                            }}
+                          />
+                          <div
+                            style={{
+                              width: `${(selectedPatjuDesa.kkDesil3 / (selectedPatjuDesa.totalSasaranP3KE || 1)) * 100}%`,
+                              background: "#eab308",
+                              title: `Desil 3: ${selectedPatjuDesa.kkDesil3} KK`
+                            }}
+                          />
+                          <div
+                            style={{
+                              width: `${(selectedPatjuDesa.kkDesil4 / (selectedPatjuDesa.totalSasaranP3KE || 1)) * 100}%`,
+                              background: "#38bdf8",
+                              title: `Desil 4: ${selectedPatjuDesa.kkDesil4} KK`
+                            }}
+                          />
+                        </div>
+                        <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", fontSize: "11px", marginTop: "6px", color: "var(--slate-600)" }}>
+                          <span><strong style={{ color: "#ef4444" }}>■</strong> Desil 1 (Ekstrem): {selectedPatjuDesa.kkDesil1} KK</span>
+                          <span><strong style={{ color: "#f97316" }}>■</strong> Desil 2 (Miskin): {selectedPatjuDesa.kkDesil2} KK</span>
+                          <span><strong style={{ color: "#eab308" }}>■</strong> Desil 3 (Hampir Miskin): {selectedPatjuDesa.kkDesil3} KK</span>
+                          <span><strong style={{ color: "#38bdf8" }}>■</strong> Desil 4 (Rentan): {selectedPatjuDesa.kkDesil4} KK</span>
+                        </div>
+                      </div>
+
+                      {/* 6 Metrik Kerentanan Fisik & Layanan Dasar */}
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(135px, 1fr))", gap: "10px", marginTop: "16px" }}>
+                        <div style={{ background: "#fef2f2", border: "1px solid #fecaca", padding: "10px", borderRadius: "var(--radius-md)" }}>
+                          <span style={{ fontSize: "11px", color: "#991b1b", fontWeight: 700 }}>🏠 RTLH</span>
+                          <div style={{ fontSize: "18px", fontWeight: 800, color: "#b91c1c", marginTop: "2px" }}>
+                            {selectedPatjuDesa.rtlhCount} <small style={{ fontSize: "11px" }}>Unit</small>
+                          </div>
+                        </div>
+                        <div style={{ background: "#fefce8", border: "1px solid #fef08a", padding: "10px", borderRadius: "var(--radius-md)" }}>
+                          <span style={{ fontSize: "11px", color: "#854d0e", fontWeight: 700 }}>🚽 Tanpa Jamban</span>
+                          <div style={{ fontSize: "18px", fontWeight: 800, color: "#a16207", marginTop: "2px" }}>
+                            {selectedPatjuDesa.tanpaJambanCount} <small style={{ fontSize: "11px" }}>KK</small>
+                          </div>
+                        </div>
+                        <div style={{ background: "#f0f9ff", border: "1px solid #bae6fd", padding: "10px", borderRadius: "var(--radius-md)" }}>
+                          <span style={{ fontSize: "11px", color: "#0369a1", fontWeight: 700 }}>💧 Air Rentan</span>
+                          <div style={{ fontSize: "18px", fontWeight: 800, color: "#0284c7", marginTop: "2px" }}>
+                            {selectedPatjuDesa.airTakTerlindungCount} <small style={{ fontSize: "11px" }}>KK</small>
+                          </div>
+                        </div>
+                        <div style={{ background: "#fdf4ff", border: "1px solid #f5d0fe", padding: "10px", borderRadius: "var(--radius-md)" }}>
+                          <span style={{ fontSize: "11px", color: "#86198f", fontWeight: 700 }}>⚡ Tanpa Listrik</span>
+                          <div style={{ fontSize: "18px", fontWeight: 800, color: "#a21caf", marginTop: "2px" }}>
+                            {selectedPatjuDesa.tanpaListrikCount} <small style={{ fontSize: "11px" }}>KK</small>
+                          </div>
+                        </div>
+                        <div style={{ background: "#f8fafc", border: "1px solid #cbd5e1", padding: "10px", borderRadius: "var(--radius-md)" }}>
+                          <span style={{ fontSize: "11px", color: "#334155", fontWeight: 700 }}>💼 Tanpa Aset</span>
+                          <div style={{ fontSize: "18px", fontWeight: 800, color: "#1e293b", marginTop: "2px" }}>
+                            {selectedPatjuDesa.tanpaAsetCount} <small style={{ fontSize: "11px" }}>KK</small>
+                          </div>
+                        </div>
+                        <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", padding: "10px", borderRadius: "var(--radius-md)" }}>
+                          <span style={{ fontSize: "11px", color: "#166534", fontWeight: 700 }}>🏥 JKN PBI</span>
+                          <div style={{ fontSize: "18px", fontWeight: 800, color: "#15803d", marginTop: "2px" }}>
+                            {selectedPatjuDesa.pbiCount} <small style={{ fontSize: "11px" }}>Jiwa</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Sinergi dengan Sheet RUMUSAN Indeks Desa */}
+                    {matchedWilayahObj && desaTriageObj && (
+                      <div
+                        style={{
+                          background: "var(--pure-white)",
+                          padding: "18px 22px",
+                          borderRadius: "var(--radius-lg)",
+                          border: "1px solid var(--slate-200)",
+                          boxShadow: "var(--shadow-sm)"
+                        }}
+                      >
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
+                          <h4 style={{ fontSize: "14px", fontWeight: 800, color: "var(--gov-navy-900)", margin: 0, display: "flex", alignItems: "center", gap: "6px" }}>
+                            <Layers size={15} color="#0369a1" /> Sinergi Indikator Lapangan Sheet RUMUSAN Indeks Desa 2026:
+                          </h4>
+                          <span style={{ fontSize: "12px", color: "#dc2626", fontWeight: 700 }}>
+                            {desaTriageObj.jmlKritis} Indikator Kritis Skor 1
+                          </span>
+                        </div>
+                        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "10px" }}>
+                          {desaTriageObj.kritis.map((dim, idx) => (
+                            <span
+                              key={idx}
+                              style={{
+                                background: "#fee2e2",
+                                color: "#991b1b",
+                                padding: "3px 9px",
+                                borderRadius: "4px",
+                                fontSize: "11px",
+                                fontWeight: 700
+                              }}
+                            >
+                              🔴 {dim.nama}: {dim.persen}%
+                            </span>
+                          ))}
+                        </div>
+                        <div style={{ fontSize: "12px", color: "var(--slate-700)", background: "#f8fafc", padding: "10px 12px", borderRadius: "6px", border: "1px solid var(--slate-200)" }}>
+                          <strong>Fokus Kebutuhan Lapangan Teridentifikasi: </strong>
+                          {matchedWilayahObj.catatanMusrenbang}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* KATALOG 12 REKOMENDASI TREATMENT LINTAS OPD (TERPADU) */}
+                    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px" }}>
+                        <div>
+                          <h4 style={{ fontSize: "16px", fontWeight: 800, color: "var(--gov-navy-900)", margin: 0, display: "flex", alignItems: "center", gap: "7px" }}>
+                            <Award size={18} color="#d97706" /> Rekomendasi Paket Treatment Lintas OPD (PDP Compliant)
+                          </h4>
+                          <p style={{ fontSize: "12px", color: "var(--slate-600)", margin: "2px 0 0 0" }}>
+                            Menu intervensi terpadu lintas sektor yang dapat didanai melalui RKPD 2027 OPD maupun Program Satu Desa Satu Miliar.
+                          </p>
+                        </div>
+                        <span className="badge" style={{ background: "var(--gov-gold-100)", color: "var(--gov-gold-800)", fontWeight: 700 }}>
+                          12 Paket Treatment
+                        </span>
+                      </div>
+
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))", gap: "12px" }}>
+                        {PATJU_TREATMENT_CATALOG.map((trt) => {
+                          let sasaranDesa = 0;
+                          let satuanSasaran = "Sasaran";
+                          if (trt.rekomendasiVolumeKey === "rtlhCount") {
+                            sasaranDesa = selectedPatjuDesa.rtlhCount;
+                            satuanSasaran = "Unit RTLH";
+                          } else if (trt.rekomendasiVolumeKey === "tanpaJambanCount") {
+                            sasaranDesa = selectedPatjuDesa.tanpaJambanCount;
+                            satuanSasaran = "KK Tanpa Jamban";
+                          } else if (trt.rekomendasiVolumeKey === "tanpaListrikCount") {
+                            sasaranDesa = selectedPatjuDesa.tanpaListrikCount;
+                            satuanSasaran = "KK Tanpa Listrik";
+                          } else if (trt.rekomendasiVolumeKey === "tanpaAsetCount") {
+                            sasaranDesa = selectedPatjuDesa.tanpaAsetCount;
+                            satuanSasaran = "KK Rentan Ekonomi";
+                          } else if (trt.rekomendasiVolumeKey === "nonPbiCount") {
+                            sasaranDesa = selectedPatjuDesa.nonPbiCount;
+                            satuanSasaran = "Jiwa Belum PBI";
+                          } else {
+                            sasaranDesa = selectedPatjuDesa.kkDesil1;
+                            satuanSasaran = "KK Desil 1";
+                          }
+
+                          return (
+                            <div key={trt.id} className="patju-treatment-card">
+                              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "6px" }}>
+                                <span
+                                  style={{
+                                    fontSize: "10px",
+                                    fontWeight: 800,
+                                    padding: "2px 7px",
+                                    borderRadius: "4px",
+                                    background: trt.strategiNasional === "Penurunan Kantong Kemiskinan" ? "#fef2f2" : trt.strategiNasional === "Peningkatan Pendapatan" ? "#ecfdf5" : "#eff6ff",
+                                    color: trt.strategiNasional === "Penurunan Kantong Kemiskinan" ? "#b91c1c" : trt.strategiNasional === "Peningkatan Pendapatan" ? "#047857" : "#1d4ed8"
+                                  }}
+                                >
+                                  {trt.strategiNasional}
+                                </span>
+                                <span style={{ fontSize: "10.5px", fontWeight: 700, color: "var(--slate-500)" }}>
+                                  {trt.opdCode}
+                                </span>
+                              </div>
+
+                              <strong style={{ fontSize: "13px", color: "var(--gov-navy-900)", lineHeight: 1.4 }}>
+                                {trt.namaProgram}
+                              </strong>
+
+                              <p style={{ fontSize: "11.5px", color: "var(--slate-600)", margin: 0, lineHeight: 1.5, flex: 1 }}>
+                                {trt.deskripsiPaket}
+                              </p>
+
+                              <div style={{ background: "#f8fafc", padding: "8px 10px", borderRadius: "6px", border: "1px solid var(--slate-200)", fontSize: "11px" }}>
+                                <div style={{ color: "var(--slate-500)" }}>
+                                  OPD Pengampu: <strong>{trt.targetOpdKamus}</strong>
+                                </div>
+                                <div style={{ color: "var(--gov-gold-700)", fontWeight: 700, marginTop: "2px" }}>
+                                  Estimasi: {trt.estimasiAnggaran}
+                                </div>
+                                <div style={{ color: "#0369a1", fontWeight: 700, marginTop: "2px" }}>
+                                  🎯 Potensi Sasaran: {sasaranDesa.toLocaleString('id-ID')} {satuanSasaran} di Desa ini
+                                </div>
+                              </div>
+
+                              <div style={{ display: "flex", gap: "6px", marginTop: "4px" }}>
+                                <button
+                                  className="btn btn-secondary"
+                                  style={{ flex: 1, fontSize: "11px", padding: "6px 8px" }}
+                                  onClick={() => {
+                                    setSelectedOpd(trt.targetOpdKamus);
+                                    setSelectedYear("2027");
+                                    setViewMode("table");
+                                    setActiveTab("kamus");
+                                    showToast(`Membuka Kamus Usulan untuk ${trt.targetOpdKamus}`);
+                                  }}
+                                >
+                                  <BookOpen size={12} />
+                                  <span>Kamus OPD</span>
+                                </button>
+
+                                <button
+                                  className="btn btn-primary"
+                                  style={{ flex: 1.4, fontSize: "11px", padding: "6px 8px" }}
+                                  onClick={() => {
+                                    const desaLabel = `${selectedPatjuDesa.tipe} ${selectedPatjuDesa.namaDesa} (Kec. ${selectedPatjuDesa.kecamatan})`;
+                                    setActiveDesaPengusul(desaLabel);
+                                    setSelectedKecamatanPengusul(selectedPatjuDesa.kecamatan);
+                                    
+                                    const customItem = {
+                                      id: `patju-${trt.id}-${Date.now()}`,
+                                      tahun: "2027",
+                                      opd: trt.targetOpdKamus,
+                                      program: `Program Penanggulangan Kemiskinan Ekstrem (${trt.kategori})`,
+                                      kegiatan: trt.namaProgram,
+                                      subKegiatan: `Penyediaan dan Penyaluran ${trt.namaProgram}`,
+                                      usulanKegiatan: `${trt.namaProgram} di ${desaLabel}`,
+                                      usulanPermasalahan: `Terdapat ${sasaranDesa.toLocaleString('id-ID')} ${satuanSasaran} yang mendesak mendapatkan intervensi perlindungan sosial / peningkatan pendapatan.`,
+                                      sasaranPenerima: `Keluarga Sasaran Desil 1 & 2 ${selectedPatjuDesa.namaDesa}`,
+                                      kategoriMudah: trt.kategori,
+                                      aksiPrioritas: "Aksi Prioritas: Penanggulangan Kemiskinan Ekstrem",
+                                      intervensiPrioritas: trt.strategiNasional
+                                    };
+                                    handleToggleSaveUsulan(customItem);
+                                    setActiveTab("usulanku");
+                                    showToast(`Treatment "${trt.namaProgram}" berhasil dimasukkan ke Usulan Desa!`);
+                                  }}
+                                >
+                                  <Bookmark size={12} />
+                                  <span>Ajukan ke Usulan</span>
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* BOX DATA DUKUNG MUSRENBANG (SIAP TEMPEL KE PROPOSAL / SIPD) */}
+                    <div
+                      style={{
+                        background: "var(--pure-white)",
+                        padding: "18px 22px",
+                        borderRadius: "var(--radius-lg)",
+                        border: "1px solid var(--slate-200)",
+                        boxShadow: "var(--shadow-sm)"
+                      }}
+                    >
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px", flexWrap: "wrap", gap: "8px" }}>
+                        <div>
+                          <h4 style={{ fontSize: "14px", fontWeight: 800, color: "var(--gov-navy-900)", margin: 0 }}>
+                            📋 Data Dukung Terintegrasi (Siap Salin untuk Berita Acara &amp; SIPD)
+                          </h4>
+                          <span style={{ fontSize: "11.5px", color: "var(--slate-500)" }}>
+                            Lampiran resmi justifikasi data kemiskinan ekstrem &amp; defisit lapangan tingkat desa.
+                          </span>
+                        </div>
+                        <button
+                          className="btn btn-secondary"
+                          style={{ fontSize: "12px" }}
+                          onClick={() => {
+                            const dukungText = generateDataDukungPatju(selectedPatjuDesa, "Perencanaan RKPD & Satu Desa Satu Miliar");
+                            navigator.clipboard?.writeText(dukungText);
+                            showToast(`Data Dukung PATJU 360 ${selectedPatjuDesa.namaDesa} berhasil disalin ke clipboard!`);
+                          }}
+                        >
+                          <Share2 size={13} />
+                          <span>Salin Data Dukung</span>
+                        </button>
+                      </div>
+
+                      <div className="patju-data-dukung-box">
+                        {generateDataDukungPatju(selectedPatjuDesa, "Perencanaan RKPD & Satu Desa Satu Miliar")}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ background: "var(--pure-white)", padding: "40px", borderRadius: "var(--radius-lg)", textAlign: "center" }}>
+                    Pilih salah satu wilayah di kolom kiri untuk melihat profil data sasaran PATJU 360.
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })()}
+
         {/* ==================== TAB 3: USULANKU (KERANJANG USULAN DESA) ==================== */}
         {activeTab === "usulanku" && (
           <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
@@ -3156,6 +3804,18 @@ export default function App() {
               <div className="modal-dialog-footer">
                 <button className="btn btn-secondary" onClick={() => setSelectedDesaDetail(null)}>
                   Tutup
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  style={{ background: "#0b396b", color: "#ffffff", borderColor: "#0b396b" }}
+                  onClick={() => {
+                    setSelectedPatjuKode(selectedDesaDetail.kodeWilayah || "");
+                    setActiveTab("patju");
+                    setSelectedDesaDetail(null);
+                    showToast(`Beralih ke Sinergi PATJU 360 untuk ${selectedDesaDetail.tipe} ${selectedDesaDetail.nama}`);
+                  }}
+                >
+                  <Target size={14} /> Sinergi Data PATJU 360
                 </button>
                 <button
                   className="btn btn-primary"
