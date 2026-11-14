@@ -1107,7 +1107,8 @@ export default function App() {
                             fontWeight: 800,
                             fontSize: "12px",
                             padding: "5px 10px",
-                            minWidth: "145px",
+                            width: "auto",
+                            flex: "1 1 145px",
                             boxShadow: "0 1px 3px rgba(0, 112, 184, 0.12)"
                           }}
                           value={selectedKecamatanPengusul}
@@ -1138,7 +1139,8 @@ export default function App() {
                             fontWeight: 700,
                             fontSize: "12px",
                             padding: "5px 12px",
-                            minWidth: "230px",
+                            width: "auto",
+                            flex: "2 1 220px",
                             boxShadow: "0 1px 3px rgba(0, 112, 184, 0.12)"
                           }}
                           value={activeDesaPengusul}
@@ -2056,7 +2058,7 @@ export default function App() {
               }}
             >
               <div style={{ display: "flex", gap: "14px", alignItems: "center", flexWrap: "wrap", width: "100%" }}>
-                <div style={{ flex: 1, minWidth: "260px" }} className="search-input-wrap">
+                <div style={{ flex: "2 1 240px", minWidth: 0 }} className="search-input-wrap">
                   <Search size={15} color="#64748b" style={{ position: "absolute", left: "12px" }} />
                   <input
                     type="text"
@@ -2067,7 +2069,7 @@ export default function App() {
                   />
                 </div>
 
-                <div style={{ width: "320px" }}>
+                <div style={{ flex: "1 1 240px", minWidth: 0 }}>
                   <select
                     className="form-select"
                     value={selectedKecamatan}
@@ -2585,11 +2587,11 @@ export default function App() {
                   justifyContent: "space-between"
                 }}
               >
-                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center", flex: 1 }}>
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center", flex: "1 1 540px", minWidth: 0 }}>
                   {/* Filter Kecamatan */}
                   <select
                     className="form-select"
-                    style={{ minWidth: "170px" }}
+                    style={{ width: "auto", flex: "1 1 180px", minWidth: "150px" }}
                     value={patjuKecFilter}
                     onChange={(e) => setPatjuKecFilter(e.target.value)}
                   >
@@ -2604,7 +2606,7 @@ export default function App() {
                   {/* Filter Tingkat Urgensi */}
                   <select
                     className="form-select"
-                    style={{ minWidth: "190px" }}
+                    style={{ width: "auto", flex: "1 1 200px", minWidth: "160px" }}
                     value={patjuSeverityFilter}
                     onChange={(e) => setPatjuSeverityFilter(e.target.value)}
                   >
@@ -2616,7 +2618,7 @@ export default function App() {
                   </select>
 
                   {/* Search box */}
-                  <div style={{ position: "relative", minWidth: "220px", flex: 1 }}>
+                  <div style={{ position: "relative", flex: "2 1 220px", minWidth: "180px" }}>
                     <Search size={14} style={{ position: "absolute", left: "10px", top: "11px", color: "var(--slate-400)" }} />
                     <input
                       type="text"
@@ -2891,7 +2893,7 @@ export default function App() {
                         </span>
                       </div>
 
-                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))", gap: "12px" }}>
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: "12px" }}>
                         {PATJU_TREATMENT_CATALOG.map((trt) => {
                           let sasaranDesa = 0;
                           let satuanSasaran = "Sasaran";
