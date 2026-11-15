@@ -109,7 +109,8 @@ import {
   buildOtpAuthUri,
   loadUserAccounts,
   saveUserAccounts,
-  clearAllUsers
+  clearAllUsers,
+  resetToDefaultUsers
 } from "./utils/userManagement.js";
 
 const KATEGORI_LIST = [
@@ -242,6 +243,21 @@ export default function App() {
       return null;
     }
   });
+
+  // Filter Usulan Desa Sesuai Hak Akses (Operator Desa hanya melihat usulan desanya, Verifikator melihat OPD-nya)
+  const scopedUsulanDesa = useMemo(() => {
+    if (currentUser?.role === "Operator Desa") {
+      return savedUsulanDesa.filter((u) => {
+        const d = u.desaPengusul || "";
+        return d.includes(currentUser.desa || "") || d === currentUser.instansi;
+      });
+    }
+    if (currentUser?.role === "Verifikator" && currentUser?.opd) {
+      return savedUsulanDesa.filter((u) => u.opd === currentUser.opd);
+    }
+    return savedUsulanDesa;
+  }, [savedUsulanDesa, currentUser]);
+
   const [loginForm, setLoginForm] = useState({
     username: "",
     password: "",
@@ -256,16 +272,23 @@ export default function App() {
   // State Tab Keamanan & Kelola Pengguna (RBAC & Google Authenticator 2FA)
   const [keamananSubTab, setKeamananSubTab] = useState("users"); // "users" | "integrity" | "cloud" | "audit"
   const [systemUsers, setSystemUsers] = useState(() => {
-    // Sesuai permintaan: hapus semua pengguna yang ada terlebih dahulu (clean wipe)
-    try {
-      localStorage.removeItem("BAPPERIDA_LOBAR_SEC_V2_USER_ACCOUNTS");
-    } catch {}
-    saveUserAccounts([]);
-    return [];
+    return loadUserAccounts();
   });
   const [userSearchQuery, setUserSearchQuery] = useState("");
   const [userRoleFilter, setUserRoleFilter] = useState("all");
   const [user2faFilter, setUser2faFilter] = useState("all");
+
+  // Sinkronisasi hak akses dan lokus penugasan saat sesi pengguna aktif
+  useEffect(() => {
+    if (!currentUser) return;
+    if (currentUser.role === "Operator Desa") {
+      if (currentUser.instansi) setActiveDesaPengusul(currentUser.instansi);
+      if (currentUser.kecamatan) setSelectedKecamatanPengusul(currentUser.kecamatan);
+      if (currentUser.kodeWilayah) setSelectedPatjuKode(currentUser.kodeWilayah);
+    } else if (currentUser.role === "Verifikator" && currentUser.opd) {
+      setSelectedOpd(currentUser.opd);
+    }
+  }, [currentUser]);
 
   // Modals Pengguna
   const [showUserModal, setShowUserModal] = useState(false);
@@ -448,14 +471,20 @@ export default function App() {
     return counts;
   }, [allKamusForYear]);
 
-  // Objek Desa Pengusul Aktif dari data Sheet RUMUSAN 2026
+  // Objek Desa Pengusul Aktif dari data Sheet RUMUSAN 2026 (Terkunci jika akun Operator Desa)
   const activeDesaObj = useMemo(() => {
+    if (currentUser?.role === "Operator Desa") {
+      const myVillage = WILAYAH_LOBAR.find(
+        (w) => `${w.tipe} ${w.nama} (Kec. ${w.kecamatan})` === currentUser.instansi || w.nama === currentUser.desa
+      );
+      if (myVillage) return myVillage;
+    }
     return (
       WILAYAH_LOBAR.find(
         (w) => `${w.tipe} ${w.nama} (Kec. ${w.kecamatan})` === activeDesaPengusul
       ) || WILAYAH_LOBAR[0]
     );
-  }, [activeDesaPengusul]);
+  }, [activeDesaPengusul, currentUser]);
 
   // Analisis Diagnosa Triase 6 Dimensi Desa Pengusul Aktif (Sheet RUMUSAN)
   const desaTriage = useMemo(() => {
@@ -599,10 +628,15 @@ export default function App() {
     }
   }, [activeDesaObj, selectedKecamatanPengusul]);
 
-  // Daftar Desa / Kelurahan di dalam Kecamatan yang sedang dipilih
+  // Daftar Desa / Kelurahan di dalam Kecamatan yang sedang dipilih (Terkunci jika Operator Desa)
   const villagesInSelectedKecamatan = useMemo(() => {
+    if (currentUser?.role === "Operator Desa") {
+      return WILAYAH_LOBAR.filter(
+        (w) => `${w.tipe} ${w.nama} (Kec. ${w.kecamatan})` === currentUser.instansi || w.nama === currentUser.desa
+      );
+    }
     return WILAYAH_LOBAR.filter((w) => w.kecamatan === selectedKecamatanPengusul);
-  }, [selectedKecamatanPengusul]);
+  }, [selectedKecamatanPengusul, currentUser]);
 
   // Hitung jumlah usulan tahun aktif yang OPD-nya berstatus AMAN bagi desa tersebut (Terkunci)
   const lockedOpdCount = useMemo(() => {
@@ -679,8 +713,10 @@ export default function App() {
         return false;
       }
 
-      // 4. Filter OPD
-      if (selectedOpd !== "Semua OPD" && item.opd !== selectedOpd) {
+      // 4. Filter OPD (Terkunci jika login sebagai Verifikator OPD)
+      if (currentUser?.role === "Verifikator" && currentUser?.opd) {
+        if (item.opd !== currentUser.opd) return false;
+      } else if (selectedOpd !== "Semua OPD" && item.opd !== selectedOpd) {
         return false;
       }
 
@@ -724,7 +760,8 @@ export default function App() {
     smartFilterMode,
     desaTriage,
     activeProblemFocus,
-    selectedYear
+    selectedYear,
+    currentUser
   ]);
 
   // Perhitungan Paginasi untuk Tabel dengan Safe Clamping
@@ -780,6 +817,13 @@ export default function App() {
   }, [wilayahList]);
 
   const filteredWilayah = useMemo(() => {
+    // Jika login sebagai Operator Desa, tampilkan HANYA desa milik akun terkait agar tidak mengganggu desa lain
+    if (currentUser?.role === "Operator Desa") {
+      return wilayahList.filter(
+        (w) => `${w.tipe} ${w.nama} (Kec. ${w.kecamatan})` === currentUser.instansi || w.nama === currentUser.desa
+      );
+    }
+
     const q = desaSearch.trim().toLowerCase();
     return wilayahList.filter((w) => {
       if (
@@ -805,7 +849,7 @@ export default function App() {
         (w.koordinatDesa || "").toLowerCase().includes(q)
       );
     });
-  }, [wilayahList, selectedKecamatan, desaSearch, filterTriaseDesaTab]);
+  }, [wilayahList, selectedKecamatan, desaSearch, filterTriaseDesaTab, currentUser]);
 
   // Fungsi Simpan / Hapus Item ke Daftar Usulan Desa Saya (LocalStorage)
   const handleManualCloudSync = async () => {
@@ -1687,7 +1731,7 @@ export default function App() {
     }
   };
 
-  // Handler: Login SIPD-RI (Keamanan Terproteksi Kredensial Penuh)
+  // Handler: Login SIPD-RI (Keamanan Terproteksi Kredensial Penuh & Multi-Role RBAC)
   const handleLogin = (e) => {
     if (e) e.preventDefault();
     setLoginError("");
@@ -1704,41 +1748,23 @@ export default function App() {
       return;
     }
 
-    // Mode Inisialisasi: Jika belum ada user terdaftar (karena baru dibersihkan/direset),
-    // daftarkan akun administrator pertama dengan kredensial yang diinputkan pengguna
-    if (systemUsers.length === 0) {
-      const initialUser = {
-        id: `USR-INIT-001`,
-        nama: inputUname.toUpperCase(),
-        username: inputUname,
-        password: inputPass,
-        nip: "198501012010011001",
-        role: loginForm.role,
-        instansi: loginForm.role === "Super Admin" ? "Bapperida Kab. Lombok Barat" : loginForm.role === "Verifikator" ? "Bapperida (Bidang PSDAIK)" : "Desa Kuripan (Kec. Kuripan)",
-        status: "Aktif",
-        googleAuthEnabled: false,
-        updatedAt: new Date().toISOString()
-      };
-      const newUsersList = [initialUser];
-      setSystemUsers(newUsersList);
-      saveUserAccounts(newUsersList);
-      setCurrentUser(initialUser);
-      setSelectedYear(loginForm.tahun);
-      if (loginForm.rememberMe) {
-        localStorage.setItem("BAPPERIDA_LOBAR_AUTH_USER", JSON.stringify(initialUser));
-      }
-      logSecurityEvent("INITIALIZE_SUPERADMIN", `Akun awal @${initialUser.username} (${initialUser.role}) berhasil diinisialisasi`, initialUser.nama);
-      showToast(`Selamat datang, ${initialUser.nama}! Akun administrator pertama telah aktif.`);
-      return;
+    // Jika daftar pengguna kosong, inisialisasi dengan 143 akun standar resmi
+    let currentList = systemUsers;
+    if (currentList.length === 0) {
+      currentList = resetToDefaultUsers();
+      setSystemUsers(currentList);
     }
 
-    // Jika user sudah ada, cari user yang cocok
-    const foundUser = systemUsers.find(
-      (u) => u.username.toLowerCase() === inputUname || (u.nip && u.nip === inputUname)
-    );
+    // Cari user yang cocok (dukung alias "admin" untuk "admin.bapperida")
+    const foundUser = currentList.find((u) => {
+      const uName = (u.username || "").toLowerCase();
+      if (uName === inputUname || (u.nip && u.nip === inputUname)) return true;
+      if (inputUname === "admin" && (uName === "admin.bapperida" || u.role === "Super Admin")) return true;
+      return false;
+    });
 
     if (!foundUser) {
-      setLoginError("Username atau NIP tidak terdaftar. Hubungi Super Admin Bapperida untuk pendaftaran akun.");
+      setLoginError("Username atau NIP tidak terdaftar dalam sistem. Hubungi Super Admin Bapperida.");
       return;
     }
 
@@ -1747,7 +1773,22 @@ export default function App() {
       return;
     }
 
-    // Validasi Password jika ada pada akun
+    // Validasi Kesesuaian Role Tab Login
+    if (loginForm.role && foundUser.role !== loginForm.role) {
+      setLoginError(`Akun @${foundUser.username} terdaftar sebagai "${foundUser.role}". Silakan pilih tab role "${foundUser.role}" di atas.`);
+      return;
+    }
+
+    // Validasi Tahun Berjalan Khusus Verifikator OPD (Contoh: RKPD 2027 hanya 17 OPD yang aktif, 2028 ada 20 OPD)
+    if (foundUser.role === "Verifikator") {
+      const activeYears = foundUser.tahunAktif || ["2027", "2028"];
+      if (!activeYears.includes(loginForm.tahun)) {
+        setLoginError(`OPD "${foundUser.instansi}" belum aktif/terdaftar pada Tahun RKPD ${loginForm.tahun}. Akun ini hanya dapat masuk untuk Tahun RKPD ${activeYears.join(", ")}.`);
+        return;
+      }
+    }
+
+    // Validasi Password
     if (foundUser.password && foundUser.password !== inputPass) {
       setLoginError("Kata sandi yang Anda masukkan salah. Silakan periksa kembali.");
       return;
@@ -1766,17 +1807,70 @@ export default function App() {
     }
 
     // Login Sukses
-    const updatedUsers = systemUsers.map(u => u.id === foundUser.id ? { ...u, lastLogin: new Date().toLocaleString("id-ID") } : u);
+    const updatedUsers = currentList.map(u => u.id === foundUser.id ? { ...u, lastLogin: new Date().toLocaleString("id-ID") } : u);
     setSystemUsers(updatedUsers);
     saveUserAccounts(updatedUsers);
 
     setCurrentUser(foundUser);
     setSelectedYear(loginForm.tahun);
+
+    // Kustomisasi lokus wilayah & OPD berdasarkan akun
+    if (foundUser.role === "Operator Desa") {
+      if (foundUser.instansi) setActiveDesaPengusul(foundUser.instansi);
+      if (foundUser.kecamatan) setSelectedKecamatanPengusul(foundUser.kecamatan);
+      if (foundUser.kodeWilayah) setSelectedPatjuKode(foundUser.kodeWilayah);
+    } else if (foundUser.role === "Verifikator") {
+      if (foundUser.opd) setSelectedOpd(foundUser.opd);
+    }
+
     if (loginForm.rememberMe) {
       localStorage.setItem("BAPPERIDA_LOBAR_AUTH_USER", JSON.stringify(foundUser));
     }
-    logSecurityEvent("LOGIN_SUKSES", `Pengguna @${foundUser.username} (${foundUser.role}) berhasil masuk`, foundUser.nama);
+    logSecurityEvent("LOGIN_SUKSES", `Pengguna @${foundUser.username} (${foundUser.role} - ${foundUser.instansi}) berhasil masuk`, foundUser.nama);
     showToast(`Selamat datang, ${foundUser.nama}!`);
+  };
+
+  // Handler: Pulihkan 143 Akun Standar Resmi
+  const handleResetToStandardUsersConfirm = () => {
+    if (window.confirm("Apakah Anda ingin memulihkan seluruh 143 Akun Standar Resmi (Super Admin Bapperida, 20 OPD Verifikator, dan 122 Operator Desa)?")) {
+      const standardUsers = resetToDefaultUsers();
+      setSystemUsers(standardUsers);
+      logSecurityEvent("RESET_KE_DEFAULT", "Memulihkan 143 akun resmi sistem (Super Admin, 20 OPD Verifikator, 122 Desa)", currentUser?.nama || "Super Admin");
+      showToast("Berhasil memulihkan 143 akun resmi sistem!");
+      setAuditLogs(getSecurityAuditLogs());
+    }
+  };
+
+  // Handler: Ekspor Rekap 143 Akun ke Format CSV
+  const handleExportUsersCSV = () => {
+    if (systemUsers.length === 0) {
+      showToast("Tidak ada data akun pengguna untuk diekspor.");
+      return;
+    }
+    const headers = ["No", "ID", "Nama Pengguna", "Username", "NIP / Kode Wilayah", "Password Awal", "Role", "Lokus Penugasan / OPD", "Tahun RKPD Aktif", "Status"];
+    const rows = systemUsers.map((u, i) => [
+      i + 1,
+      `"${u.id || ''}"`,
+      `"${u.nama || ''}"`,
+      `"${u.username || ''}"`,
+      `"${u.nip || ''}"`,
+      `"${u.password || 'Lobar#2027'}"`,
+      `"${u.role || ''}"`,
+      `"${u.instansi || ''}"`,
+      `"${Array.isArray(u.tahunAktif) ? u.tahunAktif.join(', ') : 'Semua Tahun'}"`,
+      `"${u.status || 'Aktif'}"`
+    ]);
+    const csvContent = [headers.join(","), ...rows.map(r => r.join(","))].join("\r\n");
+    const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `Daftar_Akun_Pengguna_Pre_SIPD_Lobar_143_Akun_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showToast("File CSV rekap 143 akun pengguna berhasil diunduh!");
   };
 
   // Handler: Logout
@@ -2113,6 +2207,42 @@ export default function App() {
                     <span>Super Admin</span>
                   </button>
                 </div>
+
+                {loginForm.role === "Verifikator" && (
+                  <div style={{
+                    marginTop: "6px",
+                    padding: "6px 10px",
+                    background: "#eff6ff",
+                    border: "1px solid #bfdbfe",
+                    borderRadius: "6px",
+                    fontSize: "11px",
+                    color: "#1d4ed8",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px"
+                  }}>
+                    <CheckCircle size={13} color="#2563eb" />
+                    <span><b>Verifikator Aktif RKPD {loginForm.tahun}:</b> {loginForm.tahun === "2027" ? "17 OPD Resmi Terdaftar" : loginForm.tahun === "2028" ? "20 OPD Resmi Terdaftar" : "Perencanaan Terbuka"}</span>
+                  </div>
+                )}
+
+                {loginForm.role === "Operator Desa" && (
+                  <div style={{
+                    marginTop: "6px",
+                    padding: "6px 10px",
+                    background: "#f0fdf4",
+                    border: "1.5px solid #86efac",
+                    borderRadius: "6px",
+                    fontSize: "11px",
+                    color: "#166534",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px"
+                  }}>
+                    <Lock size={13} color="#16a34a" />
+                    <span><b>122 Akun Desa Terisolasi:</b> Saat login hanya data desa akun Anda yang ditampilkan.</span>
+                  </div>
+                )}
               </div>
 
               {/* Username Input */}
@@ -2124,7 +2254,13 @@ export default function App() {
                     type="text"
                     className="search-input"
                     style={{ height: "42px", paddingLeft: "36px" }}
-                    placeholder={loginForm.role === "Super Admin" ? "Masukkan username admin..." : loginForm.role === "Verifikator" ? "Masukkan username/NIP verifikator..." : "Masukkan username/NIP operator desa..."}
+                    placeholder={
+                      loginForm.role === "Super Admin"
+                        ? "Contoh: admin.bapperida"
+                        : loginForm.role === "Verifikator"
+                        ? "Contoh: verif.pertanian, verif.pupr, verif.dikes..."
+                        : "Contoh: op.kebonayu, op.kuripan, op.dasangeres..."
+                    }
                     value={loginForm.username}
                     onChange={(e) => setLoginForm({ ...loginForm, username: e.target.value })}
                   />
@@ -2673,37 +2809,56 @@ export default function App() {
                         </span>
                       )}
                     </div>
-                    <select
-                      className="form-select"
-                      value={selectedOpd}
-                      onChange={(e) => setSelectedOpd(e.target.value)}
-                    >
-                      {opdOptions.map((opd) => {
-                        if (opd === "Semua OPD") {
-                          return <option key={opd} value={opd}>Semua Dinas / OPD Pengampu</option>;
-                        }
-                        const st = desaTriage.opdStatusMap[opd];
-                        let prefix = "";
-                        if (st) {
-                          if (st.status === "kritis") {
-                            if (st.persen < 70) {
-                              prefix = `🔴 [Sektor Kritis ${st.persen}%] `;
-                            } else {
-                              prefix = `🔴 [Prioritas Defisit Skor 1] `;
-                            }
-                          } else if (st.status === "sedang") {
-                            prefix = `🟡 [Perlu Perhatian ${st.persen}%] `;
-                          } else if (st.status === "aman") {
-                            prefix = `🟢 [Capaian Mandiri ${st.persen}%] `;
+                    {currentUser?.role === "Verifikator" && currentUser?.opd ? (
+                      <div style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        background: "#eff6ff",
+                        border: "1.5px solid #bfdbfe",
+                        padding: "8px 12px",
+                        borderRadius: "8px",
+                        color: "#1d4ed8",
+                        fontWeight: 700,
+                        fontSize: "12px"
+                      }}>
+                        <Lock size={14} color="#2563eb" />
+                        <span>OPD Penugasan Terkunci: <b>{currentUser.opd}</b></span>
+                        <span className="badge badge-verifikator" style={{ marginLeft: "auto" }}>Verifikator OPD</span>
+                      </div>
+                    ) : (
+                      <select
+                        className="form-select"
+                        value={selectedOpd}
+                        onChange={(e) => setSelectedOpd(e.target.value)}
+                      >
+                        {opdOptions.map((opd) => {
+                          if (opd === "Semua OPD") {
+                            return <option key={opd} value={opd}>Semua Dinas / OPD Pengampu</option>;
                           }
-                        }
-                        return (
-                          <option key={opd} value={opd}>
-                            {prefix}{opd}
-                          </option>
-                        );
-                      })}
-                    </select>
+                          const st = desaTriage.opdStatusMap[opd];
+                          let prefix = "";
+                          if (st) {
+                            if (st.status === "kritis") {
+                              if (st.persen < 70) {
+                                prefix = `🔴 [Sektor Kritis ${st.persen}%] `;
+                              } else {
+                                prefix = `🔴 [Prioritas Defisit Skor 1] `;
+                              }
+                            } else if (st.status === "sedang") {
+                              prefix = `🟡 [Perlu Perhatian ${st.persen}%] `;
+                            } else if (st.status === "aman") {
+                              prefix = `🟢 [Capaian Mandiri ${st.persen}%] `;
+                            }
+                          }
+                          return (
+                            <option key={opd} value={opd}>
+                              {prefix}{opd}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    )}
 
                     {/* Penjelasan Interaktif Status OPD Terpilih */}
                     {selectedOpd !== "Semua OPD" && desaTriage.opdStatusMap[selectedOpd]?.status === "aman" && (
@@ -2890,79 +3045,114 @@ export default function App() {
                       <div style={{ fontSize: "11px", fontWeight: 800, color: "#0070b8", letterSpacing: "0.5px", textTransform: "uppercase" }}>
                         DIAGNOSA KEBUTUHAN PRIORITAS DESA (SHEET RUMUSAN 2026):
                       </div>
-                      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px", flexWrap: "wrap" }}>
-                        {/* Langkah 1: Pilih Kecamatan */}
-                        <select
-                          className="form-select form-select-sm"
-                          style={{
-                            background: "#ffffff",
-                            color: "#0f172a",
-                            borderColor: "#0284c7",
-                            fontWeight: 800,
-                            fontSize: "12px",
-                            padding: "5px 10px",
-                            width: "auto",
-                            flex: "1 1 145px",
-                            boxShadow: "0 1px 3px rgba(0, 112, 184, 0.12)"
-                          }}
-                          value={selectedKecamatanPengusul}
-                          onChange={(e) => {
-                            const newKec = e.target.value;
-                            setSelectedKecamatanPengusul(newKec);
-                            const firstInKec = WILAYAH_LOBAR.find((w) => w.kecamatan === newKec);
-                            if (firstInKec) {
-                              setActiveDesaPengusul(`${firstInKec.tipe} ${firstInKec.nama} (Kec. ${firstInKec.kecamatan})`);
-                            }
-                          }}
-                          title="Langkah 1: Pilih Kecamatan"
-                        >
-                          {DAFTAR_KECAMATAN.map((k) => (
-                            <option key={k.kode} value={k.nama}>
-                              📍 Kec. {k.nama}
-                            </option>
-                          ))}
-                        </select>
-
-                        {/* Langkah 2: Baru Pilih Desa */}
-                        <select
-                          className="form-select form-select-sm"
-                          style={{
-                            background: "#ffffff",
-                            color: "#0f172a",
-                            borderColor: "#0284c7",
-                            fontWeight: 700,
-                            fontSize: "12px",
+                      {currentUser?.role === "Operator Desa" ? (
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "4px", flexWrap: "wrap" }}>
+                          <div style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            background: "#f0fdf4",
+                            border: "1.5px solid #86efac",
                             padding: "5px 12px",
-                            width: "auto",
-                            flex: "2 1 220px",
-                            boxShadow: "0 1px 3px rgba(0, 112, 184, 0.12)"
-                          }}
-                          value={activeDesaPengusul}
-                          onChange={(e) => setActiveDesaPengusul(e.target.value)}
-                          title="Langkah 2: Pilih Desa / Kelurahan"
-                        >
-                          {villagesInSelectedKecamatan.map((w) => (
-                            <option key={w.id} value={`${w.tipe} ${w.nama} (Kec. ${w.kecamatan})`}>
-                              {w.tipe} {w.nama} • {w.statusKemendesa} (Skor ID: {w.skorKemendesa})
-                            </option>
-                          ))}
-                        </select>
+                            borderRadius: "6px",
+                            color: "#166534",
+                            fontWeight: 700,
+                            fontSize: "12px"
+                          }}>
+                            <Lock size={13} color="#16a34a" />
+                            <span>Lokus Wilayah Terkunci: <b>{currentUser.instansi}</b></span>
+                            <span className="badge badge-operator-desa">Operator Desa</span>
+                          </div>
+                          <span
+                            className={`badge ${
+                              activeDesaObj.statusKemendesa === "MANDIRI"
+                                ? "badge-mandiri"
+                                : activeDesaObj.statusKemendesa === "MAJU"
+                                ? "badge-maju"
+                                : "badge-berkembang"
+                            }`}
+                          >
+                            {activeDesaObj.statusKemendesa}
+                          </span>
+                          <span style={{ fontSize: "11.5px", color: "var(--slate-700)" }}>
+                            Nilai: <b>{activeDesaObj.nilaiTotal}/635</b> ({activeDesaObj.skorBappenas}%)
+                          </span>
+                        </div>
+                      ) : (
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "3px", flexWrap: "wrap" }}>
+                          {/* Langkah 1: Pilih Kecamatan */}
+                          <select
+                            className="form-select form-select-sm"
+                            style={{
+                              background: "#ffffff",
+                              color: "#0f172a",
+                              borderColor: "#0284c7",
+                              fontWeight: 800,
+                              fontSize: "12px",
+                              padding: "5px 10px",
+                              width: "auto",
+                              flex: "1 1 145px",
+                              boxShadow: "0 1px 3px rgba(0, 112, 184, 0.12)"
+                            }}
+                            value={selectedKecamatanPengusul}
+                            onChange={(e) => {
+                              const newKec = e.target.value;
+                              setSelectedKecamatanPengusul(newKec);
+                              const firstInKec = WILAYAH_LOBAR.find((w) => w.kecamatan === newKec);
+                              if (firstInKec) {
+                                setActiveDesaPengusul(`${firstInKec.tipe} ${firstInKec.nama} (Kec. ${firstInKec.kecamatan})`);
+                              }
+                            }}
+                            title="Langkah 1: Pilih Kecamatan"
+                          >
+                            {DAFTAR_KECAMATAN.map((k) => (
+                              <option key={k.kode} value={k.nama}>
+                                📍 Kec. {k.nama}
+                              </option>
+                            ))}
+                          </select>
 
-                        <span
-                          className={`badge ${
-                            activeDesaObj.statusKemendesa === "MANDIRI"
-                              ? "badge-mandiri"
-                              : activeDesaObj.statusKemendesa === "MAJU"
-                              ? "badge-maju"
-                              : "badge-berkembang"
-                          }`}
-                        >
-                          {activeDesaObj.statusKemendesa}
-                        </span>
-                        <span style={{ fontSize: "11.5px", color: "var(--slate-700)" }}>
-                          Nilai: <b>{activeDesaObj.nilaiTotal}/635</b> ({activeDesaObj.skorBappenas}%)
-                        </span>
-                      </div>
+                          {/* Langkah 2: Baru Pilih Desa */}
+                          <select
+                            className="form-select form-select-sm"
+                            style={{
+                              background: "#ffffff",
+                              color: "#0f172a",
+                              borderColor: "#0284c7",
+                              fontWeight: 700,
+                              fontSize: "12px",
+                              padding: "5px 12px",
+                              width: "auto",
+                              flex: "2 1 220px",
+                              boxShadow: "0 1px 3px rgba(0, 112, 184, 0.12)"
+                            }}
+                            value={activeDesaPengusul}
+                            onChange={(e) => setActiveDesaPengusul(e.target.value)}
+                            title="Langkah 2: Pilih Desa / Kelurahan"
+                          >
+                            {villagesInSelectedKecamatan.map((w) => (
+                              <option key={w.id} value={`${w.tipe} ${w.nama} (Kec. ${w.kecamatan})`}>
+                                {w.tipe} {w.nama} • {w.statusKemendesa} (Skor ID: {w.skorKemendesa})
+                              </option>
+                            ))}
+                          </select>
+
+                          <span
+                            className={`badge ${
+                              activeDesaObj.statusKemendesa === "MANDIRI"
+                                ? "badge-mandiri"
+                                : activeDesaObj.statusKemendesa === "MAJU"
+                                ? "badge-maju"
+                                : "badge-berkembang"
+                            }`}
+                          >
+                            {activeDesaObj.statusKemendesa}
+                          </span>
+                          <span style={{ fontSize: "11.5px", color: "var(--slate-700)" }}>
+                            Nilai: <b>{activeDesaObj.nilaiTotal}/635</b> ({activeDesaObj.skorBappenas}%)
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -5138,45 +5328,65 @@ export default function App() {
                 <label className="filter-label" style={{ fontWeight: 800, color: "var(--gov-navy-900)" }}>
                   🏛️ Wilayah Pengusul Usulan Desa (Pre-SIPD):
                 </label>
-                <div style={{ display: "flex", gap: "8px", marginTop: "5px" }}>
-                  <select
-                    className="form-select"
-                    style={{ width: "38%" }}
-                    value={selectedKecamatanPengusul}
-                    onChange={(e) => {
-                      const newKec = e.target.value;
-                      setSelectedKecamatanPengusul(newKec);
-                      const firstInKec = WILAYAH_LOBAR.find((w) => w.kecamatan === newKec);
-                      if (firstInKec) {
-                        setActiveDesaPengusul(`${firstInKec.tipe} ${firstInKec.nama} (Kec. ${firstInKec.kecamatan})`);
-                      }
-                    }}
-                    title="Pilih Kecamatan"
-                  >
-                    {DAFTAR_KECAMATAN.map((k) => (
-                      <option key={k.kode} value={k.nama}>
-                        Kecamatan {k.nama}
-                      </option>
-                    ))}
-                  </select>
-
-                  <select
-                    className="form-select"
-                    style={{ width: "62%" }}
-                    value={activeDesaPengusul}
-                    onChange={(e) => setActiveDesaPengusul(e.target.value)}
-                    title="Pilih Desa / Kelurahan di Kecamatan Terpilih"
-                  >
-                    {villagesInSelectedKecamatan.map((w) => {
-                      const label = `${w.tipe} ${w.nama} (Kec. ${w.kecamatan})`;
-                      return (
-                        <option key={w.id} value={label}>
-                          {label} • {w.statusKemendesa} (Skor: {w.skorKemendesa})
+                {currentUser?.role === "Operator Desa" ? (
+                  <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    background: "#f0fdf4",
+                    border: "1.5px solid #86efac",
+                    padding: "8px 14px",
+                    borderRadius: "8px",
+                    color: "#166534",
+                    fontWeight: 700,
+                    fontSize: "12.5px",
+                    marginTop: "5px"
+                  }}>
+                    <Lock size={15} color="#16a34a" />
+                    <span>Lokus Wilayah Terkunci: <b>{currentUser.instansi}</b></span>
+                    <span className="badge badge-operator-desa" style={{ marginLeft: "auto" }}>Akun Operator Desa</span>
+                  </div>
+                ) : (
+                  <div style={{ display: "flex", gap: "8px", marginTop: "5px" }}>
+                    <select
+                      className="form-select"
+                      style={{ width: "38%" }}
+                      value={selectedKecamatanPengusul}
+                      onChange={(e) => {
+                        const newKec = e.target.value;
+                        setSelectedKecamatanPengusul(newKec);
+                        const firstInKec = WILAYAH_LOBAR.find((w) => w.kecamatan === newKec);
+                        if (firstInKec) {
+                          setActiveDesaPengusul(`${firstInKec.tipe} ${firstInKec.nama} (Kec. ${firstInKec.kecamatan})`);
+                        }
+                      }}
+                      title="Pilih Kecamatan"
+                    >
+                      {DAFTAR_KECAMATAN.map((k) => (
+                        <option key={k.kode} value={k.nama}>
+                          Kecamatan {k.nama}
                         </option>
-                      );
-                    })}
-                  </select>
-                </div>
+                      ))}
+                    </select>
+
+                    <select
+                      className="form-select"
+                      style={{ width: "62%" }}
+                      value={activeDesaPengusul}
+                      onChange={(e) => setActiveDesaPengusul(e.target.value)}
+                      title="Pilih Desa / Kelurahan di Kecamatan Terpilih"
+                    >
+                      {villagesInSelectedKecamatan.map((w) => {
+                        const label = `${w.tipe} ${w.nama} (Kec. ${w.kecamatan})`;
+                        return (
+                          <option key={w.id} value={label}>
+                            {label} • {w.statusKemendesa} (Skor: {w.skorKemendesa})
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                )}
               </div>
 
               {/* Sisi Kanan: Aksi Sejajar: Input Usulan Baru + Ekspor Excel Kertas Kerja SIPD + Cetak PDF + CSV + WA */}
@@ -5254,7 +5464,7 @@ export default function App() {
               </div>
             </div>
 
-            {savedUsulanDesa.length === 0 ? (
+            {scopedUsulanDesa.length === 0 ? (
               <div
                 style={{
                   background: "var(--pure-white)",
@@ -5274,7 +5484,7 @@ export default function App() {
               </div>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-                {savedUsulanDesa.map((item, idx) => (
+                {scopedUsulanDesa.map((item, idx) => (
                   <article key={item.id} className="gov-dossier-card">
                     <div className="card-top-badges">
                       <div className="badge-tag-group">
@@ -5513,14 +5723,36 @@ export default function App() {
                       </select>
                     </div>
 
-                    <button
-                      className="btn btn-primary"
-                      onClick={handleOpenAddUser}
-                      style={{ height: "38px" }}
-                    >
-                      <UserPlus size={15} />
-                      <span>Tambah Pengguna</span>
-                    </button>
+                    <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                      <button
+                        className="btn btn-secondary"
+                        onClick={handleExportUsersCSV}
+                        style={{ height: "38px", display: "inline-flex", alignItems: "center", gap: "6px" }}
+                        title="Unduh rekap 143 akun pengguna resmi dalam format CSV"
+                      >
+                        <FileSpreadsheet size={15} />
+                        <span>Unduh Rekap CSV</span>
+                      </button>
+
+                      <button
+                        className="btn btn-gold"
+                        onClick={handleResetToStandardUsersConfirm}
+                        style={{ height: "38px", display: "inline-flex", alignItems: "center", gap: "6px" }}
+                        title="Pulihkan seluruh 143 akun standar resmi (Super Admin, 20 OPD, 122 Desa)"
+                      >
+                        <RotateCcw size={15} />
+                        <span>Pulihkan 143 Akun Standar</span>
+                      </button>
+
+                      <button
+                        className="btn btn-primary"
+                        onClick={handleOpenAddUser}
+                        style={{ height: "38px" }}
+                      >
+                        <UserPlus size={15} />
+                        <span>Tambah Pengguna</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
 
@@ -5694,6 +5926,36 @@ export default function App() {
                       )}
                     </tbody>
                   </table>
+                </div>
+
+                {/* Footer Toolbar Tabel Pengguna */}
+                <div style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: "12px",
+                  padding: "12px 16px",
+                  background: "#f8fafc",
+                  borderRadius: "var(--radius-md)",
+                  border: "1px solid var(--slate-200)"
+                }}>
+                  <div style={{ fontSize: "12px", color: "var(--slate-600)" }}>
+                    Menampilkan <b>{filteredSystemUsers.length}</b> dari <b>{systemUsers.length}</b> Akun Resmi Terdaftar.
+                  </div>
+
+                  <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-danger-ghost"
+                      onClick={handleClearAllUsersConfirm}
+                      title="Hapus bersih seluruh akun pengguna"
+                      style={{ fontSize: "11.5px" }}
+                    >
+                      <Trash2 size={13} />
+                      <span>Hapus Semua Pengguna (Clean Wipe)</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
