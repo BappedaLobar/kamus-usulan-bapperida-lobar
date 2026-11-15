@@ -1881,3 +1881,99 @@ body {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* ==========================================================================
+   STYLING MANAJEMEN USER, ROLE (RBAC), DAN GOOGLE AUTH 2FA
+   ========================================================================== */
+.badge-super-admin {
+  background: #ffe4e6;
+  color: #be123c;
+  border: 1px solid #fecdd3;
+  font-weight: 800;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.badge-verifikator {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  font-weight: 800;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.badge-operator-desa {
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+  font-weight: 800;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.badge-2fa-active {
+  background: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 3px 9px;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge-2fa-inactive {
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #cbd5e1;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 3px 9px;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.keamanan-subtab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--slate-600);
+  background: #f8fafc;
+  border: 1px solid var(--slate-200);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.keamanan-subtab-btn:hover {
+  background: #f1f5f9;
+  color: var(--slate-900);
+}
+
+.keamanan-subtab-btn.active {
+  background: var(--gov-navy-900);
+  color: var(--gov-gold-400);
+  border-color: var(--gov-navy-900);
+  box-shadow: var(--shadow-sm);
+}
+

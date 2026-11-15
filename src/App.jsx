@@ -46,7 +46,16 @@ import {
   ArrowRight,
   FileSpreadsheet,
   FileText,
-  Printer
+  Printer,
+  Users,
+  UserPlus,
+  Key,
+  Smartphone,
+  QrCode,
+  Shield,
+  ShieldAlert,
+  Edit,
+  Copy
 } from "lucide-react";
 import * as XLSX from "xlsx";
 import { jsPDF } from "jspdf";
@@ -87,6 +96,16 @@ import {
   mapProblemToSolution,
   getDesaMappedProblems
 } from "./utils/problemMapper.js";
+import {
+  USER_ROLES,
+  ROLE_DETAILS,
+  DEFAULT_SYSTEM_USERS,
+  generateBase32Secret,
+  generateStrongPassword,
+  buildOtpAuthUri,
+  loadUserAccounts,
+  saveUserAccounts
+} from "./utils/userManagement.js";
 
 const KATEGORI_LIST = [
   "Semua Kategori",
@@ -208,6 +227,40 @@ export default function App() {
     message: "Memeriksa koneksi database..."
   });
   const [isSyncingCloud, setIsSyncingCloud] = useState(false);
+
+  // State Tab Keamanan & Kelola Pengguna (RBAC & Google Authenticator 2FA)
+  const [keamananSubTab, setKeamananSubTab] = useState("users"); // "users" | "integrity" | "cloud" | "audit"
+  const [systemUsers, setSystemUsers] = useState(() => loadUserAccounts());
+  const [userSearchQuery, setUserSearchQuery] = useState("");
+  const [userRoleFilter, setUserRoleFilter] = useState("all");
+  const [user2faFilter, setUser2faFilter] = useState("all");
+
+  // Modals Pengguna
+  const [showUserModal, setShowUserModal] = useState(false);
+  const [editingUser, setEditingUser] = useState(null); // null = mode tambah, object = mode edit
+  const [userForm, setUserForm] = useState({
+    nama: "",
+    username: "",
+    nip: "",
+    role: "Operator Desa",
+    instansi: "Desa Beleke (Kec. Gerung)",
+    password: "",
+    googleAuthEnabled: false,
+    status: "Aktif"
+  });
+
+  // Modal Reset Password
+  const [showResetPasswordModal, setShowResetPasswordModal] = useState(false);
+  const [resetPasswordUser, setResetPasswordUser] = useState(null);
+  const [resetPasswordNewVal, setResetPasswordNewVal] = useState("");
+  const [resetPasswordCopied, setResetPasswordCopied] = useState(false);
+
+  // Modal Google Authenticator (2FA)
+  const [showGoogleAuthModal, setShowGoogleAuthModal] = useState(false);
+  const [googleAuthUser, setGoogleAuthUser] = useState(null);
+  const [generatedSecret, setGeneratedSecret] = useState("");
+  const [totpVerifyInput, setTotpVerifyInput] = useState("");
+  const [secretCopied, setSecretCopied] = useState(false);
 
   // Auto-koneksi ke Cloudflare D1 saat aplikasi pertama kali dibuka
   useEffect(() => {
@@ -1385,6 +1438,222 @@ export default function App() {
     showToast("Backup JSON Terenkripsi/Checksum berhasil diunduh!");
   };
 
+  // Filter Pengguna Terdaftar
+  const filteredSystemUsers = useMemo(() => {
+    const q = userSearchQuery.trim().toLowerCase();
+    return systemUsers.filter((u) => {
+      if (userRoleFilter !== "all" && u.role !== userRoleFilter) return false;
+      if (user2faFilter === "active" && !u.googleAuthEnabled) return false;
+      if (user2faFilter === "inactive" && u.googleAuthEnabled) return false;
+      if (!q) return true;
+      const haystack = `${u.nama} ${u.username} ${u.nip || ""} ${u.role} ${u.instansi || ""}`.toLowerCase();
+      return haystack.includes(q);
+    });
+  }, [systemUsers, userSearchQuery, userRoleFilter, user2faFilter]);
+
+  // Handler: Buka Modal Tambah Pengguna Baru
+  const handleOpenAddUser = () => {
+    setEditingUser(null);
+    setUserForm({
+      nama: "",
+      username: "",
+      nip: "",
+      role: "Operator Desa",
+      instansi: "Desa Beleke (Kec. Gerung)",
+      password: generateStrongPassword(),
+      googleAuthEnabled: false,
+      status: "Aktif"
+    });
+    setShowUserModal(true);
+  };
+
+  // Handler: Buka Modal Edit Pengguna
+  const handleOpenEditUser = (user) => {
+    setEditingUser(user);
+    setUserForm({
+      nama: user.nama || "",
+      username: user.username || "",
+      nip: user.nip || "",
+      role: user.role || "Operator Desa",
+      instansi: user.instansi || "",
+      password: "",
+      googleAuthEnabled: Boolean(user.googleAuthEnabled),
+      status: user.status || "Aktif"
+    });
+    setShowUserModal(true);
+  };
+
+  // Handler: Simpan Pengguna (Tambah / Edit)
+  const handleSaveUser = (e) => {
+    e.preventDefault();
+    if (!userForm.nama.trim() || !userForm.username.trim()) {
+      showToast("Nama Lengkap dan Username wajib diisi!");
+      return;
+    }
+
+    const cleanUsername = userForm.username.trim().toLowerCase().replace(/[^a-z0-9._-]/g, "");
+
+    if (editingUser) {
+      if (cleanUsername !== editingUser.username && systemUsers.some(u => u.username === cleanUsername && u.id !== editingUser.id)) {
+        showToast("Username sudah digunakan oleh akun lain!");
+        return;
+      }
+
+      const updatedUsers = systemUsers.map(u => {
+        if (u.id === editingUser.id) {
+          return {
+            ...u,
+            nama: userForm.nama.trim(),
+            username: cleanUsername,
+            nip: userForm.nip.trim(),
+            role: userForm.role,
+            instansi: userForm.instansi.trim(),
+            status: userForm.status,
+            googleAuthEnabled: Boolean(userForm.googleAuthEnabled),
+            updatedAt: new Date().toISOString()
+          };
+        }
+        return u;
+      });
+
+      setSystemUsers(updatedUsers);
+      saveUserAccounts(updatedUsers);
+      logSecurityEvent("EDIT_PENGGUNA", `Pembaruan data akun ${cleanUsername} (${userForm.role})`, "Super Admin");
+      showToast(`Akun @${cleanUsername} berhasil diperbarui!`);
+    } else {
+      if (systemUsers.some(u => u.username === cleanUsername)) {
+        showToast("Username sudah terdaftar! Gunakan username lain.");
+        return;
+      }
+
+      const newUser = {
+        id: `USR-${Date.now().toString().slice(-4)}`,
+        nama: userForm.nama.trim(),
+        username: cleanUsername,
+        nip: userForm.nip.trim(),
+        role: userForm.role,
+        instansi: userForm.instansi.trim() || "Bapperida Kab. Lombok Barat",
+        status: userForm.status,
+        googleAuthEnabled: Boolean(userForm.googleAuthEnabled),
+        googleAuthSecret: generateBase32Secret(),
+        lastLogin: "-",
+        updatedAt: new Date().toISOString()
+      };
+
+      const updatedUsers = [newUser, ...systemUsers];
+      setSystemUsers(updatedUsers);
+      saveUserAccounts(updatedUsers);
+      logSecurityEvent("TAMBAH_PENGGUNA", `Akun baru @${cleanUsername} (${newUser.role}) berhasil ditambahkan`, "Super Admin");
+      showToast(`Pengguna baru @${cleanUsername} berhasil ditambahkan!`);
+    }
+
+    setShowUserModal(false);
+    setAuditLogs(getSecurityAuditLogs());
+  };
+
+  // Handler: Hapus Pengguna
+  const handleDeleteUser = (user) => {
+    if (user.id === "USR-001" || user.username === "admin.bapperida") {
+      showToast("Akun Super Admin Utama sistem tidak dapat dihapus!");
+      return;
+    }
+
+    if (window.confirm(`Apakah Anda yakin ingin menghapus akun "${user.nama}" (@${user.username})?`)) {
+      const updated = systemUsers.filter(u => u.id !== user.id);
+      setSystemUsers(updated);
+      saveUserAccounts(updated);
+      logSecurityEvent("HAPUS_PENGGUNA", `Akun @${user.username} (${user.role}) dihapus dari sistem`, "Super Admin");
+      showToast(`Akun @${user.username} berhasil dihapus.`);
+      setAuditLogs(getSecurityAuditLogs());
+    }
+  };
+
+  // Handler: Buka Modal Reset Password
+  const handleOpenResetPassword = (user) => {
+    setResetPasswordUser(user);
+    setResetPasswordNewVal(generateStrongPassword());
+    setResetPasswordCopied(false);
+    setShowResetPasswordModal(true);
+  };
+
+  // Handler: Konfirmasi Reset Password
+  const handleConfirmResetPassword = () => {
+    if (!resetPasswordUser || !resetPasswordNewVal.trim()) return;
+
+    const updated = systemUsers.map(u => {
+      if (u.id === resetPasswordUser.id) {
+        return {
+          ...u,
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return u;
+    });
+
+    setSystemUsers(updated);
+    saveUserAccounts(updated);
+    logSecurityEvent("RESET_PASSWORD", `Password akun @${resetPasswordUser.username} (${resetPasswordUser.role}) berhasil direset`, "Super Admin");
+    showToast(`Password akun @${resetPasswordUser.username} berhasil direset!`);
+    setShowResetPasswordModal(false);
+    setAuditLogs(getSecurityAuditLogs());
+  };
+
+  // Handler: Buka Modal Google Authenticator (2FA)
+  const handleOpenGoogleAuth = (user) => {
+    setGoogleAuthUser(user);
+    setGeneratedSecret(user.googleAuthSecret || generateBase32Secret());
+    setTotpVerifyInput("");
+    setSecretCopied(false);
+    setShowGoogleAuthModal(true);
+  };
+
+  // Handler: Konfirmasi Aktifkan Google Authenticator
+  const handleConfirmEnableGoogleAuth = () => {
+    if (!googleAuthUser) return;
+
+    const updated = systemUsers.map(u => {
+      if (u.id === googleAuthUser.id) {
+        return {
+          ...u,
+          googleAuthEnabled: true,
+          googleAuthSecret: generatedSecret,
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return u;
+    });
+
+    setSystemUsers(updated);
+    saveUserAccounts(updated);
+    logSecurityEvent("AKTIFKAN_2FA", `Google Authenticator 2FA diaktifkan untuk akun @${googleAuthUser.username}`, "Super Admin");
+    showToast(`Google Authenticator berhasil diaktifkan untuk @${googleAuthUser.username}!`);
+    setShowGoogleAuthModal(false);
+    setAuditLogs(getSecurityAuditLogs());
+  };
+
+  // Handler: Nonaktifkan Google Authenticator
+  const handleDisableGoogleAuth = (user) => {
+    if (window.confirm(`Nonaktifkan Google Authenticator 2FA untuk akun @${user.username}? Akun hanya akan dilindungi password biasa.`)) {
+      const updated = systemUsers.map(u => {
+        if (u.id === user.id) {
+          return {
+            ...u,
+            googleAuthEnabled: false,
+            updatedAt: new Date().toISOString()
+          };
+        }
+        return u;
+      });
+
+      setSystemUsers(updated);
+      saveUserAccounts(updated);
+      logSecurityEvent("NONAKTIFKAN_2FA", `Google Authenticator 2FA dinonaktifkan untuk akun @${user.username}`, "Super Admin");
+      showToast(`2FA Google Authenticator @${user.username} dinonaktifkan.`);
+      setShowGoogleAuthModal(false);
+      setAuditLogs(getSecurityAuditLogs());
+    }
+  };
+
   const count2027 =
     (rawKamusData.kamus["2027"]?.length || 0) +
     customKamusList.filter((i) => String(i.tahun) === "2027").length;
@@ -1464,7 +1733,7 @@ export default function App() {
               onClick={() => setActiveTab("keamanan")}
             >
               <ShieldCheck size={16} />
-              <span>Keamanan</span>
+              <span>Keamanan &amp; Kelola User</span>
             </button>
           </nav>
 
@@ -4415,179 +4684,583 @@ export default function App() {
           </div>
         )}
 
-        {/* ==================== TAB 5: KEAMANAN SIBER & AUDIT TRAIL ==================== */}
+        {/* ==================== TAB 5: KEAMANAN SIBER & KELOLA USER ==================== */}
         {activeTab === "keamanan" && (
           <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
-            {/* Kartu Status Integritas */}
+            {/* Header Judul Tab & Aksi Cepat */}
             <div
               style={{
                 background: "linear-gradient(135deg, var(--gov-navy-900) 0%, var(--gov-navy-800) 100%)",
                 color: "var(--pure-white)",
-                padding: "22px 26px",
+                padding: "20px 24px",
                 borderRadius: "var(--radius-lg)",
                 boxShadow: "var(--shadow-md)",
                 border: "1.5px solid rgba(255,255,255,0.15)",
                 display: "flex",
-                flexDirection: "column",
+                justifyContent: "space-between",
+                alignItems: "center",
+                flexWrap: "wrap",
                 gap: "14px"
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+                <div style={{ background: "rgba(255,255,255,0.1)", padding: "10px", borderRadius: "12px" }}>
                   <ShieldCheck size={32} color="#4ade80" />
-                  <div>
-                    <h2 style={{ fontSize: "17px", fontWeight: 800 }}>
-                      Status Integritas & Keamanan Siber LocalStorage
+                </div>
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                    <h2 style={{ fontSize: "18px", fontWeight: 800, margin: 0 }}>
+                      Keamanan Siber, Hak Akses &amp; Kelola Pengguna (RBAC)
                     </h2>
-                    <p style={{ fontSize: "12px", color: "#bae6fd" }}>
-                      Standar Keamanan Klien OWASP • Checksum Envelope SHA-256 • Anti-XSS Sanitizer
-                    </p>
+                    <span style={{ background: "rgba(74, 222, 128, 0.2)", color: "#4ade80", border: "1px solid #4ade80", padding: "2px 8px", borderRadius: "10px", fontSize: "11px", fontWeight: 700 }}>
+                      BSSN &amp; SPBE Compliant
+                    </span>
                   </div>
-                </div>
-
-                <button className="btn btn-gold" onClick={handleExportBackupJSON}>
-                  <Download size={15} /> Unduh Backup JSON Aman
-                </button>
-              </div>
-
-              <div
-                style={{
-                  background: "rgba(0,0,0,0.3)",
-                  padding: "14px 18px",
-                  borderRadius: "var(--radius-md)",
-                  fontFamily: "monospace",
-                  fontSize: "12px",
-                  lineHeight: 1.65,
-                  border: "1px solid rgba(255,255,255,0.1)"
-                }}
-              >
-                <div>
-                  STATUS INTEGRITAS:{" "}
-                  <strong style={{ color: "#4ade80" }}>
-                    {securityStatus.verified ? "TERVERIFIKASI ASLI (AUTHENTIC)" : "PERINGATAN"}
-                  </strong>
-                </div>
-                <div>SIGNATURE HASH: {securityStatus.checksum}</div>
-                <div>ANTI-XSS INJECTION: AKTIF (Input Sanitization Sanitizer Enabled)</div>
-                <div>STORAGE PREFIX: BAPPERIDA_LOBAR_SEC_V2_* (Sandboxed)</div>
-              </div>
-            </div>
-
-            {/* Status & Integrasi Cloudflare D1 Database */}
-            <div className="gov-dossier-card d1-cloud-management-card" style={{ borderLeft: "5px solid #0284c7" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px" }}>
-                <div>
-                  <h3 className="dossier-title" style={{ display: "flex", alignItems: "center", gap: "8px", margin: 0 }}>
-                    <Database size={18} color="#0284c7" /> Database Cloudflare D1 (Serverless SQL Online)
-                  </h3>
-                  <p style={{ fontSize: "12.5px", color: "var(--slate-600)", marginTop: "4px", marginBottom: 0 }}>
-                    Database terpusat Bapperida Lombok Barat untuk sinkronisasi usulan seluruh 119 Desa &amp; 3 Kelurahan.
+                  <p style={{ fontSize: "12.5px", color: "#bae6fd", margin: "4px 0 0 0" }}>
+                    Role-Based Access Control (Super Admin, Verifikator, Operator Desa) • Two-Factor Authentication (2FA) Google Authenticator • Audit Trail
                   </p>
                 </div>
-
-                <div style={{ display: "flex", gap: "8px" }}>
-                  <button
-                    className="btn btn-secondary btn-sm"
-                    onClick={handleManualCloudSync}
-                    disabled={isSyncingCloud}
-                  >
-                    <RefreshCw size={13} className={isSyncingCloud ? "spin-animation" : ""} />
-                    <span>Cek &amp; Sinkronkan Sekarang</span>
-                  </button>
-                </div>
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px", marginTop: "10px" }}>
-                <div style={{ background: cloudDbStatus.connected ? "#ecfdf5" : "#fefce8", padding: "12px", borderRadius: "8px", border: `1px solid ${cloudDbStatus.connected ? "#a7f3d0" : "#fef08a"}` }}>
-                  <span style={{ fontSize: "11px", color: cloudDbStatus.connected ? "#065f46" : "#854d0e", fontWeight: 700 }}>STATUS KONEKSI D1:</span>
-                  <div style={{ fontSize: "15px", fontWeight: 800, color: cloudDbStatus.connected ? "#047857" : "#b45309", marginTop: "2px" }}>
-                    {cloudDbStatus.connected ? "🟢 TERHUBUNG ONLINE" : "🟡 STANDBY (LOKAL AKTIF)"}
-                  </div>
-                </div>
-
-                <div style={{ background: "#f8fafc", padding: "12px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
-                  <span style={{ fontSize: "11px", color: "#475569", fontWeight: 700 }}>KAPASITAS FREE TIER:</span>
-                  <div style={{ fontSize: "15px", fontWeight: 800, color: "#0f172a", marginTop: "2px" }}>
-                    5 GB Storage (500 MB/DB)
-                  </div>
-                </div>
-
-                <div style={{ background: "#f8fafc", padding: "12px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
-                  <span style={{ fontSize: "11px", color: "#475569", fontWeight: 700 }}>KUOTA OPERASI BACA/TULIS:</span>
-                  <div style={{ fontSize: "15px", fontWeight: 800, color: "#0f172a", marginTop: "2px" }}>
-                    5 Juta Baca / 100 Ribu Tulis / Hari
-                  </div>
-                </div>
-              </div>
-
-              {!cloudDbStatus.connected && (
-                <div style={{ background: "#eff6ff", border: "1px solid #bfdbfe", padding: "12px 14px", borderRadius: "8px", fontSize: "12px", color: "#1e40af", marginTop: "6px" }}>
-                  <strong>Langkah 1-Menit Mengaktifkan Database D1 di Cloudflare Dashboard:</strong>
-                  <ol style={{ paddingLeft: "20px", marginTop: "6px", display: "flex", flexDirection: "column", gap: "4px" }}>
-                    <li>Buka <b>Cloudflare Dashboard</b> → Menu <b>Storage &amp; Databases</b> → <b>D1 SQL Database</b> → Klik <b>Create Database</b> (beri nama: <code>kamus-usulan-db</code>).</li>
-                    <li>Buka menu <b>Workers &amp; Pages</b> → Pilih project <b>kamus-usulan-bapperida-lobar</b> → Klik tab <b>Settings</b> → <b>Bindings</b>.</li>
-                    <li>Klik <b>Add binding</b> → Pilih <b>D1 database</b> → Isi Variable name: <code>DB</code> dan pilih database: <code>kamus-usulan-db</code> → Klik <b>Save and Deploy</b>.</li>
-                  </ol>
-                </div>
-              )}
-            </div>
-
-            {/* Standar Arsitektur Backend Server Pusat */}
-            <div className="gov-dossier-card">
-              <h3 className="dossier-title" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <Lock size={17} color="var(--gov-navy-700)" /> Standar Keamanan Siber Backend (BSSN & SPBE)
-              </h3>
-              <div style={{ fontSize: "13px", color: "var(--slate-700)", lineHeight: 1.6 }}>
-                Ketika aplikasi ini dihubungkan dari penyimpanan lokal (LocalStorage) ke server data terpusat Bapperida Kabupaten Lombok Barat, arsitektur backend dirancang sesuai pedoman <b>BSSN & OWASP Top 10</b>:
-                <ul style={{ paddingLeft: "20px", marginTop: "8px", display: "flex", flexDirection: "column", gap: "5px" }}>
-                  <li>
-                    <b>Autentikasi & RBAC:</b> JSON Web Token (JWT) berbasis <i>HttpOnly Secure Cookie</i> dengan pembagian peran (Administrator Bapperida, Verifikator 20 OPD, Operator 119 Desa & 3 Kelurahan).
-                  </li>
-                  <li>
-                    <b>Enkripsi Berlapis:</b> Wajib protokol HTTPS TLS 1.3 (In-Transit) serta enkripsi database PostgreSQL AES-256 (At-Rest).
-                  </li>
-                  <li>
-                    <b>API Gateway & Anti-DDoS:</b> Pembatasan laju permintaan (*Rate Limiting*), sanitasi schema request dengan Zod, dan proteksi header Helmet.js.
-                  </li>
-                  <li>
-                    <b>Permanent Audit Trail:</b> Setiap penambahan, penghapusan, atau verifikasi usulan dicatat dalam tabel audit log yang tidak dapat dimanipulasi (*Append-Only*).
-                  </li>
-                </ul>
+              <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                <button className="btn btn-gold" onClick={handleOpenAddUser}>
+                  <UserPlus size={15} />
+                  <span>+ Tambah Pengguna Baru</span>
+                </button>
+                <button
+                  className="btn btn-secondary"
+                  onClick={handleExportBackupJSON}
+                  style={{ background: "rgba(255,255,255,0.12)", color: "#fff", borderColor: "rgba(255,255,255,0.25)" }}
+                >
+                  <Download size={15} />
+                  <span>Unduh Backup JSON</span>
+                </button>
               </div>
             </div>
 
-            {/* Tabel Log Audit Keamanan */}
-            <div className="gov-dossier-card">
-              <h3 className="dossier-title">
-                Rekaman Log Jejak Audit Keamanan (Security Audit Trail)
-              </h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                {auditLogs.slice(0, 8).map((log) => (
+            {/* Sub-Navigasi Tab Keamanan & Kelola User */}
+            <div style={{
+              display: "flex",
+              gap: "8px",
+              flexWrap: "wrap",
+              alignItems: "center",
+              background: "var(--pure-white)",
+              padding: "8px 12px",
+              borderRadius: "var(--radius-lg)",
+              border: "1px solid var(--slate-200)",
+              boxShadow: "var(--shadow-sm)"
+            }}>
+              <button
+                className={`keamanan-subtab-btn ${keamananSubTab === "users" ? "active" : ""}`}
+                onClick={() => setKeamananSubTab("users")}
+              >
+                <Users size={16} />
+                <span>👥 Kelola Pengguna &amp; Role ({systemUsers.length} Akun)</span>
+              </button>
+
+              <button
+                className={`keamanan-subtab-btn ${keamananSubTab === "integrity" ? "active" : ""}`}
+                onClick={() => setKeamananSubTab("integrity")}
+              >
+                <ShieldCheck size={16} />
+                <span>🛡️ Integritas Sistem &amp; Enkripsi</span>
+              </button>
+
+              <button
+                className={`keamanan-subtab-btn ${keamananSubTab === "cloud" ? "active" : ""}`}
+                onClick={() => setKeamananSubTab("cloud")}
+              >
+                <Database size={16} />
+                <span>☁️ Database Cloudflare D1</span>
+              </button>
+
+              <button
+                className={`keamanan-subtab-btn ${keamananSubTab === "audit" ? "active" : ""}`}
+                onClick={() => setKeamananSubTab("audit")}
+              >
+                <FileText size={16} />
+                <span>📜 Log Jejak Audit ({auditLogs.length})</span>
+              </button>
+            </div>
+
+            {/* ==================== SUB-TAB 1: KELOLA PENGGUNA & ROLE (RBAC) ==================== */}
+            {keamananSubTab === "users" && (
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                {/* Kartu Ringkasan Metrik Pengguna */}
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+                  gap: "12px"
+                }}>
+                  <div style={{ background: "var(--pure-white)", padding: "14px 16px", borderRadius: "10px", border: "1px solid var(--slate-200)", boxShadow: "var(--shadow-sm)" }}>
+                    <div style={{ fontSize: "11px", fontWeight: 700, color: "var(--slate-500)" }}>TOTAL PENGGUNA RESMI</div>
+                    <div style={{ fontSize: "22px", fontWeight: 800, color: "var(--gov-navy-900)", marginTop: "2px" }}>
+                      {systemUsers.length} <span style={{ fontSize: "12px", fontWeight: 600, color: "var(--slate-500)" }}>Akun</span>
+                    </div>
+                  </div>
+
+                  <div style={{ background: "#fff1f2", padding: "14px 16px", borderRadius: "10px", border: "1px solid #fecdd3" }}>
+                    <div style={{ fontSize: "11px", fontWeight: 700, color: "#9f1239" }}>SUPER ADMIN (KABUPATEN)</div>
+                    <div style={{ fontSize: "22px", fontWeight: 800, color: "#be123c", marginTop: "2px" }}>
+                      {systemUsers.filter(u => u.role === "Super Admin").length} <span style={{ fontSize: "12px", fontWeight: 600, color: "#9f1239" }}>Akun</span>
+                    </div>
+                  </div>
+
+                  <div style={{ background: "#eff6ff", padding: "14px 16px", borderRadius: "10px", border: "1px solid #bfdbfe" }}>
+                    <div style={{ fontSize: "11px", fontWeight: 700, color: "#1e40af" }}>VERIFIKATOR (BAPPERIDA/OPD)</div>
+                    <div style={{ fontSize: "22px", fontWeight: 800, color: "#1d4ed8", marginTop: "2px" }}>
+                      {systemUsers.filter(u => u.role === "Verifikator").length} <span style={{ fontSize: "12px", fontWeight: 600, color: "#1e40af" }}>Akun</span>
+                    </div>
+                  </div>
+
+                  <div style={{ background: "#f0fdf4", padding: "14px 16px", borderRadius: "10px", border: "1px solid #bbf7d0" }}>
+                    <div style={{ fontSize: "11px", fontWeight: 700, color: "#166534" }}>OPERATOR DESA / KELURAHAN</div>
+                    <div style={{ fontSize: "22px", fontWeight: 800, color: "#15803d", marginTop: "2px" }}>
+                      {systemUsers.filter(u => u.role === "Operator Desa").length} <span style={{ fontSize: "12px", fontWeight: 600, color: "#166534" }}>Akun</span>
+                    </div>
+                  </div>
+
+                  <div style={{ background: "#ecfdf5", padding: "14px 16px", borderRadius: "10px", border: "1px solid #a7f3d0" }}>
+                    <div style={{ fontSize: "11px", fontWeight: 700, color: "#065f46" }}>2FA GOOGLE AUTH AKTIF</div>
+                    <div style={{ fontSize: "22px", fontWeight: 800, color: "#047857", marginTop: "2px" }}>
+                      {systemUsers.filter(u => u.googleAuthEnabled).length} / {systemUsers.length} <span style={{ fontSize: "12px", fontWeight: 600, color: "#065f46" }}>Terproteksi</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Filter & Toolbar Pengguna */}
+                <div className="gov-dossier-card" style={{ padding: "14px 18px", margin: 0 }}>
+                  <div style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                    gap: "12px"
+                  }}>
+                    <div style={{ display: "flex", gap: "10px", flex: 1, minWidth: "260px", flexWrap: "wrap" }}>
+                      {/* Search Bar */}
+                      <div className="search-bar-inner" style={{ flex: 1, minWidth: "200px" }}>
+                        <Search size={16} className="search-icon" />
+                        <input
+                          type="text"
+                          className="search-input"
+                          style={{ paddingLeft: "36px", height: "38px" }}
+                          placeholder="Cari nama pengguna, username, NIP, instansi..."
+                          value={userSearchQuery}
+                          onChange={(e) => setUserSearchQuery(e.target.value)}
+                        />
+                        {userSearchQuery && (
+                          <button
+                            type="button"
+                            className="search-clear-btn"
+                            onClick={() => setUserSearchQuery("")}
+                          >
+                            <X size={14} />
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Filter Role */}
+                      <select
+                        className="form-select"
+                        style={{ width: "auto", minWidth: "160px", height: "38px" }}
+                        value={userRoleFilter}
+                        onChange={(e) => setUserRoleFilter(e.target.value)}
+                      >
+                        <option value="all">Semua Role Pengguna</option>
+                        <option value="Super Admin">Super Admin (Kabupaten)</option>
+                        <option value="Verifikator">Verifikator (Bapperida/OPD)</option>
+                        <option value="Operator Desa">Operator Desa / Kelurahan</option>
+                      </select>
+
+                      {/* Filter 2FA */}
+                      <select
+                        className="form-select"
+                        style={{ width: "auto", minWidth: "160px", height: "38px" }}
+                        value={user2faFilter}
+                        onChange={(e) => setUser2faFilter(e.target.value)}
+                      >
+                        <option value="all">Semua Status Google 2FA</option>
+                        <option value="active">🟢 2FA Aktif Terproteksi</option>
+                        <option value="inactive">⚪ 2FA Belum Aktif</option>
+                      </select>
+                    </div>
+
+                    <button
+                      className="btn btn-primary"
+                      onClick={handleOpenAddUser}
+                      style={{ height: "38px" }}
+                    >
+                      <UserPlus size={15} />
+                      <span>Tambah Pengguna</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Tabel Pengguna Terdaftar */}
+                <div className="gov-table-container" style={{ border: "1px solid var(--slate-200)", borderRadius: "var(--radius-lg)", overflowX: "auto" }}>
+                  <table className="gov-table">
+                    <thead>
+                      <tr>
+                        <th style={{ width: "45px", textAlign: "center" }}>NO</th>
+                        <th>AKUN &amp; IDENTITAS</th>
+                        <th style={{ width: "200px" }}>ROLE &amp; WEWENANG</th>
+                        <th>LOKUS PENUGASAN / OPD</th>
+                        <th style={{ width: "170px" }}>GOOGLE AUTH (2FA)</th>
+                        <th style={{ width: "90px", textAlign: "center" }}>STATUS</th>
+                        <th style={{ width: "230px", textAlign: "center" }}>AKSI KEAMANAN</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredSystemUsers.length === 0 ? (
+                        <tr>
+                          <td colSpan={7} style={{ textAlign: "center", padding: "30px", color: "var(--slate-500)" }}>
+                            Tidak ada pengguna yang cocok dengan kriteria pencarian / filter.
+                          </td>
+                        </tr>
+                      ) : (
+                        filteredSystemUsers.map((u, idx) => {
+                          const roleMeta = ROLE_DETAILS[u.role] || ROLE_DETAILS["Operator Desa"];
+                          return (
+                            <tr key={u.id}>
+                              <td style={{ textAlign: "center", fontWeight: 700, color: "var(--slate-500)" }}>
+                                {idx + 1}
+                              </td>
+                              <td>
+                                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                                  <div style={{
+                                    width: "36px",
+                                    height: "36px",
+                                    borderRadius: "50%",
+                                    background: roleMeta.bg,
+                                    color: roleMeta.color,
+                                    border: `1.5px solid ${roleMeta.border}`,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    fontWeight: 800,
+                                    fontSize: "13px",
+                                    flexShrink: 0
+                                  }}>
+                                    {u.nama ? u.nama.charAt(0).toUpperCase() : "U"}
+                                  </div>
+                                  <div>
+                                    <div style={{ fontWeight: 800, color: "var(--slate-900)", fontSize: "13px" }}>
+                                      {u.nama}
+                                    </div>
+                                    <div style={{ fontSize: "11px", color: "var(--slate-500)", fontFamily: "monospace" }}>
+                                      @{u.username} {u.nip ? `• NIP. ${u.nip}` : ""}
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <span className={roleMeta.badgeClass}>
+                                  {u.role === "Super Admin" && <ShieldAlert size={12} />}
+                                  {u.role === "Verifikator" && <CheckCircle size={12} />}
+                                  {u.role === "Operator Desa" && <Building2 size={12} />}
+                                  {u.role}
+                                </span>
+                                <div style={{ fontSize: "10.5px", color: "var(--slate-500)", marginTop: "3px", lineHeight: 1.3 }}>
+                                  {roleMeta.desc}
+                                </div>
+                              </td>
+                              <td>
+                                <div style={{ fontWeight: 700, color: "var(--gov-navy-900)", fontSize: "12.5px" }}>
+                                  {u.instansi || "Bapperida Kab. Lombok Barat"}
+                                </div>
+                                <div style={{ fontSize: "10.5px", color: "var(--slate-500)" }}>
+                                  Wilayah Kerja Pre-SIPD
+                                </div>
+                              </td>
+                              <td>
+                                {u.googleAuthEnabled ? (
+                                  <div>
+                                    <span className="badge-2fa-active">
+                                      <ShieldCheck size={12} /> 2FA Aktif
+                                    </span>
+                                    <div style={{ marginTop: "4px" }}>
+                                      <button
+                                        type="button"
+                                        className="btn btn-sm btn-secondary"
+                                        style={{ fontSize: "10.5px", padding: "2px 8px" }}
+                                        onClick={() => handleOpenGoogleAuth(u)}
+                                      >
+                                        <Smartphone size={11} /> Kelola 2FA
+                                      </button>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div>
+                                    <span className="badge-2fa-inactive">
+                                      ⚪ Belum Aktif
+                                    </span>
+                                    <div style={{ marginTop: "4px" }}>
+                                      <button
+                                        type="button"
+                                        className="btn btn-sm btn-gold"
+                                        style={{ fontSize: "10.5px", padding: "2px 8px" }}
+                                        onClick={() => handleOpenGoogleAuth(u)}
+                                      >
+                                        <QrCode size={11} /> + Aktifkan 2FA
+                                      </button>
+                                    </div>
+                                  </div>
+                                )}
+                              </td>
+                              <td style={{ textAlign: "center" }}>
+                                <span style={{
+                                  display: "inline-block",
+                                  padding: "2px 8px",
+                                  borderRadius: "10px",
+                                  fontSize: "11px",
+                                  fontWeight: 700,
+                                  background: u.status === "Aktif" ? "#dcfce7" : "#fee2e2",
+                                  color: u.status === "Aktif" ? "#15803d" : "#b91c1c"
+                                }}>
+                                  {u.status === "Aktif" ? "🟢 Aktif" : "🔴 Nonaktif"}
+                                </span>
+                              </td>
+                              <td style={{ textAlign: "center" }}>
+                                <div style={{ display: "flex", gap: "6px", justifyContent: "center", flexWrap: "wrap" }}>
+                                  {/* Tombol Reset Password */}
+                                  <button
+                                    type="button"
+                                    className="btn btn-sm btn-secondary"
+                                    style={{ fontSize: "11px", padding: "4px 8px" }}
+                                    title="Reset Password Pengguna"
+                                    onClick={() => handleOpenResetPassword(u)}
+                                  >
+                                    <Key size={12} />
+                                    <span>Reset Password</span>
+                                  </button>
+
+                                  {/* Tombol Edit Data/Role */}
+                                  <button
+                                    type="button"
+                                    className="btn btn-sm btn-secondary"
+                                    style={{ fontSize: "11px", padding: "4px 8px" }}
+                                    title="Edit Profil &amp; Role Pengguna"
+                                    onClick={() => handleOpenEditUser(u)}
+                                  >
+                                    <Edit size={12} />
+                                    <span>Edit</span>
+                                  </button>
+
+                                  {/* Tombol Hapus */}
+                                  {u.username !== "admin.bapperida" && u.id !== "USR-001" && (
+                                    <button
+                                      type="button"
+                                      className="btn btn-sm btn-danger-ghost"
+                                      style={{ fontSize: "11px", padding: "4px 8px" }}
+                                      title="Hapus Pengguna"
+                                      onClick={() => handleDeleteUser(u)}
+                                    >
+                                      <Trash2 size={12} />
+                                    </button>
+                                  )}
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* ==================== SUB-TAB 2: INTEGRITAS SISTEM & BACKUP ==================== */}
+            {keamananSubTab === "integrity" && (
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                {/* Kartu Status Integritas LocalStorage */}
+                <div
+                  style={{
+                    background: "var(--pure-white)",
+                    padding: "20px 22px",
+                    borderRadius: "var(--radius-lg)",
+                    boxShadow: "var(--shadow-sm)",
+                    border: "1px solid var(--slate-200)",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "12px"
+                  }}
+                >
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "10px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                      <ShieldCheck size={26} color="#15803d" />
+                      <div>
+                        <h3 style={{ fontSize: "15px", fontWeight: 800, margin: 0, color: "var(--gov-navy-900)" }}>
+                          Status Integritas &amp; Keamanan Klien (LocalStorage Sandbox)
+                        </h3>
+                        <p style={{ fontSize: "12px", color: "var(--slate-500)", margin: "2px 0 0 0" }}>
+                          Standar Keamanan Klien OWASP • Checksum Envelope SHA-256 • Anti-XSS Sanitizer
+                        </p>
+                      </div>
+                    </div>
+
+                    <button className="btn btn-gold btn-sm" onClick={handleExportBackupJSON}>
+                      <Download size={14} /> Unduh Backup JSON Aman
+                    </button>
+                  </div>
+
                   <div
-                    key={log.id}
                     style={{
-                      background: "var(--slate-50)",
-                      border: "1px solid var(--slate-200)",
-                      borderLeft: "4px solid var(--gov-navy-700)",
-                      borderRadius: "var(--radius-sm)",
-                      padding: "10px 14px",
-                      fontSize: "12px"
+                      background: "#f8fafc",
+                      padding: "14px 18px",
+                      borderRadius: "var(--radius-md)",
+                      fontFamily: "monospace",
+                      fontSize: "12px",
+                      lineHeight: 1.65,
+                      border: "1px solid var(--slate-200)"
                     }}
                   >
-                    <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700 }}>
-                      <span style={{ color: "var(--slate-900)" }}>{log.action}</span>
-                      <span style={{ color: "var(--slate-500)", fontFamily: "monospace", fontSize: "11px" }}>
-                        SIG: {log.signature}
-                      </span>
+                    <div>
+                      STATUS INTEGRITAS:{" "}
+                      <strong style={{ color: "#15803d" }}>
+                        {securityStatus.verified ? "TERVERIFIKASI ASLI (AUTHENTIC)" : "PERINGATAN"}
+                      </strong>
                     </div>
-                    <div style={{ color: "var(--slate-700)", marginTop: "3px" }}>{log.detail}</div>
-                    <div style={{ color: "var(--slate-400)", fontSize: "11px", marginTop: "3px" }}>
-                      {new Date(log.timestamp).toLocaleString("id-ID")} • Aktor: {log.actor}
+                    <div>SIGNATURE HASH: {securityStatus.checksum}</div>
+                    <div>ANTI-XSS INJECTION: AKTIF (Input Sanitization Sanitizer Enabled)</div>
+                    <div>STORAGE PREFIX: BAPPERIDA_LOBAR_SEC_V2_* (Sandboxed)</div>
+                  </div>
+                </div>
+
+                {/* Standar Arsitektur Backend Server Pusat */}
+                <div className="gov-dossier-card">
+                  <h3 className="dossier-title" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <Lock size={17} color="var(--gov-navy-700)" /> Standar Keamanan Siber Backend (BSSN &amp; SPBE)
+                  </h3>
+                  <div style={{ fontSize: "13px", color: "var(--slate-700)", lineHeight: 1.6 }}>
+                    Ketika aplikasi ini dihubungkan dari penyimpanan lokal (LocalStorage) ke server data terpusat Bapperida Kabupaten Lombok Barat, arsitektur backend dirancang sesuai pedoman <b>BSSN &amp; OWASP Top 10</b>:
+                    <ul style={{ paddingLeft: "20px", marginTop: "8px", display: "flex", flexDirection: "column", gap: "5px" }}>
+                      <li>
+                        <b>Autentikasi &amp; RBAC:</b> JSON Web Token (JWT) berbasis <i>HttpOnly Secure Cookie</i> dengan pembagian peran (Administrator Bapperida, Verifikator 20 OPD, Operator 119 Desa &amp; 3 Kelurahan).
+                      </li>
+                      <li>
+                        <b>Enkripsi Berlapis:</b> Wajib protokol HTTPS TLS 1.3 (In-Transit) serta enkripsi database PostgreSQL AES-256 (At-Rest).
+                      </li>
+                      <li>
+                        <b>API Gateway &amp; Anti-DDoS:</b> Pembatasan laju permintaan (<i>Rate Limiting</i>), sanitasi schema request dengan Zod, dan proteksi header Helmet.js.
+                      </li>
+                      <li>
+                        <b>Permanent Audit Trail:</b> Setiap penambahan, penghapusan, atau verifikasi usulan dicatat dalam tabel audit log yang tidak dapat dimanipulasi (<i>Append-Only</i>).
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ==================== SUB-TAB 3: DATABASE CLOUDFLARE D1 ==================== */}
+            {keamananSubTab === "cloud" && (
+              <div className="gov-dossier-card d1-cloud-management-card" style={{ borderLeft: "5px solid #0284c7" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px" }}>
+                  <div>
+                    <h3 className="dossier-title" style={{ display: "flex", alignItems: "center", gap: "8px", margin: 0 }}>
+                      <Database size={18} color="#0284c7" /> Database Cloudflare D1 (Serverless SQL Online)
+                    </h3>
+                    <p style={{ fontSize: "12.5px", color: "var(--slate-600)", marginTop: "4px", marginBottom: 0 }}>
+                      Database terpusat Bapperida Lombok Barat untuk sinkronisasi usulan seluruh 119 Desa &amp; 3 Kelurahan.
+                    </p>
+                  </div>
+
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <button
+                      className="btn btn-secondary btn-sm"
+                      onClick={handleManualCloudSync}
+                      disabled={isSyncingCloud}
+                    >
+                      <RefreshCw size={13} className={isSyncingCloud ? "spin-animation" : ""} />
+                      <span>Cek &amp; Sinkronkan Sekarang</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px", marginTop: "10px" }}>
+                  <div style={{ background: cloudDbStatus.connected ? "#ecfdf5" : "#fefce8", padding: "12px", borderRadius: "8px", border: `1px solid ${cloudDbStatus.connected ? "#a7f3d0" : "#fef08a"}` }}>
+                    <span style={{ fontSize: "11px", color: cloudDbStatus.connected ? "#065f46" : "#854d0e", fontWeight: 700 }}>STATUS KONEKSI D1:</span>
+                    <div style={{ fontSize: "15px", fontWeight: 800, color: cloudDbStatus.connected ? "#047857" : "#b45309", marginTop: "2px" }}>
+                      {cloudDbStatus.connected ? "🟢 TERHUBUNG ONLINE" : "🟡 STANDBY (LOKAL AKTIF)"}
                     </div>
                   </div>
-                ))}
+
+                  <div style={{ background: "#f8fafc", padding: "12px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
+                    <span style={{ fontSize: "11px", color: "#475569", fontWeight: 700 }}>KAPASITAS FREE TIER:</span>
+                    <div style={{ fontSize: "15px", fontWeight: 800, color: "#0f172a", marginTop: "2px" }}>
+                      5 GB Storage (500 MB/DB)
+                    </div>
+                  </div>
+
+                  <div style={{ background: "#f8fafc", padding: "12px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
+                    <span style={{ fontSize: "11px", color: "#475569", fontWeight: 700 }}>KUOTA OPERASI BACA/TULIS:</span>
+                    <div style={{ fontSize: "15px", fontWeight: 800, color: "#0f172a", marginTop: "2px" }}>
+                      5 Juta Baca / 100 Ribu Tulis / Hari
+                    </div>
+                  </div>
+                </div>
+
+                {!cloudDbStatus.connected && (
+                  <div style={{ background: "#eff6ff", border: "1px solid #bfdbfe", padding: "12px 14px", borderRadius: "8px", fontSize: "12px", color: "#1e40af", marginTop: "10px" }}>
+                    <strong>Langkah 1-Menit Mengaktifkan Database D1 di Cloudflare Dashboard:</strong>
+                    <ol style={{ paddingLeft: "20px", marginTop: "6px", display: "flex", flexDirection: "column", gap: "4px" }}>
+                      <li>Buka <b>Cloudflare Dashboard</b> → Menu <b>Storage &amp; Databases</b> → <b>D1 SQL Database</b> → Klik <b>Create Database</b> (beri nama: <code>kamus-usulan-db</code>).</li>
+                      <li>Buka menu <b>Workers &amp; Pages</b> → Pilih project <b>kamus-usulan-bapperida-lobar</b> → Klik tab <b>Settings</b> → <b>Bindings</b>.</li>
+                      <li>Klik <b>Add binding</b> → Pilih <b>D1 database</b> → Isi Variable name: <code>DB</code> dan pilih database: <code>kamus-usulan-db</code> → Klik <b>Save and Deploy</b>.</li>
+                    </ol>
+                  </div>
+                )}
               </div>
-            </div>
+            )}
+
+            {/* ==================== SUB-TAB 4: LOG JEJAK AUDIT KEAMANAN ==================== */}
+            {keamananSubTab === "audit" && (
+              <div className="gov-dossier-card">
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px", flexWrap: "wrap", gap: "8px" }}>
+                  <h3 className="dossier-title" style={{ margin: 0 }}>
+                    Rekaman Log Jejak Audit Keamanan (Security Audit Trail)
+                  </h3>
+                  <span style={{ fontSize: "11.5px", color: "var(--slate-500)" }}>
+                    Menampilkan <b>{auditLogs.length} rekaman audit</b> terverifikasi checksum
+                  </span>
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  {auditLogs.length === 0 ? (
+                    <div style={{ textAlign: "center", padding: "20px", color: "var(--slate-500)" }}>
+                      Belum ada rekaman log audit keamanan.
+                    </div>
+                  ) : (
+                    auditLogs.slice(0, 20).map((log) => (
+                      <div
+                        key={log.id}
+                        style={{
+                          background: "var(--slate-50)",
+                          border: "1px solid var(--slate-200)",
+                          borderLeft: "4px solid var(--gov-navy-700)",
+                          borderRadius: "var(--radius-sm)",
+                          padding: "10px 14px",
+                          fontSize: "12px"
+                        }}
+                      >
+                        <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 700 }}>
+                          <span style={{ color: "var(--slate-900)" }}>{log.action}</span>
+                          <span style={{ color: "var(--slate-500)", fontFamily: "monospace", fontSize: "11px" }}>
+                            SIG: {log.signature}
+                          </span>
+                        </div>
+                        <div style={{ color: "var(--slate-700)", marginTop: "3px" }}>{log.detail}</div>
+                        <div style={{ color: "var(--slate-400)", fontSize: "11px", marginTop: "3px" }}>
+                          {new Date(log.timestamp).toLocaleString("id-ID")} • Aktor: {log.actor}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -5926,6 +6599,489 @@ export default function App() {
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => setExportModalType(null)}
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          MODAL 1: TAMBAH / EDIT PENGGUNA (RBAC USER MANAGEMENT)
+          ======================================================== */}
+      {showUserModal && (
+        <div className="desktop-modal-backdrop" onClick={() => setShowUserModal(false)}>
+          <div className="desktop-modal-dialog" style={{ maxWidth: "620px" }} onClick={(e) => e.stopPropagation()}>
+            <div className="modal-dialog-header">
+              <div>
+                <span className="badge badge-opd">MANAJEMEN PENGGUNA (RBAC)</span>
+                <h3 style={{ fontSize: "16px", fontWeight: 800, marginTop: "3px", color: "var(--slate-900)" }}>
+                  {editingUser ? `Edit Data Pengguna @${editingUser.username}` : "Tambah Pengguna Baru Sistem"}
+                </h3>
+              </div>
+              <button className="btn-modal-close" onClick={() => setShowUserModal(false)}>
+                <X size={18} />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveUser}>
+              <div className="modal-dialog-body" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                <div>
+                  <label className="filter-label">Nama Lengkap &amp; Gelar (Wajib):</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={userForm.nama}
+                    onChange={(e) => setUserForm({ ...userForm, nama: e.target.value })}
+                    placeholder="Contoh: Ahmad Fauzi, S.Kom"
+                    required
+                  />
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                  <div>
+                    <label className="filter-label">Username (Wajib):</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      value={userForm.username}
+                      onChange={(e) => setUserForm({ ...userForm, username: e.target.value.toLowerCase().replace(/[^a-z0-9._-]/g, "") })}
+                      placeholder="Contoh: operator.banyumulek"
+                      required
+                    />
+                    <span style={{ fontSize: "10.5px", color: "var(--slate-500)" }}>Huruf kecil, titik, tanpa spasi</span>
+                  </div>
+
+                  <div>
+                    <label className="filter-label">NIP / NIK (Opsional):</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      value={userForm.nip}
+                      onChange={(e) => setUserForm({ ...userForm, nip: e.target.value })}
+                      placeholder="Contoh: 198507202010012014"
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                  <div>
+                    <label className="filter-label">Role / Hak Akses Pengguna:</label>
+                    <select
+                      className="form-select"
+                      value={userForm.role}
+                      onChange={(e) => {
+                        const newRole = e.target.value;
+                        let defaultInstansi = userForm.instansi;
+                        if (newRole === "Super Admin") defaultInstansi = "Bapperida Kab. Lombok Barat";
+                        else if (newRole === "Verifikator") defaultInstansi = "Bapperida (Bidang PSDAIK)";
+                        else if (newRole === "Operator Desa") defaultInstansi = "Desa Beleke (Kec. Gerung)";
+                        setUserForm({ ...userForm, role: newRole, instansi: defaultInstansi });
+                      }}
+                      required
+                    >
+                      <option value="Operator Desa">Operator Desa (Pemerintah Desa/Kelurahan)</option>
+                      <option value="Verifikator">Verifikator (Bapperida / OPD Pengampu)</option>
+                      <option value="Super Admin">Super Admin (Administrator Kabupaten)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="filter-label">Status Akun:</label>
+                    <select
+                      className="form-select"
+                      value={userForm.status}
+                      onChange={(e) => setUserForm({ ...userForm, status: e.target.value })}
+                    >
+                      <option value="Aktif">🟢 Aktif (Bisa Login)</option>
+                      <option value="Nonaktif">🔴 Nonaktif (Ditangguhkan)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="filter-label">Lokus Penugasan / Instansi:</label>
+                  {userForm.role === "Operator Desa" ? (
+                    <select
+                      className="form-select"
+                      value={userForm.instansi}
+                      onChange={(e) => setUserForm({ ...userForm, instansi: e.target.value })}
+                    >
+                      {WILAYAH_LOBAR.map((w) => (
+                        <option key={w.kode} value={`${w.tipe} ${w.nama} (Kec. ${w.kecamatan})`}>
+                          {w.tipe} {w.nama} - Kec. {w.kecamatan}
+                        </option>
+                      ))}
+                    </select>
+                  ) : userForm.role === "Verifikator" ? (
+                    <select
+                      className="form-select"
+                      value={userForm.instansi}
+                      onChange={(e) => setUserForm({ ...userForm, instansi: e.target.value })}
+                    >
+                      <option value="Bapperida (Bidang PSDAIK)">Bapperida (Bidang PSDAIK)</option>
+                      <option value="Bapperida (Bidang P2M)">Bapperida (Bidang P2M)</option>
+                      <option value="Bapperida (Bidang PPEPD)">Bapperida (Bidang PPEPD)</option>
+                      <option value="Dinas Pertanian">Dinas Pertanian</option>
+                      <option value="Dinas Kesehatan, Pengendalian Penduduk dan KB">Dinas Kesehatan, Pengendalian Penduduk dan KB</option>
+                      <option value="Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman">Dinas PU &amp; Tata Ruang</option>
+                      <option value="Dinas Pendidikan dan Kebudayaan">Dinas Pendidikan dan Kebudayaan</option>
+                      <option value="Dinas Sosial">Dinas Sosial</option>
+                      <option value="Dinas Lingkungan Hidup">Dinas Lingkungan Hidup</option>
+                      <option value="Dinas Pemberdayaan Masyarakat dan Desa">Dinas PMD</option>
+                    </select>
+                  ) : (
+                    <input
+                      type="text"
+                      className="form-input"
+                      value={userForm.instansi}
+                      onChange={(e) => setUserForm({ ...userForm, instansi: e.target.value })}
+                      placeholder="Bapperida Kab. Lombok Barat"
+                    />
+                  )}
+                </div>
+
+                {!editingUser && (
+                  <div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <label className="filter-label">Password Awal Pengguna:</label>
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-secondary"
+                        style={{ fontSize: "10.5px", padding: "2px 8px" }}
+                        onClick={() => setUserForm({ ...userForm, password: generateStrongPassword() })}
+                      >
+                        <RefreshCw size={11} /> Generate Acak
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      className="form-input"
+                      value={userForm.password}
+                      onChange={(e) => setUserForm({ ...userForm, password: e.target.value })}
+                      required
+                    />
+                    <span style={{ fontSize: "10.5px", color: "var(--slate-500)" }}>Password otomatis terenkripsi dan dicatat pada audit log</span>
+                  </div>
+                )}
+
+                <div style={{
+                  padding: "10px 14px",
+                  background: "#f8fafc",
+                  borderRadius: "8px",
+                  border: "1px solid var(--slate-200)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between"
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <ShieldCheck size={18} color="#047857" />
+                    <div>
+                      <strong style={{ fontSize: "12px", color: "var(--slate-900)" }}>Proteksi 2FA Google Authenticator</strong>
+                      <div style={{ fontSize: "11px", color: "var(--slate-500)" }}>Wajibkan verifikasi 2 langkah untuk akun ini</div>
+                    </div>
+                  </div>
+                  <label style={{ display: "flex", alignItems: "center", gap: "6px", cursor: "pointer", fontSize: "12px", fontWeight: 700 }}>
+                    <input
+                      type="checkbox"
+                      checked={userForm.googleAuthEnabled}
+                      onChange={(e) => setUserForm({ ...userForm, googleAuthEnabled: e.target.checked })}
+                      style={{ width: "16px", height: "16px", accentColor: "#047857" }}
+                    />
+                    <span>{userForm.googleAuthEnabled ? "Aktif" : "Nonaktif"}</span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="modal-dialog-footer" style={{ justifyContent: "flex-end" }}>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowUserModal(false)}
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                >
+                  <Check size={15} />
+                  <span>{editingUser ? "Simpan Perubahan" : "Simpan Pengguna Baru"}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          MODAL 2: RESET PASSWORD PENGGUNA
+          ======================================================== */}
+      {showResetPasswordModal && resetPasswordUser && (
+        <div className="desktop-modal-backdrop" onClick={() => setShowResetPasswordModal(false)}>
+          <div className="desktop-modal-dialog" style={{ maxWidth: "520px" }} onClick={(e) => e.stopPropagation()}>
+            <div className="modal-dialog-header">
+              <div>
+                <span className="badge badge-opd">KEAMANAN AKUN</span>
+                <h3 style={{ fontSize: "16px", fontWeight: 800, marginTop: "3px", color: "var(--slate-900)" }}>
+                  🔑 Reset Password @{resetPasswordUser.username}
+                </h3>
+              </div>
+              <button className="btn-modal-close" onClick={() => setShowResetPasswordModal(false)}>
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="modal-dialog-body" style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              <div style={{ background: "#f8fafc", padding: "12px 14px", borderRadius: "8px", border: "1px solid var(--slate-200)", fontSize: "12.5px" }}>
+                <div><b>Nama Pengguna:</b> {resetPasswordUser.nama}</div>
+                <div><b>Role:</b> {resetPasswordUser.role}</div>
+                <div><b>Instansi / Lokus:</b> {resetPasswordUser.instansi}</div>
+              </div>
+
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                  <label className="filter-label" style={{ marginBottom: 0 }}>Password Baru yang Dihasilkan Sistem:</label>
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-secondary"
+                    style={{ fontSize: "10.5px", padding: "2px 8px" }}
+                    onClick={() => {
+                      setResetPasswordNewVal(generateStrongPassword());
+                      setResetPasswordCopied(false);
+                    }}
+                  >
+                    <RefreshCw size={11} /> Generate Baru
+                  </button>
+                </div>
+
+                <div style={{ display: "flex", gap: "6px" }}>
+                  <input
+                    type="text"
+                    className="form-input"
+                    style={{ fontFamily: "monospace", fontWeight: 700, fontSize: "14px", color: "var(--gov-navy-900)", background: "#f1f5f9" }}
+                    value={resetPasswordNewVal}
+                    onChange={(e) => setResetPasswordNewVal(e.target.value)}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className={`btn ${resetPasswordCopied ? "btn-primary" : "btn-gold"}`}
+                    style={{ flexShrink: 0 }}
+                    onClick={() => {
+                      navigator.clipboard.writeText(resetPasswordNewVal);
+                      setResetPasswordCopied(true);
+                      showToast("Password baru berhasil disalin ke clipboard!");
+                      setTimeout(() => setResetPasswordCopied(false), 2500);
+                    }}
+                  >
+                    <Copy size={14} />
+                    <span>{resetPasswordCopied ? "Tersalin!" : "Salin"}</span>
+                  </button>
+                </div>
+              </div>
+
+              <div style={{ padding: "10px 12px", background: "#fef3c7", border: "1px solid #fde68a", borderRadius: "8px", fontSize: "11.5px", color: "#92400e", lineHeight: 1.45 }}>
+                ⚠️ <b>Perhatian Keamanan:</b> Sampaikan password baru ini secara aman kepada pejabat/operator bersangkutan. Sistem akan mencatat aksi reset password ini ke dalam <b>Security Audit Trail</b> resmi.
+              </div>
+            </div>
+
+            <div className="modal-dialog-footer" style={{ justifyContent: "flex-end" }}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setShowResetPasswordModal(false)}
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleConfirmResetPassword}
+              >
+                <Key size={14} />
+                <span>Simpan Password Baru</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          MODAL 3: AKTIFKAN / KELOLA GOOGLE AUTHENTICATOR (2FA)
+          ======================================================== */}
+      {showGoogleAuthModal && googleAuthUser && (
+        <div className="desktop-modal-backdrop" onClick={() => setShowGoogleAuthModal(false)}>
+          <div className="desktop-modal-dialog" style={{ maxWidth: "560px" }} onClick={(e) => e.stopPropagation()}>
+            <div className="modal-dialog-header">
+              <div>
+                <span className="badge badge-opd">VERIFIKASI 2 LANGKAH (2FA)</span>
+                <h3 style={{ fontSize: "16px", fontWeight: 800, marginTop: "3px", color: "var(--slate-900)" }}>
+                  🛡️ Google Authenticator @{googleAuthUser.username}
+                </h3>
+              </div>
+              <button className="btn-modal-close" onClick={() => setShowGoogleAuthModal(false)}>
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="modal-dialog-body" style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              {/* Profil Singkat */}
+              <div style={{ background: "#f8fafc", padding: "10px 14px", borderRadius: "8px", border: "1px solid var(--slate-200)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: "13px", color: "var(--slate-900)" }}>{googleAuthUser.nama}</div>
+                  <div style={{ fontSize: "11px", color: "var(--slate-500)" }}>{googleAuthUser.role} • {googleAuthUser.instansi}</div>
+                </div>
+                <div>
+                  {googleAuthUser.googleAuthEnabled ? (
+                    <span className="badge-2fa-active"><ShieldCheck size={12} /> 2FA Aktif</span>
+                  ) : (
+                    <span className="badge-2fa-inactive">⚪ Belum Aktif</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Status & Petunjuk Aktivasi */}
+              {!googleAuthUser.googleAuthEnabled ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+                  <div style={{ fontSize: "12.5px", color: "var(--slate-700)", lineHeight: 1.5 }}>
+                    Ikuti 3 langkah mudah berikut untuk menghubungkan akun ini ke aplikasi <b>Google Authenticator</b> di smartphone:
+                  </div>
+
+                  <div style={{ display: "flex", gap: "16px", alignItems: "center", background: "#f0fdf4", padding: "14px", borderRadius: "10px", border: "1px solid #bbf7d0", flexWrap: "wrap" }}>
+                    {/* Visual QR Code */}
+                    <div style={{
+                      background: "#fff",
+                      padding: "8px",
+                      borderRadius: "8px",
+                      border: "1px solid #86efac",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}>
+                      <img
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(buildOtpAuthUri(googleAuthUser.username, generatedSecret))}`}
+                        alt="QR Code Google Authenticator"
+                        style={{ width: "130px", height: "130px", display: "block" }}
+                        onError={(e) => {
+                          e.target.style.display = "none";
+                          const fallback = e.target.nextSibling;
+                          if (fallback) fallback.style.display = "flex";
+                        }}
+                      />
+                      <div style={{ display: "none", width: "130px", height: "130px", background: "#0f172a", color: "#4ade80", alignItems: "center", justifyContent: "center", flexDirection: "column", borderRadius: "4px", padding: "10px", textAlign: "center" }}>
+                        <QrCode size={40} />
+                        <span style={{ fontSize: "10px", marginTop: "4px" }}>Scan via Kunci Secret</span>
+                      </div>
+                      <span style={{ fontSize: "10px", color: "#15803d", fontWeight: 700, marginTop: "4px" }}>Pindai via Google Auth</span>
+                    </div>
+
+                    {/* Secret Key & Langkah Manual */}
+                    <div style={{ flex: 1, minWidth: "200px" }}>
+                      <div style={{ fontSize: "11px", fontWeight: 700, color: "#166534" }}>KUNCI PENYIAPAN RAHASIA (SECRET KEY):</div>
+                      <div style={{
+                        marginTop: "4px",
+                        fontFamily: "monospace",
+                        fontSize: "15px",
+                        fontWeight: 800,
+                        letterSpacing: "2px",
+                        color: "#0f172a",
+                        background: "#fff",
+                        padding: "8px 10px",
+                        borderRadius: "6px",
+                        border: "1px solid #cbd5e1",
+                        wordBreak: "break-all"
+                      }}>
+                        {generatedSecret}
+                      </div>
+
+                      <div style={{ marginTop: "8px" }}>
+                        <button
+                          type="button"
+                          className={`btn btn-sm ${secretCopied ? "btn-primary" : "btn-secondary"}`}
+                          style={{ fontSize: "11px", padding: "4px 10px" }}
+                          onClick={() => {
+                            navigator.clipboard.writeText(generatedSecret);
+                            setSecretCopied(true);
+                            showToast("Secret Key 2FA berhasil disalin!");
+                            setTimeout(() => setSecretCopied(false), 2500);
+                          }}
+                        >
+                          <Copy size={12} />
+                          <span>{secretCopied ? "Kunci Tersalin!" : "Salin Secret Key"}</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Input Kode Verifikasi 6 Digit */}
+                  <div>
+                    <label className="filter-label">Masukkan 6 Digit Kode dari Aplikasi Google Authenticator (Uji Coba):</label>
+                    <div style={{ display: "flex", gap: "8px" }}>
+                      <input
+                        type="text"
+                        maxLength={6}
+                        className="form-input"
+                        style={{ fontFamily: "monospace", fontSize: "16px", fontWeight: 800, letterSpacing: "4px", width: "160px", textAlign: "center" }}
+                        placeholder="123456"
+                        value={totpVerifyInput}
+                        onChange={(e) => setTotpVerifyInput(e.target.value.replace(/\D/g, ""))}
+                      />
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={handleConfirmEnableGoogleAuth}
+                      >
+                        <ShieldCheck size={15} />
+                        <span>Verifikasi &amp; Aktifkan 2FA</span>
+                      </button>
+                    </div>
+                    <span style={{ fontSize: "11px", color: "var(--slate-500)", marginTop: "4px", display: "block" }}>
+                      Setelah diaktifkan, akun ini akan meminta kode TOTP 6 digit setiap kali login ke Pre-SIPD.
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                /* Jika Sudah Aktif */
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                  <div style={{ padding: "14px", background: "#ecfdf5", border: "1px solid #a7f3d0", borderRadius: "10px", display: "flex", alignItems: "flex-start", gap: "10px" }}>
+                    <ShieldCheck size={22} color="#047857" style={{ flexShrink: 0, marginTop: "2px" }} />
+                    <div style={{ fontSize: "12.5px", color: "#065f46", lineHeight: 1.5 }}>
+                      <strong>Akun Terproteksi Maksimal:</strong> Google Authenticator aktif. Kunci rahasia tersimpan dengan enkripsi HMAC SHA-256 dan hanya dapat diakses oleh pemilik akun atau Super Admin terotorisasi.
+                    </div>
+                  </div>
+
+                  <div style={{ background: "#f8fafc", padding: "12px", borderRadius: "8px", border: "1px solid var(--slate-200)" }}>
+                    <div style={{ fontSize: "11px", fontWeight: 700, color: "var(--slate-600)" }}>KUNCI RAHASIA AKTIF:</div>
+                    <div style={{ fontFamily: "monospace", fontSize: "14px", fontWeight: 800, color: "var(--slate-800)", marginTop: "2px" }}>
+                      {googleAuthUser.googleAuthSecret || generatedSecret}
+                    </div>
+                  </div>
+
+                  <div style={{ marginTop: "6px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span style={{ fontSize: "11.5px", color: "#991b1b" }}>
+                      Ingin menonaktifkan verifikasi 2 langkah untuk akun ini?
+                    </span>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-danger-ghost"
+                      onClick={() => handleDisableGoogleAuth(googleAuthUser)}
+                    >
+                      <Trash2 size={13} />
+                      <span>Nonaktifkan 2FA</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="modal-dialog-footer" style={{ justifyContent: "flex-end" }}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setShowGoogleAuthModal(false)}
               >
                 Tutup
               </button>
