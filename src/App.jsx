@@ -2619,17 +2619,17 @@ export default function App() {
                   <div className="patju-kpi-card">
                     <span className="patju-kpi-title">🏠 Rumah Tidak Layak Huni</span>
                     <span className="patju-kpi-val">{PATJU_STATISTIK_KABUPATEN.totalRtlh.toLocaleString('id-ID')} Unit</span>
-                    <span className="patju-kpi-sub">Lokus DISPERKIM &amp; BSPS</span>
+                    <span className="patju-kpi-sub">Lokus DPUPRPKP (Perumahan &amp; BSPS)</span>
                   </div>
                   <div className="patju-kpi-card">
                     <span className="patju-kpi-title">🚽 Tanpa Jamban Sehat</span>
                     <span className="patju-kpi-val">{PATJU_STATISTIK_KABUPATEN.totalTanpaJamban.toLocaleString('id-ID')} KK</span>
-                    <span className="patju-kpi-sub">Lokus PUPR Sanitasi &amp; DINKES</span>
+                    <span className="patju-kpi-sub">Lokus DPUPRPKP (Sanitasi) &amp; Dinkes P2KB</span>
                   </div>
                   <div className="patju-kpi-card">
                     <span className="patju-kpi-title">💧 Air Minum Rentan</span>
                     <span className="patju-kpi-val">{PATJU_STATISTIK_KABUPATEN.totalAirTakTerlindung.toLocaleString('id-ID')} KK</span>
-                    <span className="patju-kpi-sub">Lokus PUPR Air Bersih Perdesaan</span>
+                    <span className="patju-kpi-sub">Lokus DPUPRPKP (Air Bersih Perdesaan)</span>
                   </div>
                 </div>
               </div>

@@ -24,7 +24,7 @@ export const PATJU_TREATMENT_CATALOG = [
     "id": "rtlh-swadaya",
     "namaProgram": "Bantuan Pemugaran Rumah Tidak Layak Huni (RTLH Swadaya / BSPS DAK & APBD)",
     "kategori": "Infrastruktur & Permukiman Layak",
-    "opdCode": "DISPERKIM",
+    "opdCode": "DPUPRPKP",
     "opdNama": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
     "targetOpdKamus": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
     "badgePrioritas": "Prioritas Kantong Kemiskinan",
@@ -39,7 +39,7 @@ export const PATJU_TREATMENT_CATALOG = [
     "id": "jamban-sehat",
     "namaProgram": "Pembangunan Jamban Sehat Keluarga (Tangki Septik Kedap Biotank & Sanitasi Dasar)",
     "kategori": "Sanitasi & Kesehatan Lingkungan",
-    "opdCode": "PUPR",
+    "opdCode": "DPUPRPKP",
     "opdNama": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
     "targetOpdKamus": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
     "badgePrioritas": "Prioritas Sanitasi & ODF",
@@ -54,7 +54,7 @@ export const PATJU_TREATMENT_CATALOG = [
     "id": "gerobak-dagang",
     "namaProgram": "Bantuan Pemberian Gerobak Usaha / Etalase Dagang & Sarana Usaha Mikro (Pemberdayaan UMKM)",
     "kategori": "Pemberdayaan Ekonomi & UMKM",
-    "opdCode": "DISKOP",
+    "opdCode": "DISPERINKOP",
     "opdNama": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
     "targetOpdKamus": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
     "badgePrioritas": "Prioritas Peningkatan Pendapatan",
@@ -69,7 +69,7 @@ export const PATJU_TREATMENT_CATALOG = [
     "id": "sarpras-perikanan",
     "namaProgram": "Bantuan Sarana & Prasarana Perikanan Tangkap & Budidaya (Mesin Tempel, Cool Box, Jaring & Benih Ikan)",
     "kategori": "Ekonomi Pesisir & Perikanan",
-    "opdCode": "DISLUTKAN",
+    "opdCode": "DKPKP",
     "opdNama": "Dinas Kelautan, Perikanan dan Ketahanan Pangan",
     "targetOpdKamus": "Dinas Kelautan, Perikanan dan Ketahanan Pangan",
     "badgePrioritas": "Prioritas Nelayan Miskin Ekstrem",
@@ -99,7 +99,7 @@ export const PATJU_TREATMENT_CATALOG = [
     "id": "kis-pbi-daerah",
     "namaProgram": "Integrasi Jaminan Kesehatan Nasional KIS PBI-JK Daerah (APBD Lombok Barat)",
     "kategori": "Jaminan Kesehatan",
-    "opdCode": "DINKES",
+    "opdCode": "DINKES P2KB",
     "opdNama": "Dinas Kesehatan, Pengendalian Penduduk dan KB",
     "targetOpdKamus": "Dinas Kesehatan, Pengendalian Penduduk dan KB",
     "badgePrioritas": "Universal Health Coverage (UHC)",
@@ -114,7 +114,7 @@ export const PATJU_TREATMENT_CATALOG = [
     "id": "jamsostek-bpjstk",
     "namaProgram": "Perlindungan Jaminan Sosial Ketenagakerjaan (BPJS TK) bagi Pekerja Rentan & Petani Miskin",
     "kategori": "Perlindungan Sosial Ketenagakerjaan",
-    "opdCode": "BPJSTK",
+    "opdCode": "DISPERINKOP",
     "opdNama": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
     "targetOpdKamus": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
     "badgePrioritas": "Jaminan Kecelakaan & Kematian (JKK/JKM)",
@@ -144,7 +144,7 @@ export const PATJU_TREATMENT_CATALOG = [
     "id": "atensi-disabilitas",
     "namaProgram": "Bantuan Asistensi Rehabilitasi Sosial (ATENSI) & Alat Bantu Fisik Disabilitas / Lansia Terlantar",
     "kategori": "Perlindungan Sosial Khusus",
-    "opdCode": "DINSOS",
+    "opdCode": "DINSOS P3A",
     "opdNama": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
     "targetOpdKamus": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
     "badgePrioritas": "Kelompok Rentan & Inklusi",
@@ -159,7 +159,7 @@ export const PATJU_TREATMENT_CATALOG = [
     "id": "bpbl-listrik",
     "namaProgram": "Bantuan Pasang Baru Listrik (BPBL) Gratis 450 VA / 900 VA (Elektrifikasi Rumah Tangga)",
     "kategori": "Utilitas & Energi Kerakyatan",
-    "opdCode": "PUPR",
+    "opdCode": "DPUPRPKP",
     "opdNama": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
     "targetOpdKamus": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
     "badgePrioritas": "Pemberantasan Gelap Gulita",
@@ -174,7 +174,7 @@ export const PATJU_TREATMENT_CATALOG = [
     "id": "pelatihan-blk",
     "namaProgram": "Pelatihan Vokasi & Sertifikasi Kompetensi Kerja Berbasis Industri (UPTD BLK Lombok Barat)",
     "kategori": "Ketenagakerjaan & Keahlian",
-    "opdCode": "DISNAKER",
+    "opdCode": "DISPERINKOP",
     "opdNama": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
     "targetOpdKamus": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
     "badgePrioritas": "Kemandirian Angkatan Kerja Muda",
@@ -189,7 +189,7 @@ export const PATJU_TREATMENT_CATALOG = [
     "id": "baznas-mustahik",
     "namaProgram": "Program Penanggulangan Kemiskinan Berbasis ZIS BAZNAS Lombok Barat (Mustahik Desil 1)",
     "kategori": "Sinergi Non-APBD & Kolaborasi",
-    "opdCode": "BAZNAS",
+    "opdCode": "SETDA KESRA",
     "opdNama": "Sekretariat Daerah (Bagian Kesra)",
     "targetOpdKamus": "Sekretariat Daerah (Bagian Kesra)",
     "badgePrioritas": "Bantalan Sosial Cepat Tanggap",
@@ -233,7 +233,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 36,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -241,7 +241,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 188,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -249,7 +249,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 108,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -257,7 +257,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 547,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -265,7 +265,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 77,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -273,7 +273,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 378,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -309,7 +309,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 266,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -317,7 +317,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 147,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -325,7 +325,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 285,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -361,7 +361,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 82,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -369,7 +369,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 124,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -377,7 +377,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 55,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -385,7 +385,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 426,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -393,7 +393,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 89,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -401,7 +401,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 214,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -437,7 +437,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 36,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -445,7 +445,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 224,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -453,7 +453,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 50,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -461,7 +461,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 677,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -469,7 +469,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 310,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -477,7 +477,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 382,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -513,7 +513,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 58,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -521,7 +521,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 372,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -529,7 +529,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 627,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -537,7 +537,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 412,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -545,7 +545,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 548,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -581,7 +581,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 43,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -589,7 +589,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 89,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -597,7 +597,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 301,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -605,7 +605,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 70,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -613,7 +613,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 237,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -649,7 +649,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 31,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -657,7 +657,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 185,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -665,7 +665,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 67,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -673,7 +673,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 365,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -681,7 +681,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 274,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -689,7 +689,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 393,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -725,7 +725,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 30,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -733,7 +733,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 233,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -741,7 +741,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 68,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -749,7 +749,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 345,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -757,7 +757,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 227,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -765,7 +765,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 527,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -801,7 +801,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 41,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -809,7 +809,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 134,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -817,7 +817,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 289,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -825,7 +825,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 102,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -833,7 +833,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 225,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -869,7 +869,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 186,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -877,7 +877,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 536,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -885,7 +885,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 104,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -893,7 +893,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 524,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -901,7 +901,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 277,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -909,7 +909,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 543,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -945,7 +945,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 80,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -953,7 +953,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 289,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -961,7 +961,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 124,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -969,7 +969,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 158,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -1005,7 +1005,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 77,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1013,7 +1013,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 75,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -1021,7 +1021,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 58,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -1029,7 +1029,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 703,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -1037,7 +1037,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 354,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -1045,7 +1045,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 298,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -1081,7 +1081,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 283,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1089,7 +1089,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 377,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -1097,7 +1097,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 270,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -1105,7 +1105,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 321,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -1141,7 +1141,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 70,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1149,7 +1149,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 211,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1157,7 +1157,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 86,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -1165,7 +1165,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 303,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -1173,7 +1173,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 305,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -1181,7 +1181,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 245,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -1217,7 +1217,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 535,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -1225,7 +1225,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 193,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -1233,7 +1233,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 333,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -1269,7 +1269,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 147,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1277,7 +1277,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 54,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -1285,7 +1285,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 318,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -1293,7 +1293,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 331,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -1301,7 +1301,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 161,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -1337,7 +1337,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 77,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1345,7 +1345,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 96,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -1353,7 +1353,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 558,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -1361,7 +1361,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 391,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -1369,7 +1369,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 282,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -1405,7 +1405,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 78,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -1413,7 +1413,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 313,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -1421,7 +1421,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 190,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -1429,7 +1429,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 269,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -1465,7 +1465,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 241,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1473,7 +1473,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 237,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -1481,7 +1481,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 161,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -1489,7 +1489,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 200,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -1525,7 +1525,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 94,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -1533,7 +1533,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 563,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -1541,7 +1541,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 177,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -1549,7 +1549,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 231,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -1585,7 +1585,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 113,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -1593,7 +1593,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 193,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -1601,7 +1601,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 221,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -1609,7 +1609,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 137,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -1645,7 +1645,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 111,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1653,7 +1653,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 174,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1661,7 +1661,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 123,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -1669,7 +1669,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 445,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -1677,7 +1677,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 97,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -1685,7 +1685,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 153,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -1721,7 +1721,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 117,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1729,7 +1729,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 254,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1737,7 +1737,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 247,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -1745,7 +1745,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 61,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       }
@@ -1781,7 +1781,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 55,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1789,7 +1789,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 273,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1797,7 +1797,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 248,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1805,7 +1805,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 543,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -1813,7 +1813,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 91,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -1821,7 +1821,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 253,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -1857,7 +1857,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 132,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1865,7 +1865,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 186,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1873,7 +1873,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 337,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -1881,7 +1881,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 190,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -1889,7 +1889,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 317,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -1925,7 +1925,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 67,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1933,7 +1933,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 310,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -1941,7 +1941,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 167,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -1949,7 +1949,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 153,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -1957,7 +1957,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 124,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -1993,7 +1993,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 30,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -2001,7 +2001,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 160,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2009,7 +2009,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 464,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -2017,7 +2017,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 133,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -2025,7 +2025,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 220,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -2061,7 +2061,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 152,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2069,7 +2069,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 229,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2077,7 +2077,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 180,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -2085,7 +2085,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 625,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -2093,7 +2093,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 268,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -2101,7 +2101,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 311,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -2137,7 +2137,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 91,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2145,7 +2145,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 124,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -2153,7 +2153,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 136,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -2161,7 +2161,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 500,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -2169,7 +2169,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 274,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -2177,7 +2177,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 370,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -2213,7 +2213,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 161,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2221,7 +2221,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 407,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2229,7 +2229,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 288,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2237,7 +2237,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 476,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -2245,7 +2245,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 74,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -2253,7 +2253,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 246,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -2289,7 +2289,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 72,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2297,7 +2297,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 117,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -2305,7 +2305,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 69,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -2313,7 +2313,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 367,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -2321,7 +2321,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 226,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -2329,7 +2329,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 285,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -2365,7 +2365,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 29,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -2373,7 +2373,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 193,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2381,7 +2381,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 61,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -2389,7 +2389,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 464,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -2397,7 +2397,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 268,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -2405,7 +2405,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 204,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -2441,7 +2441,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 96,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2449,7 +2449,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 168,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2457,7 +2457,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 379,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -2465,7 +2465,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 74,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -2473,7 +2473,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 206,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -2509,7 +2509,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 109,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2517,7 +2517,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 273,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2525,7 +2525,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 297,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -2533,7 +2533,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 149,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -2541,7 +2541,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 199,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -2577,7 +2577,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 95,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2585,7 +2585,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 179,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2593,7 +2593,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 75,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -2601,7 +2601,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 277,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -2609,7 +2609,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 123,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -2617,7 +2617,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 208,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -2653,7 +2653,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 143,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2661,7 +2661,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 135,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -2669,7 +2669,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 304,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -2677,7 +2677,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 150,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -2685,7 +2685,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 244,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -2721,7 +2721,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 87,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2729,7 +2729,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 318,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2737,7 +2737,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 100,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -2745,7 +2745,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 302,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -2753,7 +2753,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 68,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -2761,7 +2761,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 233,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -2797,7 +2797,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 83,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2805,7 +2805,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 222,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -2813,7 +2813,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 56,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -2821,7 +2821,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 217,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -2857,7 +2857,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 109,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2865,7 +2865,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 90,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -2873,7 +2873,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 67,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -2881,7 +2881,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 350,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -2889,7 +2889,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 263,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -2897,7 +2897,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 272,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -2933,7 +2933,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 92,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -2941,7 +2941,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 127,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -2949,7 +2949,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 104,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -2957,7 +2957,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 90,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -2965,7 +2965,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 127,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -3001,7 +3001,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 29,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -3009,7 +3009,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 397,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3017,7 +3017,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 122,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -3025,7 +3025,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 258,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -3033,7 +3033,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 210,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -3041,7 +3041,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 315,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -3077,7 +3077,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 104,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3085,7 +3085,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 129,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -3093,7 +3093,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 266,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -3101,7 +3101,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 131,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -3109,7 +3109,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 134,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -3145,7 +3145,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 307,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3153,7 +3153,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 729,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3161,7 +3161,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 257,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3169,7 +3169,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 866,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -3177,7 +3177,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 371,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -3185,7 +3185,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 729,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -3221,7 +3221,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 191,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3229,7 +3229,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 717,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3237,7 +3237,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 79,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -3245,7 +3245,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 815,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -3253,7 +3253,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 105,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -3261,7 +3261,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 772,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -3297,7 +3297,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 140,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3305,7 +3305,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 706,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3313,7 +3313,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 609,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -3321,7 +3321,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 363,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -3329,7 +3329,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 722,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -3365,7 +3365,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 518,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3373,7 +3373,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 1905,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3381,7 +3381,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 627,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3389,7 +3389,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 2094,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -3397,7 +3397,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 202,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -3405,7 +3405,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 1521,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -3441,7 +3441,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 147,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3449,7 +3449,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 687,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3457,7 +3457,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 480,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3465,7 +3465,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 463,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -3473,7 +3473,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 311,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -3481,7 +3481,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 542,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -3517,7 +3517,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 237,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3525,7 +3525,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 709,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3533,7 +3533,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 115,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -3541,7 +3541,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 538,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -3549,7 +3549,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 421,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -3557,7 +3557,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 884,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -3593,7 +3593,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 41,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -3601,7 +3601,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 113,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -3609,7 +3609,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 84,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -3617,7 +3617,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 22,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       }
@@ -3653,7 +3653,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 158,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3661,7 +3661,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 391,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3669,7 +3669,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 80,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -3677,7 +3677,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 496,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -3685,7 +3685,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 102,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -3693,7 +3693,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 464,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -3729,7 +3729,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 137,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3737,7 +3737,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 322,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3745,7 +3745,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 75,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -3753,7 +3753,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 343,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -3761,7 +3761,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 153,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -3769,7 +3769,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 395,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -3805,7 +3805,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 33,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -3813,7 +3813,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 309,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3821,7 +3821,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 85,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -3829,7 +3829,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 562,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -3837,7 +3837,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 437,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -3845,7 +3845,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 285,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -3881,7 +3881,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 608,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -3889,7 +3889,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 363,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -3897,7 +3897,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 66,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -3905,7 +3905,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 247,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -3941,7 +3941,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 101,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -3949,7 +3949,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 381,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -3957,7 +3957,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 143,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -3965,7 +3965,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 166,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -4001,7 +4001,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 62,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4009,7 +4009,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 401,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -4017,7 +4017,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 124,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -4025,7 +4025,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 244,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -4061,7 +4061,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 33,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4069,7 +4069,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 220,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -4077,7 +4077,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 450,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -4085,7 +4085,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 172,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -4093,7 +4093,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 246,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -4129,7 +4129,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 95,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -4137,7 +4137,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 755,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -4145,7 +4145,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 112,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4153,7 +4153,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 569,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -4161,7 +4161,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 99,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -4169,7 +4169,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 326,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -4205,7 +4205,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 43,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4213,7 +4213,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 268,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -4221,7 +4221,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 121,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4229,7 +4229,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 619,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -4237,7 +4237,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 153,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -4245,7 +4245,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 504,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -4281,7 +4281,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 185,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -4289,7 +4289,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 159,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -4297,7 +4297,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 126,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -4305,7 +4305,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 226,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -4341,7 +4341,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 177,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -4349,7 +4349,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 171,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4357,7 +4357,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 765,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -4365,7 +4365,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 55,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -4373,7 +4373,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 163,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -4409,7 +4409,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 38,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4417,7 +4417,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 125,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4425,7 +4425,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 274,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -4433,7 +4433,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 100,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -4441,7 +4441,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 155,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -4477,7 +4477,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 135,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4485,7 +4485,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 155,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4493,7 +4493,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 321,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -4501,7 +4501,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 126,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -4509,7 +4509,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 104,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -4545,7 +4545,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 95,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4553,7 +4553,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 210,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -4561,7 +4561,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 88,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -4569,7 +4569,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 138,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -4605,7 +4605,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 269,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -4613,7 +4613,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 108,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4621,7 +4621,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 792,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -4629,7 +4629,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 422,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -4637,7 +4637,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 321,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -4673,7 +4673,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 36,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4681,7 +4681,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 70,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4689,7 +4689,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 564,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -4697,7 +4697,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 110,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -4705,7 +4705,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 149,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -4741,7 +4741,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 69,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -4749,7 +4749,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 153,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -4757,7 +4757,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 1062,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -4765,7 +4765,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 339,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -4773,7 +4773,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 568,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -4809,7 +4809,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 165,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -4817,7 +4817,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 87,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4825,7 +4825,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 51,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4833,7 +4833,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 549,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -4841,7 +4841,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 222,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -4849,7 +4849,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 260,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -4885,7 +4885,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 77,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4893,7 +4893,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 437,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -4901,7 +4901,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 171,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -4909,7 +4909,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 202,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -4945,7 +4945,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 46,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4953,7 +4953,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 194,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -4961,7 +4961,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 103,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -4969,7 +4969,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 239,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -4977,7 +4977,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 222,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -4985,7 +4985,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 242,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -5021,7 +5021,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 36,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -5029,7 +5029,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 170,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -5037,7 +5037,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 151,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -5045,7 +5045,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 168,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -5081,7 +5081,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 26,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -5089,7 +5089,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 366,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5097,7 +5097,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 480,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5105,7 +5105,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 214,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -5113,7 +5113,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 203,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -5121,7 +5121,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 253,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -5157,7 +5157,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 215,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5165,7 +5165,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 250,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5173,7 +5173,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 538,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5181,7 +5181,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 804,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -5189,7 +5189,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 367,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -5197,7 +5197,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 495,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -5233,7 +5233,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 41,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -5241,7 +5241,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 655,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -5249,7 +5249,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 136,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -5257,7 +5257,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 220,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -5293,7 +5293,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 38,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -5301,7 +5301,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 115,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -5309,7 +5309,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 72,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -5317,7 +5317,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 200,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -5325,7 +5325,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 120,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -5333,7 +5333,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 176,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -5369,7 +5369,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 135,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5377,7 +5377,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 413,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5385,7 +5385,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 73,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -5393,7 +5393,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 327,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -5401,7 +5401,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 224,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -5409,7 +5409,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 390,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -5445,7 +5445,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 182,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -5453,7 +5453,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 86,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       }
@@ -5489,7 +5489,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 61,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5497,7 +5497,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 193,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5505,7 +5505,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 254,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5513,7 +5513,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 149,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -5521,7 +5521,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 154,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -5529,7 +5529,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 279,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -5565,7 +5565,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 34,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -5573,7 +5573,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 224,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5581,7 +5581,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 94,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -5589,7 +5589,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 211,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -5597,7 +5597,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 239,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -5633,7 +5633,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 32,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -5641,7 +5641,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 104,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -5649,7 +5649,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 68,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -5657,7 +5657,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 214,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -5665,7 +5665,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 145,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -5673,7 +5673,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 171,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -5709,7 +5709,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 26,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -5717,7 +5717,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 200,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5725,7 +5725,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 287,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -5733,7 +5733,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 244,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -5741,7 +5741,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 156,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -5777,7 +5777,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 74,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5785,7 +5785,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 480,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5793,7 +5793,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 54,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -5801,7 +5801,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 407,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -5809,7 +5809,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 327,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -5817,7 +5817,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 276,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -5853,7 +5853,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 169,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5861,7 +5861,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 603,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5869,7 +5869,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 263,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5877,7 +5877,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 367,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -5885,7 +5885,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 99,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -5893,7 +5893,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 187,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -5929,7 +5929,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 57,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -5937,7 +5937,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 124,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -5945,7 +5945,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 349,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -5953,7 +5953,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 291,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -5961,7 +5961,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 208,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -5997,7 +5997,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 170,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6005,7 +6005,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 339,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6013,7 +6013,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 72,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -6021,7 +6021,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 464,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -6029,7 +6029,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 179,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -6037,7 +6037,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 335,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -6073,7 +6073,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 110,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6081,7 +6081,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 302,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6089,7 +6089,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 380,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6097,7 +6097,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 630,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -6105,7 +6105,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 261,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -6113,7 +6113,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 399,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -6149,7 +6149,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 43,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -6157,7 +6157,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 349,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6165,7 +6165,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 623,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6173,7 +6173,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 373,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -6181,7 +6181,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 264,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -6189,7 +6189,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 240,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -6225,7 +6225,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 65,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6233,7 +6233,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 320,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6241,7 +6241,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 252,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -6249,7 +6249,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 56,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -6257,7 +6257,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 135,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -6293,7 +6293,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 51,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6301,7 +6301,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 216,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6309,7 +6309,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 223,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6317,7 +6317,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 358,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -6325,7 +6325,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 192,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -6333,7 +6333,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 310,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -6369,7 +6369,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 82,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6377,7 +6377,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 671,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6385,7 +6385,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 252,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6393,7 +6393,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 643,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -6401,7 +6401,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 465,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -6409,7 +6409,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 598,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -6445,7 +6445,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 50,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6453,7 +6453,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 96,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -6461,7 +6461,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 69,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -6469,7 +6469,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 158,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -6477,7 +6477,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 125,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -6485,7 +6485,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 125,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -6521,7 +6521,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 128,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6529,7 +6529,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 225,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6537,7 +6537,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 308,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -6545,7 +6545,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 127,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -6553,7 +6553,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 268,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -6589,7 +6589,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 93,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6597,7 +6597,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 458,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6605,7 +6605,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 89,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -6613,7 +6613,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 246,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -6621,7 +6621,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 45,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -6629,7 +6629,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 163,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -6665,7 +6665,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 202,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6673,7 +6673,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 124,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -6681,7 +6681,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 113,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       }
@@ -6717,7 +6717,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 92,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -6725,7 +6725,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 129,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -6733,7 +6733,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 59,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -6741,7 +6741,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 101,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -6777,7 +6777,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 87,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6785,7 +6785,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 251,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6793,7 +6793,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 377,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -6801,7 +6801,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 275,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -6809,7 +6809,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 433,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -6845,7 +6845,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 26,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -6853,7 +6853,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 55,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -6861,7 +6861,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 354,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -6869,7 +6869,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 156,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -6877,7 +6877,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 366,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -6913,7 +6913,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 194,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6921,7 +6921,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 713,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6929,7 +6929,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 109,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -6937,7 +6937,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 555,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -6945,7 +6945,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 254,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -6953,7 +6953,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 425,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -6989,7 +6989,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 86,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -6997,7 +6997,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 525,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7005,7 +7005,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 204,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7013,7 +7013,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 388,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -7021,7 +7021,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 235,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -7029,7 +7029,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 529,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -7065,7 +7065,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 149,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7073,7 +7073,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 449,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7081,7 +7081,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 395,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -7089,7 +7089,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 273,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -7097,7 +7097,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 456,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -7133,7 +7133,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 66,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7141,7 +7141,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 167,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7149,7 +7149,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 378,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -7157,7 +7157,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 166,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -7165,7 +7165,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 459,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -7201,7 +7201,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 109,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7209,7 +7209,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 209,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7217,7 +7217,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 815,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -7225,7 +7225,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 304,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -7233,7 +7233,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 508,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -7269,7 +7269,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 138,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7277,7 +7277,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 385,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7285,7 +7285,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 79,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -7293,7 +7293,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 305,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -7301,7 +7301,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 221,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -7309,7 +7309,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 249,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -7345,7 +7345,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 33,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -7353,7 +7353,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 63,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -7361,7 +7361,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 252,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -7369,7 +7369,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 152,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -7377,7 +7377,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 266,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -7413,7 +7413,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 34,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -7421,7 +7421,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 207,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7429,7 +7429,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 198,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -7437,7 +7437,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 111,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -7445,7 +7445,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 263,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -7481,7 +7481,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 82,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7489,7 +7489,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 169,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7497,7 +7497,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 443,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7505,7 +7505,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 584,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -7513,7 +7513,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 175,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -7521,7 +7521,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 317,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -7557,7 +7557,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 682,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -7565,7 +7565,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 134,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -7573,7 +7573,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 212,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -7609,7 +7609,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 112,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7617,7 +7617,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 223,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7625,7 +7625,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 1111,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -7633,7 +7633,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 103,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -7641,7 +7641,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 259,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -7677,7 +7677,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 41,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -7685,7 +7685,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 63,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -7693,7 +7693,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 270,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -7701,7 +7701,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 113,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -7709,7 +7709,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 122,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -7745,7 +7745,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 42,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -7753,7 +7753,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 449,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -7761,7 +7761,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 156,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -7769,7 +7769,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 112,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -7805,7 +7805,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 64,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -7813,7 +7813,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 329,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -7821,7 +7821,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 198,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -7829,7 +7829,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 111,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -7865,7 +7865,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 48,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -7873,7 +7873,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 138,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -7881,7 +7881,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 179,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -7889,7 +7889,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 273,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -7897,7 +7897,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 62,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -7905,7 +7905,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 193,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -7941,7 +7941,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 25,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -7949,7 +7949,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 81,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -7957,7 +7957,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 88,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -7965,7 +7965,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 45,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       }
@@ -8001,7 +8001,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 116,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -8009,7 +8009,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 139,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -8017,7 +8017,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 232,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -8025,7 +8025,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 547,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -8033,7 +8033,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 172,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -8041,7 +8041,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 209,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -8077,7 +8077,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 71,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -8085,7 +8085,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 366,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -8093,7 +8093,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 111,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -8101,7 +8101,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 866,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -8109,7 +8109,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 370,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -8117,7 +8117,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 511,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -8153,7 +8153,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 239,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -8161,7 +8161,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 604,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -8169,7 +8169,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 607,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -8177,7 +8177,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 536,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -8185,7 +8185,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 529,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -8221,7 +8221,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 78,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -8229,7 +8229,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 771,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -8237,7 +8237,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Air Minum Bersih",
         "volume": 91,
         "satuan": "KK Rentan Air",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -8245,7 +8245,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 742,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -8253,7 +8253,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 375,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -8261,7 +8261,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 535,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -8297,7 +8297,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 58,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -8305,7 +8305,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 265,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -8313,7 +8313,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 422,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -8321,7 +8321,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 189,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -8329,7 +8329,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 261,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -8365,7 +8365,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 30,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -8373,7 +8373,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 166,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -8381,7 +8381,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 217,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -8389,7 +8389,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 180,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -8397,7 +8397,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 165,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -8433,7 +8433,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 27,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -8441,7 +8441,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 159,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -8449,7 +8449,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 331,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -8457,7 +8457,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 210,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -8465,7 +8465,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 310,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -8501,7 +8501,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 131,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -8509,7 +8509,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 538,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -8517,7 +8517,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 145,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -8525,7 +8525,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 147,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -8561,7 +8561,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Sanitasi (Biotank)",
         "volume": 125,
         "satuan": "KK Tanpa Jamban",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Sedang"
       },
@@ -8569,7 +8569,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 613,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -8577,7 +8577,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 176,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -8585,7 +8585,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 249,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
@@ -8621,7 +8621,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Perumahan (RTLH)",
         "volume": 131,
         "satuan": "Unit RTLH",
-        "opd": "Dinas Perumahan dan Permukiman",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Penurunan Kantong Kemiskinan",
         "urgensi": "Tinggi"
       },
@@ -8629,7 +8629,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Pemberdayaan Ekonomi / UMKM",
         "volume": 538,
         "satuan": "KK Tanpa Aset",
-        "opd": "Dinas Koperasi dan Usaha Kecil Menengah",
+        "opd": "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
         "strategi": "Peningkatan Pendapatan",
         "urgensi": "Tinggi"
       },
@@ -8637,7 +8637,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Elektrifikasi (BPBL Listrik)",
         "volume": 145,
         "satuan": "KK Tanpa Listrik",
-        "opd": "Dinas Pekerjaan Umum dan Penataan Ruang",
+        "opd": "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Sedang"
       },
@@ -8645,7 +8645,7 @@ export const PATJU_DESA_LIST = [
         "sektor": "Bansos & Jaminan Sosial (PBI / PKH)",
         "volume": 147,
         "satuan": "KK Miskin Ekstrem",
-        "opd": "Dinas Sosial",
+        "opd": "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
         "strategi": "Pengurangan Beban Pengeluaran",
         "urgensi": "Tinggi"
       }
