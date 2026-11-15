@@ -1637,10 +1637,7 @@ export default function App() {
                           <div key={k.key} className="triage-item-row">
                             <div style={{ flex: 1 }}>
                               <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" }}>
-                                <strong style={{ color: "#9f1239" }}>{k.nama}</strong>
-                                <span style={{ fontSize: "11px", color: "#881337" }}>
-                                  ({k.skor}/{k.maks})
-                                </span>
+                                <strong style={{ color: "#9f1239" }}>{k.nama}</strong>: {k.skor}/{k.maks}
                                 {k.jmlKritis > 0 && (
                                   <span
                                     style={{
@@ -1658,71 +1655,13 @@ export default function App() {
                                 )}
                               </div>
                               {k.triageReason && (
-                                <div style={{ fontSize: "10.5px", fontWeight: 700, color: "#be123c", marginTop: "1px" }}>
+                                <div style={{ fontSize: "10.5px", fontWeight: 700, color: "#be123c", marginTop: "2px" }}>
                                   • {k.triageReason}
                                 </div>
                               )}
-                              {/* Daftar Butir Masalah Kritis Lapangan Riil Desa (Skor 1 Sheet RUMUSAN) */}
-                              {k.masalahKritis && k.masalahKritis.length > 0 && (
-                                <div style={{ marginTop: "6px", marginBottom: "6px", display: "flex", flexDirection: "column", gap: "4px" }}>
-                                  <div style={{ fontSize: "10.5px", fontWeight: 800, color: "#9f1239" }}>
-                                    Masalah Lapangan Desa (Skor 1):
-                                  </div>
-                                  <div style={{ display: "flex", flexDirection: "column", gap: "4px", maxHeight: "150px", overflowY: "auto", paddingRight: "3px" }}>
-                                    {k.masalahKritis.map((probText, pIdx) => {
-                                      const mapped = mapProblemToSolution(probText);
-                                      return (
-                                        <div
-                                          key={pIdx}
-                                          style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "space-between",
-                                            background: "#ffffff",
-                                            border: "1px solid #fecdd3",
-                                            borderRadius: "5px",
-                                            padding: "4px 8px",
-                                            gap: "8px"
-                                          }}
-                                        >
-                                          <div style={{ flex: 1, minWidth: 0 }}>
-                                            <div style={{ fontSize: "11px", fontWeight: 700, color: "#881337", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={probText}>
-                                              🔴 #{pIdx + 1}. {probText}
-                                            </div>
-                                            <div style={{ fontSize: "10px", color: "#64748b" }}>
-                                              Solusi OPD: <b style={{ color: "#0f172a" }}>{mapped.opd.replace("Dinas ", "").replace("Badan ", "").slice(0, 24)}</b> ({mapped.bidangBapperida})
-                                            </div>
-                                          </div>
-                                          <button
-                                            className="btn btn-sm"
-                                            style={{
-                                              fontSize: "10px",
-                                              padding: "2px 8px",
-                                              background: "#ffe4e6",
-                                              color: "#9f1239",
-                                              border: "1px solid #fda4af",
-                                              fontWeight: 800,
-                                              flexShrink: 0,
-                                              cursor: "pointer",
-                                              display: "inline-flex",
-                                              alignItems: "center",
-                                              gap: "3px"
-                                            }}
-                                            onClick={() => handleApplyProblemSolution(mapped, `Masalah Lapangan ${activeDesaObj.nama}`)}
-                                            title={`Buka solusi program di Kamus OPD untuk masalah riil: ${probText}`}
-                                          >
-                                            <Sparkles size={11} /> Buka Solusi ➔
-                                          </button>
-                                        </div>
-                                      );
-                                    })}
-                                  </div>
-                                </div>
-                              )}
-
-                              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "6px", paddingTop: "6px", borderTop: "1px dashed #fecdd3", flexWrap: "wrap", gap: "6px" }}>
+                              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "4px", gap: "6px", flexWrap: "wrap" }}>
                                 <div className="triage-opd-preview" style={{ margin: 0 }}>
-                                  OPD Prioritas: {(k.opdKritisAktif && k.opdKritisAktif.length > 0 ? k.opdKritisAktif : k.opdPengampu).join(", ")}
+                                  OPD: {(k.opdKritisAktif && k.opdKritisAktif.length > 0 ? k.opdKritisAktif : k.opdPengampu).join(", ")}
                                 </div>
                                 <button
                                   className="btn btn-sm"
@@ -1732,7 +1671,7 @@ export default function App() {
                                     color: "#be123c",
                                     fontSize: "10.5px",
                                     fontWeight: 700,
-                                    padding: "3px 8px",
+                                    padding: "2px 8px",
                                     borderRadius: "4px",
                                     display: "inline-flex",
                                     alignItems: "center",
