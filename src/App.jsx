@@ -1563,6 +1563,7 @@ export default function App() {
         nama: userForm.nama.trim(),
         username: cleanUsername,
         nip: userForm.nip.trim(),
+        password: userForm.password || generateStrongPassword(),
         role: userForm.role,
         instansi: userForm.instansi.trim() || "Bapperida Kab. Lombok Barat",
         status: userForm.status,
@@ -1686,20 +1687,31 @@ export default function App() {
     }
   };
 
-  // Handler: Login SIPD-RI
+  // Handler: Login SIPD-RI (Keamanan Terproteksi Kredensial Penuh)
   const handleLogin = (e) => {
     if (e) e.preventDefault();
     setLoginError("");
 
     const inputUname = loginForm.username.trim().toLowerCase();
+    const inputPass = loginForm.password.trim();
 
-    // Mode Inisialisasi: Jika belum ada user terdaftar (karena baru dihapus bersih),
-    // izinkan login langsung dan otomatis daftarkan akun baru ini
+    if (!inputUname) {
+      setLoginError("Silakan masukkan Username atau NIP.");
+      return;
+    }
+    if (!inputPass) {
+      setLoginError("Silakan masukkan Kata Sandi (Password).");
+      return;
+    }
+
+    // Mode Inisialisasi: Jika belum ada user terdaftar (karena baru dibersihkan/direset),
+    // daftarkan akun administrator pertama dengan kredensial yang diinputkan pengguna
     if (systemUsers.length === 0) {
       const initialUser = {
         id: `USR-INIT-001`,
-        nama: inputUname ? inputUname.toUpperCase() : (loginForm.role === "Super Admin" ? "Administrator Bapperida" : loginForm.role === "Verifikator" ? "Verifikator Bapperida" : "Operator Desa Kuripan"),
-        username: inputUname || (loginForm.role === "Super Admin" ? "admin" : loginForm.role === "verifikator" ? "verifikator" : "operator.desa"),
+        nama: inputUname.toUpperCase(),
+        username: inputUname,
+        password: inputPass,
         nip: "198501012010011001",
         role: loginForm.role,
         instansi: loginForm.role === "Super Admin" ? "Bapperida Kab. Lombok Barat" : loginForm.role === "Verifikator" ? "Bapperida (Bidang PSDAIK)" : "Desa Kuripan (Kec. Kuripan)",
@@ -1715,8 +1727,8 @@ export default function App() {
       if (loginForm.rememberMe) {
         localStorage.setItem("BAPPERIDA_LOBAR_AUTH_USER", JSON.stringify(initialUser));
       }
-      logSecurityEvent("LOGIN_SUKSES", `Pengguna pertama @${initialUser.username} (${initialUser.role}) berhasil masuk`, initialUser.nama);
-      showToast(`Selamat datang di Pre-SIPD RI, ${initialUser.nama}!`);
+      logSecurityEvent("INITIALIZE_SUPERADMIN", `Akun awal @${initialUser.username} (${initialUser.role}) berhasil diinisialisasi`, initialUser.nama);
+      showToast(`Selamat datang, ${initialUser.nama}! Akun administrator pertama telah aktif.`);
       return;
     }
 
@@ -1726,32 +1738,7 @@ export default function App() {
     );
 
     if (!foundUser) {
-      // Jika username belum ada, buatkan akun baru secara instan jika username terisi
-      if (inputUname) {
-        const newUser = {
-          id: `USR-${Date.now().toString().slice(-4)}`,
-          nama: inputUname.toUpperCase(),
-          username: inputUname,
-          nip: "",
-          role: loginForm.role,
-          instansi: loginForm.role === "Super Admin" ? "Bapperida Kab. Lombok Barat" : loginForm.role === "Verifikator" ? "Bapperida (Bidang PSDAIK)" : "Desa Kuripan (Kec. Kuripan)",
-          status: "Aktif",
-          googleAuthEnabled: false,
-          updatedAt: new Date().toISOString()
-        };
-        const updatedList = [newUser, ...systemUsers];
-        setSystemUsers(updatedList);
-        saveUserAccounts(updatedList);
-        setCurrentUser(newUser);
-        setSelectedYear(loginForm.tahun);
-        if (loginForm.rememberMe) {
-          localStorage.setItem("BAPPERIDA_LOBAR_AUTH_USER", JSON.stringify(newUser));
-        }
-        logSecurityEvent("DAFTAR_DAN_LOGIN", `Akun baru @${newUser.username} (${newUser.role}) berhasil didaftarkan dan masuk`, newUser.nama);
-        showToast(`Akun @${newUser.username} terdaftar & berhasil masuk!`);
-        return;
-      }
-      setLoginError("Masukkan username atau gunakan tombol Akses Cepat di bawah.");
+      setLoginError("Username atau NIP tidak terdaftar. Hubungi Super Admin Bapperida untuk pendaftaran akun.");
       return;
     }
 
@@ -1760,12 +1747,29 @@ export default function App() {
       return;
     }
 
-    if (foundUser.googleAuthEnabled && !loginForm.otp) {
-      setLoginError("Akun ini dilindungi 2FA Google Authenticator. Masukkan 6 digit kode OTP.");
+    // Validasi Password jika ada pada akun
+    if (foundUser.password && foundUser.password !== inputPass) {
+      setLoginError("Kata sandi yang Anda masukkan salah. Silakan periksa kembali.");
       return;
     }
 
+    // Validasi 2FA Google Authenticator jika aktif
+    if (foundUser.googleAuthEnabled) {
+      if (!loginForm.otp) {
+        setLoginError("Akun ini dilindungi 2FA Google Authenticator. Masukkan 6 digit kode OTP.");
+        return;
+      }
+      if (loginForm.otp.length !== 6) {
+        setLoginError("Kode OTP Google Authenticator harus terdiri dari 6 digit angka.");
+        return;
+      }
+    }
+
     // Login Sukses
+    const updatedUsers = systemUsers.map(u => u.id === foundUser.id ? { ...u, lastLogin: new Date().toLocaleString("id-ID") } : u);
+    setSystemUsers(updatedUsers);
+    saveUserAccounts(updatedUsers);
+
     setCurrentUser(foundUser);
     setSelectedYear(loginForm.tahun);
     if (loginForm.rememberMe) {
@@ -1773,23 +1777,6 @@ export default function App() {
     }
     logSecurityEvent("LOGIN_SUKSES", `Pengguna @${foundUser.username} (${foundUser.role}) berhasil masuk`, foundUser.nama);
     showToast(`Selamat datang, ${foundUser.nama}!`);
-  };
-
-  // Handler: Akses Cepat Tamu (Preview Mode)
-  const handleGuestLogin = (guestRole = "Operator Desa") => {
-    const guestUser = {
-      id: "USR-GUEST",
-      nama: guestRole === "Super Admin" ? "Administrator Utama (Preview)" : guestRole === "Verifikator" ? "Verifikator Bapperida (Preview)" : "Operator Desa (Preview)",
-      username: `preview.${guestRole.toLowerCase().replace(/\s+/g, "")}`,
-      role: guestRole,
-      instansi: guestRole === "Operator Desa" ? "Desa Kuripan (Kec. Kuripan)" : "Bapperida Kab. Lombok Barat",
-      status: "Aktif",
-      isGuest: true
-    };
-    setCurrentUser(guestUser);
-    setSelectedYear(loginForm.tahun || "2027");
-    logSecurityEvent("LOGIN_PREVIEW", `Akses Cepat Preview sebagai ${guestRole}`, guestUser.nama);
-    showToast(`Masuk sebagai ${guestRole} (Mode Preview Pre-SIPD)`);
   };
 
   // Handler: Logout
@@ -2224,44 +2211,21 @@ export default function App() {
                 <span>Masuk ke Sistem Pre-SIPD RI ➔</span>
               </button>
 
-              {/* Pemisah Akses Cepat */}
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "4px 0" }}>
-                <div style={{ flex: 1, height: "1px", background: "var(--slate-200)" }} />
-                <span style={{ fontSize: "11px", color: "var(--slate-400)", fontWeight: 700 }}>ATAU MASUK CEPAT</span>
-                <div style={{ flex: 1, height: "1px", background: "var(--slate-200)" }} />
-              </div>
-
-              {/* Tombol Akses Cepat / Tamu */}
-              <div style={{ display: "flex", gap: "8px" }}>
-                <button
-                  type="button"
-                  className="btn btn-secondary btn-sm"
-                  style={{ flex: 1, height: "36px", fontSize: "11.5px", justifyContent: "center" }}
-                  onClick={() => handleGuestLogin("Operator Desa")}
-                >
-                  <Building2 size={13} />
-                  <span>Preview Desa</span>
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-secondary btn-sm"
-                  style={{ flex: 1, height: "36px", fontSize: "11.5px", justifyContent: "center" }}
-                  onClick={() => handleGuestLogin("Verifikator")}
-                >
-                  <CheckCircle size={13} />
-                  <span>Preview OPD</span>
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-gold btn-sm"
-                  style={{ flex: 1, height: "36px", fontSize: "11.5px", justifyContent: "center" }}
-                  onClick={() => handleGuestLogin("Super Admin")}
-                >
-                  <ShieldAlert size={13} />
-                  <span>Preview Admin</span>
-                </button>
+              {/* Proteksi Keamanan: Akses Masuk Cepat Dinonaktifkan */}
+              <div style={{
+                marginTop: "4px",
+                padding: "11px 14px",
+                background: "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)",
+                border: "1px solid #e2e8f0",
+                borderRadius: "10px",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px"
+              }}>
+                <ShieldCheck size={20} color="#059669" style={{ flexShrink: 0 }} />
+                <div style={{ fontSize: "11.5px", color: "var(--slate-600)", lineHeight: 1.45 }}>
+                  <b style={{ color: "#0f172a" }}>Proteksi Kredensial Resmi:</b> Akses masuk cepat telah ditiadakan demi keamanan data dan integritas perencanaan. Masuk menggunakan akun terdaftar resmi.
+                </div>
               </div>
             </form>
           </div>
