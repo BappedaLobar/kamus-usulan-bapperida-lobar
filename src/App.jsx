@@ -59,7 +59,11 @@ import {
   Eye,
   EyeOff,
   LogOut,
-  LogIn
+  LogIn,
+  Camera,
+  Upload,
+  Settings,
+  UserCheck
 } from "lucide-react";
 import * as XLSX from "xlsx";
 import { jsPDF } from "jspdf";
@@ -140,6 +144,28 @@ const KATA_KUNCI_CEPAT = [
   "Irigasi",
   "UMKM",
   "Kursi Roda"
+];
+
+// Pilihan Avatar Cepat & Simbol Resmi untuk Foto Profil Akun
+const PRESET_AVATARS = [
+  { id: "lobar-blue", label: "Logo Lobar", src: "/logo-lobar-blue.png" },
+  { id: "garuda", label: "Garuda Pancasila", src: "/logo-garuda.svg" },
+  { id: "kemendagri", label: "Kemendagri", src: "/logo-kemendagri.svg" },
+  {
+    id: "asn-pria",
+    label: "ASN Pria",
+    src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%230284c7'/><circle cx='50' cy='38' r='20' fill='%23fed7aa'/><path d='M22 88c0-16 12-28 28-28s28 12 28 28z' fill='%230f172a'/><polygon points='50,60 44,76 50,88 56,76' fill='%23fbbf24'/></svg>"
+  },
+  {
+    id: "asn-wanita",
+    label: "ASN Wanita",
+    src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23059669'/><path d='M28 42c0-14 10-24 22-24s22 10 22 24c0 14-8 30-22 30S28 56 28 42z' fill='%23fef08a'/><circle cx='50' cy='42' r='14' fill='%23fed7aa'/><path d='M20 90c0-16 14-26 30-26s30 10 30 26z' fill='%23064e3b'/></svg>"
+  },
+  {
+    id: "admin-cyber",
+    label: "Admin Cyber",
+    src: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%23991b1b'/><path d='M50 20 L75 32 V54 C75 70 50 82 50 82 C50 82 25 70 25 54 V32 Z' fill='%23fef2f2' stroke='%23facc15' stroke-width='4'/><path d='M50 35 L62 48 H54 V64 H46 V48 H38 Z' fill='%23dc2626'/></svg>"
+  }
 ];
 
 export default function App() {
@@ -316,6 +342,22 @@ export default function App() {
   const [generatedSecret, setGeneratedSecret] = useState("");
   const [totpVerifyInput, setTotpVerifyInput] = useState("");
   const [secretCopied, setSecretCopied] = useState(false);
+
+  // Modal Pengaturan Profil Akun & Keamanan (Ganti Password & Foto Profil)
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [profileActiveTab, setProfileActiveTab] = useState("photo"); // "photo" | "password"
+  const [tempPhotoPreview, setTempPhotoPreview] = useState("");
+  const [profilePhotoError, setProfilePhotoError] = useState("");
+  const [profilePasswordForm, setProfilePasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: ""
+  });
+  const [profilePasswordError, setProfilePasswordError] = useState("");
+  const [profilePasswordSuccess, setProfilePasswordSuccess] = useState("");
+  const [showCurrentPass, setShowCurrentPass] = useState(false);
+  const [showNewPass, setShowNewPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
 
   // Auto-koneksi ke Cloudflare D1 saat aplikasi pertama kali dibuka
   useEffect(() => {
@@ -1731,6 +1773,200 @@ export default function App() {
     }
   };
 
+  // =========================================================================
+  // HANDLER: PENGATURAN PROFIL AKUN (GANTI PASSWORD & FOTO PROFIL MANDIRI)
+  // =========================================================================
+
+  // Buka Modal Pengaturan Profil
+  const handleOpenProfileModal = () => {
+    if (!currentUser) return;
+    setTempPhotoPreview(currentUser.photo || "");
+    setProfilePhotoError("");
+    setProfilePasswordError("");
+    setProfilePasswordSuccess("");
+    setProfilePasswordForm({
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: ""
+    });
+    setProfileActiveTab("photo");
+    setShowProfileModal(true);
+  };
+
+  // Unggah Foto Profil dari File Lokal (Dengan Kompresi Canvas Efisien)
+  const handlePhotoFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setProfilePhotoError("Format file harus berupa gambar (JPG, PNG, JPEG, WEBP).");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setProfilePhotoError("Ukuran gambar maksimal 5 MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const maxDim = 256;
+        let width = img.width;
+        let height = img.height;
+        if (width > height) {
+          if (width > maxDim) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          }
+        } else {
+          if (height > maxDim) {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.88);
+        setTempPhotoPreview(dataUrl);
+        setProfilePhotoError("");
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Pilih Avatar Preset Resmi
+  const handleSelectPresetAvatar = (src) => {
+    setTempPhotoPreview(src);
+    setProfilePhotoError("");
+  };
+
+  // Simpan Foto Profil Akun
+  const handleSaveProfilePhoto = () => {
+    if (!currentUser) return;
+    const newPhoto = tempPhotoPreview || null;
+    const updatedUser = { ...currentUser, photo: newPhoto };
+
+    const updatedUsers = systemUsers.map((u) =>
+      u.id === currentUser.id ? { ...u, photo: newPhoto, updatedAt: new Date().toISOString() } : u
+    );
+    setSystemUsers(updatedUsers);
+    saveUserAccounts(updatedUsers);
+
+    setCurrentUser(updatedUser);
+    localStorage.setItem("BAPPERIDA_LOBAR_AUTH_USER", JSON.stringify(updatedUser));
+
+    logSecurityEvent(
+      "UPDATE_FOTO_PROFIL",
+      `Pengguna @${currentUser.username} (${currentUser.role}) berhasil memperbarui foto profil`,
+      currentUser.nama
+    );
+    showToast("Foto profil berhasil diperbarui!");
+    setAuditLogs(getSecurityAuditLogs());
+    setShowProfileModal(false);
+  };
+
+  // Hapus Foto Profil (Gunakan Inisial Huruf)
+  const handleRemoveProfilePhoto = () => {
+    if (!currentUser) return;
+    setTempPhotoPreview("");
+    const updatedUser = { ...currentUser, photo: null };
+
+    const updatedUsers = systemUsers.map((u) =>
+      u.id === currentUser.id ? { ...u, photo: null, updatedAt: new Date().toISOString() } : u
+    );
+    setSystemUsers(updatedUsers);
+    saveUserAccounts(updatedUsers);
+
+    setCurrentUser(updatedUser);
+    localStorage.setItem("BAPPERIDA_LOBAR_AUTH_USER", JSON.stringify(updatedUser));
+
+    logSecurityEvent(
+      "HAPUS_FOTO_PROFIL",
+      `Pengguna @${currentUser.username} menghapus foto profil khusus`,
+      currentUser.nama
+    );
+    showToast("Foto profil dihapus (menggunakan avatar inisial nama).");
+    setAuditLogs(getSecurityAuditLogs());
+  };
+
+  // Ganti Password Mandiri Akun
+  const handleChangePassword = (e) => {
+    if (e) e.preventDefault();
+    setProfilePasswordError("");
+    setProfilePasswordSuccess("");
+
+    if (!currentUser) return;
+
+    const curPass = profilePasswordForm.currentPassword.trim();
+    const newPass = profilePasswordForm.newPassword.trim();
+    const confPass = profilePasswordForm.confirmPassword.trim();
+
+    if (!curPass) {
+      setProfilePasswordError("Silakan masukkan kata sandi saat ini.");
+      return;
+    }
+
+    if (currentUser.password && currentUser.password !== curPass) {
+      setProfilePasswordError("Kata sandi saat ini yang Anda masukkan salah.");
+      return;
+    }
+
+    if (!newPass) {
+      setProfilePasswordError("Silakan masukkan kata sandi baru.");
+      return;
+    }
+
+    if (newPass.length < 8) {
+      setProfilePasswordError("Kata sandi baru minimal 8 karakter demi keamanan siber.");
+      return;
+    }
+
+    if (newPass === curPass) {
+      setProfilePasswordError("Kata sandi baru tidak boleh sama dengan kata sandi lama.");
+      return;
+    }
+
+    if (newPass !== confPass) {
+      setProfilePasswordError("Konfirmasi kata sandi baru tidak cocok.");
+      return;
+    }
+
+    const updatedUser = { ...currentUser, password: newPass, updatedAt: new Date().toISOString() };
+    const updatedUsers = systemUsers.map((u) => (u.id === currentUser.id ? updatedUser : u));
+
+    setSystemUsers(updatedUsers);
+    saveUserAccounts(updatedUsers);
+
+    setCurrentUser(updatedUser);
+    localStorage.setItem("BAPPERIDA_LOBAR_AUTH_USER", JSON.stringify(updatedUser));
+
+    logSecurityEvent(
+      "GANTI_PASSWORD_MANDIRI",
+      `Pengguna @${currentUser.username} (${currentUser.role}) berhasil memperbarui kata sandi secara mandiri`,
+      currentUser.nama
+    );
+    setProfilePasswordSuccess("Kata sandi berhasil diperbarui! Gunakan kata sandi baru ini saat login berikutnya.");
+    setProfilePasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+    showToast("Kata sandi akun Anda berhasil diperbarui!");
+    setAuditLogs(getSecurityAuditLogs());
+  };
+
+  // Generate Kata Sandi Kuat Otomatis untuk Rekomendasi
+  const handleGenerateSuggestedPassword = () => {
+    const strong = generateStrongPassword();
+    setProfilePasswordForm((prev) => ({
+      ...prev,
+      newPassword: strong,
+      confirmPassword: strong
+    }));
+    showToast("Kata sandi acak kuat berhasil dibuat!");
+  };
+
   // Handler: Login SIPD-RI (Keamanan Terproteksi Kredensial Penuh & Multi-Role RBAC)
   const handleLogin = (e) => {
     if (e) e.preventDefault();
@@ -2445,62 +2681,45 @@ export default function App() {
 
           {/* Kelompok Aksi Kanan Header: Dropdown Pilihan Tahun & Profil Login (SEJAJAR 1 BARIS) */}
           <div className="navbar-right-actions">
-            {/* Status Sesi Pengguna & Tombol Logout */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                background: "rgba(255, 255, 255, 0.14)",
-                border: "1px solid rgba(255, 255, 255, 0.25)",
-                padding: "3px 10px",
-                borderRadius: "20px",
-                color: "#ffffff"
-              }}
+            {/* Tombol Profil Akun & Pengaturan (Foto & Password) */}
+            <button
+              type="button"
+              className="header-profile-btn"
+              onClick={handleOpenProfileModal}
+              title="Klik untuk Buka Pengaturan Profil, Ganti Foto, dan Ubah Kata Sandi"
             >
-              <div
-                style={{
-                  width: "22px",
-                  height: "22px",
-                  borderRadius: "50%",
-                  background: "var(--gov-gold-500)",
-                  color: "var(--gov-navy-900)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontWeight: 800,
-                  fontSize: "11px",
-                  flexShrink: 0
-                }}
-              >
-                {currentUser?.nama?.charAt(0) || "U"}
+              <div className="header-profile-avatar">
+                {currentUser?.photo ? (
+                  <img
+                    src={currentUser.photo}
+                    alt={currentUser?.nama || "User"}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                ) : (
+                  currentUser?.nama?.charAt(0) || "U"
+                )}
               </div>
               <div style={{ fontSize: "11px", lineHeight: 1.2, textAlign: "left" }}>
-                <div style={{ fontWeight: 800, maxWidth: "120px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                <div style={{ fontWeight: 800, maxWidth: "125px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                   {currentUser?.nama || "Pengguna"}
                 </div>
-                <div style={{ fontSize: "9.5px", color: "var(--gov-gold-400)", fontWeight: 700 }}>
-                  {currentUser?.role || "Operator"}
+                <div style={{ fontSize: "9.5px", color: "var(--gov-gold-400)", fontWeight: 700, display: "flex", alignItems: "center", gap: "3px" }}>
+                  <span>{currentUser?.role || "Operator"}</span>
+                  <Settings size={10} style={{ opacity: 0.8 }} />
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={handleLogout}
-                title="Keluar / Logout ke Halaman Login"
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  color: "#fca5a5",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  padding: "2px",
-                  marginLeft: "2px"
-                }}
-              >
-                <LogOut size={14} />
-              </button>
-            </div>
+            </button>
+
+            {/* Tombol Logout Resmi yang Jelas & Menonjol */}
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="header-logout-btn"
+              title="Keluar / Logout dari Sistem Pre-SIPD"
+            >
+              <LogOut size={14} />
+              <span>Keluar</span>
+            </button>
 
             {/* Dropdown Menu Pilihan Tahun Perencanaan */}
             <div className="header-year-wrapper">
@@ -5560,6 +5779,15 @@ export default function App() {
               </div>
 
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                <button
+                  className="btn btn-primary"
+                  onClick={handleOpenProfileModal}
+                  style={{ background: "#2563eb", borderColor: "#60a5fa", color: "#fff" }}
+                  title="Buka Pengaturan Profil Saya (Foto Profil & Ubah Password)"
+                >
+                  <Settings size={15} />
+                  <span>⚙️ Profil &amp; Password Saya</span>
+                </button>
                 <button className="btn btn-gold" onClick={handleOpenAddUser}>
                   <UserPlus size={15} />
                   <span>+ Tambah Pengguna Baru</span>
@@ -7971,6 +8199,512 @@ export default function App() {
                 type="button"
                 className="btn btn-secondary"
                 onClick={() => setShowGoogleAuthModal(false)}
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          MODAL 4: PENGATURAN PROFIL AKUN, FOTO PROFIL & GANTI PASSWORD
+          ======================================================== */}
+      {showProfileModal && currentUser && (
+        <div className="desktop-modal-backdrop" onClick={() => setShowProfileModal(false)}>
+          <div
+            className="desktop-modal-dialog"
+            style={{ maxWidth: "580px", maxHeight: "90vh", display: "flex", flexDirection: "column" }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="modal-dialog-header">
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                <div
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "50%",
+                    background: "var(--gov-navy-900)",
+                    color: "var(--gov-gold-400)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Settings size={20} />
+                </div>
+                <div>
+                  <span className="badge badge-opd">AKUN &amp; KEAMANAN PENGGUNA</span>
+                  <h3 style={{ fontSize: "16px", fontWeight: 800, marginTop: "2px", color: "var(--slate-900)" }}>
+                    Pengaturan Profil &amp; Kata Sandi
+                  </h3>
+                </div>
+              </div>
+              <button className="btn-modal-close" onClick={() => setShowProfileModal(false)} title="Tutup Modal">
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Profile Summary Card */}
+            <div
+              style={{
+                background: "linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%)",
+                padding: "16px",
+                color: "#ffffff",
+                display: "flex",
+                alignItems: "center",
+                gap: "14px"
+              }}
+            >
+              <div
+                style={{
+                  width: "60px",
+                  height: "60px",
+                  borderRadius: "50%",
+                  border: "2px solid #facc15",
+                  background: "#1e293b",
+                  overflow: "hidden",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0
+                }}
+              >
+                {currentUser.photo ? (
+                  <img
+                    src={currentUser.photo}
+                    alt={currentUser.nama}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                ) : (
+                  <span style={{ fontSize: "22px", fontWeight: 900, color: "#facc15" }}>
+                    {currentUser.nama?.charAt(0) || "U"}
+                  </span>
+                )}
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                  <h4 style={{ fontSize: "15px", fontWeight: 800, margin: 0, color: "#ffffff" }}>
+                    {currentUser.nama}
+                  </h4>
+                  <span
+                    className="badge"
+                    style={{
+                      background:
+                        currentUser.role === "Super Admin"
+                          ? "#ffe4e6"
+                          : currentUser.role === "Verifikator"
+                          ? "#eff6ff"
+                          : "#f0fdf4",
+                      color:
+                        currentUser.role === "Super Admin"
+                          ? "#be123c"
+                          : currentUser.role === "Verifikator"
+                          ? "#1d4ed8"
+                          : "#15803d",
+                      fontSize: "10px",
+                      fontWeight: 700,
+                      padding: "2px 8px"
+                    }}
+                  >
+                    {currentUser.role}
+                  </span>
+                </div>
+                <div style={{ fontSize: "12px", color: "#93c5fd", marginTop: "3px" }}>
+                  @{currentUser.username} &bull; {currentUser.nip ? `NIP/Kode: ${currentUser.nip}` : "ID Sistem"}
+                </div>
+                <div style={{ fontSize: "11px", color: "#cbd5e1", marginTop: "2px" }}>
+                  🏢 {currentUser.instansi}
+                </div>
+              </div>
+            </div>
+
+            {/* Tab Navigation (Ganti Foto vs Ubah Password) */}
+            <div
+              style={{
+                display: "flex",
+                borderBottom: "1px solid var(--slate-200)",
+                background: "#f8fafc",
+                padding: "0 16px"
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => setProfileActiveTab("photo")}
+                style={{
+                  padding: "10px 16px",
+                  border: "none",
+                  background: "transparent",
+                  borderBottom: profileActiveTab === "photo" ? "2.5px solid #2563eb" : "2.5px solid transparent",
+                  color: profileActiveTab === "photo" ? "#2563eb" : "#64748b",
+                  fontWeight: profileActiveTab === "photo" ? 800 : 600,
+                  fontSize: "13px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px"
+                }}
+              >
+                <Camera size={15} />
+                <span>Foto Profil</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setProfileActiveTab("password")}
+                style={{
+                  padding: "10px 16px",
+                  border: "none",
+                  background: "transparent",
+                  borderBottom: profileActiveTab === "password" ? "2.5px solid #2563eb" : "2.5px solid transparent",
+                  color: profileActiveTab === "password" ? "#2563eb" : "#64748b",
+                  fontWeight: profileActiveTab === "password" ? 800 : 600,
+                  fontSize: "13px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px"
+                }}
+              >
+                <Key size={15} />
+                <span>Ubah Kata Sandi (Password)</span>
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="modal-dialog-body" style={{ flex: 1, overflowY: "auto", padding: "16px 20px" }}>
+              {/* TAB 1: GANTI FOTO PROFIL */}
+              {profileActiveTab === "photo" && (
+                <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                  <div style={{ textAlign: "center", padding: "10px 0" }}>
+                    <div className="profile-modal-avatar-preview">
+                      {tempPhotoPreview ? (
+                        <img
+                          src={tempPhotoPreview}
+                          alt="Preview Foto"
+                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        />
+                      ) : (
+                        <span style={{ fontSize: "36px", fontWeight: 900, color: "#1e3a8a" }}>
+                          {currentUser.nama?.charAt(0) || "U"}
+                        </span>
+                      )}
+                    </div>
+                    <div style={{ marginTop: "8px", fontSize: "12px", color: "var(--slate-600)", fontWeight: 600 }}>
+                      Pratinjau Foto Profil Akun
+                    </div>
+                  </div>
+
+                  {profilePhotoError && (
+                    <div style={{ padding: "8px 12px", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: "6px", color: "#b91c1c", fontSize: "12px" }}>
+                      ⚠️ {profilePhotoError}
+                    </div>
+                  )}
+
+                  {/* Tombol Aksi Upload */}
+                  <div>
+                    <label className="filter-label" style={{ marginBottom: "6px" }}>
+                      Unggah Foto dari Perangkat Komputer / HP:
+                    </label>
+                    <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                      <label
+                        className="btn btn-primary"
+                        style={{ cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "6px" }}
+                      >
+                        <Upload size={14} />
+                        <span>Pilih File Foto...</span>
+                        <input
+                          type="file"
+                          accept="image/png, image/jpeg, image/jpg, image/webp"
+                          style={{ display: "none" }}
+                          onChange={handlePhotoFileChange}
+                        />
+                      </label>
+
+                      {tempPhotoPreview && (
+                        <button
+                          type="button"
+                          className="btn btn-secondary"
+                          style={{ color: "#b91c1c", borderColor: "#fecaca" }}
+                          onClick={handleRemoveProfilePhoto}
+                        >
+                          <Trash2 size={13} />
+                          <span>Hapus Foto</span>
+                        </button>
+                      )}
+                    </div>
+                    <span style={{ fontSize: "11px", color: "var(--slate-500)", display: "block", marginTop: "4px" }}>
+                      Mendukung format JPG, PNG, WEBP (Maksimal 5MB, otomatis dikompresi agar ringan).
+                    </span>
+                  </div>
+
+                  {/* Preset Avatar Resmi */}
+                  <div>
+                    <label className="filter-label" style={{ marginBottom: "6px" }}>
+                      Atau Pilih Avatar &amp; Simbol Resmi Pemerintahan:
+                    </label>
+                    <div className="profile-preset-grid">
+                      {PRESET_AVATARS.map((p) => {
+                        const isSelected = tempPhotoPreview === p.src;
+                        return (
+                          <div
+                            key={p.id}
+                            className={`profile-preset-card ${isSelected ? "active" : ""}`}
+                            onClick={() => handleSelectPresetAvatar(p.src)}
+                            title={`Gunakan avatar ${p.label}`}
+                          >
+                            <div
+                              style={{
+                                width: "42px",
+                                height: "42px",
+                                borderRadius: "50%",
+                                overflow: "hidden",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                background: "#f8fafc",
+                                border: isSelected ? "2px solid #2563eb" : "1px solid #e2e8f0"
+                              }}
+                            >
+                              <img
+                                src={p.src}
+                                alt={p.label}
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  objectFit: "contain",
+                                  padding: p.id.includes("logo") || p.id.includes("garuda") || p.id.includes("kemendagri") ? "4px" : "0"
+                                }}
+                              />
+                            </div>
+                            <span>{p.label}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Tombol Simpan Foto */}
+                  <div style={{ paddingTop: "8px", borderTop: "1px solid var(--slate-200)", display: "flex", justifyContent: "flex-end" }}>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={handleSaveProfilePhoto}
+                      style={{ minWidth: "160px" }}
+                    >
+                      <CheckCircle2 size={15} />
+                      <span>Simpan Foto Profil</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 2: UBAH KATA SANDI MANDIRI */}
+              {profileActiveTab === "password" && (
+                <form onSubmit={handleChangePassword} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+                  <div style={{ padding: "10px 12px", background: "#eff6ff", border: "1px solid #bfdbfe", borderRadius: "8px", fontSize: "11.5px", color: "#1e40af", lineHeight: 1.45 }}>
+                    🛡️ <b>Standar Keamanan Siber:</b> Gunakan minimal 8 karakter dengan perpaduan huruf besar, huruf kecil, angka, dan karakter khusus. Perubahan sandi langsung tersinkronisasi ke seluruh sistem.
+                  </div>
+
+                  {profilePasswordError && (
+                    <div style={{ padding: "8px 12px", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: "6px", color: "#b91c1c", fontSize: "12px" }}>
+                      ⚠️ {profilePasswordError}
+                    </div>
+                  )}
+
+                  {profilePasswordSuccess && (
+                    <div style={{ padding: "8px 12px", background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "6px", color: "#15803d", fontSize: "12px" }}>
+                      ✅ {profilePasswordSuccess}
+                    </div>
+                  )}
+
+                  {/* Kata Sandi Saat Ini */}
+                  <div>
+                    <label className="filter-label">Kata Sandi Saat Ini (Wajib):</label>
+                    <div style={{ position: "relative" }}>
+                      <input
+                        type={showCurrentPass ? "text" : "password"}
+                        className="form-input"
+                        placeholder="Masukkan kata sandi lama Anda"
+                        value={profilePasswordForm.currentPassword}
+                        onChange={(e) =>
+                          setProfilePasswordForm({ ...profilePasswordForm, currentPassword: e.target.value })
+                        }
+                        required
+                        style={{ paddingRight: "36px" }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowCurrentPass(!showCurrentPass)}
+                        style={{
+                          position: "absolute",
+                          right: "8px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          background: "transparent",
+                          border: "none",
+                          color: "var(--slate-500)",
+                          cursor: "pointer"
+                        }}
+                      >
+                        {showCurrentPass ? <EyeOff size={16} /> : <Eye size={16} />}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Kata Sandi Baru */}
+                  <div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                      <label className="filter-label" style={{ marginBottom: 0 }}>Kata Sandi Baru:</label>
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-secondary"
+                        style={{ fontSize: "10.5px", padding: "2px 8px" }}
+                        onClick={handleGenerateSuggestedPassword}
+                        title="Buat kata sandi acak kuat otomatis"
+                      >
+                        <RefreshCw size={11} /> Generate Sandi Kuat
+                      </button>
+                    </div>
+                    <div style={{ position: "relative" }}>
+                      <input
+                        type={showNewPass ? "text" : "password"}
+                        className="form-input"
+                        placeholder="Minimal 8 karakter (kombinasi huruf, angka, simbol)"
+                        value={profilePasswordForm.newPassword}
+                        onChange={(e) =>
+                          setProfilePasswordForm({ ...profilePasswordForm, newPassword: e.target.value })
+                        }
+                        required
+                        style={{ paddingRight: "36px", fontFamily: showNewPass ? "monospace" : "inherit" }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowNewPass(!showNewPass)}
+                        style={{
+                          position: "absolute",
+                          right: "8px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          background: "transparent",
+                          border: "none",
+                          color: "var(--slate-500)",
+                          cursor: "pointer"
+                        }}
+                      >
+                        {showNewPass ? <EyeOff size={16} /> : <Eye size={16} />}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Konfirmasi Kata Sandi Baru */}
+                  <div>
+                    <label className="filter-label">Ulangi Kata Sandi Baru:</label>
+                    <div style={{ position: "relative" }}>
+                      <input
+                        type={showConfirmPass ? "text" : "password"}
+                        className="form-input"
+                        placeholder="Ketik ulang kata sandi baru yang sama"
+                        value={profilePasswordForm.confirmPassword}
+                        onChange={(e) =>
+                          setProfilePasswordForm({ ...profilePasswordForm, confirmPassword: e.target.value })
+                        }
+                        required
+                        style={{ paddingRight: "36px", fontFamily: showConfirmPass ? "monospace" : "inherit" }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPass(!showConfirmPass)}
+                        style={{
+                          position: "absolute",
+                          right: "8px",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          background: "transparent",
+                          border: "none",
+                          color: "var(--slate-500)",
+                          cursor: "pointer"
+                        }}
+                      >
+                        {showConfirmPass ? <EyeOff size={16} /> : <Eye size={16} />}
+                      </button>
+                    </div>
+                    {profilePasswordForm.newPassword && profilePasswordForm.confirmPassword && (
+                      <div
+                        style={{
+                          fontSize: "11px",
+                          marginTop: "4px",
+                          fontWeight: 700,
+                          color:
+                            profilePasswordForm.newPassword === profilePasswordForm.confirmPassword
+                              ? "#15803d"
+                              : "#dc2626"
+                        }}
+                      >
+                        {profilePasswordForm.newPassword === profilePasswordForm.confirmPassword
+                          ? "✓ Kata sandi cocok"
+                          : "✕ Kata sandi belum cocok"}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Tombol Simpan Password */}
+                  <div style={{ paddingTop: "8px", borderTop: "1px solid var(--slate-200)", display: "flex", justifyContent: "flex-end" }}>
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      style={{ minWidth: "180px" }}
+                    >
+                      <CheckCircle2 size={15} />
+                      <span>Perbarui Kata Sandi</span>
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+
+            {/* Modal Footer with Logout Button */}
+            <div
+              className="modal-dialog-footer"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                background: "#f8fafc",
+                borderTop: "1px solid var(--slate-200)",
+                padding: "12px 18px"
+              }}
+            >
+              {/* Tombol Logout Resmi */}
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => {
+                  setShowProfileModal(false);
+                  handleLogout();
+                }}
+                title="Keluar dari akun Anda dan kembali ke portal login"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  background: "#dc2626",
+                  color: "#ffffff",
+                  borderColor: "#b91c1c",
+                  fontWeight: 700,
+                  fontSize: "12px",
+                  padding: "7px 14px"
+                }}
+              >
+                <LogOut size={14} />
+                <span>Keluar dari Akun (Logout)</span>
+              </button>
+
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setShowProfileModal(false)}
               >
                 Tutup
               </button>
