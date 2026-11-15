@@ -1569,6 +1569,39 @@ export default function App() {
     });
   }, [systemUsers, userSearchQuery, userRoleFilter, user2faFilter]);
 
+  // State & Logika Paginasi Kelola Pengguna (Agar daftar 143 akun rapi dan tidak memanjang ke bawah)
+  const [userCurrentPage, setUserCurrentPage] = useState(1);
+  const [userRowsPerPage, setUserRowsPerPage] = useState(15);
+
+  // Otomatis reset ke halaman 1 saat pencarian atau filter diubah
+  useEffect(() => {
+    setUserCurrentPage(1);
+  }, [userSearchQuery, userRoleFilter, user2faFilter]);
+
+  const userTotalPages = useMemo(() => {
+    if (userRowsPerPage === -1) return 1;
+    return Math.ceil(filteredSystemUsers.length / userRowsPerPage) || 1;
+  }, [filteredSystemUsers.length, userRowsPerPage]);
+
+  const userSafeCurrentPage = Math.min(Math.max(userCurrentPage, 1), userTotalPages);
+
+  const { userStartIndex, userEndIndex, paginatedSystemUsers } = useMemo(() => {
+    if (userRowsPerPage === -1) {
+      return {
+        userStartIndex: 0,
+        userEndIndex: filteredSystemUsers.length,
+        paginatedSystemUsers: filteredSystemUsers
+      };
+    }
+    const start = (userSafeCurrentPage - 1) * userRowsPerPage;
+    const end = Math.min(start + userRowsPerPage, filteredSystemUsers.length);
+    return {
+      userStartIndex: start,
+      userEndIndex: end,
+      paginatedSystemUsers: filteredSystemUsers.slice(start, end)
+    };
+  }, [filteredSystemUsers, userSafeCurrentPage, userRowsPerPage]);
+
   // Handler: Buka Modal Tambah Pengguna Baru
   const handleOpenAddUser = () => {
     setEditingUser(null);
@@ -6027,7 +6060,7 @@ export default function App() {
                     {/* Indikator Status & Hasil Filter */}
                     <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
                       <span style={{ fontSize: "12.5px", color: "var(--slate-600)", fontWeight: 600 }}>
-                        Menampilkan <b>{filteredSystemUsers.length}</b> dari <b>{systemUsers.length}</b> akun terdaftar
+                        Menampilkan <b>{filteredSystemUsers.length > 0 ? userStartIndex + 1 : 0} - {userEndIndex}</b> dari <b>{filteredSystemUsers.length}</b> akun (Total <b>{systemUsers.length}</b> terdaftar)
                       </span>
                       {(userSearchQuery || userRoleFilter !== "all" || user2faFilter !== "all") && (
                         <span
@@ -6136,12 +6169,13 @@ export default function App() {
                           </td>
                         </tr>
                       ) : (
-                        filteredSystemUsers.map((u, idx) => {
+                        paginatedSystemUsers.map((u, idx) => {
                           const roleMeta = ROLE_DETAILS[u.role] || ROLE_DETAILS["Operator Desa"];
+                          const rowNumber = userStartIndex + idx + 1;
                           return (
                             <tr key={u.id}>
                               <td style={{ textAlign: "center", fontWeight: 700, color: "var(--slate-500)" }}>
-                                {idx + 1}
+                                {rowNumber}
                               </td>
                               <td>
                                 <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -6157,9 +6191,18 @@ export default function App() {
                                     justifyContent: "center",
                                     fontWeight: 800,
                                     fontSize: "13px",
-                                    flexShrink: 0
+                                    flexShrink: 0,
+                                    overflow: "hidden"
                                   }}>
-                                    {u.nama ? u.nama.charAt(0).toUpperCase() : "U"}
+                                    {u.photo ? (
+                                      <img
+                                        src={u.photo}
+                                        alt={u.nama}
+                                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                      />
+                                    ) : (
+                                      u.nama ? u.nama.charAt(0).toUpperCase() : "U"
+                                    )}
                                   </div>
                                   <div>
                                     <div style={{ fontWeight: 800, color: "var(--slate-900)", fontSize: "13px" }}>
@@ -6286,6 +6329,118 @@ export default function App() {
                   </table>
                 </div>
 
+                {/* Paginasi Tabel Pengguna (Agar Tidak Memanjang ke Bawah) */}
+                <div
+                  className="gov-table-pagination"
+                  style={{
+                    background: "#ffffff",
+                    border: "1px solid var(--slate-200)",
+                    borderRadius: "var(--radius-lg)",
+                    padding: "10px 16px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                    gap: "12px",
+                    boxShadow: "0 1px 2px rgba(0,0,0,0.04)"
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+                    <span style={{ fontSize: "12px", color: "var(--slate-600)", fontWeight: 600 }}>
+                      Baris per halaman:
+                    </span>
+                    <select
+                      className="form-select"
+                      style={{ width: "105px", padding: "4px 8px", fontSize: "12px", height: "32px", borderRadius: "6px", cursor: "pointer" }}
+                      value={userRowsPerPage}
+                      onChange={(e) => {
+                        setUserRowsPerPage(Number(e.target.value));
+                        setUserCurrentPage(1);
+                      }}
+                    >
+                      <option value={10}>10 akun</option>
+                      <option value={15}>15 akun</option>
+                      <option value={25}>25 akun</option>
+                      <option value={50}>50 akun</option>
+                      <option value={100}>100 akun</option>
+                      <option value={-1}>Semua ({filteredSystemUsers.length})</option>
+                    </select>
+
+                    <span style={{ fontSize: "12px", color: "var(--slate-600)" }}>
+                      Menampilkan <b>{filteredSystemUsers.length > 0 ? userStartIndex + 1 : 0}</b> - <b>{userEndIndex}</b> dari <b>{filteredSystemUsers.length}</b> akun (Halaman <b>{userSafeCurrentPage}</b> dari <b>{userTotalPages}</b>)
+                    </span>
+                  </div>
+
+                  {/* Tombol Navigasi Halaman */}
+                  {userTotalPages > 1 && (
+                    <div className="pagination-controls-group">
+                      <button
+                        type="button"
+                        className="btn-page-nav"
+                        onClick={() => setUserCurrentPage(1)}
+                        disabled={userSafeCurrentPage === 1}
+                        title="Halaman Pertama"
+                      >
+                        <ChevronsLeft size={16} />
+                      </button>
+                      <button
+                        type="button"
+                        className="btn-page-nav"
+                        onClick={() => setUserCurrentPage((p) => Math.max(p - 1, 1))}
+                        disabled={userSafeCurrentPage === 1}
+                        title="Halaman Sebelumnya"
+                      >
+                        <ChevronLeft size={16} />
+                      </button>
+
+                      {/* Nomor Halaman */}
+                      {Array.from({ length: userTotalPages }, (_, i) => i + 1)
+                        .filter(
+                          (p) =>
+                            p === 1 ||
+                            p === userTotalPages ||
+                            (p >= userSafeCurrentPage - 2 && p <= userSafeCurrentPage + 2)
+                        )
+                        .map((p, idx, arr) => {
+                          const prev = arr[idx - 1];
+                          return (
+                            <React.Fragment key={p}>
+                              {prev && p - prev > 1 && (
+                                <span style={{ padding: "0 4px", color: "var(--slate-400)", fontWeight: 700 }}>...</span>
+                              )}
+                              <button
+                                type="button"
+                                className={`btn-page-nav ${userSafeCurrentPage === p ? "active" : ""}`}
+                                onClick={() => setUserCurrentPage(p)}
+                              >
+                                {p}
+                              </button>
+                            </React.Fragment>
+                          );
+                        })}
+
+                      <button
+                        type="button"
+                        className="btn-page-nav"
+                        onClick={() => setUserCurrentPage((p) => Math.min(p + 1, userTotalPages))}
+                        disabled={userSafeCurrentPage === userTotalPages}
+                        title="Halaman Berikutnya"
+                      >
+                        <ChevronRight size={16} />
+                      </button>
+                      <button
+                        type="button"
+                        className="btn-page-nav"
+                        onClick={() => setUserCurrentPage(userTotalPages)}
+                        disabled={userSafeCurrentPage === userTotalPages}
+                        title="Halaman Terakhir"
+                      >
+                        <ChevronsRight size={16} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
                 {/* Footer Toolbar Tabel Pengguna */}
                 <div style={{
                   display: "flex",
@@ -6299,7 +6454,7 @@ export default function App() {
                   border: "1px solid var(--slate-200)"
                 }}>
                   <div style={{ fontSize: "12px", color: "var(--slate-600)" }}>
-                    Menampilkan <b>{filteredSystemUsers.length}</b> dari <b>{systemUsers.length}</b> Akun Resmi Terdaftar.
+                    Total Terdaftar: <b>{systemUsers.length}</b> Akun Resmi (1 Super Admin, 20 Verifikator OPD, 122 Desa/Kelurahan).
                   </div>
 
                   <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
