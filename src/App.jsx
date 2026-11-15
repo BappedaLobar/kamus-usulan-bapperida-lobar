@@ -169,8 +169,8 @@ const PRESET_AVATARS = [
 ];
 
 export default function App() {
-  // Navigasi Utama Top Navbar
-  const [activeTab, setActiveTab] = useState("kamus"); // kamus | desa | syarat | usulanku | keamanan
+  // Navigasi Utama Top Navbar (Default: Sinergi PATJU 360 sebagai Dashboard Utama)
+  const [activeTab, setActiveTab] = useState("patju"); // patju | kamus | desa | usulanku | keamanan
 
   // State Filter Kamus Usulan
   const [selectedYear, setSelectedYear] = useState("2027"); // "2027" | "2028" | "2029"
@@ -2082,6 +2082,7 @@ export default function App() {
 
     setCurrentUser(foundUser);
     setSelectedYear(loginForm.tahun);
+    setActiveTab("patju"); // Tetapkan halaman default sesaat setelah login ke Sinergi PATJU 360 sebagai Dashboard Utama
 
     // Kustomisasi lokus wilayah & OPD berdasarkan akun
     if (foundUser.role === "Operator Desa") {
@@ -2148,6 +2149,7 @@ export default function App() {
       const uname = currentUser?.username || "user";
       logSecurityEvent("LOGOUT", `Pengguna @${uname} keluar dari sistem`, currentUser?.nama || "User");
       setCurrentUser(null);
+      setActiveTab("patju"); // Reset ke default dashboard Sinergi PATJU 360
       localStorage.removeItem("BAPPERIDA_LOBAR_AUTH_USER");
       showToast("Anda telah keluar dari sesi Pre-SIPD.");
     }
@@ -2758,10 +2760,11 @@ export default function App() {
             <button
               className={`desktop-tab-btn ${activeTab === "patju" ? "active" : ""}`}
               onClick={() => setActiveTab("patju")}
+              title="Dashboard Utama Sinergi PATJU 360 & P3KE"
             >
               <Target size={16} />
               <span>Sinergi PATJU 360</span>
-              <span className="tab-badge-pill">P3KE</span>
+              <span className="tab-badge-pill">Dashboard</span>
             </button>
 
             <button
