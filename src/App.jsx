@@ -189,14 +189,29 @@ export default function App() {
     let isMounted = true;
     async function autoConnectD1() {
       try {
+        const localDataRes = loadSecureData("SAVED_USULAN_DESA", []);
+        const localList = Array.isArray(localDataRes.data) ? localDataRes.data : [];
+
         const status = await checkCloudDatabaseStatus();
-        if (isMounted) {
-          setCloudDbStatus({ checked: true, ...status });
-          if (status.connected) {
-            const cloudRes = await fetchAllUsulanFromCloud();
-            if (cloudRes.ok && Array.isArray(cloudRes.data) && cloudRes.data.length > 0) {
+        if (!isMounted) return;
+
+        setCloudDbStatus({ checked: true, ...status });
+        if (status.connected) {
+          const cloudRes = await fetchAllUsulanFromCloud();
+          if (cloudRes.ok && Array.isArray(cloudRes.data)) {
+            if (cloudRes.data.length > 0) {
+              // Jika di cloud sudah ada data, sinkronkan ke state & localStorage
               setSavedUsulanDesa(cloudRes.data);
               saveSecureData("SAVED_USULAN_DESA", cloudRes.data);
+              setCloudDbStatus(prev => ({ ...prev, totalUsulan: cloudRes.data.length }));
+            } else if (localList.length > 0) {
+              // Jika di cloud masih kosong tapi di lokal ada data usulan lama, migrasikan lokal ke cloud otomatis!
+              await syncLocalUsulanToCloud(localList);
+              const reCloud = await fetchAllUsulanFromCloud();
+              if (reCloud.ok && Array.isArray(reCloud.data)) {
+                setSavedUsulanDesa(reCloud.data);
+                setCloudDbStatus(prev => ({ ...prev, totalUsulan: reCloud.data.length }));
+              }
             }
           }
         }
@@ -522,6 +537,17 @@ export default function App() {
     }
     setSavedUsulanDesa(updated);
     const res = saveSecureData("SAVED_USULAN_DESA", updated);
+
+    // Sinkronisasi realtime ke Cloudflare D1
+    if (cloudDbStatus.connected) {
+      if (exists) {
+        deleteUsulanFromCloud(item.id).catch(console.warn);
+        setCloudDbStatus(prev => ({ ...prev, totalUsulan: Math.max(0, prev.totalUsulan - 1) }));
+      } else {
+        saveUsulanToCloud(entry).catch(console.warn);
+        setCloudDbStatus(prev => ({ ...prev, totalUsulan: prev.totalUsulan + 1 }));
+      }
+    }
     if (res.ok) {
       setSecurityStatus((prev) => ({
         ...prev,
