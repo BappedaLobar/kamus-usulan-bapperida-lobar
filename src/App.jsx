@@ -232,9 +232,9 @@ export default function App() {
     }, 3000);
   };
 
-  // Saat tahun berganti: jika 2027, aktifkan mode tabel secara otomatis
+  // Saat tahun berganti: jika 2027 atau 2028, aktifkan mode tabel secara otomatis
   useEffect(() => {
-    if (selectedYear === "2027") {
+    if (selectedYear === "2027" || selectedYear === "2028") {
       setViewMode("table");
     }
     setCurrentPage(1);
@@ -846,7 +846,7 @@ export default function App() {
                 onChange={(e) => {
                   const yr = e.target.value;
                   setSelectedYear(yr);
-                  if (yr === "2027") {
+                  if (yr === "2027" || yr === "2028") {
                     setViewMode("table");
                   }
                   showToast(`Beralih ke Tahun Perencanaan ${yr}`);
