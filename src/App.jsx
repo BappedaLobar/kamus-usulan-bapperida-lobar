@@ -143,6 +143,7 @@ export default function App() {
   // State Modal Detail & Tambah Kamus
   const [detailItem, setDetailItem] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [exportModalType, setExportModalType] = useState(null); // 'excel' | 'pdf' | null
   const [newKamusForm, setNewKamusForm] = useState({
     tahun: "2027",
     opd: "Dinas Pertanian",
@@ -810,10 +811,10 @@ export default function App() {
     setAuditLogs(getSecurityAuditLogs());
   };
 
-  // Fungsi Ekspor Kertas Kerja Pre-SIPD ke Microsoft Excel (.xlsx) Resmi SIPD-RI
-  const handleExportExcel = () => {
-    if (savedUsulanDesa.length === 0) {
-      showToast("Belum ada usulan yang dipilih untuk diekspor ke Kertas Kerja SIPD.");
+  // Fungsi Ekspor Kertas Kerja Pre-SIPD ke Microsoft Excel (.xlsx) Resmi SIPD-RI (Mendukung Form Terisi & Template Kosong)
+  const handleExportExcel = (isTemplate = false) => {
+    if (!isTemplate && savedUsulanDesa.length === 0) {
+      showToast("Belum ada usulan yang dipilih. Anda dapat mengunduh Template Kosong atau memilih usulan terlebih dahulu.");
       return;
     }
 
@@ -825,13 +826,25 @@ export default function App() {
         year: "numeric"
       });
 
+      const titleKertas = isTemplate
+        ? "BLANGKO / TEMPLATE KERTAS KERJA USULAN ASPIRASI MASYARAKAT (PRE-SIPD)"
+        : "KERTAS KERJA USULAN ASPIRASI MASYARAKAT DESA / KELURAHAN (PRE-SIPD)";
+
+      const subTitle = isTemplate
+        ? `Format Blangko Kosong Musrenbang Desa • Rencana Kerja Pemerintah Daerah (RKPD) Tahun ${selectedYear}`
+        : `RENCANA KERJA PEMERINTAH DAERAH (RKPD) TAHUN ANGGARAN ${selectedYear}`;
+
+      const metaInfo = isTemplate
+        ? `Wilayah: ${activeDesaPengusul} | Petunjuk: Isi nama usulan, OPD tujuan, dan rincian masalah sesuai kolom di bawah ini`
+        : `Wilayah Pengusul: ${activeDesaPengusul} | Tanggal Cetak: ${tglCetak} | Total: ${savedUsulanDesa.length} Usulan`;
+
       // Data Baris Kertas Kerja Resmi Pre-SIPD Kemendagri / Bapperida Lobar
       const wsData = [
         ["PEMERINTAH KABUPATEN LOMBOK BARAT"],
         ["BADAN PERENCANAAN PEMBANGUNAN DAERAH (BAPPERIDA)"],
-        ["KERTAS KERJA USULAN ASPIRASI MASYARAKAT DESA / KELURAHAN (PRE-SIPD)"],
-        [`RENCANA KERJA PEMERINTAH DAERAH (RKPD) TAHUN ANGGARAN ${selectedYear}`],
-        [`Wilayah Pengusul: ${activeDesaPengusul} | Tanggal Cetak: ${tglCetak} | Total: ${savedUsulanDesa.length} Usulan`],
+        [titleKertas],
+        [subTitle],
+        [metaInfo],
         [], // Baris kosong pemisah
         [
           "NO",
@@ -856,33 +869,64 @@ export default function App() {
         ]
       ];
 
-      savedUsulanDesa.forEach((u, idx) => {
-        wsData.push([
-          idx + 1,
-          `#${u.id}`,
-          u.tahun || selectedYear,
-          u.desaPengusul || activeDesaPengusul,
-          u.opd,
-          u.urusan || "-",
-          u.program || "-",
-          u.kegiatan || "-",
-          u.subKegiatan || "-",
-          u.usulanKegiatan,
-          u.usulanPermasalahan,
-          u.sasaranPenerima || "-",
-          u.lokasiDusun || "Dusun Prioritas Desa",
-          u.volume ? `${u.volume} ${u.satuan || ''}` : "1 Paket",
-          u.aksiPrioritas || "-",
-          u.intervensiPrioritas || "-",
-          u.kategoriMudah || "-",
-          u.bidangBapperida || u.bidang || "-",
-          "Siap Input SIPD-RI"
-        ]);
-      });
+      if (isTemplate) {
+        // Buat 10 baris blangko kosong berformat siap isi
+        for (let i = 1; i <= 10; i++) {
+          wsData.push([
+            i,
+            `#TEMPLATE-${String(i).padStart(2, "0")}`,
+            selectedYear,
+            activeDesaPengusul,
+            "", // OPD Pengampu diisi desa
+            "", // Bidang Urusan
+            "", // Program SIPD
+            "", // Kegiatan SIPD
+            "", // Sub Kegiatan SIPD
+            "", // Usulan Kegiatan Riil
+            "", // Permasalahan
+            "", // Sasaran
+            "Dusun ....", // Lokasi Dusun
+            "1 Paket", // Volume
+            "", // 9 Aksi Prioritas
+            "", // 56 Intervensi
+            "Kategori 1", // Kategori
+            "", // PIC Bapperida
+            "Draft Musdes"
+          ]);
+        }
+      } else {
+        savedUsulanDesa.forEach((u, idx) => {
+          wsData.push([
+            idx + 1,
+            `#${u.id}`,
+            u.tahun || selectedYear,
+            u.desaPengusul || activeDesaPengusul,
+            u.opd,
+            u.urusan || "-",
+            u.program || "-",
+            u.kegiatan || "-",
+            u.subKegiatan || "-",
+            u.usulanKegiatan,
+            u.usulanPermasalahan,
+            u.sasaranPenerima || "-",
+            u.lokasiDusun || "Dusun Prioritas Desa",
+            u.volume ? `${u.volume} ${u.satuan || ''}` : "1 Paket",
+            u.aksiPrioritas || "-",
+            u.intervensiPrioritas || "-",
+            u.kategoriMudah || "-",
+            u.bidangBapperida || u.bidang || "-",
+            "Siap Input SIPD-RI"
+          ]);
+        });
+      }
 
       // Ringkasan dan Lembar Pengesahan Musrenbang Desa Pre-SIPD
       wsData.push([]);
-      wsData.push(["", "TOTAL USULAN DESA", `${savedUsulanDesa.length} Usulan Terverifikasi Pre-SIPD`]);
+      if (!isTemplate) {
+        wsData.push(["", "TOTAL USULAN DESA", `${savedUsulanDesa.length} Usulan Terverifikasi Pre-SIPD`]);
+      } else {
+        wsData.push(["", "CATATAN", "Blangko resmi Pre-SIPD ini digunakan sebagai kertas kerja musyawarah desa sebelum diinput ke aplikasi resmi SIPD-RI Kemendagri."]);
+      }
       wsData.push([]);
       wsData.push([
         "",
@@ -929,7 +973,7 @@ export default function App() {
       // Lebar Kolom Presisi
       ws["!cols"] = [
         { wch: 5 },   // No
-        { wch: 14 },  // ID Pre-SIPD
+        { wch: 16 },  // ID Pre-SIPD
         { wch: 8 },   // Tahun
         { wch: 28 },  // Desa Pengusul
         { wch: 38 },  // OPD
@@ -949,20 +993,24 @@ export default function App() {
         { wch: 20 }   // Status Pre-SIPD
       ];
 
-      XLSX.utils.book_append_sheet(wb, ws, "KERTAS KERJA PRE-SIPD");
+      XLSX.utils.book_append_sheet(wb, ws, isTemplate ? "TEMPLATE BLANGKO SIPD" : "KERTAS KERJA PRE-SIPD");
       const cleanDesaName = activeDesaPengusul.replace(/[^a-zA-Z0-9]/g, "_").slice(0, 30);
-      XLSX.writeFile(wb, `Kertas_Kerja_PreSIPD_${cleanDesaName}_RKPD_${selectedYear}.xlsx`);
-      showToast("Kertas Kerja Pre-SIPD format Excel (.xlsx) resmi berhasil diunduh!");
+      const fileName = isTemplate
+        ? `Template_Blangko_PreSIPD_${cleanDesaName}_RKPD_${selectedYear}.xlsx`
+        : `Kertas_Kerja_Terisi_PreSIPD_${cleanDesaName}_RKPD_${selectedYear}.xlsx`;
+
+      XLSX.writeFile(wb, fileName);
+      showToast(isTemplate ? "Template Blangko Excel (.xlsx) berhasil diunduh!" : "Kertas Kerja Pre-SIPD Excel (.xlsx) berhasil diunduh!");
     } catch (err) {
       console.error("Export Excel error:", err);
       showToast("Terjadi kendala saat membuat file Excel: " + err.message);
     }
   };
 
-  // Fungsi Ekspor Berita Acara & Kertas Kerja Pre-SIPD Resmi ke PDF
-  const handleExportPDF = () => {
-    if (savedUsulanDesa.length === 0) {
-      showToast("Belum ada usulan yang dipilih untuk dicetak ke PDF.");
+  // Fungsi Ekspor Berita Acara & Kertas Kerja Pre-SIPD Resmi ke PDF (Mendukung Form Terisi & Template Kosong)
+  const handleExportPDF = (isTemplate = false) => {
+    if (!isTemplate && savedUsulanDesa.length === 0) {
+      showToast("Belum ada usulan yang dipilih untuk dicetak. Anda dapat mencetak Template Kosong.");
       return;
     }
 
@@ -1005,7 +1053,10 @@ export default function App() {
       doc.setFont("helvetica", "bold");
       doc.setFontSize(11);
       doc.setTextColor(15, 23, 42);
-      doc.text(`KERTAS KERJA USULAN ASPIRASI MASYARAKAT (PRE-SIPD RKPD ${selectedYear})`, 148.5, 30, { align: "center" });
+      const docTitle = isTemplate
+        ? `BLANGKO KERTAS KERJA USULAN ASPIRASI MASYARAKAT (PRE-SIPD RKPD ${selectedYear})`
+        : `KERTAS KERJA USULAN ASPIRASI MASYARAKAT (PRE-SIPD RKPD ${selectedYear})`;
+      doc.text(docTitle, 148.5, 30, { align: "center" });
 
       // Metadata Info Box
       doc.setFont("helvetica", "normal");
@@ -1013,8 +1064,11 @@ export default function App() {
       doc.setTextColor(51, 65, 85);
       doc.text(`Desa / Kelurahan Pengusul : ${activeDesaPengusul}`, 14, 36);
       doc.text(`Tahun Anggaran RKPD      : ${selectedYear}`, 14, 40.5);
-      doc.text(`Tanggal Verifikasi Dokumen : ${tglCetak}`, 200, 36);
-      doc.text(`Jumlah Usulan Terverifikasi: ${savedUsulanDesa.length} Usulan Prioritas`, 200, 40.5);
+      doc.text(`Tanggal Cetak / Verifikasi : ${tglCetak}`, 200, 36);
+      const statusKet = isTemplate
+        ? "Format: Blangko Kosong Musrenbang Desa"
+        : `Jumlah Usulan: ${savedUsulanDesa.length} Usulan Terverifikasi`;
+      doc.text(statusKet, 200, 40.5);
 
       // Siapkan Kolom Tabel untuk jsPDF AutoTable
       const tableHeaders = [
@@ -1030,16 +1084,33 @@ export default function App() {
         ]
       ];
 
-      const tableRows = savedUsulanDesa.map((u, idx) => [
-        idx + 1,
-        u.opd,
-        u.urusan || "-",
-        u.usulanKegiatan,
-        u.usulanPermasalahan,
-        u.subKegiatan || u.kegiatan || "-",
-        `${u.sasaranPenerima || '-'}\n(Lokasi: ${u.lokasiDusun || 'Dusun Prioritas'})`,
-        u.bidangBapperida || u.bidang || "-"
-      ]);
+      let tableRows = [];
+      if (isTemplate) {
+        // Buat 8 baris kosong bergaris yang cukup tinggi untuk ditulis tangan saat Musdes
+        for (let i = 1; i <= 8; i++) {
+          tableRows.push([
+            i,
+            "\n\n",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]);
+        }
+      } else {
+        tableRows = savedUsulanDesa.map((u, idx) => [
+          idx + 1,
+          u.opd,
+          u.urusan || "-",
+          u.usulanKegiatan,
+          u.usulanPermasalahan,
+          u.subKegiatan || u.kegiatan || "-",
+          `${u.sasaranPenerima || '-'}\n(Lokasi: ${u.lokasiDusun || 'Dusun Prioritas'})`,
+          u.bidangBapperida || u.bidang || "-"
+        ]);
+      }
 
       autoTable(doc, {
         head: tableHeaders,
@@ -1048,11 +1119,11 @@ export default function App() {
         margin: { left: 14, right: 14 },
         styles: {
           fontSize: 7.5,
-          cellPadding: 2.2,
+          cellPadding: isTemplate ? 4.5 : 2.2,
           valign: "middle",
           overflow: "linebreak",
-          lineColor: [226, 232, 240],
-          lineWidth: 0.1
+          lineColor: [203, 213, 225],
+          lineWidth: 0.15
         },
         headStyles: {
           fillColor: [10, 37, 64], // Gov Navy
@@ -1065,13 +1136,13 @@ export default function App() {
           0: { cellWidth: 8, halign: "center" },  // No
           1: { cellWidth: 38 },                   // OPD
           2: { cellWidth: 32 },                   // Urusan
-          3: { cellWidth: 44, fontStyle: "bold" },// Usulan
+          3: { cellWidth: 44, fontStyle: isTemplate ? "normal" : "bold" },// Usulan
           4: { cellWidth: 46 },                   // Masalah
           5: { cellWidth: 42 },                   // Sub Kegiatan SIPD
           6: { cellWidth: 35 },                   // Sasaran & Lokasi
           7: { cellWidth: 24, halign: "center" }  // PIC Bapperida
         },
-        alternateRowStyles: {
+        alternateRowStyles: isTemplate ? {} : {
           fillColor: [248, 250, 252]
         },
         didDrawPage: (data) => {
@@ -1084,7 +1155,9 @@ export default function App() {
             202
           );
           doc.text(
-            "Dokumen ini merupakan Kertas Kerja resmi pra-input ke SIPD-RI Kemendagri",
+            isTemplate
+              ? "Dokumen Blangko Resmi Kertas Kerja Musrenbang Desa / Kelurahan • Pre-SIPD RI"
+              : "Dokumen ini merupakan Kertas Kerja resmi pra-input ke SIPD-RI Kemendagri",
             283,
             202,
             { align: "right" }
@@ -1121,8 +1194,12 @@ export default function App() {
       doc.text("( Tim Verifikator Pre-SIPD Lobar )", colRight, finalY + 24);
 
       const cleanDesaName = activeDesaPengusul.replace(/[^a-zA-Z0-9]/g, "_").slice(0, 30);
-      doc.save(`Kertas_Kerja_PreSIPD_${cleanDesaName}_RKPD_${selectedYear}.pdf`);
-      showToast("Kertas Kerja Pre-SIPD format PDF resmi berhasil diunduh!");
+      const fileName = isTemplate
+        ? `Template_Blangko_PreSIPD_${cleanDesaName}_RKPD_${selectedYear}.pdf`
+        : `Kertas_Kerja_Terisi_PreSIPD_${cleanDesaName}_RKPD_${selectedYear}.pdf`;
+
+      doc.save(fileName);
+      showToast(isTemplate ? "Template Blangko PDF resmi berhasil diunduh!" : "Kertas Kerja Pre-SIPD PDF resmi berhasil diunduh!");
     } catch (err) {
       console.error("Export PDF error:", err);
       showToast("Terjadi kendala saat membuat file PDF: " + err.message);
@@ -4138,22 +4215,22 @@ export default function App() {
                 <button
                   className="btn btn-success"
                   style={{ fontWeight: 700, padding: "8px 14px", display: "inline-flex", alignItems: "center", gap: "6px" }}
-                  onClick={handleExportExcel}
-                  title="Unduh Kertas Kerja Pre-SIPD format Microsoft Excel (.xlsx) resmi"
+                  onClick={() => setExportModalType("excel")}
+                  title="Unduh Kertas Kerja Pre-SIPD format Microsoft Excel (.xlsx) resmi (Pilihan Form Terisi atau Template Blangko Kosong)"
                 >
                   <FileSpreadsheet size={16} />
-                  <span>Ekspor Excel (.xlsx) SIPD</span>
+                  <span>Ekspor Excel (.xlsx) SIPD ▾</span>
                 </button>
 
                 {/* 3. Tombol Cetak / PDF Resmi Pre-SIPD */}
                 <button
                   className="btn btn-primary"
                   style={{ fontWeight: 700, padding: "8px 14px", display: "inline-flex", alignItems: "center", gap: "6px" }}
-                  onClick={handleExportPDF}
-                  title="Cetak Berita Acara & Kertas Kerja Pre-SIPD format PDF"
+                  onClick={() => setExportModalType("pdf")}
+                  title="Cetak Berita Acara & Kertas Kerja Pre-SIPD format PDF (Pilihan Form Terisi atau Template Blangko Kosong)"
                 >
                   <Printer size={16} />
-                  <span>Cetak PDF Pre-SIPD</span>
+                  <span>Cetak PDF Pre-SIPD ▾</span>
                 </button>
 
                 {/* 4. Tombol Unduh CSV */}
@@ -5241,6 +5318,207 @@ export default function App() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          MODAL PILIHAN FORMAT EKSPOR PRE-SIPD (FORM TERISI VS TEMPLATE KOSONG)
+          ======================================================== */}
+      {exportModalType && (
+        <div className="desktop-modal-backdrop" onClick={() => setExportModalType(null)}>
+          <div
+            className="desktop-modal-dialog"
+            style={{ maxWidth: "620px" }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-dialog-header">
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                {exportModalType === "excel" ? (
+                  <div
+                    style={{
+                      background: "#dcfce7",
+                      color: "#15803d",
+                      width: "42px",
+                      height: "42px",
+                      borderRadius: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0
+                    }}
+                  >
+                    <FileSpreadsheet size={24} />
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      background: "#dbeafe",
+                      color: "#1d4ed8",
+                      width: "42px",
+                      height: "42px",
+                      borderRadius: "10px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0
+                    }}
+                  >
+                    <Printer size={24} />
+                  </div>
+                )}
+                <div>
+                  <span className="badge badge-opd" style={{ background: exportModalType === "excel" ? "#15803d" : "var(--gov-navy-800)" }}>
+                    {exportModalType === "excel" ? "EKSPOR MICROSOFT EXCEL (.XLSX)" : "CETAK BERITA ACARA PDF"}
+                  </span>
+                  <h3 style={{ fontSize: "16px", fontWeight: 800, marginTop: "3px", color: "var(--slate-900)" }}>
+                    {exportModalType === "excel"
+                      ? "Pilihan Kertas Kerja Excel Pre-SIPD"
+                      : "Pilihan Dokumen Cetak PDF Pre-SIPD"}
+                  </h3>
+                  <div style={{ fontSize: "12px", color: "var(--slate-600)", marginTop: "2px" }}>
+                    Wilayah: <b>{activeDesaPengusul}</b> • RKPD <b>{selectedYear}</b>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setExportModalType(null)}
+                style={{
+                  background: "var(--slate-200)",
+                  border: "none",
+                  borderRadius: "99px",
+                  width: "32px",
+                  height: "32px",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <div style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "14px" }}>
+              {/* Pilihan 1: Form Usulan Terisi */}
+              <div
+                style={{
+                  border: "1.5px solid var(--slate-200)",
+                  borderRadius: "12px",
+                  padding: "16px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "14px",
+                  background: "#ffffff",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.05)"
+                }}
+              >
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                    <strong style={{ fontSize: "14px", color: "var(--gov-navy-900)" }}>
+                      1. Form Usulan Terisi
+                    </strong>
+                    <span
+                      style={{
+                        background: savedUsulanDesa.length > 0 ? "#eff6ff" : "#f1f5f9",
+                        color: savedUsulanDesa.length > 0 ? "#1d4ed8" : "#64748b",
+                        border: "1px solid #bfdbfe",
+                        borderRadius: "10px",
+                        padding: "1px 8px",
+                        fontSize: "11px",
+                        fontWeight: 800
+                      }}
+                    >
+                      {savedUsulanDesa.length} Usulan Terpilih
+                    </span>
+                  </div>
+                  <p style={{ fontSize: "12px", color: "var(--slate-600)", margin: "5px 0 0 0", lineHeight: 1.45 }}>
+                    Mencetak seluruh usulan yang telah Anda pilih ke dalam format resmi Pre-SIPD RI, lengkap dengan Nomenklatur Sub Kegiatan SIPD, OPD pengampu, uraian masalah riil lapangan, dan data dukung.
+                  </p>
+                </div>
+                <button
+                  className={`btn ${exportModalType === "excel" ? "btn-success" : "btn-primary"}`}
+                  style={{ fontWeight: 800, padding: "8px 16px", flexShrink: 0 }}
+                  onClick={() => {
+                    if (exportModalType === "excel") {
+                      handleExportExcel(false);
+                    } else {
+                      handleExportPDF(false);
+                    }
+                    setExportModalType(null);
+                  }}
+                  disabled={savedUsulanDesa.length === 0}
+                  title={savedUsulanDesa.length === 0 ? "Pilih minimal 1 usulan untuk opsi ini" : "Unduh sekarang"}
+                >
+                  {exportModalType === "excel" ? "Unduh Excel Terisi" : "Cetak PDF Terisi"}
+                </button>
+              </div>
+
+              {/* Pilihan 2: Template / Blangko Kosong */}
+              <div
+                style={{
+                  border: "1.5px solid #fed7aa",
+                  borderRadius: "12px",
+                  padding: "16px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "14px",
+                  background: "#fffaf5",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.05)"
+                }}
+              >
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                    <strong style={{ fontSize: "14px", color: "#9a3412" }}>
+                      2. Template / Blangko Kosong
+                    </strong>
+                    <span
+                      style={{
+                        background: "#ffedd5",
+                        color: "#c2410c",
+                        border: "1px solid #fed7aa",
+                        borderRadius: "10px",
+                        padding: "1px 8px",
+                        fontSize: "11px",
+                        fontWeight: 800
+                      }}
+                    >
+                      Kertas Kerja Blangko Siap Isi
+                    </span>
+                  </div>
+                  <p style={{ fontSize: "12px", color: "#7c2d12", margin: "5px 0 0 0", lineHeight: 1.45 }}>
+                    Format blangko kosong resmi SIPD-RI lengkap dengan Kop Surat Bapperida Lobar, 19 kolom kertas kerja, dan lembar tanda tangan. Siap dicetak untuk notulensi dan pencatatan aspirasi manual saat Musdes.
+                  </p>
+                </div>
+                <button
+                  className="btn btn-gold"
+                  style={{ fontWeight: 800, padding: "8px 16px", flexShrink: 0 }}
+                  onClick={() => {
+                    if (exportModalType === "excel") {
+                      handleExportExcel(true);
+                    } else {
+                      handleExportPDF(true);
+                    }
+                    setExportModalType(null);
+                  }}
+                >
+                  {exportModalType === "excel" ? "Unduh Template Kosong" : "Cetak Blangko Kosong"}
+                </button>
+              </div>
+            </div>
+
+            <div className="modal-dialog-footer" style={{ justifyContent: "flex-end" }}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setExportModalType(null)}
+              >
+                Tutup
+              </button>
+            </div>
           </div>
         </div>
       )}
