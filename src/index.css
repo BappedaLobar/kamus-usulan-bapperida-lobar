@@ -1872,3 +1872,12 @@ body {
     flex: 1 1 auto;
   }
 }
+
+/* Animasi Loading Spin untuk Sinkronisasi Database D1 */
+.spin-animation {
+  animation: spin-kf 1s linear infinite;
+}
+@keyframes spin-kf {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

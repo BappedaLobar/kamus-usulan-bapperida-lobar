@@ -5,6 +5,9 @@ import {
   BookOpen,
   Target,
   Award,
+  Database,
+  Cloud,
+  RefreshCw,
   MapPin,
   CheckCircle2,
   ShieldCheck,
@@ -163,6 +166,16 @@ export default function App() {
   });
   const [auditLogs, setAuditLogs] = useState([]);
   const [toastMsg, setToastMsg] = useState(null);
+
+  // State Koneksi Database Cloudflare D1
+  const [cloudDbStatus, setCloudDbStatus] = useState({
+    checked: false,
+    connected: false,
+    d1Bound: false,
+    totalUsulan: 0,
+    message: "Memeriksa koneksi database..."
+  });
+  const [isSyncingCloud, setIsSyncingCloud] = useState(false);
 
   const showToast = (msg) => {
     setToastMsg(msg);
@@ -421,7 +434,30 @@ export default function App() {
   }, [wilayahList, selectedKecamatan, desaSearch, filterTriaseDesaTab]);
 
   // Fungsi Simpan / Hapus Item ke Daftar Usulan Desa Saya (LocalStorage)
-  const handleToggleSaveUsulan = (item) => {
+  const handleManualCloudSync = async () => {
+    setIsSyncingCloud(true);
+    showToast("Menghubungi Cloudflare D1...");
+    try {
+      const status = await checkCloudDatabaseStatus();
+      setCloudDbStatus({ checked: true, ...status });
+      if (status.connected) {
+        await syncLocalUsulanToCloud(savedUsulanDesa);
+        const cloudRes = await fetchAllUsulanFromCloud();
+        if (cloudRes.ok && Array.isArray(cloudRes.data)) {
+          setSavedUsulanDesa(cloudRes.data);
+          saveSecureData("SAVED_USULAN_DESA", cloudRes.data);
+        }
+        showToast(`Sukses tersinkron ke Cloudflare D1 (${cloudRes.data?.length || savedUsulanDesa.length} Usulan)`);
+      } else {
+        showToast(status.message || "Database D1 belum terhubung di Cloudflare Dashboard.");
+      }
+    } catch (err) {
+      showToast("Gagal sinkron: " + err.message);
+    }
+    setIsSyncingCloud(false);
+  };
+
+    const handleToggleSaveUsulan = (item) => {
     const exists = savedUsulanDesa.some((u) => u.id === item.id);
     let updated;
     if (exists) {
@@ -3239,6 +3275,65 @@ export default function App() {
                 <div>ANTI-XSS INJECTION: AKTIF (Input Sanitization Sanitizer Enabled)</div>
                 <div>STORAGE PREFIX: BAPPERIDA_LOBAR_SEC_V2_* (Sandboxed)</div>
               </div>
+            </div>
+
+            {/* Status & Integrasi Cloudflare D1 Database */}
+            <div className="gov-dossier-card d1-cloud-management-card" style={{ borderLeft: "5px solid #0284c7" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px" }}>
+                <div>
+                  <h3 className="dossier-title" style={{ display: "flex", alignItems: "center", gap: "8px", margin: 0 }}>
+                    <Database size={18} color="#0284c7" /> Database Cloudflare D1 (Serverless SQL Online)
+                  </h3>
+                  <p style={{ fontSize: "12.5px", color: "var(--slate-600)", marginTop: "4px", marginBottom: 0 }}>
+                    Database terpusat Bapperida Lombok Barat untuk sinkronisasi usulan seluruh 119 Desa &amp; 3 Kelurahan.
+                  </p>
+                </div>
+
+                <div style={{ display: "flex", gap: "8px" }}>
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    onClick={handleManualCloudSync}
+                    disabled={isSyncingCloud}
+                  >
+                    <RefreshCw size={13} className={isSyncingCloud ? "spin-animation" : ""} />
+                    <span>Cek &amp; Sinkronkan Sekarang</span>
+                  </button>
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "10px", marginTop: "10px" }}>
+                <div style={{ background: cloudDbStatus.connected ? "#ecfdf5" : "#fefce8", padding: "12px", borderRadius: "8px", border: `1px solid ${cloudDbStatus.connected ? "#a7f3d0" : "#fef08a"}` }}>
+                  <span style={{ fontSize: "11px", color: cloudDbStatus.connected ? "#065f46" : "#854d0e", fontWeight: 700 }}>STATUS KONEKSI D1:</span>
+                  <div style={{ fontSize: "15px", fontWeight: 800, color: cloudDbStatus.connected ? "#047857" : "#b45309", marginTop: "2px" }}>
+                    {cloudDbStatus.connected ? "🟢 TERHUBUNG ONLINE" : "🟡 STANDBY (LOKAL AKTIF)"}
+                  </div>
+                </div>
+
+                <div style={{ background: "#f8fafc", padding: "12px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
+                  <span style={{ fontSize: "11px", color: "#475569", fontWeight: 700 }}>KAPASITAS FREE TIER:</span>
+                  <div style={{ fontSize: "15px", fontWeight: 800, color: "#0f172a", marginTop: "2px" }}>
+                    5 GB Storage (500 MB/DB)
+                  </div>
+                </div>
+
+                <div style={{ background: "#f8fafc", padding: "12px", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
+                  <span style={{ fontSize: "11px", color: "#475569", fontWeight: 700 }}>KUOTA OPERASI BACA/TULIS:</span>
+                  <div style={{ fontSize: "15px", fontWeight: 800, color: "#0f172a", marginTop: "2px" }}>
+                    5 Juta Baca / 100 Ribu Tulis / Hari
+                  </div>
+                </div>
+              </div>
+
+              {!cloudDbStatus.connected && (
+                <div style={{ background: "#eff6ff", border: "1px solid #bfdbfe", padding: "12px 14px", borderRadius: "8px", fontSize: "12px", color: "#1e40af", marginTop: "6px" }}>
+                  <strong>Langkah 1-Menit Mengaktifkan Database D1 di Cloudflare Dashboard:</strong>
+                  <ol style={{ paddingLeft: "20px", marginTop: "6px", display: "flex", flexDirection: "column", gap: "4px" }}>
+                    <li>Buka <b>Cloudflare Dashboard</b> → Menu <b>Storage &amp; Databases</b> → <b>D1 SQL Database</b> → Klik <b>Create Database</b> (beri nama: <code>kamus-usulan-db</code>).</li>
+                    <li>Buka menu <b>Workers &amp; Pages</b> → Pilih project <b>kamus-usulan-bapperida-lobar</b> → Klik tab <b>Settings</b> → <b>Bindings</b>.</li>
+                    <li>Klik <b>Add binding</b> → Pilih <b>D1 database</b> → Isi Variable name: <code>DB</code> dan pilih database: <code>kamus-usulan-db</code> → Klik <b>Save and Deploy</b>.</li>
+                  </ol>
+                </div>
+              )}
             </div>
 
             {/* Standar Arsitektur Backend Server Pusat */}
