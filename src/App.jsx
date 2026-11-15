@@ -254,7 +254,7 @@ export default function App() {
   useEffect(() => {
     setCurrentPage(1);
     setVisibleCountCards(25);
-  }, [searchQuery, selectedKategori, selectedOpd, selectedBidangBapperida, selectedUrusan, selectedAksi, rowsPerPage]);
+  }, [searchQuery, selectedKategori, selectedOpd, selectedBidangBapperida, selectedUrusan, selectedAksi, rowsPerPage, activeProblemFocus, smartFilterMode]);
 
   // Load dari Secure LocalStorage saat pertama kali buka aplikasi
   useEffect(() => {
@@ -372,44 +372,49 @@ export default function App() {
   const handleApplyProblemSolution = (mappedProb, sourceName = "Indeks Desa") => {
     if (!mappedProb) return;
     
+    // Tentukan OPD yang valid untuk tahun aktif
+    let targetOpd = mappedProb.opd;
+    if (selectedYear === "2027" && targetOpd === "Dinas Komunikasi, Informatika dan Statistik") {
+      targetOpd = "Dinas Pemberdayaan Masyarakat dan Desa";
+    }
+
     // 1. Kunci OPD pengampu
-    if (mappedProb.opd) {
-      setSelectedOpd(mappedProb.opd);
+    if (targetOpd) {
+      setSelectedOpd(targetOpd);
     }
     
-    // 2. Kunci Bidang Bapperida
-    if (mappedProb.bidangBapperida) {
-      setSelectedBidangBapperida(mappedProb.bidangBapperida);
-    }
+    // 2. Reset Bidang Bapperida, Bidang Urusan, Kategori, dan Aksi ke Semua agar tidak memblokir usulan sah OPD
+    setSelectedBidangBapperida("Semua Bidang Bapperida");
+    setSelectedUrusan("Semua Bidang Urusan");
+    setSelectedKategori("Semua Kategori");
+    setSelectedAksi("Semua Aksi Prioritas");
     
-    // 3. Kunci Bidang Urusan jika ada, atau reset ke semua urusan agar tidak menyempitkan hasil
-    if (mappedProb.urusan) {
-      setSelectedUrusan(mappedProb.urusan);
-    } else {
-      setSelectedUrusan("Semua Bidang Urusan");
-    }
+    // 3. Set kata kunci pencarian yang bersih (ambil token pertama agar di search bar rapi)
+    const rawKw = mappedProb.keyword || "";
+    const cleanKw = rawKw.includes("|") ? rawKw.split("|")[0].trim() : rawKw.trim();
+    setSearchQuery(cleanKw);
     
-    // 4. Set kata kunci pencarian
-    setSearchQuery(mappedProb.keyword || "");
-    
-    // 5. Set ID filter jika ada
+    // 4. Set ID filter jika ada
     if (mappedProb.id) {
       setSelectedProblemFilterId(mappedProb.id);
     }
     
-    // 6. Simpan state fokus
+    // 5. Simpan state fokus
     setActiveProblemFocus({
       title: mappedProb.problemTitle || mappedProb.title,
-      opd: mappedProb.opd,
+      opd: targetOpd,
       bidangBapperida: mappedProb.bidangBapperida,
       urusan: mappedProb.urusan,
-      keyword: mappedProb.keyword,
+      keyword: rawKw,
       rekomendasi: mappedProb.rekomendasi,
       volume: mappedProb.volume,
       satuan: mappedProb.satuan,
       source: sourceName
     });
     
+    // 6. Reset pagination ke halaman awal
+    setCurrentPage(1);
+
     // 7. Alihkan ke Kamus Usulan dalam mode tabel
     setActiveTab("kamus");
     setViewMode("table");
@@ -453,7 +458,30 @@ export default function App() {
   // Hasil Filter Kamus Usulan (Dilengkapi Filter Cerdas Masalah Desa RUMUSAN Mode Ketat)
   const filteredKamus = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
-    return allKamusForYear.filter((item) => {
+
+    // Siapkan token pencarian (mendukung multi-token OR dari pemetaan masalah atau input user)
+    const focusTokens = activeProblemFocus && activeProblemFocus.keyword
+      ? activeProblemFocus.keyword.split('|').map((t) => t.trim().toLowerCase()).filter(Boolean)
+      : [];
+
+    let searchTokens = [];
+    if (q) {
+      if (q.includes('|')) {
+        searchTokens = q.split('|').map((t) => t.trim().toLowerCase()).filter(Boolean);
+      } else {
+        // Jika q sama dengan token pertama fokus masalah, gunakan semua token fokus agar pencarian komprehensif
+        const primaryFocusToken = focusTokens[0] || '';
+        if (focusTokens.length > 0 && q === primaryFocusToken) {
+          searchTokens = focusTokens;
+        } else {
+          searchTokens = [q];
+        }
+      }
+    } else if (focusTokens.length > 0) {
+      searchTokens = focusTokens;
+    }
+
+    let results = allKamusForYear.filter((item) => {
       // 1. FILTER CERDAS STATUS MASALAH DESA (STRICT TRIAGE MODE) - Hanya aktif jika bukan Tahun 2029
       // Jika pengguna sedang fokus pada solusi OPD tertentu atau memilih OPD secara eksplisit, jangan kunci OPD tersebut
       const isFocusedOpd = (activeProblemFocus && activeProblemFocus.opd === item.opd) || (selectedOpd !== "Semua OPD" && item.opd === selectedOpd);
@@ -510,7 +538,7 @@ export default function App() {
         return false;
       }
 
-      // 4. Filter Aksi Prioritas
+      // 6. Filter Aksi Prioritas
       if (
         selectedAksi !== "Semua Aksi Prioritas" &&
         item.aksiPrioritas !== selectedAksi
@@ -518,11 +546,19 @@ export default function App() {
         return false;
       }
 
-      // 5. Pencarian teks bebas
-      if (!q) return true;
+      // 7. Pencarian multi-token OR
+      if (searchTokens.length === 0) return true;
       const haystack = `${item.usulanKegiatan} ${item.usulanPermasalahan} ${item.opd} ${item.urusan || ''} ${item.bidangBapperida || item.bidang || ''} ${item.program} ${item.kegiatan} ${item.subKegiatan} ${item.sasaranPenerima} ${item.kategoriMudah}`.toLowerCase();
-      return haystack.includes(q);
+      return searchTokens.some((tok) => haystack.includes(tok));
     });
+
+    // JARING PENGAMAN: Jika sedang fokus pada masalah suatu OPD dan hasil filter 0 baris,
+    // kembalikan seluruh usulan resmi milik OPD tersebut agar tabel tidak pernah kosong!
+    if (results.length === 0 && activeProblemFocus && activeProblemFocus.opd) {
+      results = allKamusForYear.filter((item) => item.opd === activeProblemFocus.opd);
+    }
+
+    return results;
   }, [
     allKamusForYear,
     searchQuery,
@@ -532,16 +568,26 @@ export default function App() {
     selectedUrusan,
     selectedAksi,
     smartFilterMode,
-    desaTriage
+    desaTriage,
+    activeProblemFocus,
+    selectedYear
   ]);
 
-  // Perhitungan Paginasi untuk Tabel
+  // Perhitungan Paginasi untuk Tabel dengan Safe Clamping
   const totalPages = Math.ceil(filteredKamus.length / rowsPerPage) || 1;
-  const startIndex = (currentPage - 1) * rowsPerPage;
+  const safeCurrentPage = Math.min(Math.max(currentPage, 1), totalPages);
+  const startIndex = (safeCurrentPage - 1) * rowsPerPage;
   const endIndex = Math.min(startIndex + rowsPerPage, filteredKamus.length);
   const paginatedTableRows = useMemo(() => {
     return filteredKamus.slice(startIndex, endIndex);
   }, [filteredKamus, startIndex, endIndex]);
+
+  // Pastikan currentPage tidak melebihi totalPages jika filter berubah
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
 
   // Data 119 Desa + 3 Kelurahan dengan custom update dari LocalStorage
   const wilayahList = useMemo(() => {
@@ -2116,6 +2162,10 @@ export default function App() {
                             <span>📊 Potensi Sasaran: <b>{Number(activeProblemFocus.volume).toLocaleString('id-ID')} {activeProblemFocus.satuan}</b></span>
                           </>
                         )}
+                        <span>•</span>
+                        <span style={{ background: "#2563eb", color: "#ffffff", padding: "1px 7px", borderRadius: "10px", fontSize: "11px", fontWeight: 700 }}>
+                          📋 {filteredKamus.length} Program Solusi Ditemukan
+                        </span>
                       </div>
                     </div>
                   </div>
