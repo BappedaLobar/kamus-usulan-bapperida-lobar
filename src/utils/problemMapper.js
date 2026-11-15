@@ -34,9 +34,10 @@ export function mapProblemToSolution(problemText) {
   }
 
   // 2. Kesehatan / Dokter / Bidan / Nakes / Posyandu / Stunting / Gizi / Puskesmas / Pustu
+  // Gunakan /\bbidan\b/ agar tidak salah menangkap kata "di bidang lingkungan/ekonomi"
   if (
     pl.includes("dokter") ||
-    pl.includes("bidan") ||
+    /\bbidan\b/.test(pl) ||
     pl.includes("tenaga kesehatan") ||
     pl.includes("nakes") ||
     pl.includes("kesehatan") ||
@@ -52,7 +53,7 @@ export function mapProblemToSolution(problemText) {
       opd: "Dinas Kesehatan, Pengendalian Penduduk dan KB",
       bidangBapperida: "Bidang P2M",
       urusan: "Urusan Kesehatan",
-      keyword: isGizi ? "gizi" : "kesehatan",
+      keyword: isGizi ? "gizi|posyandu|stunting|kesehatan" : "kesehatan|puskesmas|pustu|dokter|bidan",
       dimensi: "Layanan Dasar",
       icon: "HeartPulse",
       badgeColor: "#e11d48",
@@ -67,11 +68,11 @@ export function mapProblemToSolution(problemText) {
       opd: "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
       bidangBapperida: "Bidang PSDAIK",
       urusan: "Urusan Pekerjaan Umum Dan Penataan Ruang",
-      keyword: "sanitasi",
+      keyword: "septik|mck|sanitasi|drainase|utilitas",
       dimensi: "Layanan Dasar",
       icon: "Droplets",
       badgeColor: "#0284c7",
-      rekomendasi: "Pembangunan Tangki Septik Komunal / Individual Biotank dan Sarana Sanitasi Sehat Keluarga"
+      rekomendasi: "Pembangunan Tangki Septik Komunal / Individual Biotank, MCK dan Sarana Sanitasi Lingkungan"
     };
   }
 
@@ -82,7 +83,7 @@ export function mapProblemToSolution(problemText) {
       opd: "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
       bidangBapperida: "Bidang PSDAIK",
       urusan: "Urusan Pekerjaan Umum Dan Penataan Ruang",
-      keyword: "air",
+      keyword: "air|spam",
       dimensi: "Layanan Dasar",
       icon: "Droplet",
       badgeColor: "#0284c7",
@@ -90,48 +91,62 @@ export function mapProblemToSolution(problemText) {
     };
   }
 
-  // 5. RTLH / Rumah / Permukiman Layak Huni
-  if (pl.includes("rtlh") || pl.includes("rumah") || pl.includes("permukiman")) {
+  // 5. RTLH / Rumah Layak Huni / Ruang Publik & Permukiman (kecuali "rumah makan")
+  if (
+    pl.includes("rtlh") ||
+    (pl.includes("rumah") && !pl.includes("rumah makan")) ||
+    pl.includes("permukiman") ||
+    pl.includes("ruang publik terbuka")
+  ) {
     return {
       problemTitle: p,
       opd: "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
       bidangBapperida: "Bidang PSDAIK",
       urusan: "Urusan Perumahan Dan Kawasan Permukiman",
-      keyword: "rumah",
-      dimensi: "Layanan Dasar",
+      keyword: pl.includes("ruang publik") ? "utilitas|permukiman|perumahan" : "rumah|rtlh|permukiman",
+      dimensi: pl.includes("ruang publik") ? "Sosial" : "Layanan Dasar",
       icon: "Home",
       badgeColor: "#0284c7",
-      rekomendasi: "Bantuan Pemugaran Rumah Tidak Layak Huni (RTLH Swadaya / BSPS DAK & APBD)"
+      rekomendasi: pl.includes("ruang publik")
+        ? "Penataan Prasarana, Sarana, dan Utilitas Umum (PSU) Kawasan Permukiman & Ruang Publik Desa"
+        : "Bantuan Pemugaran Rumah Tidak Layak Huni (RTLH Swadaya / BSPS DAK & APBD)"
     };
   }
 
-  // 6. Jalan / Jembatan / Drainase / Talud
+  // 6. Transportasi / Angkutan / Trayek / Penerangan Jalan (LPJU) - Diletakkan sebelum "jalan" agar "penerangan di jalan" masuk ke Dishub
+  if (
+    pl.includes("transportasi") ||
+    pl.includes("angkutan") ||
+    pl.includes("trayek") ||
+    pl.includes("penerangan") ||
+    pl.includes("pju") ||
+    pl.includes("rambu")
+  ) {
+    return {
+      problemTitle: p,
+      opd: "Dinas Perhubungan",
+      bidangBapperida: "Bidang PSDAIK",
+      urusan: "Urusan Perhubungan",
+      keyword: pl.includes("penerangan") || pl.includes("pju") ? "penerangan|perlengkapan jalan|perhubungan" : "angkutan|perlengkapan jalan|perhubungan",
+      dimensi: "Aksesibilitas",
+      icon: "Bus",
+      badgeColor: "#0284c7",
+      rekomendasi: "Pengadaan Lampu Penerangan Jalan Umum (LPJU), Perlengkapan Jalan & Fasilitasi Angkutan Pedesaan"
+    };
+  }
+
+  // 7. Jalan / Jembatan / Drainase / Talud
   if (pl.includes("jalan") || pl.includes("jembatan") || pl.includes("drainase") || pl.includes("talud")) {
     return {
       problemTitle: p,
       opd: "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman",
       bidangBapperida: "Bidang PSDAIK",
       urusan: "Urusan Pekerjaan Umum Dan Penataan Ruang",
-      keyword: "jalan",
+      keyword: "jalan|jembatan|drainase",
       dimensi: "Aksesibilitas",
       icon: "Route",
       badgeColor: "#0284c7",
       rekomendasi: "Pembangunan, Peningkatan dan Pemeliharaan Berkala Jalan Strategis Penghubung Desa & Jembatan"
-    };
-  }
-
-  // 7. Transportasi / Trayek / Penerangan Jalan (LPJU)
-  if (pl.includes("transportasi") || pl.includes("trayek") || pl.includes("penerangan jalan") || pl.includes("pju") || pl.includes("rambu")) {
-    return {
-      problemTitle: p,
-      opd: "Dinas Perhubungan",
-      bidangBapperida: "Bidang PSDAIK",
-      urusan: "Urusan Perhubungan",
-      keyword: pl.includes("penerangan") ? "lampu" : "transportasi",
-      dimensi: "Aksesibilitas",
-      icon: "Bus",
-      badgeColor: "#0284c7",
-      rekomendasi: "Pengadaan Lampu Penerangan Jalan Umum (LPJU) & Penyediaan Trayek Angkutan Perintis Pedesaan"
     };
   }
 
@@ -164,17 +179,17 @@ export function mapProblemToSolution(problemText) {
   ) {
     let kw = "sosial";
     if (pl.includes("disabilitas") || pl.includes("kursi roda") || pl.includes("alat bantu")) {
-      kw = "alat bantu";
+      kw = "alat bantu|kursi roda|disabilitas|sosial";
     } else if (pl.includes("anak") || pl.includes("forum anak")) {
-      kw = "anak";
+      kw = "anak|sosial";
     } else if (pl.includes("perempuan") || pl.includes("kekerasan")) {
-      kw = "perempuan";
+      kw = "perempuan|sosial";
     } else if (pl.includes("lks") || pl.includes("kelembagaan")) {
-      kw = "lks";
+      kw = "lks|sosial";
     } else if (pl.includes("makanan") || pl.includes("sembako")) {
-      kw = "makanan";
+      kw = "makanan|sembako|sosial";
     } else if (pl.includes("bencana") || pl.includes("ksb") || pl.includes("lumbung")) {
-      kw = "ksb";
+      kw = "ksb|lumbung|sosial";
     }
 
     return {
@@ -197,7 +212,7 @@ export function mapProblemToSolution(problemText) {
       opd: "Dinas Kearsipan dan Perpustakaan",
       bidangBapperida: "Bidang P2M",
       urusan: "Urusan Perpustakaan",
-      keyword: "perpustakaan",
+      keyword: "perpustakaan|baca",
       dimensi: "Sosial",
       icon: "BookOpen",
       badgeColor: "#9333ea",
@@ -205,69 +220,79 @@ export function mapProblemToSolution(problemText) {
     };
   }
 
-  // 9. Pasar Desa / Distribusi / Perdagangan
+  // 10. Pasar Desa / Distribusi / Perdagangan
   if (pl.includes("pasar") || pl.includes("pasar desa") || pl.includes("perdagangan") || pl.includes("kios")) {
     return {
       problemTitle: p,
       opd: "Dinas Perdagangan",
       bidangBapperida: "Bidang PSDAIK",
       urusan: "Urusan Perdagangan",
-      keyword: "pasar",
+      keyword: "perdagangan|pasar",
       dimensi: "Ekonomi",
       icon: "ShoppingBag",
       badgeColor: "#ea580c",
-      rekomendasi: "Pembangunan / Revitalisasi Sarana Distribusi Pasar Tradisional Desa & Fasilitasi Akses Pemasaran"
+      rekomendasi: "Pembangunan / Revitalisasi Sarana Distribusi Perdagangan Pasar Desa & Fasilitasi Akses Pemasaran"
     };
   }
 
-  // 10. UMKM / Koperasi / KUD / Modal Usaha / KKP-E / Kredit Mikro / Merek Dagang / Wirausaha
-  if (
-    pl.includes("umkm") ||
-    pl.includes("koperasi") ||
-    pl.includes("kud") ||
-    pl.includes("kredit") ||
-    pl.includes("kkp-e") ||
-    pl.includes(" kuk ") ||
-    pl.includes("merek dagang") ||
-    pl.includes("wirausaha") ||
-    pl.includes("usaha mikro")
-  ) {
-    return {
-      problemTitle: p,
-      opd: "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
-      bidangBapperida: "Bidang PSDAIK",
-      urusan: "Urusan Koperasi, Usaha Kecil, Dan Menengah",
-      keyword: "usaha",
-      dimensi: "Ekonomi",
-      icon: "Briefcase",
-      badgeColor: "#ea580c",
-      rekomendasi: "Bantuan Sarana Peralatan Usaha Mikro, Pendampingan Legalitas/Merek & Penguatan Koperasi Desa"
-    };
-  }
-
-  // 11. Tenaga Kerja / Pelatihan / Kursus / Balai Keterampilan
+  // 11. Tenaga Kerja / Pelatihan / Kursus / Balai Keterampilan (Diletakkan sebelum UMKM/Pendidikan agar kursus/keterampilan masuk ke Pelatihan Tenaga Kerja)
   if (
     pl.includes("angkatan kerja") ||
     pl.includes("keterampilan") ||
     pl.includes("kursus") ||
     pl.includes("pelatihan") ||
     pl.includes("blk") ||
-    pl.includes("tenaga kerja")
+    pl.includes("tenaga kerja") ||
+    pl.includes("bpjs")
   ) {
     return {
       problemTitle: p,
       opd: "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
       bidangBapperida: "Bidang PSDAIK",
       urusan: "Urusan Tenaga Kerja",
-      keyword: "pelatihan",
+      keyword: "pelatihan|tenaga kerja|kerja",
       dimensi: "Ekonomi",
       icon: "GraduationCap",
       badgeColor: "#ea580c",
-      rekomendasi: "Penyelenggaraan Pelatihan Vokasi Kerja Berbasis Kompetensi & Bantuan Peralatan Kerja Siap Pakai"
+      rekomendasi: "Penyelenggaraan Pelatihan Vokasi Kerja Berbasis Kompetensi & Perlindungan Jaminan Ketenagakerjaan"
     };
   }
 
-  // 12. Pertanian / Peternakan / Pangan / Irigasi / Pupuk / Benih / Alsintan / Ternak
+  // 12. UMKM / Koperasi / KUD / Modal Usaha / KKP-E / KUK / KUR / Merek Dagang / Produk Unggulan / Kedai / Toko / Aktivitas Ekonomi
+  if (
+    pl.includes("umkm") ||
+    pl.includes("koperasi") ||
+    pl.includes("kud") ||
+    pl.includes("kredit") ||
+    pl.includes("kkp-e") ||
+    /\bkuk\b/.test(pl) ||
+    /\bkur\b/.test(pl) ||
+    pl.includes("merek dagang") ||
+    pl.includes("wirausaha") ||
+    pl.includes("usaha mikro") ||
+    pl.includes("produk unggulan") ||
+    pl.includes("rumah makan") ||
+    pl.includes("kedai") ||
+    pl.includes("toko") ||
+    pl.includes("pertokoan") ||
+    pl.includes("lembaga ekonomi") ||
+    pl.includes("aktivitas ekonomi") ||
+    pl.includes("perbankan")
+  ) {
+    return {
+      problemTitle: p,
+      opd: "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja",
+      bidangBapperida: "Bidang PSDAIK",
+      urusan: "Urusan Koperasi, Usaha Kecil, Dan Menengah",
+      keyword: "usaha|koperasi|umkm|industri",
+      dimensi: "Ekonomi",
+      icon: "Briefcase",
+      badgeColor: "#ea580c",
+      rekomendasi: "Bantuan Sarana Peralatan Usaha Mikro/IKM, Pendampingan Legalitas/Merek & Penguatan Koperasi Desa"
+    };
+  }
+
+  // 13. Pertanian / Peternakan / Pangan / Irigasi / Pupuk / Benih / Alsintan / Ternak
   if (
     pl.includes("tani") ||
     pl.includes("pertanian") ||
@@ -285,7 +310,7 @@ export function mapProblemToSolution(problemText) {
       opd: "Dinas Pertanian",
       bidangBapperida: "Bidang PSDAIK",
       urusan: "Urusan Pertanian",
-      keyword: "pertanian",
+      keyword: "pertanian|tani|ternak|irigasi",
       dimensi: "Ekonomi",
       icon: "Sprout",
       badgeColor: "#16a34a",
@@ -293,9 +318,10 @@ export function mapProblemToSolution(problemText) {
     };
   }
 
-  // 13. Kelautan / Perikanan / Nelayan / Pesisir / Tambak / Ikan
+  // 14. Kelautan / Perikanan / Nelayan / Pesisir / Tambak / Ikan
+  // Gunakan /\bikan\b/ agar tidak salah menangkap kata "kepemilikan", "melestarikan", "menjadikan", "pendidikan"
   if (
-    pl.includes("ikan") ||
+    /\bikan\b/.test(pl) ||
     pl.includes("nelayan") ||
     pl.includes("perikanan") ||
     pl.includes("pesisir") ||
@@ -307,7 +333,7 @@ export function mapProblemToSolution(problemText) {
       opd: "Dinas Kelautan, Perikanan dan Ketahanan Pangan",
       bidangBapperida: "Bidang PSDAIK",
       urusan: "Urusan Kelautan Dan Perikanan",
-      keyword: "perikanan",
+      keyword: "perikanan|ikan|nelayan",
       dimensi: "Ekonomi",
       icon: "Fish",
       badgeColor: "#0284c7",
@@ -315,15 +341,18 @@ export function mapProblemToSolution(problemText) {
     };
   }
 
-  // 14. Pariwisata / Penginapan / Wisata / Olahraga / Pemuda / Budaya
+  // 15. Pariwisata / Penginapan / Wisata / Olahraga / Pemuda / Budaya (kecuali pelestarian lingkungan)
   if (
-    pl.includes("wisata") ||
-    pl.includes("penginapan") ||
-    pl.includes("atraksi alam") ||
-    pl.includes("olahraga") ||
-    pl.includes("pemuda") ||
-    pl.includes("budaya") ||
-    pl.includes("kesenian")
+    (pl.includes("wisata") ||
+      pl.includes("penginapan") ||
+      (pl.includes("atraksi alam") && !pl.includes("lingkungan")) ||
+      pl.includes("olahraga") ||
+      pl.includes("pemuda") ||
+      pl.includes("kebudayaan lokal") ||
+      pl.includes("budaya") ||
+      pl.includes("kesenian")) &&
+    !pl.includes("pelestarian lingkungan") &&
+    !pl.includes("kearifan lingkungan")
   ) {
     const isOlahraga = pl.includes("olahraga") || pl.includes("pemuda");
     return {
@@ -331,7 +360,7 @@ export function mapProblemToSolution(problemText) {
       opd: "Dinas Pariwisata, Ekonomi Kreatif, Pemuda dan Olahraga",
       bidangBapperida: "Bidang PSDAIK",
       urusan: isOlahraga ? "Urusan Pemuda Dan Olahraga" : "Urusan Pariwisata",
-      keyword: isOlahraga ? "olahraga" : "wisata",
+      keyword: isOlahraga ? "olahraga|pemuda" : "wisata|pariwisata|ekonomi kreatif",
       dimensi: "Sosial",
       icon: isOlahraga ? "Trophy" : "Palmtree",
       badgeColor: "#d97706",
@@ -341,7 +370,7 @@ export function mapProblemToSolution(problemText) {
     };
   }
 
-  // 15. Bencana / Kebencanaan / Mitigasi / Tanggap Darurat / Peringatan Dini
+  // 16. Bencana / Kebencanaan / Mitigasi / Tanggap Darurat / Peringatan Dini
   if (
     pl.includes("bencana") ||
     pl.includes("mitigasi") ||
@@ -362,14 +391,14 @@ export function mapProblemToSolution(problemText) {
     };
   }
 
-  // 16. Kebakaran / Pemadam
+  // 17. Kebakaran / Pemadam
   if (pl.includes("kebakaran") || pl.includes("pemadam")) {
     return {
       problemTitle: p,
       opd: "Dinas Pemadam Kebakaran dan Penyelamatan",
       bidangBapperida: "Bidang PSDAIK",
       urusan: "Urusan Ketenteraman Dan Ketertiban Umum Serta Perlindungan Masyarakat",
-      keyword: "kebakaran",
+      keyword: "kebakaran|bencana",
       dimensi: "Lingkungan",
       icon: "Flame",
       badgeColor: "#dc2626",
@@ -377,11 +406,17 @@ export function mapProblemToSolution(problemText) {
     };
   }
 
-  // 17. Lingkungan Hidup / Energi Terbarukan (EBT) / Konservasi / Pohon
-  const isLingkunganHidup = pl.includes("lingkungan hidup") || (pl.includes("lingkungan") && !pl.includes("keamanan") && !pl.includes("satkamling"));
+  // 18. Lingkungan Hidup / Energi Terbarukan (EBT) / Konservasi / Pohon
+  const isLingkunganHidup =
+    pl.includes("lingkungan hidup") ||
+    pl.includes("pelestarian lingkungan") ||
+    pl.includes("kearifan lingkungan") ||
+    pl.includes("pencemaran lingkungan") ||
+    (pl.includes("lingkungan") && !pl.includes("keamanan") && !pl.includes("satkamling"));
   if (
     pl.includes("energi baru terbarukan") ||
     pl.includes("ebt") ||
+    pl.includes("listrik") ||
     isLingkunganHidup ||
     pl.includes("kearifan lokal") ||
     pl.includes("konservasi") ||
@@ -392,21 +427,24 @@ export function mapProblemToSolution(problemText) {
       opd: "Dinas Lingkungan Hidup",
       bidangBapperida: "Bidang PSDAIK",
       urusan: "Urusan Lingkungan Hidup",
-      keyword: "lingkungan",
+      keyword: "lingkungan|sampah|taman|konservasi",
       dimensi: "Lingkungan",
       icon: "TreePine",
       badgeColor: "#16a34a",
-      rekomendasi: "Program Konservasi Sumber Daya Alam, Penghijauan / Reboisasi & Pemanfaatan Energi Terbarukan"
+      rekomendasi: "Program Pelestarian Lingkungan Hidup, Konservasi Sumber Daya Alam, Penghijauan & Energi Terbarukan"
     };
   }
 
-  // 18. Pendidikan / Sekolah / Ruang Kelas / Guru / PAUD / SD / SMP / Siswa / Beasiswa
+  // 19. Pendidikan / Sekolah / Ruang Kelas / Guru / PAUD / SD / SMP / SMA / SMK / Siswa / Beasiswa
   if (
     pl.includes("sekolah") ||
     pl.includes("pendidikan") ||
     pl.includes("paud") ||
-    pl.includes("sd") ||
+    /\bsd\b/.test(pl) ||
+    pl.includes("sd/") ||
     pl.includes("smp") ||
+    pl.includes("sma") ||
+    pl.includes("smk") ||
     pl.includes("guru") ||
     pl.includes("ruang kelas") ||
     pl.includes("beasiswa")
@@ -416,15 +454,15 @@ export function mapProblemToSolution(problemText) {
       opd: "Dinas Pendidikan dan Kebudayaan",
       bidangBapperida: "Bidang P2M",
       urusan: "Urusan Pendidikan",
-      keyword: pl.includes("kelas") ? "kelas" : "sekolah",
+      keyword: pl.includes("paud") ? "paud|sekolah|pendidikan" : pl.includes("kelas") ? "kelas|sekolah" : "sekolah|pendidikan",
       dimensi: "Layanan Dasar",
       icon: "GraduationCap",
       badgeColor: "#2563eb",
-      rekomendasi: "Rehabilitasi Sarpras Ruang Kelas Sekolah Rusak & Peningkatan Mutu Layanan Pendidikan Dasar"
+      rekomendasi: "Rehabilitasi Sarpras Ruang Kelas Sekolah/PAUD & Peningkatan Mutu Layanan Pendidikan Dasar"
     };
   }
 
-  // 19. Tata Kelola / Aset Desa / Kantor Desa / Kerjasama / BUMDes
+  // 20. Tata Kelola / Aset Desa / Kantor Desa / Kerjasama / BUMDes / Musyawarah / PADes / Administrasi / Gotong Royong
   if (
     pl.includes("aset") ||
     pl.includes("tanah desa") ||
@@ -432,27 +470,50 @@ export function mapProblemToSolution(problemText) {
     pl.includes("kerjasama") ||
     pl.includes("tata kelola") ||
     pl.includes("aparatur desa") ||
-    pl.includes("bumdes")
+    pl.includes("bumdes") ||
+    pl.includes("bum desa") ||
+    pl.includes("musyawarah desa") ||
+    pl.includes("pades") ||
+    pl.includes("pendapatan asli desa") ||
+    pl.includes("gotong royong") ||
+    pl.includes("administrasi desa") ||
+    pl.includes("pelayanan administrasi") ||
+    pl.includes("pelayanan pengaduan") ||
+    pl.includes("pelayanan lainnya")
   ) {
     return {
       problemTitle: p,
       opd: "Dinas Pemberdayaan Masyarakat dan Desa",
       bidangBapperida: "Bidang P2M",
       urusan: "Urusan Pemberdayaan Masyarakat Dan Desa",
-      keyword: "desa",
+      keyword: "desa|bumdes|kelembagaan",
       dimensi: "Tata Kelola",
       icon: "Landmark",
       badgeColor: "#475569",
-      rekomendasi: "Fasilitasi Pengelolaan Aset & Administrasi Desa, Peningkatan Kapasitas BUMDes & Kerjasama Antar-Desa"
+      rekomendasi: "Fasilitasi Pengelolaan Aset & Administrasi Pemerintahan Desa, Penguatan BUMDes & Kerjasama Desa"
     };
   }
 
-  // 20. Ketenteraman / Keamanan / Satkamling / Ronda / Konflik
+  // 21. Mitigasi Konflik Sosial / Mediator / Kerukunan -> Badan Kesatuan Bangsa dan Politik
+  if (pl.includes("konflik") || pl.includes("mediator") || pl.includes("penengah") || pl.includes("kerukunan")) {
+    return {
+      problemTitle: p,
+      opd: "Badan Kesatuan Bangsa dan Politik",
+      bidangBapperida: "Bidang P2M",
+      urusan: "Urusan Kesatuan Bangsa dan Politik",
+      keyword: "konflik|kesatuan|sosialisasi",
+      dimensi: "Sosial",
+      icon: "Shield",
+      badgeColor: "#7c3aed",
+      rekomendasi: "Sosialisasi Pencegahan Konflik Sosial (Warung Cantik) & Penguatan Forum Kerukunan Masyarakat Desa"
+    };
+  }
+
+  // 22. Ketenteraman / Keamanan Lingkungan / Satkamling / Ronda / Linmas -> Satuan Polisi Pamong Praja
   if (
     pl.includes("keamanan") ||
     pl.includes("satkamling") ||
     pl.includes("ronda") ||
-    pl.includes("konflik") ||
     pl.includes("ketertiban") ||
     pl.includes("linmas")
   ) {
@@ -461,33 +522,37 @@ export function mapProblemToSolution(problemText) {
       opd: "Satuan Polisi Pamong Praja",
       bidangBapperida: "Bidang P2M",
       urusan: "Urusan Ketenteraman Dan Ketertiban Umum Serta Perlindungan Masyarakat",
-      keyword: "ketertiban",
+      keyword: "keamanan|satlinmas|patroli|ketertiban",
       dimensi: "Sosial",
       icon: "Shield",
       badgeColor: "#64748b",
-      rekomendasi: "Pemberdayaan Satuan Linmas Desa & Penguatan Sarana Keamanan Pos Ronda / Satkamling"
+      rekomendasi: "Pengadaan Sarpras Pos Keamanan Lingkungan (Satkamling), Perlengkapan Patroli & Bimtek Satlinmas Desa"
     };
   }
 
-  // 21. Komunikasi / Internet / Sinyal / Digital / Statistik
+  // 23. Komunikasi / Internet / Telepon / Sinyal / Digital / Publikasi Informasi / Pos & Logistik
   if (
     pl.includes("internet") ||
+    pl.includes("telepon") ||
     pl.includes("komunikasi") ||
     pl.includes("sinyal") ||
     pl.includes("informasi") ||
+    pl.includes("publikasi") ||
     pl.includes("website") ||
-    pl.includes("digital")
+    pl.includes("digital") ||
+    pl.includes("pos dan logistik")
   ) {
     return {
       problemTitle: p,
       opd: "Dinas Komunikasi, Informatika dan Statistik",
+      fallbackOpd2027: "Dinas Pemberdayaan Masyarakat dan Desa",
       bidangBapperida: "Bidang RIDA",
       urusan: "Urusan Komunikasi Dan Informasi",
-      keyword: "komunikasi",
+      keyword: "informasi|komunikasi|desa|digital",
       dimensi: "Aksesibilitas",
       icon: "Wifi",
       badgeColor: "#0ea5e9",
-      rekomendasi: "Penyediaan Akses Internet Desa Ramah Anak & Digitalisasi Sistem Informasi Pemerintahan Desa"
+      rekomendasi: "Perluasan Akses Internet/Telekomunikasi Desa & Digitalisasi Publikasi Layanan Informasi Pemerintahan Desa"
     };
   }
 
@@ -542,4 +607,119 @@ export function getDesaMappedProblems(desaObj) {
   });
 
   return results;
+}
+
+/**
+ * Mencocokkan satu baris item Kamus Usulan OPD dengan daftar masalah desa yang relevan
+ * @param {Object} item Baris item dari kamusData.json
+ * @param {Array<Object>} mappedProblems Daftar masalah desa hasil mapProblemToSolution
+ * @returns {Array<Object>} Daftar masalah desa yang terjawab langsung oleh item program ini
+ */
+export function matchKamusItemToProblems(item, mappedProblems) {
+  if (!item || !Array.isArray(mappedProblems) || mappedProblems.length === 0) return [];
+
+  const haystack = `${item.usulanKegiatan || ""} ${item.usulanPermasalahan || ""} ${item.opd || ""} ${item.urusan || ""} ${item.bidangBapperida || item.bidang || ""} ${item.program || ""} ${item.kegiatan || ""} ${item.subKegiatan || ""} ${item.sasaranPenerima || ""} ${item.kategoriMudah || ""}`.toLowerCase();
+  const itemYear = String(item.tahun || "");
+
+  return mappedProblems.filter((prob) => {
+    if (!prob) return false;
+    const isOpdMatch =
+      item.opd === prob.opd ||
+      (itemYear === "2027" && prob.fallbackOpd2027 && item.opd === prob.fallbackOpd2027);
+    if (!isOpdMatch) return false;
+
+    const kw = String(prob.keyword || "").trim().toLowerCase();
+    if (!kw) return true;
+    const terms = kw
+      .split("|")
+      .map((t) => t.trim())
+      .filter(Boolean);
+    if (terms.length === 0) return true;
+    return terms.some((term) => haystack.includes(term));
+  });
+}
+
+/**
+ * Membangun payload fokus solusi untuk satu Sektor Kritis (menggabungkan seluruh masalah kritis riil desa di sektor tersebut)
+ * @param {Object} sectorObj Objek sektor dari desaTriage.kritis / sedang
+ * @param {Object} desaObj Objek desa aktif
+ * @returns {Object} Payload lengkap untuk handleApplyProblemSolution
+ */
+export function buildSectorFocusPayload(sectorObj, desaObj) {
+  if (!sectorObj) return null;
+  const desaNama = desaObj?.nama || "Desa";
+  const rawList = Array.isArray(sectorObj.masalahKritis) ? sectorObj.masalahKritis : [];
+
+  const mappedList = rawList.map((text, idx) => ({
+    id: `sec-${sectorObj.key}-${idx + 1}`,
+    level: "kritis",
+    ...mapProblemToSolution(text)
+  }));
+
+  // Untuk Sektor Sosial, pastikan Dinas Sosial P3A selalu disertakan sebagai OPD inti perlindungan sosial desa
+  if (sectorObj.key === "sosial") {
+    const hasDinsos = mappedList.some(
+      (m) => m.opd === "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak"
+    );
+    if (!hasDinsos) {
+      mappedList.unshift({
+        id: `sec-sosial-dinsos`,
+        level: "kritis",
+        problemTitle:
+          rawList.length > 0
+            ? `Penguatan Ketahanan Sosial, Bantuan Disabilitas/Lansia & Perlindungan Anak (${rawList[0]})`
+            : `Intervensi Kerentanan Sosial, Alat Bantu Disabilitas/Lansia & Perlindungan Perempuan/Anak Desa ${desaNama}`,
+        opd: "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
+        bidangBapperida: "Bidang P2M",
+        urusan: "Urusan Sosial",
+        keyword: "sosial",
+        dimensi: "Sosial",
+        icon: "HeartHandshake",
+        badgeColor: "#ec4899",
+        rekomendasi:
+          "Penyediaan Bantuan Sosial Terpadu, Alat Bantu Disabilitas/Lansia, Lumbung Sosial & Perlindungan Perempuan dan Anak"
+      });
+    }
+  }
+
+  // Fallback jika sektor kritis makro namun belum ada rincian array masalahKritis
+  if (mappedList.length === 0) {
+    const fallbackText =
+      sectorObj.key === "layananDasar"
+        ? "Ketersediaan layanan kesehatan dan pendidikan dasar di desa"
+        : sectorObj.key === "ekonomi"
+        ? "Pengembangan usaha pertanian dan ekonomi mikro desa"
+        : sectorObj.key === "lingkungan"
+        ? "Ketersediaan pengolahan sampah dan mitigasi bencana di desa"
+        : sectorObj.key === "aksesibilitas"
+        ? "Kualitas jalan dan penerangan jalan utama di desa"
+        : sectorObj.key === "tataKelola"
+        ? "Pelaksanaan pelayanan administrasi dan aset desa"
+        : "Pelayanan kesejahteraan sosial masyarakat desa";
+
+    mappedList.push({
+      id: `sec-${sectorObj.key}-fallback`,
+      level: "kritis",
+      ...mapProblemToSolution(fallbackText)
+    });
+  }
+
+  const uniqueOpds = Array.from(new Set(mappedList.map((m) => m.opd)));
+  const uniqueBidangs = Array.from(new Set(mappedList.map((m) => m.bidangBapperida).filter(Boolean)));
+  const uniqueRekomendasi = Array.from(new Set(mappedList.map((m) => m.rekomendasi).filter(Boolean)));
+
+  return {
+    isSectorFocus: true,
+    sectorKey: sectorObj.key,
+    sectorNama: sectorObj.nama,
+    sectorPersen: sectorObj.persen,
+    problemTitle: `Solusi Masalah Kritis Sektor ${sectorObj.nama} (${rawList.length || mappedList.length} Masalah Skor 1 di ${desaObj?.tipe || ""} ${desaNama})`,
+    opd: uniqueOpds.length === 1 ? uniqueOpds[0] : "Semua OPD",
+    opdList: uniqueOpds,
+    bidangBapperida: uniqueBidangs.join(" & ") || "Bidang Teknis",
+    urusan: "",
+    keyword: "",
+    rekomendasi: uniqueRekomendasi.slice(0, 2).join(" • "),
+    masalahList: mappedList
+  };
 }

@@ -416,6 +416,14 @@ export default function App() {
     setShowProblemListModal(false);
     if (selectedDesaDetail) setSelectedDesaDetail(null);
     
+    // 8. Auto-scroll langsung ke tabel kamus usulan secara halus
+    setTimeout(() => {
+      const targetEl = document.getElementById("active-problem-focus-banner") || document.getElementById("kamus-table-container");
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 150);
+
     showToast(`Fokus Solusi Masalah: ${mappedProb.opd}`);
   };
 
@@ -1608,157 +1616,149 @@ export default function App() {
                                   • {k.triageReason}
                                 </div>
                               )}
-                              <div className="triage-opd-preview">
-                                OPD Prioritas: {(k.opdKritisAktif && k.opdKritisAktif.length > 0 ? k.opdKritisAktif : k.opdPengampu).join(", ")}
-                              </div>
-                              <button
-                                className="btn btn-sm"
-                                style={{
-                                  background: "#ffffff",
-                                  border: "1px solid #fecdd3",
-                                  color: "#be123c",
-                                  fontSize: "10.5px",
-                                  fontWeight: 700,
-                                  padding: "2px 8px",
-                                  marginTop: "4px",
-                                  borderRadius: "4px",
-                                  display: "inline-flex",
-                                  alignItems: "center",
-                                  gap: "4px",
-                                  cursor: "pointer"
-                                }}
-                                onClick={() => {
-                                  let targetOpd = "";
-                                  let kw = "";
-                                  let bidangBapperida = "Bidang P2M";
-                                  let urusan = "";
+                              {/* Daftar Butir Masalah Kritis Lapangan Riil Desa (Skor 1 Sheet RUMUSAN) */}
+                              {k.masalahKritis && k.masalahKritis.length > 0 && (
+                                <div style={{ marginTop: "6px", marginBottom: "6px", display: "flex", flexDirection: "column", gap: "4px" }}>
+                                  <div style={{ fontSize: "10.5px", fontWeight: 800, color: "#9f1239" }}>
+                                    Masalah Lapangan Desa (Skor 1):
+                                  </div>
+                                  <div style={{ display: "flex", flexDirection: "column", gap: "4px", maxHeight: "150px", overflowY: "auto", paddingRight: "3px" }}>
+                                    {k.masalahKritis.map((probText, pIdx) => {
+                                      const mapped = mapProblemToSolution(probText);
+                                      return (
+                                        <div
+                                          key={pIdx}
+                                          style={{
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "space-between",
+                                            background: "#ffffff",
+                                            border: "1px solid #fecdd3",
+                                            borderRadius: "5px",
+                                            padding: "4px 8px",
+                                            gap: "8px"
+                                          }}
+                                        >
+                                          <div style={{ flex: 1, minWidth: 0 }}>
+                                            <div style={{ fontSize: "11px", fontWeight: 700, color: "#881337", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={probText}>
+                                              🔴 #{pIdx + 1}. {probText}
+                                            </div>
+                                            <div style={{ fontSize: "10px", color: "#64748b" }}>
+                                              Solusi OPD: <b style={{ color: "#0f172a" }}>{mapped.opd.replace("Dinas ", "").replace("Badan ", "").slice(0, 24)}</b> ({mapped.bidangBapperida})
+                                            </div>
+                                          </div>
+                                          <button
+                                            className="btn btn-sm"
+                                            style={{
+                                              fontSize: "10px",
+                                              padding: "2px 8px",
+                                              background: "#ffe4e6",
+                                              color: "#9f1239",
+                                              border: "1px solid #fda4af",
+                                              fontWeight: 800,
+                                              flexShrink: 0,
+                                              cursor: "pointer",
+                                              display: "inline-flex",
+                                              alignItems: "center",
+                                              gap: "3px"
+                                            }}
+                                            onClick={() => handleApplyProblemSolution(mapped, `Masalah Lapangan ${activeDesaObj.nama}`)}
+                                            title={`Buka solusi program di Kamus OPD untuk masalah riil: ${probText}`}
+                                          >
+                                            <Sparkles size={11} /> Buka Solusi ➔
+                                          </button>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              )}
 
-                                  if (k.key === "sosial") {
-                                    // Cek apakah ada masalah spesifik perpustakaan, olahraga, atau satkamling
-                                    const onlyPerpus = k.opdKritisAktif && k.opdKritisAktif.length === 1 && k.opdKritisAktif[0].includes("Perpustakaan");
-                                    const onlyOlahraga = k.opdKritisAktif && k.opdKritisAktif.length === 1 && k.opdKritisAktif[0].includes("Pariwisata");
-                                    const onlySatpol = k.opdKritisAktif && k.opdKritisAktif.length === 1 && k.opdKritisAktif[0].includes("Satuan Polisi");
+                              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "6px", paddingTop: "6px", borderTop: "1px dashed #fecdd3", flexWrap: "wrap", gap: "6px" }}>
+                                <div className="triage-opd-preview" style={{ margin: 0 }}>
+                                  OPD Prioritas: {(k.opdKritisAktif && k.opdKritisAktif.length > 0 ? k.opdKritisAktif : k.opdPengampu).join(", ")}
+                                </div>
+                                <button
+                                  className="btn btn-sm"
+                                  style={{
+                                    background: "#ffffff",
+                                    border: "1px solid #fecdd3",
+                                    color: "#be123c",
+                                    fontSize: "10.5px",
+                                    fontWeight: 700,
+                                    padding: "3px 8px",
+                                    borderRadius: "4px",
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: "4px",
+                                    cursor: "pointer"
+                                  }}
+                                  onClick={() => {
+                                    // Jika desa memiliki masalah kritis spesifik di sektor ini, arahkan langsung ke masalah pertama agar presisi
+                                    if (k.masalahKritis && k.masalahKritis.length > 0) {
+                                      const primaryProb = k.masalahKritis[0];
+                                      const mapped = mapProblemToSolution(primaryProb);
+                                      handleApplyProblemSolution({
+                                        ...mapped,
+                                        problemTitle: `${primaryProb} (Sektor ${k.nama})`
+                                      }, `Sektor Kritis ${k.nama}`);
+                                      return;
+                                    }
 
-                                    if (onlyPerpus) {
-                                      targetOpd = "Dinas Kearsipan dan Perpustakaan";
-                                      kw = "perpustakaan";
-                                      bidangBapperida = "Bidang P2M";
-                                      urusan = "Urusan Perpustakaan";
-                                    } else if (onlyOlahraga) {
-                                      targetOpd = "Dinas Pariwisata, Ekonomi Kreatif, Pemuda dan Olahraga";
-                                      kw = "olahraga";
-                                      bidangBapperida = "Bidang PSDAIK";
-                                      urusan = "Urusan Pemuda Dan Olahraga";
-                                    } else if (onlySatpol) {
-                                      targetOpd = "Satuan Polisi Pamong Praja";
-                                      kw = "keamanan";
-                                      bidangBapperida = "Bidang P2M";
-                                      urusan = "Urusan Ketenteraman Dan Ketertiban Umum Serta Perlindungan Masyarakat";
-                                    } else {
-                                      // Utama Sektor Sosial: Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak
+                                    // Fallback cerdas jika makro-kritis tanpa butir indikator
+                                    let targetOpd = "";
+                                    let kw = "";
+                                    let bidangBapperida = "Bidang P2M";
+                                    let urusan = "";
+
+                                    if (k.key === "sosial") {
                                       targetOpd = "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak";
                                       kw = "sosial";
                                       bidangBapperida = "Bidang P2M";
                                       urusan = "";
-                                    }
-                                  } else if (k.key === "layananDasar") {
-                                    const isPendidikan = k.triageReason?.toLowerCase().includes("pendidikan") || k.triageReason?.toLowerCase().includes("sekolah");
-                                    const isUtilitas = k.triageReason?.toLowerCase().includes("air") || k.triageReason?.toLowerCase().includes("rumah") || k.triageReason?.toLowerCase().includes("sanitasi");
-                                    if (isPendidikan) {
-                                      targetOpd = "Dinas Pendidikan dan Kebudayaan";
-                                      kw = "sekolah";
-                                      bidangBapperida = "Bidang P2M";
-                                      urusan = "Urusan Pendidikan";
-                                    } else if (isUtilitas) {
-                                      targetOpd = "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman";
-                                      kw = "air";
-                                      bidangBapperida = "Bidang PSDAIK";
-                                      urusan = "Urusan Pekerjaan Umum Dan Penataan Ruang";
-                                    } else {
+                                    } else if (k.key === "layananDasar") {
                                       targetOpd = "Dinas Kesehatan, Pengendalian Penduduk dan KB";
                                       kw = "kesehatan";
                                       bidangBapperida = "Bidang P2M";
                                       urusan = "Urusan Kesehatan";
-                                    }
-                                  } else if (k.key === "ekonomi") {
-                                    const isUmkm = k.triageReason?.toLowerCase().includes("umkm") || k.triageReason?.toLowerCase().includes("koperasi") || k.triageReason?.toLowerCase().includes("usaha");
-                                    const isPerikanan = k.triageReason?.toLowerCase().includes("ikan") || k.triageReason?.toLowerCase().includes("nelayan") || k.triageReason?.toLowerCase().includes("pesisir");
-                                    const isPasar = k.triageReason?.toLowerCase().includes("pasar");
-                                    if (isUmkm) {
-                                      targetOpd = "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja";
-                                      kw = "usaha";
-                                      bidangBapperida = "Bidang PSDAIK";
-                                      urusan = "Urusan Koperasi, Usaha Kecil, Dan Menengah";
-                                    } else if (isPerikanan) {
-                                      targetOpd = "Dinas Kelautan, Perikanan dan Ketahanan Pangan";
-                                      kw = "perikanan";
-                                      bidangBapperida = "Bidang PSDAIK";
-                                      urusan = "Urusan Kelautan Dan Perikanan";
-                                    } else if (isPasar) {
-                                      targetOpd = "Dinas Perdagangan";
-                                      kw = "pasar";
-                                      bidangBapperida = "Bidang PSDAIK";
-                                      urusan = "Urusan Perdagangan";
-                                    } else {
+                                    } else if (k.key === "ekonomi") {
                                       targetOpd = "Dinas Pertanian";
                                       kw = "pertanian";
                                       bidangBapperida = "Bidang PSDAIK";
                                       urusan = "Urusan Pertanian";
-                                    }
-                                  } else if (k.key === "lingkungan") {
-                                    const isBencana = k.triageReason?.toLowerCase().includes("bencana");
-                                    if (isBencana) {
-                                      targetOpd = "Badan Penanggulangan Bencana Daerah";
-                                      kw = "bencana";
-                                      bidangBapperida = "Bidang PSDAIK";
-                                      urusan = "Urusan Ketenteraman Dan Ketertiban Umum Serta Perlindungan Masyarakat";
-                                    } else {
+                                    } else if (k.key === "lingkungan") {
                                       targetOpd = "Dinas Lingkungan Hidup";
                                       kw = "sampah";
                                       bidangBapperida = "Bidang PSDAIK";
                                       urusan = "Urusan Lingkungan Hidup";
-                                    }
-                                  } else if (k.key === "aksesibilitas") {
-                                    const isDishub = k.triageReason?.toLowerCase().includes("transportasi") || k.triageReason?.toLowerCase().includes("trayek") || k.triageReason?.toLowerCase().includes("penerangan");
-                                    const isKominfotik = k.triageReason?.toLowerCase().includes("internet") || k.triageReason?.toLowerCase().includes("sinyal") || k.triageReason?.toLowerCase().includes("komunikasi");
-                                    if (isDishub) {
-                                      targetOpd = "Dinas Perhubungan";
-                                      kw = "transportasi";
-                                      bidangBapperida = "Bidang PSDAIK";
-                                      urusan = "Urusan Perhubungan";
-                                    } else if (isKominfotik) {
-                                      targetOpd = "Dinas Komunikasi, Informatika dan Statistik";
-                                      kw = "komunikasi";
-                                      bidangBapperida = "Bidang RIDA";
-                                      urusan = "Urusan Komunikasi Dan Informasi";
-                                    } else {
+                                    } else if (k.key === "aksesibilitas") {
                                       targetOpd = "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman";
                                       kw = "jalan";
                                       bidangBapperida = "Bidang PSDAIK";
                                       urusan = "Urusan Pekerjaan Umum Dan Penataan Ruang";
+                                    } else if (k.key === "tataKelola") {
+                                      targetOpd = "Dinas Pemberdayaan Masyarakat dan Desa";
+                                      kw = "desa";
+                                      bidangBapperida = "Bidang P2M";
+                                      urusan = "Urusan Pemberdayaan Masyarakat Dan Desa";
+                                    } else {
+                                      const opds = k.opdKritisAktif && k.opdKritisAktif.length > 0 ? k.opdKritisAktif : k.opdPengampu;
+                                      targetOpd = opds[0];
                                     }
-                                  } else if (k.key === "tataKelola") {
-                                    targetOpd = "Dinas Pemberdayaan Masyarakat dan Desa";
-                                    kw = "desa";
-                                    bidangBapperida = "Bidang P2M";
-                                    urusan = "Urusan Pemberdayaan Masyarakat Dan Desa";
-                                  } else {
-                                    const opds = k.opdKritisAktif && k.opdKritisAktif.length > 0 ? k.opdKritisAktif : k.opdPengampu;
-                                    targetOpd = opds[0];
-                                  }
 
-                                  handleApplyProblemSolution({
-                                    problemTitle: `Sektor Kritis: ${k.nama} (${activeDesaObj.nama})`,
-                                    opd: targetOpd,
-                                    bidangBapperida: bidangBapperida,
-                                    urusan: urusan || undefined,
-                                    keyword: kw,
-                                    rekomendasi: `Intervensi Terpadu Sektor ${k.nama}`
-                                  }, `Sektor Kritis ${k.nama}`);
-                                }}
-                              >
-                                <Sparkles size={11} /> Buka Solusi Sektor {k.nama} ➔
-                              </button>
+                                    handleApplyProblemSolution({
+                                      problemTitle: `Sektor Kritis: ${k.nama} (${activeDesaObj.nama})`,
+                                      opd: targetOpd,
+                                      bidangBapperida: bidangBapperida,
+                                      urusan: urusan || undefined,
+                                      keyword: kw,
+                                      rekomendasi: `Intervensi Terpadu Sektor ${k.nama}`
+                                    }, `Sektor Kritis ${k.nama}`);
+                                  }}
+                                >
+                                  <Sparkles size={11} /> Buka Solusi Sektor {k.nama} ➔
+                                </button>
+                              </div>
                             </div>
                             <span style={{ fontWeight: 800, color: "#e11d48", fontSize: "12px", marginLeft: "6px" }}>
                               {k.persen}%
@@ -2062,6 +2062,7 @@ export default function App() {
               {/* BANNER FOKUS MASALAH DESA TERPILIH (PROBLEM-TO-PROGRAM ENGINE) */}
               {activeProblemFocus && (
                 <div
+                  id="active-problem-focus-banner"
                   style={{
                     background: "linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)",
                     border: "1px solid #93c5fd",
@@ -2247,7 +2248,7 @@ export default function App() {
                   </div>
                 </div>
               ) : viewMode === "table" ? (
-                <div className="gov-table-card">
+                <div className="gov-table-card" id="kamus-table-container">
                   {/* Petunjuk Geser Horizontal */}
                   <div
                     style={{
@@ -2370,13 +2371,56 @@ export default function App() {
                                 <td className="td-text-col">{item.kegiatan}</td>
                                 <td className="td-text-col">{item.subKegiatan}</td>
                                 <td className="td-kegiatan">
-                                  <div style={{ color: "var(--slate-900)" }}>{item.usulanKegiatan}</div>
+                                  {activeProblemFocus && (
+                                    <div style={{
+                                      display: "inline-flex",
+                                      alignItems: "center",
+                                      gap: "4px",
+                                      background: "#eff6ff",
+                                      border: "1px solid #bfdbfe",
+                                      borderRadius: "4px",
+                                      padding: "2px 7px",
+                                      marginBottom: "5px",
+                                      fontSize: "10.5px",
+                                      color: "#1d4ed8",
+                                      fontWeight: 800
+                                    }}>
+                                      <Sparkles size={11} /> Program Solusi Masalah {activeDesaObj.nama}
+                                    </div>
+                                  )}
+                                  <div style={{ color: "var(--slate-900)", fontWeight: 700 }}>{item.usulanKegiatan}</div>
                                   <span className="card-item-code" style={{ marginTop: "4px", display: "inline-block" }}>
                                     #{item.id}
                                   </span>
                                 </td>
                                 <td className="td-masalah">
-                                  {item.usulanPermasalahan}
+                                  {activeProblemFocus && (
+                                    <div style={{
+                                      background: "#fff1f2",
+                                      border: "1px solid #fecdd3",
+                                      borderRadius: "6px",
+                                      padding: "6px 9px",
+                                      marginBottom: "7px",
+                                      fontSize: "11px",
+                                      color: "#9f1239",
+                                      lineHeight: 1.4
+                                    }}>
+                                      <div style={{ fontSize: "10px", fontWeight: 800, textTransform: "uppercase", color: "#e11d48", letterSpacing: "0.4px" }}>
+                                        🔴 Masalah Kritis Riil ({activeDesaObj.tipe} {activeDesaObj.nama}):
+                                      </div>
+                                      <div style={{ fontWeight: 800, marginTop: "2px", color: "#881337" }}>
+                                        "{activeProblemFocus.title}"
+                                      </div>
+                                    </div>
+                                  )}
+                                  <div style={{ fontSize: "11.5px", color: "var(--slate-700)" }}>
+                                    {activeProblemFocus && (
+                                      <div style={{ fontSize: "10px", color: "#64748b", fontWeight: 700, marginBottom: "2px" }}>
+                                        Uraian Masalah Dokumen RKPD:
+                                      </div>
+                                    )}
+                                    {item.usulanPermasalahan}
+                                  </div>
                                 </td>
                                 <td>
                                   <span className="badge badge-syarat">
