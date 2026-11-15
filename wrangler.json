@@ -6,5 +6,12 @@
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS"
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kamus-usulan-db",
+      "database_id": "5a913392-aa79-4b83-a42d-2f0be734213a"
+    }
+  ]
 }
