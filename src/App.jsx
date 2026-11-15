@@ -43,8 +43,14 @@ import {
   Navigation,
   Mail,
   Globe,
-  ArrowRight
+  ArrowRight,
+  FileSpreadsheet,
+  FileText,
+  Printer
 } from "lucide-react";
+import * as XLSX from "xlsx";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
 import rawKamusData from "./data/kamusData.json";
 import {
   PATJU_STATISTIK_KABUPATEN,
@@ -804,43 +810,372 @@ export default function App() {
     setAuditLogs(getSecurityAuditLogs());
   };
 
-  // Fungsi Ekspor Daftar Usulan Desa ke CSV (Bisa dibuka di Excel)
+  // Fungsi Ekspor Kertas Kerja Pre-SIPD ke Microsoft Excel (.xlsx) Resmi SIPD-RI
+  const handleExportExcel = () => {
+    if (savedUsulanDesa.length === 0) {
+      showToast("Belum ada usulan yang dipilih untuk diekspor ke Kertas Kerja SIPD.");
+      return;
+    }
+
+    try {
+      const wb = XLSX.utils.book_new();
+      const tglCetak = new Date().toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      });
+
+      // Data Baris Kertas Kerja Resmi Pre-SIPD Kemendagri / Bapperida Lobar
+      const wsData = [
+        ["PEMERINTAH KABUPATEN LOMBOK BARAT"],
+        ["BADAN PERENCANAAN PEMBANGUNAN DAERAH (BAPPERIDA)"],
+        ["KERTAS KERJA USULAN ASPIRASI MASYARAKAT DESA / KELURAHAN (PRE-SIPD)"],
+        [`RENCANA KERJA PEMERINTAH DAERAH (RKPD) TAHUN ANGGARAN ${selectedYear}`],
+        [`Wilayah Pengusul: ${activeDesaPengusul} | Tanggal Cetak: ${tglCetak} | Total: ${savedUsulanDesa.length} Usulan`],
+        [], // Baris kosong pemisah
+        [
+          "NO",
+          "ID PRE-SIPD",
+          "TAHUN",
+          "DESA / KELURAHAN PENGUSUL",
+          "PERANGKAT DAERAH (OPD) PENGAMPU",
+          "BIDANG URUSAN",
+          "PROGRAM SIPD",
+          "KEGIATAN SIPD",
+          "SUB KEGIATAN SIPD",
+          "USULAN KEGIATAN RIIL (KAMUS USULAN)",
+          "URAIAN PERMASALAHAN / MASALAH LAPANGAN",
+          "SASARAN PENERIMA MANFAAT",
+          "LOKASI DETAIL / DUSUN",
+          "VOLUME / SATUAN",
+          "KESESUAIAN 9 AKSI PRIORITAS",
+          "56 INTERVENSI PRIORITAS",
+          "KATEGORI KEMUDAHAN",
+          "PIC BIDANG BAPPERIDA (SOTK)",
+          "STATUS PRE-SIPD"
+        ]
+      ];
+
+      savedUsulanDesa.forEach((u, idx) => {
+        wsData.push([
+          idx + 1,
+          `#${u.id}`,
+          u.tahun || selectedYear,
+          u.desaPengusul || activeDesaPengusul,
+          u.opd,
+          u.urusan || "-",
+          u.program || "-",
+          u.kegiatan || "-",
+          u.subKegiatan || "-",
+          u.usulanKegiatan,
+          u.usulanPermasalahan,
+          u.sasaranPenerima || "-",
+          u.lokasiDusun || "Dusun Prioritas Desa",
+          u.volume ? `${u.volume} ${u.satuan || ''}` : "1 Paket",
+          u.aksiPrioritas || "-",
+          u.intervensiPrioritas || "-",
+          u.kategoriMudah || "-",
+          u.bidangBapperida || u.bidang || "-",
+          "Siap Input SIPD-RI"
+        ]);
+      });
+
+      // Ringkasan dan Lembar Pengesahan Musrenbang Desa Pre-SIPD
+      wsData.push([]);
+      wsData.push(["", "TOTAL USULAN DESA", `${savedUsulanDesa.length} Usulan Terverifikasi Pre-SIPD`]);
+      wsData.push([]);
+      wsData.push([
+        "",
+        "Mengetahui,",
+        "",
+        "",
+        "Mengetahui,",
+        "",
+        "",
+        "",
+        "",
+        `Lombok Barat, ${tglCetak}`
+      ]);
+      wsData.push([
+        "",
+        "Kepala Desa / Lurah Pengusul",
+        "",
+        "",
+        "Camat Setempat",
+        "",
+        "",
+        "",
+        "",
+        "Tim Fasilitator Pre-SIPD Bapperida"
+      ]);
+      wsData.push([]);
+      wsData.push([]);
+      wsData.push([]);
+      wsData.push([
+        "",
+        `( ${activeDesaPengusul.split(" (")[0]} )`,
+        "",
+        "",
+        "( ........................................... )",
+        "",
+        "",
+        "",
+        "",
+        "( Tim Verifikator Bapperida Kab. Lobar )"
+      ]);
+
+      const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+      // Lebar Kolom Presisi
+      ws["!cols"] = [
+        { wch: 5 },   // No
+        { wch: 14 },  // ID Pre-SIPD
+        { wch: 8 },   // Tahun
+        { wch: 28 },  // Desa Pengusul
+        { wch: 38 },  // OPD
+        { wch: 32 },  // Urusan
+        { wch: 32 },  // Program
+        { wch: 32 },  // Kegiatan
+        { wch: 35 },  // Sub Kegiatan
+        { wch: 40 },  // Usulan Kegiatan
+        { wch: 45 },  // Permasalahan
+        { wch: 25 },  // Sasaran
+        { wch: 25 },  // Lokasi
+        { wch: 15 },  // Volume
+        { wch: 28 },  // 9 Aksi
+        { wch: 32 },  // 56 Intervensi
+        { wch: 18 },  // Kategori
+        { wch: 20 },  // PIC Bapperida
+        { wch: 20 }   // Status Pre-SIPD
+      ];
+
+      XLSX.utils.book_append_sheet(wb, ws, "KERTAS KERJA PRE-SIPD");
+      const cleanDesaName = activeDesaPengusul.replace(/[^a-zA-Z0-9]/g, "_").slice(0, 30);
+      XLSX.writeFile(wb, `Kertas_Kerja_PreSIPD_${cleanDesaName}_RKPD_${selectedYear}.xlsx`);
+      showToast("Kertas Kerja Pre-SIPD format Excel (.xlsx) resmi berhasil diunduh!");
+    } catch (err) {
+      console.error("Export Excel error:", err);
+      showToast("Terjadi kendala saat membuat file Excel: " + err.message);
+    }
+  };
+
+  // Fungsi Ekspor Berita Acara & Kertas Kerja Pre-SIPD Resmi ke PDF
+  const handleExportPDF = () => {
+    if (savedUsulanDesa.length === 0) {
+      showToast("Belum ada usulan yang dipilih untuk dicetak ke PDF.");
+      return;
+    }
+
+    try {
+      const doc = new jsPDF({
+        orientation: "landscape",
+        unit: "mm",
+        format: "a4"
+      });
+
+      const tglCetak = new Date().toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      });
+
+      // Header Kop Resmi Pemerintah Kabupaten Lombok Barat
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(13);
+      doc.setTextColor(10, 37, 64); // Gov Navy
+      doc.text("PEMERINTAH KABUPATEN LOMBOK BARAT", 148.5, 12, { align: "center" });
+
+      doc.setFontSize(11);
+      doc.setTextColor(0, 112, 184); // Gov Blue
+      doc.text("BADAN PERENCANAAN PEMBANGUNAN DAERAH (BAPPERIDA)", 148.5, 17, { align: "center" });
+
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8.5);
+      doc.setTextColor(100, 116, 139);
+      doc.text("Gedung Graha Giri Menang, Jl. Soekarno-Hatta Giri Menang, Gerung • www.bappeda.lombokbaratkab.go.id", 148.5, 21.5, { align: "center" });
+
+      // Garis Pembatas Kop Surat
+      doc.setDrawColor(10, 37, 64);
+      doc.setLineWidth(0.8);
+      doc.line(14, 23.5, 283, 23.5);
+      doc.setLineWidth(0.2);
+      doc.line(14, 24.3, 283, 24.3);
+
+      // Judul Kertas Kerja
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(11);
+      doc.setTextColor(15, 23, 42);
+      doc.text(`KERTAS KERJA USULAN ASPIRASI MASYARAKAT (PRE-SIPD RKPD ${selectedYear})`, 148.5, 30, { align: "center" });
+
+      // Metadata Info Box
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9);
+      doc.setTextColor(51, 65, 85);
+      doc.text(`Desa / Kelurahan Pengusul : ${activeDesaPengusul}`, 14, 36);
+      doc.text(`Tahun Anggaran RKPD      : ${selectedYear}`, 14, 40.5);
+      doc.text(`Tanggal Verifikasi Dokumen : ${tglCetak}`, 200, 36);
+      doc.text(`Jumlah Usulan Terverifikasi: ${savedUsulanDesa.length} Usulan Prioritas`, 200, 40.5);
+
+      // Siapkan Kolom Tabel untuk jsPDF AutoTable
+      const tableHeaders = [
+        [
+          "No",
+          "OPD Pengampu",
+          "Bidang Urusan",
+          "Usulan Kegiatan Riil",
+          "Permasalahan Lapangan",
+          "Nomenklatur SIPD (Sub Kegiatan)",
+          "Sasaran & Lokasi",
+          "PIC Bapperida"
+        ]
+      ];
+
+      const tableRows = savedUsulanDesa.map((u, idx) => [
+        idx + 1,
+        u.opd,
+        u.urusan || "-",
+        u.usulanKegiatan,
+        u.usulanPermasalahan,
+        u.subKegiatan || u.kegiatan || "-",
+        `${u.sasaranPenerima || '-'}\n(Lokasi: ${u.lokasiDusun || 'Dusun Prioritas'})`,
+        u.bidangBapperida || u.bidang || "-"
+      ]);
+
+      autoTable(doc, {
+        head: tableHeaders,
+        body: tableRows,
+        startY: 44,
+        margin: { left: 14, right: 14 },
+        styles: {
+          fontSize: 7.5,
+          cellPadding: 2.2,
+          valign: "middle",
+          overflow: "linebreak",
+          lineColor: [226, 232, 240],
+          lineWidth: 0.1
+        },
+        headStyles: {
+          fillColor: [10, 37, 64], // Gov Navy
+          textColor: [255, 255, 255],
+          fontStyle: "bold",
+          fontSize: 8,
+          halign: "center"
+        },
+        columnStyles: {
+          0: { cellWidth: 8, halign: "center" },  // No
+          1: { cellWidth: 38 },                   // OPD
+          2: { cellWidth: 32 },                   // Urusan
+          3: { cellWidth: 44, fontStyle: "bold" },// Usulan
+          4: { cellWidth: 46 },                   // Masalah
+          5: { cellWidth: 42 },                   // Sub Kegiatan SIPD
+          6: { cellWidth: 35 },                   // Sasaran & Lokasi
+          7: { cellWidth: 24, halign: "center" }  // PIC Bapperida
+        },
+        alternateRowStyles: {
+          fillColor: [248, 250, 252]
+        },
+        didDrawPage: (data) => {
+          // Footer Nomor Halaman
+          doc.setFontSize(7.5);
+          doc.setTextColor(148, 163, 184);
+          doc.text(
+            `Kertas Kerja Pre-SIPD Bapperida Lombok Barat • Halaman ${data.pageNumber}`,
+            14,
+            202
+          );
+          doc.text(
+            "Dokumen ini merupakan Kertas Kerja resmi pra-input ke SIPD-RI Kemendagri",
+            283,
+            202,
+            { align: "right" }
+          );
+        }
+      });
+
+      // Posisi Lembar Pengesahan Tanda Tangan setelah tabel
+      let finalY = doc.lastAutoTable.finalY + 8;
+      if (finalY > 165) {
+        doc.addPage();
+        finalY = 20;
+      }
+
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8.5);
+      doc.setTextColor(15, 23, 42);
+
+      const colLeft = 25;
+      const colCenter = 120;
+      const colRight = 215;
+
+      doc.text("Mengetahui,", colLeft, finalY);
+      doc.text("Kepala Desa / Lurah Pengusul", colLeft, finalY + 4);
+
+      doc.text("Mengetahui,", colCenter, finalY);
+      doc.text("Camat Setempat", colCenter, finalY + 4);
+
+      doc.text(`Lombok Barat, ${tglCetak}`, colRight, finalY);
+      doc.text("Tim Fasilitator Pre-SIPD Bapperida", colRight, finalY + 4);
+
+      doc.text(`( ${activeDesaPengusul.split(" (")[0]} )`, colLeft, finalY + 24);
+      doc.text("( .................................................. )", colCenter, finalY + 24);
+      doc.text("( Tim Verifikator Pre-SIPD Lobar )", colRight, finalY + 24);
+
+      const cleanDesaName = activeDesaPengusul.replace(/[^a-zA-Z0-9]/g, "_").slice(0, 30);
+      doc.save(`Kertas_Kerja_PreSIPD_${cleanDesaName}_RKPD_${selectedYear}.pdf`);
+      showToast("Kertas Kerja Pre-SIPD format PDF resmi berhasil diunduh!");
+    } catch (err) {
+      console.error("Export PDF error:", err);
+      showToast("Terjadi kendala saat membuat file PDF: " + err.message);
+    }
+  };
+
+  // Fungsi Ekspor Daftar Usulan Desa ke CSV (Format SIPD-RI)
   const handleExportCSV = () => {
     if (savedUsulanDesa.length === 0) {
       showToast("Belum ada usulan yang dipilih untuk diekspor.");
       return;
     }
     const headers = [
-      "ID Kamus",
-      "Tahun",
+      "No",
+      "ID Pre-SIPD",
+      "Tahun RKPD",
       "Desa/Kelurahan Pengusul",
-      "OPD Tujuan",
+      "Perangkat Daerah (OPD)",
       "Bidang Urusan",
       "PIC Bidang Bapperida",
-      "Kategori",
+      "Program SIPD",
+      "Kegiatan SIPD",
+      "Sub Kegiatan SIPD",
       "Usulan Kegiatan Riil",
-      "Permasalahan Desa",
-      "Syarat / Sasaran Penerima",
-      "Program",
-      "Kegiatan",
-      "Sub Kegiatan",
-      "Aksi Prioritas"
+      "Uraian Permasalahan Lapangan",
+      "Sasaran Penerima Manfaat",
+      "Lokasi Dusun",
+      "Volume/Satuan",
+      "9 Aksi Prioritas",
+      "56 Intervensi Prioritas",
+      "Kategori Kemudahan",
+      "Status Pre-SIPD"
     ];
-    const rows = savedUsulanDesa.map((u) => [
-      u.id,
-      u.tahun,
-      u.desaPengusul,
+    const rows = savedUsulanDesa.map((u, idx) => [
+      idx + 1,
+      `#${u.id}`,
+      u.tahun || selectedYear,
+      u.desaPengusul || activeDesaPengusul,
       u.opd,
       u.urusan || "-",
       u.bidangBapperida || u.bidang || "-",
-      u.kategoriMudah,
+      u.program || "-",
+      u.kegiatan || "-",
+      u.subKegiatan || "-",
       u.usulanKegiatan,
       u.usulanPermasalahan,
-      u.sasaranPenerima,
-      u.program,
-      u.kegiatan,
-      u.subKegiatan,
-      u.aksiPrioritas
+      u.sasaranPenerima || "-",
+      u.lokasiDusun || "Dusun Prioritas",
+      u.volume ? `${u.volume} ${u.satuan || ''}` : "1 Paket",
+      u.aksiPrioritas || "-",
+      u.intervensiPrioritas || "-",
+      u.kategoriMudah || "-",
+      "Siap Input SIPD-RI"
     ]);
     const csvContent =
       "\uFEFF" +
@@ -854,10 +1189,11 @@ export default function App() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `Usulan_Desa_Bapperida_Lobar_${selectedYear}.csv`;
+    const cleanDesaName = activeDesaPengusul.replace(/[^a-zA-Z0-9]/g, "_").slice(0, 30);
+    a.download = `Kertas_Kerja_PreSIPD_${cleanDesaName}_RKPD_${selectedYear}.csv`;
     a.click();
     URL.revokeObjectURL(url);
-    showToast("File CSV Excel berhasil diunduh!");
+    showToast("File Kertas Kerja Pre-SIPD (CSV) berhasil diunduh!");
   };
 
   // Fungsi Backup Semua Data LocalStorage ke JSON
@@ -991,18 +1327,6 @@ export default function App() {
                 className="header-year-chevron"
               />
             </div>
-
-            {/* Tombol Input Usulan Baru (Gold Theme CTA - Sejajar Presisi) */}
-            <button
-              className="btn btn-gold btn-header-cta"
-              onClick={() => {
-                setNewKamusForm((prev) => ({ ...prev, tahun: selectedYear }));
-                setShowAddModal(true);
-              }}
-            >
-              <Plus size={14} strokeWidth={2.5} />
-              <span>Input Usulan</span>
-            </button>
           </div>
         </div>
       </header>
@@ -3720,15 +4044,20 @@ export default function App() {
         {activeTab === "usulanku" && (
           <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
             <div className="desktop-helper-banner">
-              <strong style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
-                <Bookmark size={16} color="var(--gov-navy-700)" /> Keranjang Usulan Prioritas Desa Anda (Tersimpan di LocalStorage):
-              </strong>
-              <p style={{ marginTop: "4px" }}>
-                Usulan yang telah Anda pilih dapat ditinjau kembali, dikonfirmasi pagunya, lalu diekspor langsung ke berkas Excel (CSV) untuk dilampirkan dalam berita acara Musdes atau Musrenbang Kecamatan.
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px" }}>
+                <strong style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "14px" }}>
+                  <Bookmark size={17} color="var(--gov-navy-700)" /> Keranjang Usulan Prioritas Desa • Modul Pre-SIPD RI:
+                </strong>
+                <span style={{ background: "#dbeafe", color: "#1e40af", padding: "2px 8px", borderRadius: "12px", fontSize: "11px", fontWeight: 800 }}>
+                  🏛️ Standar Kertas Kerja SIPD Kemendagri RI
+                </span>
+              </div>
+              <p style={{ marginTop: "6px", fontSize: "12.5px", color: "var(--slate-600)" }}>
+                Kelola usulan aspirasi masyarakat desa Anda untuk RKPD Tahun {selectedYear}. Seluruh usulan yang dipilih siap diekspor ke Kertas Kerja resmi format Excel (.xlsx) dan PDF Berita Acara Pre-SIPD sebelum diinput ke aplikasi resmi SIPD-RI.
               </p>
             </div>
 
-            {/* Panel Pengaturan Desa Pengusul & Ekspor */}
+            {/* Panel Pengaturan Desa Pengusul & Kelompok Aksi (Input Usulan + Export) Sejajar */}
             <div
               style={{
                 background: "var(--pure-white)",
@@ -3743,11 +4072,12 @@ export default function App() {
                 flexWrap: "wrap"
               }}
             >
-              <div style={{ flex: 1, minWidth: "300px" }}>
-                <label className="filter-label">
-                  Wilayah Desa / Kelurahan Pengusul Aktif (Pilih Kecamatan → Baru Pilih Desa):
+              {/* Sisi Kiri: Wilayah Desa Pengusul */}
+              <div style={{ flex: "1 1 320px", minWidth: "280px" }}>
+                <label className="filter-label" style={{ fontWeight: 800, color: "var(--gov-navy-900)" }}>
+                  🏛️ Wilayah Pengusul Usulan Desa (Pre-SIPD):
                 </label>
-                <div style={{ display: "flex", gap: "8px", marginTop: "4px" }}>
+                <div style={{ display: "flex", gap: "8px", marginTop: "5px" }}>
                   <select
                     className="form-select"
                     style={{ width: "38%" }}
@@ -3788,30 +4118,80 @@ export default function App() {
                 </div>
               </div>
 
-              <div style={{ display: "flex", gap: "10px" }}>
-                <button className="btn btn-primary" onClick={handleExportCSV}>
-                  <Download size={15} /> Unduh Format Excel (CSV)
-                </button>
+              {/* Sisi Kanan: Aksi Sejajar: Input Usulan Baru + Ekspor Excel Kertas Kerja SIPD + Cetak PDF + CSV + WA */}
+              <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
+                {/* 1. Tombol Input Usulan Baru (Pindah dari Navbar Header ke sini) */}
                 <button
-                  className="btn btn-secondary"
+                  className="btn btn-gold"
+                  style={{ fontWeight: 800, padding: "8px 14px", display: "inline-flex", alignItems: "center", gap: "6px" }}
+                  onClick={() => {
+                    setNewKamusForm((prev) => ({ ...prev, tahun: selectedYear }));
+                    setShowAddModal(true);
+                  }}
+                  title="Tambah usulan kegiatan baru ke kamus usulan desa"
+                >
+                  <Plus size={16} strokeWidth={2.5} />
+                  <span>+ Input Usulan Baru</span>
+                </button>
+
+                {/* 2. Tombol Ekspor Excel (.xlsx) Kertas Kerja Resmi SIPD */}
+                <button
+                  className="btn btn-success"
+                  style={{ fontWeight: 700, padding: "8px 14px", display: "inline-flex", alignItems: "center", gap: "6px" }}
+                  onClick={handleExportExcel}
+                  title="Unduh Kertas Kerja Pre-SIPD format Microsoft Excel (.xlsx) resmi"
+                >
+                  <FileSpreadsheet size={16} />
+                  <span>Ekspor Excel (.xlsx) SIPD</span>
+                </button>
+
+                {/* 3. Tombol Cetak / PDF Resmi Pre-SIPD */}
+                <button
+                  className="btn btn-primary"
+                  style={{ fontWeight: 700, padding: "8px 14px", display: "inline-flex", alignItems: "center", gap: "6px" }}
+                  onClick={handleExportPDF}
+                  title="Cetak Berita Acara & Kertas Kerja Pre-SIPD format PDF"
+                >
+                  <Printer size={16} />
+                  <span>Cetak PDF Pre-SIPD</span>
+                </button>
+
+                {/* 4. Tombol Unduh CSV */}
+                <button
+                  className="btn btn-secondary btn-sm"
+                  onClick={handleExportCSV}
+                  title="Unduh data mentah format CSV"
+                  style={{ padding: "8px 10px", display: "inline-flex", alignItems: "center", gap: "4px" }}
+                >
+                  <Download size={14} />
+                  <span>CSV</span>
+                </button>
+
+                {/* 5. Tombol Salin ke WhatsApp */}
+                <button
+                  className="btn btn-secondary btn-sm"
+                  style={{ padding: "8px 10px", display: "inline-flex", alignItems: "center", gap: "4px" }}
                   onClick={() => {
                     if (savedUsulanDesa.length === 0) {
                       showToast("Belum ada usulan yang dipilih untuk dibagikan.");
                       return;
                     }
                     const text =
-                      `*DAFTAR USULAN MUSRENBANG / SDD*\n*${activeDesaPengusul}*\n\n` +
+                      `*DAFTAR KERTAS KERJA PRE-SIPD DESA*\n*${activeDesaPengusul}*\n*Tahun RKPD: ${selectedYear}*\n\n` +
                       savedUsulanDesa
                         .map(
                           (u, i) =>
-                            `${i + 1}. [${u.tahun}] *${u.usulanKegiatan}* (${u.opd}) - Syarat: ${u.sasaranPenerima}`
+                            `${i + 1}. [${u.opd}] *${u.usulanKegiatan}*\n   • Program: ${u.program || '-'}\n   • Sub Kegiatan: ${u.subKegiatan || '-'}\n   • Permasalahan: ${u.usulanPermasalahan}\n   • Sasaran/Lokasi: ${u.sasaranPenerima} (${u.lokasiDusun || 'Dusun Prioritas'})\n   • PIC Bapperida: ${u.bidangBapperida || u.bidang || '-'}`
                         )
-                        .join("\n");
+                        .join("\n\n") +
+                      `\n\n_Dokumen Kertas Kerja Pre-SIPD Bapperida Lombok Barat_`;
                     navigator.clipboard?.writeText(text);
-                    showToast("Ringkasan berhasil disalin! Siap ditempel ke WhatsApp.");
+                    showToast("Ringkasan Kertas Kerja berhasil disalin! Siap ditempel ke WhatsApp.");
                   }}
+                  title="Salin ringkasan usulan ke WhatsApp"
                 >
-                  <Share2 size={15} /> Salin ke WhatsApp
+                  <Share2 size={14} />
+                  <span>WhatsApp</span>
                 </button>
               </div>
             </div>
