@@ -792,6 +792,15 @@ export default function App() {
           {/* Desktop Nav Tabs with Material Icons */}
           <nav className="desktop-nav-tabs">
             <button
+              className={`desktop-tab-btn ${activeTab === "patju" ? "active" : ""}`}
+              onClick={() => setActiveTab("patju")}
+            >
+              <Target size={16} />
+              <span>Sinergi PATJU 360</span>
+              <span className="tab-badge-pill">P3KE</span>
+            </button>
+
+            <button
               className={`desktop-tab-btn ${activeTab === "kamus" ? "active" : ""}`}
               onClick={() => setActiveTab("kamus")}
             >
@@ -805,15 +814,6 @@ export default function App() {
             >
               <MapPin size={16} />
               <span>Rumusan Indeks Desa</span>
-            </button>
-
-            <button
-              className={`desktop-tab-btn ${activeTab === "patju" ? "active" : ""}`}
-              onClick={() => setActiveTab("patju")}
-            >
-              <Target size={16} />
-              <span>Sinergi PATJU 360</span>
-              <span className="tab-badge-pill">P3KE</span>
             </button>
 
             <button
