@@ -2430,19 +2430,47 @@ export default function App() {
             )}
 
             <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-              {/* Pilihan Tahun Perencanaan */}
+              {/* Pilihan Tahun Perencanaan (Satu-satunya tempat pemilihan tahun) */}
               <div>
-                <label className="filter-label" style={{ fontWeight: 800 }}>Tahun Perencanaan RKPD:</label>
-                <select
-                  className="form-select"
-                  style={{ height: "42px", fontWeight: 700, color: "var(--gov-navy-900)" }}
-                  value={loginForm.tahun}
-                  onChange={(e) => setLoginForm({ ...loginForm, tahun: e.target.value })}
-                >
-                  <option value="2027">📅 RKPD Tahun 2027 (Prioritas Musrenbang)</option>
-                  <option value="2028">📅 RKPD Tahun 2028</option>
-                  <option value="2029">📅 RKPD Tahun 2029 (Perencanaan Jangka Panjang)</option>
-                </select>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <label className="filter-label" style={{ fontWeight: 800, marginBottom: "2px" }}>
+                    Tahun Perencanaan RKPD:
+                  </label>
+                  <span style={{ fontSize: "11px", color: "var(--gov-navy-700)", fontWeight: 700 }}>
+                    🔒 Terkunci saat sesi aktif
+                  </span>
+                </div>
+                <div style={{ position: "relative", width: "100%", marginTop: "4px" }}>
+                  <Calendar
+                    size={16}
+                    color="var(--slate-400)"
+                    style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", pointerEvents: "none", zIndex: 2 }}
+                  />
+                  <select
+                    className="form-select search-input-centered"
+                    style={{
+                      height: "44px",
+                      width: "100%",
+                      fontWeight: 700,
+                      color: "var(--gov-navy-900)",
+                      textAlign: "center",
+                      textAlignLast: "center",
+                      paddingLeft: "38px",
+                      paddingRight: "38px",
+                      borderRadius: "8px",
+                      border: "1.5px solid var(--slate-300)",
+                      background: "#ffffff",
+                      fontSize: "13px",
+                      cursor: "pointer"
+                    }}
+                    value={loginForm.tahun}
+                    onChange={(e) => setLoginForm({ ...loginForm, tahun: e.target.value })}
+                  >
+                    <option value="2027">📅 RKPD Tahun 2027 (Prioritas Musrenbang)</option>
+                    <option value="2028">📅 RKPD Tahun 2028</option>
+                    <option value="2029">📅 RKPD Tahun 2029 (Perencanaan Jangka Panjang)</option>
+                  </select>
+                </div>
               </div>
 
               {/* Pilihan Peran / Role */}
@@ -2514,21 +2542,36 @@ export default function App() {
                 )}
               </div>
 
-              {/* Username Input */}
+              {/* Username Input (Teks di Center & Icon di Dalam) */}
               <div>
                 <label className="filter-label" style={{ fontWeight: 800 }}>Username / NIP Pengguna:</label>
-                <div className="search-bar-inner">
-                  <User size={16} className="search-icon" color="var(--slate-400)" />
+                <div style={{ position: "relative", width: "100%", marginTop: "4px" }}>
+                  <User
+                    size={16}
+                    color="var(--slate-400)"
+                    style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", pointerEvents: "none", zIndex: 2 }}
+                  />
                   <input
                     type="text"
-                    className="search-input"
-                    style={{ height: "42px", paddingLeft: "36px" }}
+                    className="form-input search-input-centered"
+                    style={{
+                      height: "44px",
+                      width: "100%",
+                      paddingLeft: "38px",
+                      paddingRight: "38px",
+                      textAlign: "center",
+                      borderRadius: "8px",
+                      border: "1.5px solid var(--slate-300)",
+                      background: "#ffffff",
+                      fontSize: "13px",
+                      fontWeight: 500
+                    }}
                     placeholder={
                       loginForm.role === "Super Admin"
                         ? "Contoh: admin.bapperida"
                         : loginForm.role === "Verifikator"
-                        ? "Contoh: verif.pertanian, verif.pupr, verif.dikes..."
-                        : "Contoh: op.kebonayu, op.kuripan, op.dasangeres..."
+                        ? "Contoh: verif.pertanian, verif.pupr..."
+                        : "Contoh: op.kebonayu, op.kuripan..."
                     }
                     value={loginForm.username}
                     onChange={(e) => setLoginForm({ ...loginForm, username: e.target.value })}
@@ -2536,30 +2579,58 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Password Input */}
+              {/* Password Input (Teks di Center & Icon di Dalam) */}
               <div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <label className="filter-label" style={{ fontWeight: 800, marginBottom: 0 }}>Kata Sandi (Password):</label>
                   <span
-                    style={{ fontSize: "11px", color: "var(--gov-navy-700)", cursor: "pointer" }}
+                    style={{ fontSize: "11px", color: "var(--gov-navy-700)", cursor: "pointer", fontWeight: 600 }}
                     onClick={() => showToast("Hubungi Super Admin Bapperida untuk reset kata sandi.")}
                   >
                     Lupa Password?
                   </span>
                 </div>
-                <div style={{ position: "relative", marginTop: "4px" }}>
-                  <Lock size={16} style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: "var(--slate-400)" }} />
+                <div style={{ position: "relative", width: "100%", marginTop: "4px" }}>
+                  <Lock
+                    size={16}
+                    color="var(--slate-400)"
+                    style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", pointerEvents: "none", zIndex: 2 }}
+                  />
                   <input
                     type={showPassword ? "text" : "password"}
-                    className="form-input"
-                    style={{ height: "42px", paddingLeft: "36px", paddingRight: "36px" }}
+                    className="form-input search-input-centered"
+                    style={{
+                      height: "44px",
+                      width: "100%",
+                      paddingLeft: "38px",
+                      paddingRight: "38px",
+                      textAlign: "center",
+                      borderRadius: "8px",
+                      border: "1.5px solid var(--slate-300)",
+                      background: "#ffffff",
+                      fontSize: "13px"
+                    }}
                     placeholder="Masukkan kata sandi..."
                     value={loginForm.password}
                     onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
                   />
                   <button
                     type="button"
-                    style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "var(--slate-400)", padding: 0 }}
+                    title={showPassword ? "Sembunyikan Kata Sandi" : "Lihat Kata Sandi"}
+                    style={{
+                      position: "absolute",
+                      right: "14px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      color: "var(--slate-400)",
+                      padding: 0,
+                      display: "flex",
+                      alignItems: "center",
+                      zIndex: 2
+                    }}
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -2567,18 +2638,35 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Opsi Google Authenticator 2FA */}
+              {/* Opsi Google Authenticator 2FA (Teks di Center & Icon di Dalam) */}
               <div>
                 <label className="filter-label" style={{ fontWeight: 700, color: "var(--slate-600)" }}>
                   Kode Google Authenticator (Jika 2FA Aktif):
                 </label>
-                <div style={{ position: "relative" }}>
-                  <Smartphone size={16} style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: "var(--slate-400)" }} />
+                <div style={{ position: "relative", width: "100%", marginTop: "4px" }}>
+                  <Smartphone
+                    size={16}
+                    color="var(--slate-400)"
+                    style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", pointerEvents: "none", zIndex: 2 }}
+                  />
                   <input
                     type="text"
                     maxLength={6}
-                    className="form-input"
-                    style={{ height: "40px", paddingLeft: "36px", fontFamily: "monospace", letterSpacing: "3px" }}
+                    className="form-input search-input-centered"
+                    style={{
+                      height: "44px",
+                      width: "100%",
+                      paddingLeft: "38px",
+                      paddingRight: "38px",
+                      textAlign: "center",
+                      fontFamily: "monospace",
+                      letterSpacing: "4px",
+                      borderRadius: "8px",
+                      border: "1.5px solid var(--slate-300)",
+                      background: "#ffffff",
+                      fontSize: "14px",
+                      fontWeight: 700
+                    }}
                     placeholder="Contoh: 123456"
                     value={loginForm.otp}
                     onChange={(e) => setLoginForm({ ...loginForm, otp: e.target.value.replace(/\D/g, "") })}
@@ -2754,30 +2842,30 @@ export default function App() {
               <span>Keluar</span>
             </button>
 
-            {/* Dropdown Menu Pilihan Tahun Perencanaan */}
-            <div className="header-year-wrapper">
-              <select
-                className="header-year-select"
-                value={selectedYear}
-                onChange={(e) => {
-                  const yr = e.target.value;
-                  setSelectedYear(yr);
-                  if (yr === "2027" || yr === "2028") {
-                    setViewMode("table");
-                  }
-                  showToast(`Beralih ke Tahun Perencanaan ${yr}`);
-                }}
-                title="Pilih Tahun Perencanaan RKPD"
-              >
-                <option value="2027">📅 RKPD 2027</option>
-                <option value="2028">📅 RKPD 2028</option>
-                <option value="2029">📅 RKPD 2029 (Kosong)</option>
-              </select>
-              <ChevronDown
-                size={14}
-                color="#0369a1"
-                className="header-year-chevron"
-              />
+            {/* Tanda Tahun Perencanaan Terkunci Sesuai Login (Hanya Bisa Diganti Saat Logout) */}
+            <div
+              className="header-year-badge-locked"
+              title={`Tahun Perencanaan RKPD ${selectedYear} terkunci sesuai sesi login aktif Anda. Untuk beralih tahun, silakan Logout terlebih dahulu.`}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                background: "rgba(255, 255, 255, 0.18)",
+                border: "1.5px solid rgba(255, 255, 255, 0.38)",
+                padding: "0 12px",
+                height: "34px",
+                borderRadius: "var(--radius-md)",
+                color: "#ffffff",
+                fontWeight: 800,
+                fontSize: "12px",
+                boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
+                whiteSpace: "nowrap",
+                cursor: "default"
+              }}
+            >
+              <Calendar size={14} color="var(--gov-gold-400)" />
+              <span>RKPD {selectedYear}</span>
+              <Lock size={12} color="#fde047" style={{ opacity: 0.9, marginLeft: "2px" }} />
             </div>
           </div>
         </div>
@@ -3806,18 +3894,13 @@ export default function App() {
 
                 <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
                   <button
+                    type="button"
                     className="btn btn-primary btn-sm"
-                    onClick={() => setSelectedYear("2027")}
-                    style={{ fontSize: "12px", padding: "6px 12px" }}
+                    onClick={handleLogout}
+                    style={{ fontSize: "12px", padding: "6px 12px", display: "inline-flex", alignItems: "center", gap: "6px" }}
+                    title="Keluar untuk login ke Tahun RKPD 2027 atau 2028"
                   >
-                    <TableIcon size={14} /> Buka Tahun 2027
-                  </button>
-                  <button
-                    className="btn btn-secondary btn-sm"
-                    onClick={() => setSelectedYear("2028")}
-                    style={{ fontSize: "12px", padding: "6px 12px" }}
-                  >
-                    <BookOpen size={14} /> Buka Tahun 2028
+                    <LogOut size={14} /> Keluar &amp; Ganti Tahun RKPD
                   </button>
                 </div>
               </div>
@@ -4044,18 +4127,16 @@ export default function App() {
                     }}
                   >
                     <button
+                      type="button"
                       className="btn btn-primary"
-                      onClick={() => setSelectedYear("2027")}
+                      onClick={handleLogout}
+                      style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}
+                      title="Keluar untuk login ke Tahun RKPD 2027 atau 2028"
                     >
-                      <TableIcon size={15} /> Buka Kamus Usulan 2027 (Format Tabel)
+                      <LogOut size={15} /> Keluar &amp; Beralih ke Tahun 2027 / 2028
                     </button>
                     <button
-                      className="btn btn-secondary"
-                      onClick={() => setSelectedYear("2028")}
-                    >
-                      <BookOpen size={15} /> Buka Kamus Usulan 2028 (308 Usulan OPD)
-                    </button>
-                    <button
+                      type="button"
                       className="btn btn-gold"
                       onClick={() => handleOpenAddModal("2029")}
                     >
@@ -7408,28 +7489,27 @@ export default function App() {
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
                   <div>
                     <label className="filter-label" style={{ fontWeight: 700 }}>Tahun Anggaran RKPD:</label>
-                    <select
-                      className="form-select"
-                      style={{ marginTop: "4px" }}
-                      value={newKamusForm.tahun}
-                      onChange={(e) => {
-                        const newYr = e.target.value;
-                        setNewKamusForm(prev => ({
-                          ...prev,
-                          tahun: newYr,
-                          usulanKegiatan: "",
-                          usulanPermasalahan: "",
-                          program: "",
-                          kegiatan: "",
-                          subKegiatan: ""
-                        }));
-                        setSelectedSystemProgramId("");
+                    <div
+                      style={{
+                        marginTop: "4px",
+                        height: "38px",
+                        background: "#f1f5f9",
+                        border: "1.5px solid var(--slate-300)",
+                        borderRadius: "var(--radius-md)",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        padding: "0 12px",
+                        fontSize: "12.5px",
+                        fontWeight: 700,
+                        color: "var(--gov-navy-900)"
                       }}
+                      title="Tahun RKPD terkunci sesuai sesi login aktif Anda"
                     >
-                      <option value="2027">Tahun Perencanaan 2027</option>
-                      <option value="2028">Tahun Perencanaan 2028</option>
-                      <option value="2029">Tahun Perencanaan 2029</option>
-                    </select>
+                      <Calendar size={15} color="#0284c7" />
+                      <span>Tahun Perencanaan {newKamusForm.tahun || selectedYear}</span>
+                      <Lock size={13} color="#64748b" style={{ marginLeft: "auto" }} />
+                    </div>
                   </div>
 
                   <div>
