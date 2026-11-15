@@ -1839,17 +1839,40 @@ export default function App() {
           <div className="sipd-login-left-content">
             {/* Header Kiri: Logo Resmi & Judul Portal */}
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                <img
-                  src="/logo-lobar-blue.png"
-                  alt="Logo Kabupaten Lombok Barat"
-                  style={{
-                    height: "72px",
-                    width: "auto",
-                    filter: "drop-shadow(0 4px 14px rgba(0,0,0,0.5))"
-                  }}
-                  onError={(e) => { e.target.src = "/logo-lobar.png"; }}
-                />
+              <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
+                {/* Logo Tripartit: Garuda, Kemendagri, dan Lombok Barat */}
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", background: "rgba(15, 23, 42, 0.45)", padding: "8px 14px", borderRadius: "16px", border: "1px solid rgba(255, 255, 255, 0.2)", backdropFilter: "blur(6px)" }}>
+                  <img
+                    src="/logo-garuda.svg"
+                    alt="Lambang Negara Garuda Pancasila"
+                    style={{
+                      height: "52px",
+                      width: "auto",
+                      filter: "drop-shadow(0 3px 8px rgba(0,0,0,0.4))"
+                    }}
+                  />
+                  <img
+                    src="/logo-kemendagri.svg"
+                    alt="Logo Kementerian Dalam Negeri RI"
+                    style={{
+                      height: "48px",
+                      width: "auto",
+                      filter: "drop-shadow(0 3px 8px rgba(0,0,0,0.4))"
+                    }}
+                  />
+                  <div style={{ width: "1px", height: "38px", background: "rgba(255,255,255,0.25)" }} />
+                  <img
+                    src="/logo-lobar-blue.png"
+                    alt="Logo Kabupaten Lombok Barat"
+                    style={{
+                      height: "52px",
+                      width: "auto",
+                      filter: "drop-shadow(0 3px 8px rgba(0,0,0,0.4))"
+                    }}
+                    onError={(e) => { e.target.src = "/logo-lobar.png"; }}
+                  />
+                </div>
+
                 <div>
                   <div style={{
                     display: "inline-block",
@@ -1862,7 +1885,7 @@ export default function App() {
                     fontWeight: 800,
                     letterSpacing: "0.5px"
                   }}>
-                    PEMERINTAH KABUPATEN LOMBOK BARAT
+                    REPUBLIK INDONESIA • KEMENDAGRI &amp; PEMKAB LOBAR
                   </div>
                   <h1 style={{
                     fontSize: "22px",
@@ -1974,30 +1997,68 @@ export default function App() {
         {/* SISI KANAN: FORMULIR LOGIN RESMI SIPD RI */}
         <div className="sipd-login-right">
           <div className="sipd-login-form-card">
-            {/* Header Login Form */}
-            <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+            {/* Header Login Form dengan Logo Resmi Garuda & Kemendagri */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "2px" }}>
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "8px 14px",
+                background: "linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%)",
+                border: "1px solid #dbeafe",
+                borderRadius: "12px",
+                boxShadow: "0 2px 6px rgba(30, 58, 138, 0.05)"
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <img
+                    src="/logo-garuda.svg"
+                    alt="Lambang Negara Garuda Pancasila"
+                    style={{
+                      height: "38px",
+                      width: "auto",
+                      filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.15))"
+                    }}
+                  />
+                  <img
+                    src="/logo-kemendagri.svg"
+                    alt="Logo Kementerian Dalam Negeri RI"
+                    style={{
+                      height: "36px",
+                      width: "auto",
+                      filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.15))"
+                    }}
+                  />
+                  <div style={{ borderLeft: "1.5px solid #cbd5e1", paddingLeft: "10px", lineHeight: 1.25 }}>
+                    <div style={{ fontSize: "11px", fontWeight: 900, color: "#1e3a8a", letterSpacing: "0.4px" }}>
+                      REPUBLIK INDONESIA
+                    </div>
+                    <div style={{ fontSize: "10px", fontWeight: 700, color: "#0369a1" }}>
+                      KEMENTERIAN DALAM NEGERI
+                    </div>
+                  </div>
+                </div>
+
                 <span style={{
-                  background: "#eff6ff",
-                  color: "#1d4ed8",
-                  border: "1px solid #bfdbfe",
+                  background: "#1e3a8a",
+                  color: "#fef08a",
                   padding: "3px 9px",
                   borderRadius: "20px",
                   fontSize: "10.5px",
                   fontWeight: 800,
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "4px"
+                  letterSpacing: "0.5px"
                 }}>
-                  🇮🇩 REPUBLIK INDONESIA • KEMENDAGRI
+                  SIPD-RI
                 </span>
               </div>
-              <h2 style={{ fontSize: "22px", fontWeight: 900, color: "var(--slate-900)", margin: "0 0 6px 0", letterSpacing: "-0.5px" }}>
-                Masuk ke Sistem Pre-SIPD
-              </h2>
-              <p style={{ fontSize: "12.5px", color: "var(--slate-500)", margin: 0, lineHeight: 1.5 }}>
-                Pilih peran dan tahun perencanaan untuk mengakses usulan Musrenbang &amp; kamus program OPD.
-              </p>
+
+              <div>
+                <h2 style={{ fontSize: "21px", fontWeight: 900, color: "var(--slate-900)", margin: "4px 0 4px 0", letterSpacing: "-0.5px" }}>
+                  Masuk ke Sistem Pre-SIPD
+                </h2>
+                <p style={{ fontSize: "12px", color: "var(--slate-500)", margin: 0, lineHeight: 1.45 }}>
+                  Portal Resmi Integrasi Kamus Usulan RKPD Kabupaten Lombok Barat Terhubung Sistem Informasi Pemerintahan Daerah RI.
+                </p>
+              </div>
             </div>
 
             {/* Alert Error jika ada */}
