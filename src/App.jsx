@@ -1905,7 +1905,7 @@ export default function App() {
                 backdropFilter: "blur(8px)"
               }}>
                 <div style={{ fontSize: "13.5px", fontStyle: "italic", lineHeight: 1.6, color: "#f8fafc" }}>
-                  “Mewujudkan integrasi aspirasi <b>119 Desa &amp; 3 Kelurahan</b> berbasis data triase masalah riil lapangan menuju Lombok Barat yang Mandiri, Sejahtera, dan Berkeadilan.”
+                  “Mewujudkan integrasi aspirasi <b>119 Desa &amp; 3 Kelurahan</b> berbasis data triase masalah riil lapangan menuju Lombok Barat yang Maju, Mandiri dan Berkeadilan.”
                 </div>
                 <div style={{ fontSize: "11px", color: "#38bdf8", fontWeight: 700, marginTop: "6px" }}>
                   — BAPPERIDA KABUPATEN LOMBOK BARAT
