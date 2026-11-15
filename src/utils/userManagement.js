@@ -1,9 +1,9 @@
 // Modul Manajemen Pengguna, Role Based Access Control (RBAC), dan 2FA Google Authenticator
 // Standar Keamanan BSSN, SPBE & OWASP untuk Aplikasi Pre-SIPD RI Bapperida Lombok Barat
 
-import { saveSecureData, loadSecureData, logSecurityEvent } from "./secureStorage";
+import { saveSecureData, loadSecureData, logSecurityEvent } from "./secureStorage.js";
 import { WILAYAH_LOBAR } from "../data/desaLobarData.js";
-import rawKamusData from "../data/kamusData.json";
+import rawKamusData from "../data/kamusData.json" with { type: "json" };
 
 export const USER_ROLES = {
   SUPER_ADMIN: "Super Admin",
