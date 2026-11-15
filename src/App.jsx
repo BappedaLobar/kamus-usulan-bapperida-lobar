@@ -144,18 +144,25 @@ export default function App() {
   const [detailItem, setDetailItem] = useState(null);
   const [showAddModal, setShowAddModal] = useState(false);
   const [exportModalType, setExportModalType] = useState(null); // 'excel' | 'pdf' | null
+  const [addInputMode, setAddInputMode] = useState("system"); // "system" | "manual"
+  const [selectedSystemProgramId, setSelectedSystemProgramId] = useState("");
   const [newKamusForm, setNewKamusForm] = useState({
     tahun: "2027",
-    opd: "Dinas Pertanian",
-    kategoriMudah: "Pertanian, Peternakan & Pangan",
+    opd: "",
+    kategoriMudah: "Infrastruktur & Wilayah",
     program: "",
     kegiatan: "",
     subKegiatan: "",
     usulanPermasalahan: "",
     usulanKegiatan: "",
-    sasaranPenerima: "Basis Kelompok",
-    aksiPrioritas: "Aksi Prioritas 6: Agrominapolitan",
-    intervensiPrioritas: "Pengembangan Pertanian, Peternakan, Perkebunan Dan Perikanan Berkelanjutan"
+    sasaranPenerima: "Masyarakat Desa",
+    lokasiDusun: "Dusun Prioritas",
+    volume: "1",
+    satuan: "Paket",
+    aksiPrioritas: "Aksi Prioritas 1: Infrastruktur Mantap",
+    intervensiPrioritas: "Pembangunan Dan Peningkatan Infrastruktur Dasar Kewilayahan",
+    urusan: "",
+    bidangBapperida: ""
   });
 
   // State Tab Desa (119 Desa & 3 Kelurahan) & Rekomendasi Masalah RUMUSAN
@@ -374,6 +381,61 @@ export default function App() {
   const mappedDesaProblems = useMemo(() => {
     return getDesaMappedProblems(activeDesaObj);
   }, [activeDesaObj]);
+
+  // Daftar OPD terdaftar sesuai Tahun RKPD yang dipilih di Modal Input Usulan
+  const availableOpdsForAddModal = useMemo(() => {
+    const yr = newKamusForm.tahun || selectedYear;
+    const baseList = rawKamusData.kamus[yr] || [];
+    const customForYr = customKamusList.filter((it) => String(it.tahun) === String(yr));
+    const allItems = [...customForYr, ...baseList];
+    const setOpd = new Set(allItems.map((it) => it.opd).filter(Boolean));
+    return Array.from(setOpd).sort();
+  }, [newKamusForm.tahun, selectedYear, customKamusList]);
+
+  // Daftar Usulan Resmi dari Kamus untuk OPD yang dipilih di Modal (By System)
+  const availableProgramsForOpd = useMemo(() => {
+    if (!newKamusForm.opd) return [];
+    const yr = newKamusForm.tahun || selectedYear;
+    const baseList = rawKamusData.kamus[yr] || [];
+    const customForYr = customKamusList.filter((it) => String(it.tahun) === String(yr));
+    const allItems = [...customForYr, ...baseList];
+    return allItems.filter((it) => it.opd === newKamusForm.opd);
+  }, [newKamusForm.opd, newKamusForm.tahun, selectedYear, customKamusList]);
+
+  // Fungsi Pembuka Modal Tambah Usulan (Auto-Prioritas Kritis)
+  const handleOpenAddModal = (presetYear = null) => {
+    const yr = presetYear || selectedYear;
+    const baseList = rawKamusData.kamus[yr] || [];
+    const customForYr = customKamusList.filter((it) => String(it.tahun) === String(yr));
+    const opdsInYr = Array.from(new Set([...customForYr, ...baseList].map((it) => it.opd).filter(Boolean))).sort();
+
+    // Utamakan OPD Kritis yang terdaftar pada tahun tersebut
+    const kritisOpds = (desaTriage.opdKritis || []).filter((o) => opdsInYr.includes(o));
+    const sedangOpds = (desaTriage.opdSedang || []).filter((o) => opdsInYr.includes(o));
+    const defaultOpd = kritisOpds[0] || sedangOpds[0] || opdsInYr[0] || "Dinas Pertanian";
+
+    setNewKamusForm({
+      tahun: yr,
+      opd: defaultOpd,
+      kategoriMudah: "Infrastruktur & Wilayah",
+      program: "",
+      kegiatan: "",
+      subKegiatan: "",
+      usulanPermasalahan: "",
+      usulanKegiatan: "",
+      sasaranPenerima: "Masyarakat Desa",
+      lokasiDusun: "Dusun Prioritas",
+      volume: "1",
+      satuan: "Paket",
+      aksiPrioritas: "Aksi Prioritas 1: Infrastruktur Mantap",
+      intervensiPrioritas: "Pembangunan Dan Peningkatan Infrastruktur Dasar Kewilayahan",
+      urusan: "",
+      bidangBapperida: ""
+    });
+    setAddInputMode("system");
+    setSelectedSystemProgramId("");
+    setShowAddModal(true);
+  };
 
   // Handler: Fokuskan Solusi Masalah Desa ke Kamus OPD
   const handleApplyProblemSolution = (mappedProb, sourceName = "Indeks Desa") => {
@@ -739,40 +801,69 @@ export default function App() {
     setAuditLogs(getSecurityAuditLogs());
   };
 
-  // Fungsi Tambah Kamus Usulan Baru (2027/2028/2029) ke LocalStorage
+  // Fungsi Tambah Kamus Usulan Baru (2027/2028/2029) ke LocalStorage & Keranjang Usulan Desa
   const handleAddCustomKamus = (e) => {
     e.preventDefault();
-    if (!newKamusForm.usulanKegiatan.trim() || !newKamusForm.usulanPermasalahan.trim()) {
-      showToast("Mohon isi Nama Usulan Kegiatan dan Permasalahan!");
+    if (!newKamusForm.opd) {
+      showToast("Mohon pilih Dinas / OPD Pengampu!");
       return;
     }
+    if (!newKamusForm.usulanKegiatan.trim() || !newKamusForm.usulanPermasalahan.trim()) {
+      showToast("Mohon pilih atau isi Nama Usulan Kegiatan dan Permasalahan!");
+      return;
+    }
+
+    // Validasi pencegahan OPD Aman (Zona Hijau)
+    if (desaTriage.opdAman.includes(newKamusForm.opd)) {
+      showToast(`Peringatan: ${newKamusForm.opd} berstatus ZONA HIJAU (Aman ≥80%) di ${activeDesaObj.nama}. Usulan dialihkan ke sektor prioritas kritis.`);
+      return;
+    }
+
     const newItem = {
       id: `${newKamusForm.tahun}-CUST-${Date.now().toString().slice(-4)}`,
       tahun: Number(newKamusForm.tahun),
       no: allKamusForYear.length + 1,
-      bidang: "Usulan Tambahan Bapperida / Desa",
+      bidang: newKamusForm.bidangBapperida || "Bidang P2M",
+      bidangBapperida: newKamusForm.bidangBapperida || "Bidang P2M",
       opd: sanitizeInput(newKamusForm.opd),
-      urusan: sanitizeInput(newKamusForm.opd),
+      urusan: sanitizeInput(newKamusForm.urusan || newKamusForm.opd),
       kategoriMudah: sanitizeInput(newKamusForm.kategoriMudah),
       program: sanitizeInput(newKamusForm.program) || "Program Pembangunan Daerah",
       kegiatan: sanitizeInput(newKamusForm.kegiatan) || "Kegiatan Prioritas Daerah",
       subKegiatan: sanitizeInput(newKamusForm.subKegiatan) || "Sub Kegiatan Usulan Masyarakat",
       usulanPermasalahan: sanitizeInput(newKamusForm.usulanPermasalahan),
       usulanKegiatan: sanitizeInput(newKamusForm.usulanKegiatan),
-      sasaranPenerima: sanitizeInput(newKamusForm.sasaranPenerima) || "Basis Kelompok",
+      sasaranPenerima: sanitizeInput(newKamusForm.sasaranPenerima) || "Masyarakat Desa",
       sasaranDaerah: `Mendukung ${sanitizeInput(newKamusForm.aksiPrioritas)}`,
       aksiPrioritas: sanitizeInput(newKamusForm.aksiPrioritas),
       intervensiPrioritas: sanitizeInput(newKamusForm.intervensiPrioritas),
-      keterangan: "Data Tambahan Tersimpan di LocalStorage",
+      keterangan: addInputMode === "system" ? "Dipilih by System Pre-SIPD" : "Input Manual Khusus Pre-SIPD",
       isCustom: true
     };
 
-    const updated = [newItem, ...customKamusList];
-    setCustomKamusList(updated);
-    const res = saveSecureData("CUSTOM_KAMUS_ITEMS", updated);
+    // 1. Simpan ke Kamus Tambahan LocalStorage
+    const updatedCustom = [newItem, ...customKamusList];
+    setCustomKamusList(updatedCustom);
+    saveSecureData("CUSTOM_KAMUS_ITEMS", updatedCustom);
+
+    // 2. Langsung masukkan ke Keranjang Usulan Desa aktif
+    const desaEntry = {
+      ...newItem,
+      desaPengusul: activeDesaPengusul,
+      lokasiDusun: newKamusForm.lokasiDusun || "Dusun Prioritas Desa",
+      volume: newKamusForm.volume || 1,
+      satuan: newKamusForm.satuan || "Paket",
+      dimensiMasalah: getDimensiByOpd(newItem.opd).join(" & "),
+      justifikasiMasalah: `Usulan diajukan oleh ${activeDesaPengusul} untuk penanganan prioritas di ${newItem.opd}.`,
+      savedAt: new Date().toISOString()
+    };
+    const updatedSaved = [desaEntry, ...savedUsulanDesa.filter((u) => u.id !== desaEntry.id)];
+    setSavedUsulanDesa(updatedSaved);
+    const res = saveSecureData("SAVED_USULAN_DESA", updatedSaved);
+
     logSecurityEvent(
-      "TAMBAH_KAMUS_BARU",
-      `Menambahkan kamus tahun ${newItem.tahun}: ${newItem.usulanKegiatan.slice(0, 45)}`
+      "TAMBAH_USULAN_DESA",
+      `Menambahkan usulan [${desaEntry.id}] ${desaEntry.usulanKegiatan.slice(0, 45)} untuk ${activeDesaPengusul}`
     );
     setSecurityStatus((prev) => ({
       ...prev,
@@ -782,7 +873,7 @@ export default function App() {
     setAuditLogs(getSecurityAuditLogs());
     setSelectedYear(String(newKamusForm.tahun));
     setShowAddModal(false);
-    showToast(`Kamus Usulan Tahun ${newItem.tahun} berhasil ditambahkan!`);
+    showToast(`Usulan berhasil disimpan dan langsung masuk ke Keranjang Usulan ${activeDesaPengusul}!`);
   };
 
   // Fungsi Update Indeks Permasalahan Desa
@@ -2628,10 +2719,7 @@ export default function App() {
                     </button>
                     <button
                       className="btn btn-gold"
-                      onClick={() => {
-                        setNewKamusForm((prev) => ({ ...prev, tahun: "2029" }));
-                        setShowAddModal(true);
-                      }}
+                      onClick={() => handleOpenAddModal("2029")}
                     >
                       <Plus size={15} /> + Draf Usulan Mandiri 2029
                     </button>
@@ -4201,10 +4289,7 @@ export default function App() {
                 <button
                   className="btn btn-gold"
                   style={{ fontWeight: 800, padding: "8px 14px", display: "inline-flex", alignItems: "center", gap: "6px" }}
-                  onClick={() => {
-                    setNewKamusForm((prev) => ({ ...prev, tahun: selectedYear }));
-                    setShowAddModal(true);
-                  }}
+                  onClick={() => handleOpenAddModal()}
                   title="Tambah usulan kegiatan baru ke kamus usulan desa"
                 >
                   <Plus size={16} strokeWidth={2.5} />
@@ -5181,17 +5266,20 @@ export default function App() {
       )}
 
       {/* ========================================================
-          MODAL INPUT KAMUS USULAN BARU
+          MODAL INPUT USULAN BARU PRE-SIPD (OPD BERBASIS TAHUN & KUNCI ZONA HIJAU)
           ======================================================== */}
       {showAddModal && (
         <div className="desktop-modal-backdrop" onClick={() => setShowAddModal(false)}>
-          <div className="desktop-modal-dialog" onClick={(e) => e.stopPropagation()}>
+          <div className="desktop-modal-dialog" style={{ maxWidth: "680px" }} onClick={(e) => e.stopPropagation()}>
             <div className="modal-dialog-header">
               <div>
-                <span className="badge badge-opd">INPUT USULAN BARU</span>
-                <h3 style={{ fontSize: "15px", fontWeight: 800, marginTop: "3px" }}>
-                  Tambah Item Kamus Usulan ke LocalStorage
+                <span className="badge badge-opd">INPUT USULAN PRE-SIPD RI</span>
+                <h3 style={{ fontSize: "16px", fontWeight: 800, marginTop: "3px", color: "var(--slate-900)" }}>
+                  Formulir Usulan Aspirasi Desa / Kelurahan
                 </h3>
+                <div style={{ fontSize: "12px", color: "var(--slate-600)", marginTop: "2px" }}>
+                  Wilayah Pengusul: <b>{activeDesaPengusul}</b>
+                </div>
               </div>
               <button
                 onClick={() => setShowAddModal(false)}
@@ -5211,25 +5299,66 @@ export default function App() {
               </button>
             </div>
 
+            {/* Banner Status Triase Wilayah: Penajaman Prioritas */}
+            <div style={{
+              background: "#eff6ff",
+              borderBottom: "1px solid #bfdbfe",
+              padding: "10px 20px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: "8px",
+              fontSize: "12px"
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                <span style={{ fontWeight: 800, color: "#1e40af" }}>
+                  Status Triase {activeDesaObj.nama}:
+                </span>
+                <span style={{ background: "#ffe4e6", color: "#be123c", padding: "1px 7px", borderRadius: "10px", fontWeight: 700 }}>
+                  🔴 {desaTriage.opdKritis.length} OPD Kritis
+                </span>
+                <span style={{ background: "#fef9c3", color: "#a16207", padding: "1px 7px", borderRadius: "10px", fontWeight: 700 }}>
+                  🟡 {desaTriage.opdSedang.length} OPD Sedang
+                </span>
+                <span style={{ background: "#dcfce7", color: "#15803d", padding: "1px 7px", borderRadius: "10px", fontWeight: 700 }}>
+                  🔒 {desaTriage.opdAman.length} Zona Hijau Terkunci
+                </span>
+              </div>
+            </div>
+
             <form onSubmit={handleAddCustomKamus}>
-              <div className="modal-dialog-body">
+              <div className="modal-dialog-body" style={{ maxHeight: "calc(85vh - 160px)", overflowY: "auto", padding: "18px 22px" }}>
+                {/* Baris 1: Pilihan Tahun RKPD & Kategori */}
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
                   <div>
-                    <label className="filter-label">Tahun Rencana:</label>
+                    <label className="filter-label" style={{ fontWeight: 700 }}>Tahun Anggaran RKPD:</label>
                     <select
                       className="form-select"
                       style={{ marginTop: "4px" }}
                       value={newKamusForm.tahun}
-                      onChange={(e) => setNewKamusForm({ ...newKamusForm, tahun: e.target.value })}
+                      onChange={(e) => {
+                        const newYr = e.target.value;
+                        setNewKamusForm(prev => ({
+                          ...prev,
+                          tahun: newYr,
+                          usulanKegiatan: "",
+                          usulanPermasalahan: "",
+                          program: "",
+                          kegiatan: "",
+                          subKegiatan: ""
+                        }));
+                        setSelectedSystemProgramId("");
+                      }}
                     >
-                      <option value="2027">Tahun 2027</option>
-                      <option value="2028">Tahun 2028</option>
-                      <option value="2029">Tahun 2029</option>
+                      <option value="2027">Tahun Perencanaan 2027</option>
+                      <option value="2028">Tahun Perencanaan 2028</option>
+                      <option value="2029">Tahun Perencanaan 2029</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="filter-label">Kategori Kebutuhan:</label>
+                    <label className="filter-label" style={{ fontWeight: 700 }}>Kategori Kebutuhan:</label>
                     <select
                       className="form-select"
                       style={{ marginTop: "4px" }}
@@ -5247,50 +5376,327 @@ export default function App() {
                   </div>
                 </div>
 
-                <div>
-                  <label className="filter-label">Dinas / OPD Pengampu:</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    style={{ marginTop: "4px", paddingLeft: "12px" }}
+                {/* Baris 2: Dropdown OPD Pengampu Sesuai Tahun RKPD (Kunci Zona Hijau) */}
+                <div style={{ marginTop: "12px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <label className="filter-label" style={{ fontWeight: 800, color: "var(--gov-navy-900)" }}>
+                      🏢 Dinas / Perangkat Daerah (OPD) Pengampu Tahun {newKamusForm.tahun}:
+                    </label>
+                    {newKamusForm.opd && desaTriage.opdStatusMap[newKamusForm.opd] && (
+                      <span style={{ fontSize: "11px", fontWeight: 700 }}>
+                        {desaTriage.opdStatusMap[newKamusForm.opd].status === "kritis" && (
+                          desaTriage.opdStatusMap[newKamusForm.opd].persen < 70 ? (
+                            <span style={{ color: "#be123c" }}>🔴 Sektor Kritis ({desaTriage.opdStatusMap[newKamusForm.opd].persen}%)</span>
+                          ) : (
+                            <span style={{ color: "#be123c" }}>🔴 Prioritas Masalah Lapangan (Defisit Skor 1)</span>
+                          )
+                        )}
+                        {desaTriage.opdStatusMap[newKamusForm.opd].status === "sedang" && (
+                          <span style={{ color: "#a16207" }}>🟡 Perlu Perhatian ({desaTriage.opdStatusMap[newKamusForm.opd].persen}%)</span>
+                        )}
+                        {desaTriage.opdStatusMap[newKamusForm.opd].status === "aman" && (
+                          <span style={{ color: "#15803d" }}>🟢 Zona Hijau Mandiri ({desaTriage.opdStatusMap[newKamusForm.opd].persen}%)</span>
+                        )}
+                      </span>
+                    )}
+                  </div>
+                  <select
+                    className="form-select"
+                    style={{ marginTop: "4px" }}
                     value={newKamusForm.opd}
-                    onChange={(e) => setNewKamusForm({ ...newKamusForm, opd: e.target.value })}
-                    placeholder="Contoh: Dinas Pertanian"
+                    onChange={(e) => {
+                      const selOpd = e.target.value;
+                      setNewKamusForm(prev => ({
+                        ...prev,
+                        opd: selOpd,
+                        usulanKegiatan: "",
+                        usulanPermasalahan: "",
+                        program: "",
+                        kegiatan: "",
+                        subKegiatan: ""
+                      }));
+                      setSelectedSystemProgramId("");
+                    }}
                     required
-                  />
+                  >
+                    <option value="" disabled>-- Pilih OPD Pengampu ({availableOpdsForAddModal.length} OPD Terdaftar) --</option>
+                    
+                    {/* Kelompok 1: OPD Kritis */}
+                    {availableOpdsForAddModal.some(opd => desaTriage.opdKritis.includes(opd)) && (
+                      <optgroup label="🔴 SEKTOR PRIORITAS KRITIS (Defisit Skor 1 / <70%)">
+                        {availableOpdsForAddModal
+                          .filter(opd => desaTriage.opdKritis.includes(opd))
+                          .map(opd => {
+                            const st = desaTriage.opdStatusMap[opd];
+                            const labelDetail = st
+                              ? st.persen < 70
+                                ? `(${st.persen}%)`
+                                : `(Defisit Skor 1 Lapangan)`
+                              : "";
+                            return (
+                              <option key={opd} value={opd}>
+                                🔴 {opd} {labelDetail}
+                              </option>
+                            );
+                          })}
+                      </optgroup>
+                    )}
+
+                    {/* Kelompok 2: OPD Sedang */}
+                    {availableOpdsForAddModal.some(opd => desaTriage.opdSedang.includes(opd)) && (
+                      <optgroup label="🟡 SEKTOR PERLU PERHATIAN (70 - 79.9%)">
+                        {availableOpdsForAddModal
+                          .filter(opd => desaTriage.opdSedang.includes(opd))
+                          .map(opd => {
+                            const st = desaTriage.opdStatusMap[opd];
+                            return (
+                              <option key={opd} value={opd}>
+                                🟡 {opd} {st ? `(${st.persen}%)` : ""}
+                              </option>
+                            );
+                          })}
+                      </optgroup>
+                    )}
+
+                    {/* Kelompok 3: OPD Zona Hijau (Terkunci) */}
+                    {availableOpdsForAddModal.some(opd => desaTriage.opdAman.includes(opd)) && (
+                      <optgroup label="🟢 SEKTOR ZONA HIJAU (MANDIRI ≥80% • TERKUNCI 🔒)">
+                        {availableOpdsForAddModal
+                          .filter(opd => desaTriage.opdAman.includes(opd))
+                          .map(opd => {
+                            const st = desaTriage.opdStatusMap[opd];
+                            return (
+                              <option key={opd} value={opd} disabled style={{ color: "#94a3b8" }}>
+                                🔒 [TERKUNCI] {opd} (Mandiri {st ? `${st.persen}%` : ""})
+                              </option>
+                            );
+                          })}
+                      </optgroup>
+                    )}
+
+                    {/* Kelompok 4: OPD Lainnya */}
+                    {availableOpdsForAddModal.some(opd => !desaTriage.opdKritis.includes(opd) && !desaTriage.opdSedang.includes(opd) && !desaTriage.opdAman.includes(opd)) && (
+                      <optgroup label="🏢 OPD PENGAMPU LAINNYA">
+                        {availableOpdsForAddModal
+                          .filter(opd => !desaTriage.opdKritis.includes(opd) && !desaTriage.opdSedang.includes(opd) && !desaTriage.opdAman.includes(opd))
+                          .map(opd => (
+                            <option key={opd} value={opd}>
+                              {opd}
+                            </option>
+                          ))}
+                      </optgroup>
+                    )}
+                  </select>
                 </div>
 
-                <div>
-                  <label className="filter-label">Nama Usulan Kegiatan Riil (Wajib):</label>
-                  <input
-                    type="text"
-                    className="form-input"
-                    style={{ marginTop: "4px", paddingLeft: "12px" }}
-                    value={newKamusForm.usulanKegiatan}
-                    onChange={(e) =>
-                      setNewKamusForm({ ...newKamusForm, usulanKegiatan: e.target.value })
-                    }
-                    placeholder="Contoh: Pembangunan Jalan Usaha Tani Dusun..."
-                    required
-                  />
+                {/* Switcher Metode Input: By System (Kamus Resmi) vs Opsi Manual */}
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  background: "#f8fafc",
+                  padding: "10px 14px",
+                  borderRadius: "8px",
+                  border: "1px solid var(--slate-200)",
+                  marginTop: "14px",
+                  marginBottom: "12px",
+                  flexWrap: "wrap",
+                  gap: "8px"
+                }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    <span style={{ fontSize: "12px", fontWeight: 700, color: "var(--slate-700)" }}>
+                      Metode Input:
+                    </span>
+                    <span
+                      style={{
+                        background: addInputMode === "system" ? "#eff6ff" : "#fff7ed",
+                        color: addInputMode === "system" ? "#1d4ed8" : "#c2410c",
+                        border: addInputMode === "system" ? "1px solid #bfdbfe" : "1px solid #fed7aa",
+                        borderRadius: "8px",
+                        padding: "1px 8px",
+                        fontSize: "11px",
+                        fontWeight: 800
+                      }}
+                    >
+                      {addInputMode === "system" ? "🎯 By System (Kamus Resmi Terverifikasi)" : "✍️ Opsi Manual Khusus"}
+                    </span>
+                  </div>
+
+                  <div style={{ display: "flex", gap: "6px" }}>
+                    <button
+                      type="button"
+                      className={`btn btn-sm ${addInputMode === "system" ? "btn-primary" : "btn-secondary"}`}
+                      style={{ fontSize: "11px", padding: "4px 10px", fontWeight: 700 }}
+                      onClick={() => setAddInputMode("system")}
+                    >
+                      🎯 By System (Kamus)
+                    </button>
+                    <button
+                      type="button"
+                      className={`btn btn-sm ${addInputMode === "manual" ? "btn-gold" : "btn-secondary"}`}
+                      style={{ fontSize: "11px", padding: "4px 10px", fontWeight: 700 }}
+                      onClick={() => setAddInputMode("manual")}
+                    >
+                      ✍️ Opsi Manual
+                    </button>
+                  </div>
                 </div>
 
-                <div>
-                  <label className="filter-label">Uraian Permasalahan & Data Dasar (Wajib):</label>
-                  <textarea
-                    rows={3}
-                    className="form-input"
-                    style={{ marginTop: "4px", padding: "10px", width: "100%", height: "auto" }}
-                    value={newKamusForm.usulanPermasalahan}
-                    onChange={(e) =>
-                      setNewKamusForm({ ...newKamusForm, usulanPermasalahan: e.target.value })
-                    }
-                    placeholder="Uraikan kondisi riil masalah di lapangan yang melatarbelakangi usulan ini..."
-                    required
-                  />
+                {/* KONDISI 1: INPUT BY SYSTEM (PILIH DARI KAMUS RESMI OPD) */}
+                {addInputMode === "system" && (
+                  <div>
+                    <label className="filter-label" style={{ fontWeight: 800, color: "var(--gov-navy-900)" }}>
+                      🎯 Pilih Usulan Kegiatan Resmi dari Kamus {newKamusForm.opd || "OPD"}:
+                    </label>
+                    {availableProgramsForOpd.length > 0 ? (
+                      <select
+                        className="form-select"
+                        style={{ marginTop: "4px" }}
+                        value={selectedSystemProgramId}
+                        onChange={(e) => {
+                          const selId = e.target.value;
+                          setSelectedSystemProgramId(selId);
+                          const found = availableProgramsForOpd.find((it) => String(it.id) === String(selId));
+                          if (found) {
+                            setNewKamusForm(prev => ({
+                              ...prev,
+                              usulanKegiatan: found.usulanKegiatan,
+                              usulanPermasalahan: found.usulanPermasalahan,
+                              program: found.program || "",
+                              kegiatan: found.kegiatan || "",
+                              subKegiatan: found.subKegiatan || "",
+                              sasaranPenerima: found.sasaranPenerima || prev.sasaranPenerima,
+                              urusan: found.urusan || prev.urusan,
+                              bidangBapperida: found.bidangBapperida || found.bidang || prev.bidangBapperida,
+                              kategoriMudah: found.kategoriMudah || prev.kategoriMudah,
+                              aksiPrioritas: found.aksiPrioritas || prev.aksiPrioritas,
+                              intervensiPrioritas: found.intervensiPrioritas || prev.intervensiPrioritas
+                            }));
+                          }
+                        }}
+                        required
+                      >
+                        <option value="">-- Pilih Usulan Kegiatan Resmi ({availableProgramsForOpd.length} program tersedia) --</option>
+                        {availableProgramsForOpd.map((it) => (
+                          <option key={it.id} value={it.id}>
+                            #{it.id} - {it.usulanKegiatan}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <div style={{ padding: "10px 14px", background: "#fef3c7", border: "1px solid #fde68a", borderRadius: "8px", fontSize: "12px", color: "#92400e", marginTop: "4px" }}>
+                        Belum ada usulan resmi terdaftar untuk {newKamusForm.opd} pada Tahun {newKamusForm.tahun}. Silakan gunakan <b>Opsi Manual</b> di atas.
+                      </div>
+                    )}
+
+                    {/* Pratinjau Nomenklatur SIPD Otomatis */}
+                    {selectedSystemProgramId && (
+                      <div style={{
+                        marginTop: "10px",
+                        background: "#f0fdf4",
+                        border: "1px solid #bbf7d0",
+                        borderRadius: "8px",
+                        padding: "12px 14px",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "6px"
+                      }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "6px" }}>
+                          <span style={{ fontSize: "11px", fontWeight: 800, color: "#166534" }}>
+                            ✓ DATA RESMI SIPD TERISI OTOMATIS OLEH SISTEM
+                          </span>
+                          <span style={{ fontSize: "10.5px", color: "#15803d", fontWeight: 700 }}>
+                            PIC: {newKamusForm.bidangBapperida || "Bapperida"}
+                          </span>
+                        </div>
+                        <div style={{ fontSize: "12px", color: "#14532d", lineHeight: 1.45 }}>
+                          <div><b>Program SIPD:</b> {newKamusForm.program}</div>
+                          <div><b>Kegiatan:</b> {newKamusForm.kegiatan}</div>
+                          <div><b>Sub Kegiatan SIPD:</b> {newKamusForm.subKegiatan}</div>
+                        </div>
+                        <div style={{ fontSize: "11.5px", color: "#166534", marginTop: "2px", borderTop: "1px dashed #bbf7d0", paddingTop: "5px" }}>
+                          <b>Masalah Lapangan:</b> {newKamusForm.usulanPermasalahan}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* KONDISI 2: OPSI INPUT MANUAL (JIKA USULAN KRITIS BELUM TERDAFTAR DI SISTEM) */}
+                {addInputMode === "manual" && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div style={{ padding: "8px 12px", background: "#fffbeb", border: "1px solid #fde68a", borderRadius: "8px", fontSize: "11.5px", color: "#92400e" }}>
+                      ⚠️ <b>Mode Input Manual Khusus:</b> Gunakan opsi ini jika usulan kritis desa Anda belum ada di dalam daftar sistem. Pastikan uraian kegiatan dan permasalahan diisi secara jelas dan terukur.
+                    </div>
+
+                    <div>
+                      <label className="filter-label">Nama Usulan Kegiatan Riil (Wajib):</label>
+                      <input
+                        type="text"
+                        className="form-input"
+                        style={{ marginTop: "4px", paddingLeft: "12px" }}
+                        value={newKamusForm.usulanKegiatan}
+                        onChange={(e) => setNewKamusForm({ ...newKamusForm, usulanKegiatan: e.target.value })}
+                        placeholder="Contoh: Pembangunan Bronjong Penahan Longsor Dusun..."
+                        required
+                      />
+                    </div>
+
+                    <div>
+                      <label className="filter-label">Uraian Permasalahan &amp; Data Dasar Lapangan (Wajib):</label>
+                      <textarea
+                        rows={3}
+                        className="form-input"
+                        style={{ marginTop: "4px", padding: "10px", width: "100%", height: "auto" }}
+                        value={newKamusForm.usulanPermasalahan}
+                        onChange={(e) =>
+                          setNewKamusForm({ ...newKamusForm, usulanPermasalahan: e.target.value })
+                        }
+                        placeholder="Uraikan kondisi riil masalah di lapangan yang melatarbelakangi usulan ini..."
+                        required
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Data Pelengkap Pre-SIPD (Lokasi Dusun, Volume, Sasaran) */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginTop: "12px" }}>
+                  <div>
+                    <label className="filter-label">Lokasi Detail / Dusun:</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      style={{ marginTop: "4px", paddingLeft: "12px" }}
+                      value={newKamusForm.lokasiDusun}
+                      onChange={(e) => setNewKamusForm({ ...newKamusForm, lokasiDusun: e.target.value })}
+                      placeholder="Contoh: Dusun Timur RT 02"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="filter-label">Volume &amp; Satuan:</label>
+                    <div style={{ display: "flex", gap: "6px", marginTop: "4px" }}>
+                      <input
+                        type="number"
+                        min="1"
+                        className="form-input"
+                        style={{ width: "40%", paddingLeft: "12px" }}
+                        value={newKamusForm.volume}
+                        onChange={(e) => setNewKamusForm({ ...newKamusForm, volume: e.target.value })}
+                      />
+                      <input
+                        type="text"
+                        className="form-input"
+                        style={{ width: "60%", paddingLeft: "12px" }}
+                        value={newKamusForm.satuan}
+                        onChange={(e) => setNewKamusForm({ ...newKamusForm, satuan: e.target.value })}
+                        placeholder="Paket / Unit / Meter"
+                      />
+                    </div>
+                  </div>
                 </div>
 
-                <div>
+                <div style={{ marginTop: "10px" }}>
                   <label className="filter-label">Syarat / Sasaran Penerima Manfaat:</label>
                   <input
                     type="text"
@@ -5300,7 +5706,7 @@ export default function App() {
                     onChange={(e) =>
                       setNewKamusForm({ ...newKamusForm, sasaranPenerima: e.target.value })
                     }
-                    placeholder="Contoh: Basis Kelompok Tani terdaftar"
+                    placeholder="Contoh: Masyarakat Desa, Kelompok Tani, Balita/Bumil"
                   />
                 </div>
               </div>
@@ -5313,8 +5719,13 @@ export default function App() {
                 >
                   Batal
                 </button>
-                <button type="submit" className="btn btn-primary">
-                  Simpan Usulan ke LocalStorage
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  style={{ fontWeight: 800 }}
+                  disabled={!newKamusForm.opd || desaTriage.opdAman.includes(newKamusForm.opd)}
+                >
+                  + Simpan ke Usulan Pre-SIPD Desa
                 </button>
               </div>
             </form>
