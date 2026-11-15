@@ -4,7 +4,6 @@ import {
   Filter,
   BookOpen,
   Target,
-  ExternalLink,
   Award,
   MapPin,
   CheckCircle2,
@@ -696,18 +695,6 @@ export default function App() {
 
           {/* Kelompok Aksi Kanan Header: Dropdown Pilihan Tahun & Input Usulan (SEJAJAR 1 BARIS) */}
           <div className="navbar-right-actions">
-            <a
-              href="https://github.com/BappedaLobar/patju360-hub"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="header-patju-btn"
-              title="Buka Portal Data Sasaran PATJU 360 Hub di GitHub"
-            >
-              <span className="pulse-dot"></span>
-              <Target size={13} />
-              <span>PATJU 360 Hub</span>
-              <ExternalLink size={11} />
-            </a>
             {/* Dropdown Menu Pilihan Tahun Perencanaan */}
             <div className="header-year-wrapper">
               <select
@@ -2489,25 +2476,6 @@ export default function App() {
                     <p style={{ fontSize: "13.5px", color: "#e0f2fe", lineHeight: 1.6, margin: 0 }}>
                       Mengintegrasikan <strong>Data Sasaran Kemiskinan Ekstrem (P3KE Desil 1–4)</strong> dan <strong>Defisit Empiris Indeks Desa 2026</strong> ke dalam <strong>Menu Program &amp; Treatment Terpadu Lintas OPD</strong> untuk Perencanaan RKPD 2027 dan Program Prioritas Satu Desa Satu Miliar.
                     </p>
-                  </div>
-                  <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-                    <a
-                      href="https://github.com/BappedaLobar/patju360-hub"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn"
-                      style={{
-                        background: "rgba(255, 255, 255, 0.15)",
-                        color: "#ffffff",
-                        border: "1px solid rgba(255, 255, 255, 0.3)",
-                        backdropFilter: "blur(6px)",
-                        fontSize: "12px",
-                        fontWeight: 700
-                      }}
-                    >
-                      <ExternalLink size={13} />
-                      <span>Buka PATJU 360 Hub</span>
-                    </a>
                   </div>
                 </div>
 
