@@ -55,7 +55,11 @@ import {
   Shield,
   ShieldAlert,
   Edit,
-  Copy
+  Copy,
+  Eye,
+  EyeOff,
+  LogOut,
+  LogIn
 } from "lucide-react";
 import * as XLSX from "xlsx";
 import { jsPDF } from "jspdf";
@@ -104,7 +108,8 @@ import {
   generateStrongPassword,
   buildOtpAuthUri,
   loadUserAccounts,
-  saveUserAccounts
+  saveUserAccounts,
+  clearAllUsers
 } from "./utils/userManagement.js";
 
 const KATEGORI_LIST = [
@@ -228,9 +233,36 @@ export default function App() {
   });
   const [isSyncingCloud, setIsSyncingCloud] = useState(false);
 
+  // State Autentikasi Pengguna & Sesi SIPD-RI
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem("BAPPERIDA_LOBAR_AUTH_USER");
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [loginForm, setLoginForm] = useState({
+    username: "",
+    password: "",
+    role: "Operator Desa",
+    tahun: "2027",
+    otp: "",
+    rememberMe: true
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState("");
+
   // State Tab Keamanan & Kelola Pengguna (RBAC & Google Authenticator 2FA)
   const [keamananSubTab, setKeamananSubTab] = useState("users"); // "users" | "integrity" | "cloud" | "audit"
-  const [systemUsers, setSystemUsers] = useState(() => loadUserAccounts());
+  const [systemUsers, setSystemUsers] = useState(() => {
+    // Sesuai permintaan: hapus semua pengguna yang ada terlebih dahulu (clean wipe)
+    try {
+      localStorage.removeItem("BAPPERIDA_LOBAR_SEC_V2_USER_ACCOUNTS");
+    } catch {}
+    saveUserAccounts([]);
+    return [];
+  });
   const [userSearchQuery, setUserSearchQuery] = useState("");
   const [userRoleFilter, setUserRoleFilter] = useState("all");
   const [user2faFilter, setUser2faFilter] = useState("all");
@@ -1654,6 +1686,134 @@ export default function App() {
     }
   };
 
+  // Handler: Login SIPD-RI
+  const handleLogin = (e) => {
+    if (e) e.preventDefault();
+    setLoginError("");
+
+    const inputUname = loginForm.username.trim().toLowerCase();
+
+    // Mode Inisialisasi: Jika belum ada user terdaftar (karena baru dihapus bersih),
+    // izinkan login langsung dan otomatis daftarkan akun baru ini
+    if (systemUsers.length === 0) {
+      const initialUser = {
+        id: `USR-INIT-001`,
+        nama: inputUname ? inputUname.toUpperCase() : (loginForm.role === "Super Admin" ? "Administrator Bapperida" : loginForm.role === "Verifikator" ? "Verifikator Bapperida" : "Operator Desa Kuripan"),
+        username: inputUname || (loginForm.role === "Super Admin" ? "admin" : loginForm.role === "verifikator" ? "verifikator" : "operator.desa"),
+        nip: "198501012010011001",
+        role: loginForm.role,
+        instansi: loginForm.role === "Super Admin" ? "Bapperida Kab. Lombok Barat" : loginForm.role === "Verifikator" ? "Bapperida (Bidang PSDAIK)" : "Desa Kuripan (Kec. Kuripan)",
+        status: "Aktif",
+        googleAuthEnabled: false,
+        updatedAt: new Date().toISOString()
+      };
+      const newUsersList = [initialUser];
+      setSystemUsers(newUsersList);
+      saveUserAccounts(newUsersList);
+      setCurrentUser(initialUser);
+      setSelectedYear(loginForm.tahun);
+      if (loginForm.rememberMe) {
+        localStorage.setItem("BAPPERIDA_LOBAR_AUTH_USER", JSON.stringify(initialUser));
+      }
+      logSecurityEvent("LOGIN_SUKSES", `Pengguna pertama @${initialUser.username} (${initialUser.role}) berhasil masuk`, initialUser.nama);
+      showToast(`Selamat datang di Pre-SIPD RI, ${initialUser.nama}!`);
+      return;
+    }
+
+    // Jika user sudah ada, cari user yang cocok
+    const foundUser = systemUsers.find(
+      (u) => u.username.toLowerCase() === inputUname || (u.nip && u.nip === inputUname)
+    );
+
+    if (!foundUser) {
+      // Jika username belum ada, buatkan akun baru secara instan jika username terisi
+      if (inputUname) {
+        const newUser = {
+          id: `USR-${Date.now().toString().slice(-4)}`,
+          nama: inputUname.toUpperCase(),
+          username: inputUname,
+          nip: "",
+          role: loginForm.role,
+          instansi: loginForm.role === "Super Admin" ? "Bapperida Kab. Lombok Barat" : loginForm.role === "Verifikator" ? "Bapperida (Bidang PSDAIK)" : "Desa Kuripan (Kec. Kuripan)",
+          status: "Aktif",
+          googleAuthEnabled: false,
+          updatedAt: new Date().toISOString()
+        };
+        const updatedList = [newUser, ...systemUsers];
+        setSystemUsers(updatedList);
+        saveUserAccounts(updatedList);
+        setCurrentUser(newUser);
+        setSelectedYear(loginForm.tahun);
+        if (loginForm.rememberMe) {
+          localStorage.setItem("BAPPERIDA_LOBAR_AUTH_USER", JSON.stringify(newUser));
+        }
+        logSecurityEvent("DAFTAR_DAN_LOGIN", `Akun baru @${newUser.username} (${newUser.role}) berhasil didaftarkan dan masuk`, newUser.nama);
+        showToast(`Akun @${newUser.username} terdaftar & berhasil masuk!`);
+        return;
+      }
+      setLoginError("Masukkan username atau gunakan tombol Akses Cepat di bawah.");
+      return;
+    }
+
+    if (foundUser.status !== "Aktif") {
+      setLoginError("Akun ini sedang dinonaktifkan oleh Administrator.");
+      return;
+    }
+
+    if (foundUser.googleAuthEnabled && !loginForm.otp) {
+      setLoginError("Akun ini dilindungi 2FA Google Authenticator. Masukkan 6 digit kode OTP.");
+      return;
+    }
+
+    // Login Sukses
+    setCurrentUser(foundUser);
+    setSelectedYear(loginForm.tahun);
+    if (loginForm.rememberMe) {
+      localStorage.setItem("BAPPERIDA_LOBAR_AUTH_USER", JSON.stringify(foundUser));
+    }
+    logSecurityEvent("LOGIN_SUKSES", `Pengguna @${foundUser.username} (${foundUser.role}) berhasil masuk`, foundUser.nama);
+    showToast(`Selamat datang, ${foundUser.nama}!`);
+  };
+
+  // Handler: Akses Cepat Tamu (Preview Mode)
+  const handleGuestLogin = (guestRole = "Operator Desa") => {
+    const guestUser = {
+      id: "USR-GUEST",
+      nama: guestRole === "Super Admin" ? "Administrator Utama (Preview)" : guestRole === "Verifikator" ? "Verifikator Bapperida (Preview)" : "Operator Desa (Preview)",
+      username: `preview.${guestRole.toLowerCase().replace(/\s+/g, "")}`,
+      role: guestRole,
+      instansi: guestRole === "Operator Desa" ? "Desa Kuripan (Kec. Kuripan)" : "Bapperida Kab. Lombok Barat",
+      status: "Aktif",
+      isGuest: true
+    };
+    setCurrentUser(guestUser);
+    setSelectedYear(loginForm.tahun || "2027");
+    logSecurityEvent("LOGIN_PREVIEW", `Akses Cepat Preview sebagai ${guestRole}`, guestUser.nama);
+    showToast(`Masuk sebagai ${guestRole} (Mode Preview Pre-SIPD)`);
+  };
+
+  // Handler: Logout
+  const handleLogout = () => {
+    if (window.confirm("Apakah Anda yakin ingin keluar dari sistem Pre-SIPD RI?")) {
+      const uname = currentUser?.username || "user";
+      logSecurityEvent("LOGOUT", `Pengguna @${uname} keluar dari sistem`, currentUser?.nama || "User");
+      setCurrentUser(null);
+      localStorage.removeItem("BAPPERIDA_LOBAR_AUTH_USER");
+      showToast("Anda telah keluar dari sesi Pre-SIPD.");
+    }
+  };
+
+  // Handler: Hapus Bersih Seluruh Pengguna
+  const handleClearAllUsersConfirm = () => {
+    if (window.confirm("PERINGATAN: Apakah Anda yakin ingin MENGHAPUS SEMUA PENGGUNA yang ada di sistem? Seluruh akun akan direset bersih.")) {
+      clearAllUsers();
+      setSystemUsers([]);
+      logSecurityEvent("HAPUS_SEMUA_PENGGUNA", "Seluruh data akun pengguna berhasil dihapus bersih", currentUser?.nama || "Super Admin");
+      showToast("Seluruh akun pengguna berhasil dihapus bersih!");
+      setAuditLogs(getSecurityAuditLogs());
+    }
+  };
+
   const count2027 =
     (rawKamusData.kamus["2027"]?.length || 0) +
     customKamusList.filter((i) => String(i.tahun) === "2027").length;
@@ -1663,6 +1823,391 @@ export default function App() {
   const count2029 =
     (rawKamusData.kamus["2029"]?.length || 0) +
     customKamusList.filter((i) => String(i.tahun) === "2029").length;
+
+  // ========================================================
+  // JIKA PENGGUNA BELUM LOGIN: TAMPILKAN HALAMAN LOGIN RESMI PRE-SIPD RI
+  // ========================================================
+  if (!currentUser) {
+    return (
+      <div className="sipd-login-wrapper">
+        {/* SISI KIRI: VISUAL GRAFIS & ANIMASI DESA LOMBOK BARAT */}
+        <div
+          className="sipd-login-left"
+          style={{ backgroundImage: `url('/lombok_barat_portal_bg.jpg')` }}
+        >
+          <div className="sipd-login-left-overlay" />
+          <div className="sipd-login-left-content">
+            {/* Header Kiri: Logo Resmi & Judul Portal */}
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                <img
+                  src="/logo-lobar-blue.png"
+                  alt="Logo Kabupaten Lombok Barat"
+                  style={{
+                    height: "72px",
+                    width: "auto",
+                    filter: "drop-shadow(0 4px 14px rgba(0,0,0,0.5))"
+                  }}
+                  onError={(e) => { e.target.src = "/logo-lobar.png"; }}
+                />
+                <div>
+                  <div style={{
+                    display: "inline-block",
+                    background: "rgba(255, 215, 0, 0.18)",
+                    border: "1px solid rgba(255, 215, 0, 0.45)",
+                    color: "#fef08a",
+                    padding: "2px 10px",
+                    borderRadius: "12px",
+                    fontSize: "11px",
+                    fontWeight: 800,
+                    letterSpacing: "0.5px"
+                  }}>
+                    PEMERINTAH KABUPATEN LOMBOK BARAT
+                  </div>
+                  <h1 style={{
+                    fontSize: "22px",
+                    fontWeight: 900,
+                    margin: "4px 0 0 0",
+                    color: "#ffffff",
+                    letterSpacing: "-0.3px",
+                    lineHeight: 1.25
+                  }}>
+                    SIPD-RI PRE-PLANNING PORTAL
+                  </h1>
+                  <p style={{
+                    fontSize: "12.5px",
+                    color: "#93c5fd",
+                    margin: "2px 0 0 0",
+                    fontWeight: 600
+                  }}>
+                    Kamus Usulan Perencanaan RKPD &amp; Evaluasi Indeks Desa
+                  </p>
+                </div>
+              </div>
+
+              {/* Kutipan Visi Pembangunan */}
+              <div style={{
+                marginTop: "28px",
+                padding: "16px 20px",
+                background: "rgba(15, 23, 42, 0.65)",
+                borderLeft: "4px solid #38bdf8",
+                borderRadius: "0 12px 12px 0",
+                backdropFilter: "blur(8px)"
+              }}>
+                <div style={{ fontSize: "13.5px", fontStyle: "italic", lineHeight: 1.6, color: "#f8fafc" }}>
+                  “Mewujudkan integrasi aspirasi <b>119 Desa &amp; 3 Kelurahan</b> berbasis data triase masalah riil lapangan menuju Lombok Barat yang Mandiri, Sejahtera, dan Berkeadilan.”
+                </div>
+                <div style={{ fontSize: "11px", color: "#38bdf8", fontWeight: 700, marginTop: "6px" }}>
+                  — BAPPERIDA KABUPATEN LOMBOK BARAT
+                </div>
+              </div>
+            </div>
+
+            {/* Kartu Grafis Animasi Melayang */}
+            <div className="sipd-floating-grid">
+              <div className="sipd-floating-card animated-float" style={{ animationDelay: "0s" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <div style={{ background: "rgba(56, 189, 248, 0.2)", padding: "8px", borderRadius: "8px" }}>
+                    <MapPin size={20} color="#38bdf8" />
+                  </div>
+                  <div>
+                    <strong style={{ fontSize: "13px", display: "block" }}>119 Desa &amp; 3 Kelurahan</strong>
+                    <span style={{ fontSize: "11px", color: "#bae6fd" }}>10 Kecamatan Terintegrasi</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="sipd-floating-card animated-float" style={{ animationDelay: "1s" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <div style={{ background: "rgba(74, 222, 128, 0.2)", padding: "8px", borderRadius: "8px" }}>
+                    <Target size={20} color="#4ade80" />
+                  </div>
+                  <div>
+                    <strong style={{ fontSize: "13px", display: "block" }}>Triase Sektor Kritis</strong>
+                    <span style={{ fontSize: "11px", color: "#bbf7d0" }}>Kunci Otomatis Zona Hijau</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="sipd-floating-card animated-float" style={{ animationDelay: "2s" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <div style={{ background: "rgba(250, 204, 21, 0.2)", padding: "8px", borderRadius: "8px" }}>
+                    <BookOpen size={20} color="#facc15" />
+                  </div>
+                  <div>
+                    <strong style={{ fontSize: "13px", display: "block" }}>Nomenklatur SIPD-RI</strong>
+                    <span style={{ fontSize: "11px", color: "#fef08a" }}>Kode 050 &amp; 90 Terverifikasi</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="sipd-floating-card animated-float" style={{ animationDelay: "3s" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <div style={{ background: "rgba(244, 63, 94, 0.2)", padding: "8px", borderRadius: "8px" }}>
+                    <ShieldCheck size={20} color="#fb7185" />
+                  </div>
+                  <div>
+                    <strong style={{ fontSize: "13px", display: "block" }}>Keamanan Siber &amp; 2FA</strong>
+                    <span style={{ fontSize: "11px", color: "#fecdd3" }}>BSSN, SPBE &amp; Google Auth</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer Kiri */}
+            <div style={{
+              marginTop: "24px",
+              paddingTop: "14px",
+              borderTop: "1px solid rgba(255, 255, 255, 0.15)",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              fontSize: "11px",
+              color: "#94a3b8"
+            }}>
+              <span>Kamus Perencanaan Versi 2.0 • Build Standar SIPD Kemendagri</span>
+              <span>Lombok Barat, NTB</span>
+            </div>
+          </div>
+        </div>
+
+        {/* SISI KANAN: FORMULIR LOGIN RESMI SIPD RI */}
+        <div className="sipd-login-right">
+          <div className="sipd-login-form-card">
+            {/* Header Login Form */}
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+                <span style={{
+                  background: "#eff6ff",
+                  color: "#1d4ed8",
+                  border: "1px solid #bfdbfe",
+                  padding: "3px 9px",
+                  borderRadius: "20px",
+                  fontSize: "10.5px",
+                  fontWeight: 800,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "4px"
+                }}>
+                  🇮🇩 REPUBLIK INDONESIA • KEMENDAGRI
+                </span>
+              </div>
+              <h2 style={{ fontSize: "22px", fontWeight: 900, color: "var(--slate-900)", margin: "0 0 6px 0", letterSpacing: "-0.5px" }}>
+                Masuk ke Sistem Pre-SIPD
+              </h2>
+              <p style={{ fontSize: "12.5px", color: "var(--slate-500)", margin: 0, lineHeight: 1.5 }}>
+                Pilih peran dan tahun perencanaan untuk mengakses usulan Musrenbang &amp; kamus program OPD.
+              </p>
+            </div>
+
+            {/* Alert Error jika ada */}
+            {loginError && (
+              <div style={{
+                background: "#fef2f2",
+                border: "1px solid #fecdd3",
+                color: "#991b1b",
+                padding: "10px 14px",
+                borderRadius: "8px",
+                fontSize: "12px",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px"
+              }}>
+                <AlertTriangle size={16} />
+                <span>{loginError}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              {/* Pilihan Tahun Perencanaan */}
+              <div>
+                <label className="filter-label" style={{ fontWeight: 800 }}>Tahun Perencanaan RKPD:</label>
+                <select
+                  className="form-select"
+                  style={{ height: "42px", fontWeight: 700, color: "var(--gov-navy-900)" }}
+                  value={loginForm.tahun}
+                  onChange={(e) => setLoginForm({ ...loginForm, tahun: e.target.value })}
+                >
+                  <option value="2027">📅 RKPD Tahun 2027 (Prioritas Musrenbang)</option>
+                  <option value="2028">📅 RKPD Tahun 2028</option>
+                  <option value="2029">📅 RKPD Tahun 2029 (Perencanaan Jangka Panjang)</option>
+                </select>
+              </div>
+
+              {/* Pilihan Peran / Role */}
+              <div>
+                <label className="filter-label" style={{ fontWeight: 800 }}>Masuk Sebagai (Peran / Role):</label>
+                <div style={{ display: "flex", gap: "6px" }}>
+                  <button
+                    type="button"
+                    className={`sipd-role-tab-btn ${loginForm.role === "Operator Desa" ? "active-operator" : ""}`}
+                    onClick={() => setLoginForm({ ...loginForm, role: "Operator Desa" })}
+                  >
+                    <Building2 size={13} />
+                    <span>Operator Desa</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    className={`sipd-role-tab-btn ${loginForm.role === "Verifikator" ? "active-verifikator" : ""}`}
+                    onClick={() => setLoginForm({ ...loginForm, role: "Verifikator" })}
+                  >
+                    <CheckCircle size={13} />
+                    <span>Verifikator</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    className={`sipd-role-tab-btn ${loginForm.role === "Super Admin" ? "active-superadmin" : ""}`}
+                    onClick={() => setLoginForm({ ...loginForm, role: "Super Admin" })}
+                  >
+                    <ShieldAlert size={13} />
+                    <span>Super Admin</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Username Input */}
+              <div>
+                <label className="filter-label" style={{ fontWeight: 800 }}>Username / NIP Pengguna:</label>
+                <div className="search-bar-inner">
+                  <User size={16} className="search-icon" color="var(--slate-400)" />
+                  <input
+                    type="text"
+                    className="search-input"
+                    style={{ height: "42px", paddingLeft: "36px" }}
+                    placeholder={loginForm.role === "Super Admin" ? "Masukkan username admin..." : loginForm.role === "Verifikator" ? "Masukkan username/NIP verifikator..." : "Masukkan username/NIP operator desa..."}
+                    value={loginForm.username}
+                    onChange={(e) => setLoginForm({ ...loginForm, username: e.target.value })}
+                  />
+                </div>
+              </div>
+
+              {/* Password Input */}
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <label className="filter-label" style={{ fontWeight: 800, marginBottom: 0 }}>Kata Sandi (Password):</label>
+                  <span
+                    style={{ fontSize: "11px", color: "var(--gov-navy-700)", cursor: "pointer" }}
+                    onClick={() => showToast("Hubungi Super Admin Bapperida untuk reset kata sandi.")}
+                  >
+                    Lupa Password?
+                  </span>
+                </div>
+                <div style={{ position: "relative", marginTop: "4px" }}>
+                  <Lock size={16} style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: "var(--slate-400)" }} />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    className="form-input"
+                    style={{ height: "42px", paddingLeft: "36px", paddingRight: "36px" }}
+                    placeholder="Masukkan kata sandi..."
+                    value={loginForm.password}
+                    onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
+                  />
+                  <button
+                    type="button"
+                    style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "var(--slate-400)", padding: 0 }}
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Opsi Google Authenticator 2FA */}
+              <div>
+                <label className="filter-label" style={{ fontWeight: 700, color: "var(--slate-600)" }}>
+                  Kode Google Authenticator (Jika 2FA Aktif):
+                </label>
+                <div style={{ position: "relative" }}>
+                  <Smartphone size={16} style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: "var(--slate-400)" }} />
+                  <input
+                    type="text"
+                    maxLength={6}
+                    className="form-input"
+                    style={{ height: "40px", paddingLeft: "36px", fontFamily: "monospace", letterSpacing: "3px" }}
+                    placeholder="Contoh: 123456"
+                    value={loginForm.otp}
+                    onChange={(e) => setLoginForm({ ...loginForm, otp: e.target.value.replace(/\D/g, "") })}
+                  />
+                </div>
+              </div>
+
+              {/* Remember Me Checkbox */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <label style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", color: "var(--slate-600)", cursor: "pointer" }}>
+                  <input
+                    type="checkbox"
+                    checked={loginForm.rememberMe}
+                    onChange={(e) => setLoginForm({ ...loginForm, rememberMe: e.target.checked })}
+                    style={{ accentColor: "var(--gov-navy-900)" }}
+                  />
+                  <span>Ingat sesi masuk di perangkat ini</span>
+                </label>
+              </div>
+
+              {/* Tombol Masuk Utama */}
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{
+                  height: "46px",
+                  fontSize: "14px",
+                  fontWeight: 800,
+                  justifyContent: "center",
+                  background: "linear-gradient(135deg, var(--gov-navy-900) 0%, var(--gov-navy-800) 100%)",
+                  boxShadow: "0 4px 14px rgba(15, 23, 42, 0.25)"
+                }}
+              >
+                <LogIn size={16} />
+                <span>Masuk ke Sistem Pre-SIPD RI ➔</span>
+              </button>
+
+              {/* Pemisah Akses Cepat */}
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", margin: "4px 0" }}>
+                <div style={{ flex: 1, height: "1px", background: "var(--slate-200)" }} />
+                <span style={{ fontSize: "11px", color: "var(--slate-400)", fontWeight: 700 }}>ATAU MASUK CEPAT</span>
+                <div style={{ flex: 1, height: "1px", background: "var(--slate-200)" }} />
+              </div>
+
+              {/* Tombol Akses Cepat / Tamu */}
+              <div style={{ display: "flex", gap: "8px" }}>
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  style={{ flex: 1, height: "36px", fontSize: "11.5px", justifyContent: "center" }}
+                  onClick={() => handleGuestLogin("Operator Desa")}
+                >
+                  <Building2 size={13} />
+                  <span>Preview Desa</span>
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  style={{ flex: 1, height: "36px", fontSize: "11.5px", justifyContent: "center" }}
+                  onClick={() => handleGuestLogin("Verifikator")}
+                >
+                  <CheckCircle size={13} />
+                  <span>Preview OPD</span>
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-gold btn-sm"
+                  style={{ flex: 1, height: "36px", fontSize: "11.5px", justifyContent: "center" }}
+                  onClick={() => handleGuestLogin("Super Admin")}
+                >
+                  <ShieldAlert size={13} />
+                  <span>Preview Admin</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="desktop-app-wrapper">
@@ -1737,8 +2282,65 @@ export default function App() {
             </button>
           </nav>
 
-          {/* Kelompok Aksi Kanan Header: Dropdown Pilihan Tahun & Input Usulan (SEJAJAR 1 BARIS) */}
+          {/* Kelompok Aksi Kanan Header: Dropdown Pilihan Tahun & Profil Login (SEJAJAR 1 BARIS) */}
           <div className="navbar-right-actions">
+            {/* Status Sesi Pengguna & Tombol Logout */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                background: "rgba(255, 255, 255, 0.14)",
+                border: "1px solid rgba(255, 255, 255, 0.25)",
+                padding: "3px 10px",
+                borderRadius: "20px",
+                color: "#ffffff"
+              }}
+            >
+              <div
+                style={{
+                  width: "22px",
+                  height: "22px",
+                  borderRadius: "50%",
+                  background: "var(--gov-gold-500)",
+                  color: "var(--gov-navy-900)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 800,
+                  fontSize: "11px",
+                  flexShrink: 0
+                }}
+              >
+                {currentUser?.nama?.charAt(0) || "U"}
+              </div>
+              <div style={{ fontSize: "11px", lineHeight: 1.2, textAlign: "left" }}>
+                <div style={{ fontWeight: 800, maxWidth: "120px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                  {currentUser?.nama || "Pengguna"}
+                </div>
+                <div style={{ fontSize: "9.5px", color: "var(--gov-gold-400)", fontWeight: 700 }}>
+                  {currentUser?.role || "Operator"}
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={handleLogout}
+                title="Keluar / Logout ke Halaman Login"
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "#fca5a5",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  padding: "2px",
+                  marginLeft: "2px"
+                }}
+              >
+                <LogOut size={14} />
+              </button>
+            </div>
+
             {/* Dropdown Menu Pilihan Tahun Perencanaan */}
             <div className="header-year-wrapper">
               <select

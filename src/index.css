@@ -1977,3 +1977,156 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
+/* ==========================================================================
+   HALAMAN LOGIN RESMI PRE-SIPD RI KABUPATEN LOMBOK BARAT
+   ========================================================================== */
+.sipd-login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  width: 100%;
+  background: #0f172a;
+  position: relative;
+  overflow-x: hidden;
+  font-family: var(--font-sans);
+}
+
+.sipd-login-left {
+  flex: 1.25;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 48px 56px;
+  overflow: hidden;
+  color: #ffffff;
+}
+
+.sipd-login-left-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 58, 138, 0.85) 50%, rgba(2, 132, 199, 0.78) 100%);
+  backdrop-filter: blur(2px);
+  z-index: 1;
+}
+
+.sipd-login-left-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.sipd-login-right {
+  flex: 1;
+  max-width: 580px;
+  min-width: 360px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  box-shadow: -15px 0 35px rgba(0, 0, 0, 0.2);
+  z-index: 3;
+  overflow-y: auto;
+}
+
+.sipd-login-form-card {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sipd-floating-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.sipd-floating-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.sipd-floating-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.sipd-role-tab-btn {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  border: 1px solid var(--slate-200);
+  background: #f8fafc;
+  color: var(--slate-700);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+}
+
+.sipd-role-tab-btn.active-operator {
+  background: #f0fdf4;
+  color: #15803d;
+  border-color: #86efac;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.sipd-role-tab-btn.active-verifikator {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #93c5fd;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.sipd-role-tab-btn.active-superadmin {
+  background: #fff1f2;
+  color: #be123c;
+  border-color: #fda4af;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.animated-float {
+  animation: float-slow 4s ease-in-out infinite;
+}
+
+@media (max-width: 960px) {
+  .sipd-login-wrapper {
+    flex-direction: column;
+  }
+  .sipd-login-left {
+    padding: 32px 24px;
+    min-height: 380px;
+  }
+  .sipd-login-right {
+    max-width: 100%;
+    padding: 32px 20px;
+  }
+  .sipd-floating-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
