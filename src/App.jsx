@@ -382,9 +382,11 @@ export default function App() {
       setSelectedBidangBapperida(mappedProb.bidangBapperida);
     }
     
-    // 3. Kunci Bidang Urusan jika ada
+    // 3. Kunci Bidang Urusan jika ada, atau reset ke semua urusan agar tidak menyempitkan hasil
     if (mappedProb.urusan) {
       setSelectedUrusan(mappedProb.urusan);
+    } else {
+      setSelectedUrusan("Semua Bidang Urusan");
     }
     
     // 4. Set kata kunci pencarian
@@ -445,24 +447,27 @@ export default function App() {
     const q = searchQuery.trim().toLowerCase();
     return allKamusForYear.filter((item) => {
       // 1. FILTER CERDAS STATUS MASALAH DESA (STRICT TRIAGE MODE) - Hanya aktif jika bukan Tahun 2029
-      if (selectedYear !== "2029" && smartFilterMode === "kritis") {
+      // Jika pengguna sedang fokus pada solusi OPD tertentu atau memilih OPD secara eksplisit, jangan kunci OPD tersebut
+      const isFocusedOpd = (activeProblemFocus && activeProblemFocus.opd === item.opd) || (selectedOpd !== "Semua OPD" && item.opd === selectedOpd);
+
+      if (!isFocusedOpd && selectedYear !== "2029" && smartFilterMode === "kritis") {
         // Mode Ketat: HANYA usulan dari OPD berstatus Kritis (<70%)
         // Jika desa tersebut tidak memiliki dimensi kritis sama sekali (14 desa mandiri), buka dimensi sedang
         const allowedOpds = desaTriage.opdKritis.length > 0 ? desaTriage.opdKritis : desaTriage.opdSedang;
         if (!allowedOpds.includes(item.opd)) {
           return false;
         }
-        // Pastikan OPD Aman selalu dikunci & tidak ditampilkan
+        // Pastikan OPD Aman selalu dikunci & tidak ditampilkan jika filter umum
         if (desaTriage.opdAman.includes(item.opd)) {
           return false;
         }
-      } else if (selectedYear !== "2029" && smartFilterMode === "kritis_sedang") {
+      } else if (!isFocusedOpd && selectedYear !== "2029" && smartFilterMode === "kritis_sedang") {
         // Mode Kritis & Sedang: Usulan dari OPD Kritis + Sedang
         const allowedOpds = [...desaTriage.opdKritis, ...desaTriage.opdSedang];
         if (!allowedOpds.includes(item.opd)) {
           return false;
         }
-        // OPD Aman tetap dikunci & tidak ditampilkan
+        // OPD Aman tetap dikunci & tidak ditampilkan jika filter umum
         if (desaTriage.opdAman.includes(item.opd)) {
           return false;
         }
@@ -1214,14 +1219,14 @@ export default function App() {
                             desaTriage.opdStatusMap[selectedOpd].persen < 70 ? (
                               <span style={{ color: "#e11d48" }}>🔴 Sektor Kritis ({desaTriage.opdStatusMap[selectedOpd].persen}%)</span>
                             ) : (
-                              <span style={{ color: "#e11d48" }}>🔴 Ada Masalah Skor 1 (Sektor {desaTriage.opdStatusMap[selectedOpd].persen}%)</span>
+                              <span style={{ color: "#e11d48" }}>🔴 Prioritas Masalah Lapangan (Ada Indikator Skor 1 di Desa Ini)</span>
                             )
                           )}
                           {desaTriage.opdStatusMap[selectedOpd].status === "sedang" && (
-                            <span style={{ color: "#d97706" }}>🟡 Sektor Sedang ({desaTriage.opdStatusMap[selectedOpd].persen}%)</span>
+                            <span style={{ color: "#d97706" }}>🟡 Sektor Perlu Perhatian ({desaTriage.opdStatusMap[selectedOpd].persen}%)</span>
                           )}
                           {desaTriage.opdStatusMap[selectedOpd].status === "aman" && (
-                            <span style={{ color: "#166534" }}>🟢 Sektor Mandiri ({desaTriage.opdStatusMap[selectedOpd].persen}% - Terkunci)</span>
+                            <span style={{ color: "#166534" }}>🟢 Sektor Mandiri ({desaTriage.opdStatusMap[selectedOpd].persen}%)</span>
                           )}
                         </span>
                       )}
@@ -1242,12 +1247,12 @@ export default function App() {
                             if (st.persen < 70) {
                               prefix = `🔴 [Sektor Kritis ${st.persen}%] `;
                             } else {
-                              prefix = `🔴 [Ada Masalah Skor 1 • Sektor ${st.persen}%] `;
+                              prefix = `🔴 [Prioritas Defisit Skor 1] `;
                             }
                           } else if (st.status === "sedang") {
-                            prefix = `🟡 [Sektor Sedang ${st.persen}%] `;
+                            prefix = `🟡 [Perlu Perhatian ${st.persen}%] `;
                           } else if (st.status === "aman") {
-                            prefix = `🟢 [Aman Mandiri ${st.persen}% - Terkunci] `;
+                            prefix = `🟢 [Capaian Mandiri ${st.persen}%] `;
                           }
                         }
                         return (
@@ -1623,13 +1628,130 @@ export default function App() {
                                   cursor: "pointer"
                                 }}
                                 onClick={() => {
-                                  const opds = k.opdKritisAktif && k.opdKritisAktif.length > 0 ? k.opdKritisAktif : k.opdPengampu;
-                                  const targetOpd = opds[0];
-                                  const kw = k.key === "layananDasar" ? "kesehatan" : k.key === "ekonomi" ? "pertanian" : k.key === "lingkungan" ? "sampah" : k.key === "aksesibilitas" ? "jalan" : "";
+                                  let targetOpd = "";
+                                  let kw = "";
+                                  let bidangBapperida = "Bidang P2M";
+                                  let urusan = "";
+
+                                  if (k.key === "sosial") {
+                                    // Cek apakah ada masalah spesifik perpustakaan, olahraga, atau satkamling
+                                    const onlyPerpus = k.opdKritisAktif && k.opdKritisAktif.length === 1 && k.opdKritisAktif[0].includes("Perpustakaan");
+                                    const onlyOlahraga = k.opdKritisAktif && k.opdKritisAktif.length === 1 && k.opdKritisAktif[0].includes("Pariwisata");
+                                    const onlySatpol = k.opdKritisAktif && k.opdKritisAktif.length === 1 && k.opdKritisAktif[0].includes("Satuan Polisi");
+
+                                    if (onlyPerpus) {
+                                      targetOpd = "Dinas Kearsipan dan Perpustakaan";
+                                      kw = "perpustakaan";
+                                      bidangBapperida = "Bidang P2M";
+                                      urusan = "Urusan Perpustakaan";
+                                    } else if (onlyOlahraga) {
+                                      targetOpd = "Dinas Pariwisata, Ekonomi Kreatif, Pemuda dan Olahraga";
+                                      kw = "olahraga";
+                                      bidangBapperida = "Bidang PSDAIK";
+                                      urusan = "Urusan Pemuda Dan Olahraga";
+                                    } else if (onlySatpol) {
+                                      targetOpd = "Satuan Polisi Pamong Praja";
+                                      kw = "keamanan";
+                                      bidangBapperida = "Bidang P2M";
+                                      urusan = "Urusan Ketenteraman Dan Ketertiban Umum Serta Perlindungan Masyarakat";
+                                    } else {
+                                      // Utama Sektor Sosial: Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak
+                                      targetOpd = "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak";
+                                      kw = "sosial";
+                                      bidangBapperida = "Bidang P2M";
+                                      urusan = "";
+                                    }
+                                  } else if (k.key === "layananDasar") {
+                                    const isPendidikan = k.triageReason?.toLowerCase().includes("pendidikan") || k.triageReason?.toLowerCase().includes("sekolah");
+                                    const isUtilitas = k.triageReason?.toLowerCase().includes("air") || k.triageReason?.toLowerCase().includes("rumah") || k.triageReason?.toLowerCase().includes("sanitasi");
+                                    if (isPendidikan) {
+                                      targetOpd = "Dinas Pendidikan dan Kebudayaan";
+                                      kw = "sekolah";
+                                      bidangBapperida = "Bidang P2M";
+                                      urusan = "Urusan Pendidikan";
+                                    } else if (isUtilitas) {
+                                      targetOpd = "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman";
+                                      kw = "air";
+                                      bidangBapperida = "Bidang PSDAIK";
+                                      urusan = "Urusan Pekerjaan Umum Dan Penataan Ruang";
+                                    } else {
+                                      targetOpd = "Dinas Kesehatan, Pengendalian Penduduk dan KB";
+                                      kw = "kesehatan";
+                                      bidangBapperida = "Bidang P2M";
+                                      urusan = "Urusan Kesehatan";
+                                    }
+                                  } else if (k.key === "ekonomi") {
+                                    const isUmkm = k.triageReason?.toLowerCase().includes("umkm") || k.triageReason?.toLowerCase().includes("koperasi") || k.triageReason?.toLowerCase().includes("usaha");
+                                    const isPerikanan = k.triageReason?.toLowerCase().includes("ikan") || k.triageReason?.toLowerCase().includes("nelayan") || k.triageReason?.toLowerCase().includes("pesisir");
+                                    const isPasar = k.triageReason?.toLowerCase().includes("pasar");
+                                    if (isUmkm) {
+                                      targetOpd = "Dinas Perindustrian, Koperasi, UKM dan Tenaga Kerja";
+                                      kw = "usaha";
+                                      bidangBapperida = "Bidang PSDAIK";
+                                      urusan = "Urusan Koperasi, Usaha Kecil, Dan Menengah";
+                                    } else if (isPerikanan) {
+                                      targetOpd = "Dinas Kelautan, Perikanan dan Ketahanan Pangan";
+                                      kw = "perikanan";
+                                      bidangBapperida = "Bidang PSDAIK";
+                                      urusan = "Urusan Kelautan Dan Perikanan";
+                                    } else if (isPasar) {
+                                      targetOpd = "Dinas Perdagangan";
+                                      kw = "pasar";
+                                      bidangBapperida = "Bidang PSDAIK";
+                                      urusan = "Urusan Perdagangan";
+                                    } else {
+                                      targetOpd = "Dinas Pertanian";
+                                      kw = "pertanian";
+                                      bidangBapperida = "Bidang PSDAIK";
+                                      urusan = "Urusan Pertanian";
+                                    }
+                                  } else if (k.key === "lingkungan") {
+                                    const isBencana = k.triageReason?.toLowerCase().includes("bencana");
+                                    if (isBencana) {
+                                      targetOpd = "Badan Penanggulangan Bencana Daerah";
+                                      kw = "bencana";
+                                      bidangBapperida = "Bidang PSDAIK";
+                                      urusan = "Urusan Ketenteraman Dan Ketertiban Umum Serta Perlindungan Masyarakat";
+                                    } else {
+                                      targetOpd = "Dinas Lingkungan Hidup";
+                                      kw = "sampah";
+                                      bidangBapperida = "Bidang PSDAIK";
+                                      urusan = "Urusan Lingkungan Hidup";
+                                    }
+                                  } else if (k.key === "aksesibilitas") {
+                                    const isDishub = k.triageReason?.toLowerCase().includes("transportasi") || k.triageReason?.toLowerCase().includes("trayek") || k.triageReason?.toLowerCase().includes("penerangan");
+                                    const isKominfotik = k.triageReason?.toLowerCase().includes("internet") || k.triageReason?.toLowerCase().includes("sinyal") || k.triageReason?.toLowerCase().includes("komunikasi");
+                                    if (isDishub) {
+                                      targetOpd = "Dinas Perhubungan";
+                                      kw = "transportasi";
+                                      bidangBapperida = "Bidang PSDAIK";
+                                      urusan = "Urusan Perhubungan";
+                                    } else if (isKominfotik) {
+                                      targetOpd = "Dinas Komunikasi, Informatika dan Statistik";
+                                      kw = "komunikasi";
+                                      bidangBapperida = "Bidang RIDA";
+                                      urusan = "Urusan Komunikasi Dan Informasi";
+                                    } else {
+                                      targetOpd = "Dinas Pekerjaan Umum, Penataan Ruang, Perumahan dan Kawasan Permukiman";
+                                      kw = "jalan";
+                                      bidangBapperida = "Bidang PSDAIK";
+                                      urusan = "Urusan Pekerjaan Umum Dan Penataan Ruang";
+                                    }
+                                  } else if (k.key === "tataKelola") {
+                                    targetOpd = "Dinas Pemberdayaan Masyarakat dan Desa";
+                                    kw = "desa";
+                                    bidangBapperida = "Bidang P2M";
+                                    urusan = "Urusan Pemberdayaan Masyarakat Dan Desa";
+                                  } else {
+                                    const opds = k.opdKritisAktif && k.opdKritisAktif.length > 0 ? k.opdKritisAktif : k.opdPengampu;
+                                    targetOpd = opds[0];
+                                  }
+
                                   handleApplyProblemSolution({
                                     problemTitle: `Sektor Kritis: ${k.nama} (${activeDesaObj.nama})`,
                                     opd: targetOpd,
-                                    bidangBapperida: targetOpd.includes("Pendidikan") || targetOpd.includes("Kesehatan") || targetOpd.includes("Sosial") ? "Bidang P2M" : "Bidang PSDAIK",
+                                    bidangBapperida: bidangBapperida,
+                                    urusan: urusan || undefined,
                                     keyword: kw,
                                     rekomendasi: `Intervensi Terpadu Sektor ${k.nama}`
                                   }, `Sektor Kritis ${k.nama}`);
@@ -2939,10 +3061,10 @@ export default function App() {
                           setActiveDesaPengusul(desaLabel);
                           setSelectedKecamatanPengusul(w.kecamatan);
                           setSmartFilterMode("kritis"); // Mode Ketat otomatis aktif
-                          setSelectedYear("2027");
+                          setSelectedYear((prev) => (prev === "2029" ? "2027" : prev));
                           setViewMode("table");
                           setActiveTab("kamus");
-                          showToast(`Menampilkan Kamus Usulan OPD 2027 (Prioritas Kritis) untuk ${w.tipe} ${w.nama}`);
+                          showToast(`Menampilkan Kamus Usulan OPD (Prioritas Kritis) untuk ${w.tipe} ${w.nama}`);
                         }}
                       >
                         <Sparkles size={14} />
@@ -3221,7 +3343,7 @@ export default function App() {
                               setActiveDesaPengusul(desaLabel);
                               setSelectedKecamatanPengusul(selectedPatjuDesa.kecamatan);
                               setSmartFilterMode("kritis");
-                              setSelectedYear("2027");
+                              setSelectedYear((prev) => (prev === "2029" ? "2027" : prev));
                               setViewMode("table");
                               setActiveTab("kamus");
                               showToast(`Kamus Usulan disaring untuk Lokus ${selectedPatjuDesa.namaDesa}`);
@@ -3457,6 +3579,7 @@ export default function App() {
                                       : trt.kategori.includes("UMKM") ? "usaha" 
                                       : trt.kategori.includes("Perikanan") ? "perikanan"
                                       : trt.kategori.includes("Pertanian") ? "pertanian"
+                                      : trt.kategori.includes("Sosial") || (trt.targetOpdKamus && trt.targetOpdKamus.includes("Sosial")) ? "sosial"
                                       : "";
 
                                     handleApplyProblemSolution({
@@ -4415,7 +4538,7 @@ export default function App() {
                     setActiveDesaPengusul(desaLabel);
                     setSelectedKecamatanPengusul(selectedDesaDetail.kecamatan);
                     setSmartFilterMode("kritis");
-                    setSelectedYear("2027");
+                    setSelectedYear((prev) => (prev === "2029" ? "2027" : prev));
                     setViewMode("table");
                     setActiveTab("kamus");
                     setSelectedDesaDetail(null);
@@ -4554,7 +4677,7 @@ export default function App() {
                 className="btn btn-primary"
                 onClick={() => {
                   setSmartFilterMode("kritis");
-                  setSelectedYear("2027");
+                  setSelectedYear((prev) => (prev === "2029" ? "2027" : prev));
                   setViewMode("table");
                   setShowProblemListModal(false);
                   showToast(`Kamus Usulan OPD disaring untuk ${desaTriage.jmlKritis} masalah kritis ${activeDesaObj.nama}`);

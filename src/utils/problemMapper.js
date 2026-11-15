@@ -135,7 +135,62 @@ export function mapProblemToSolution(problemText) {
     };
   }
 
-  // 8. Perpustakaan / Taman Bacaan / Pojok Baca
+  // 8. Sektor Sosial: Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak (Bansos, Disabilitas, Lansia, Anak, Perempuan, KSB, PMKS)
+  const isSosialReal =
+    pl.includes("bantuan sosial") ||
+    pl.includes("kesejahteraan sosial") ||
+    pl.includes("lumbung sosial") ||
+    pl.includes("panti sosial") ||
+    pl.includes("rehabilitasi sosial") ||
+    pl.includes("budaya/sosial") ||
+    (pl.includes("sosial") && !pl.includes("sosialisasi"));
+
+  if (
+    isSosialReal ||
+    pl.includes("disabilitas") ||
+    pl.includes("lansia") ||
+    pl.includes("anak terlantar") ||
+    pl.includes("kursi roda") ||
+    pl.includes("alat bantu") ||
+    pl.includes("perempuan") ||
+    pl.includes("kekerasan") ||
+    pl.includes("forum anak") ||
+    pl.includes("perlindungan anak") ||
+    pl.includes("ksb") ||
+    pl.includes("lks") ||
+    pl.includes("pmks") ||
+    pl.includes("sembako") ||
+    pl.includes("kelompok rentan")
+  ) {
+    let kw = "sosial";
+    if (pl.includes("disabilitas") || pl.includes("kursi roda") || pl.includes("alat bantu")) {
+      kw = "alat bantu";
+    } else if (pl.includes("anak") || pl.includes("forum anak")) {
+      kw = "anak";
+    } else if (pl.includes("perempuan") || pl.includes("kekerasan")) {
+      kw = "perempuan";
+    } else if (pl.includes("lks") || pl.includes("kelembagaan")) {
+      kw = "lks";
+    } else if (pl.includes("makanan") || pl.includes("sembako")) {
+      kw = "makanan";
+    } else if (pl.includes("bencana") || pl.includes("ksb") || pl.includes("lumbung")) {
+      kw = "ksb";
+    }
+
+    return {
+      problemTitle: p,
+      opd: "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
+      bidangBapperida: "Bidang P2M",
+      urusan: "Urusan Sosial",
+      keyword: kw,
+      dimensi: "Sosial",
+      icon: "HeartHandshake",
+      badgeColor: "#ec4899",
+      rekomendasi: "Penyediaan Bantuan Sosial Terpadu, Alat Bantu Disabilitas/Lansia, Lumbung Sosial & Penguatan Perlindungan Perempuan dan Anak"
+    };
+  }
+
+  // 9. Perpustakaan / Taman Bacaan / Pojok Baca
   if (pl.includes("perpustakaan") || pl.includes("taman bacaan") || pl.includes("buku") || pl.includes("literasi")) {
     return {
       problemTitle: p,
@@ -165,14 +220,14 @@ export function mapProblemToSolution(problemText) {
     };
   }
 
-  // 10. UMKM / Koperasi / KUD / Modal Usaha / KKP-E / KUK / Merek Dagang / Wirausaha
+  // 10. UMKM / Koperasi / KUD / Modal Usaha / KKP-E / Kredit Mikro / Merek Dagang / Wirausaha
   if (
     pl.includes("umkm") ||
     pl.includes("koperasi") ||
     pl.includes("kud") ||
     pl.includes("kredit") ||
     pl.includes("kkp-e") ||
-    pl.includes("kuk") ||
+    pl.includes(" kuk ") ||
     pl.includes("merek dagang") ||
     pl.includes("wirausaha") ||
     pl.includes("usaha mikro")
@@ -323,10 +378,11 @@ export function mapProblemToSolution(problemText) {
   }
 
   // 17. Lingkungan Hidup / Energi Terbarukan (EBT) / Konservasi / Pohon
+  const isLingkunganHidup = pl.includes("lingkungan hidup") || (pl.includes("lingkungan") && !pl.includes("keamanan") && !pl.includes("satkamling"));
   if (
     pl.includes("energi baru terbarukan") ||
     pl.includes("ebt") ||
-    pl.includes("lingkungan") ||
+    isLingkunganHidup ||
     pl.includes("kearifan lokal") ||
     pl.includes("konservasi") ||
     pl.includes("pohon")

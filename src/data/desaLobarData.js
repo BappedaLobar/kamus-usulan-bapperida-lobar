@@ -18,13 +18,13 @@ export const DIMENSI_CONFIG = {
     nama: "Sosial",
     bobotBappenas: 13.39,
     skorMaks: 85,
-    subBidang: ["Olahraga & Pemuda", "Mitigasi Konflik", "Satkamling / Ronda", "Lembaga Adat & Budaya", "Keterlibatan Perempuan", "Perpustakaan"],
+    subBidang: ["Bantuan Sosial & Disabilitas", "Perlindungan Perempuan & Anak", "Perpustakaan Desa", "Olahraga & Pemuda", "Mitigasi Konflik", "Satkamling / Ronda", "Lembaga Adat & Budaya"],
     opdPengampu: [
-      "Dinas Pariwisata, Ekonomi Kreatif, Pemuda dan Olahraga",
-      "Badan Kesatuan Bangsa dan Politik",
-      "Satuan Polisi Pamong Praja",
       "Dinas Sosial, Pemberdayaan Perempuan dan Perlindungan Anak",
       "Dinas Kearsipan dan Perpustakaan",
+      "Dinas Pariwisata, Ekonomi Kreatif, Pemuda dan Olahraga",
+      "Satuan Polisi Pamong Praja",
+      "Badan Kesatuan Bangsa dan Politik",
       "Sekretariat Daerah (Bagian Kesra)"
     ]
   },
