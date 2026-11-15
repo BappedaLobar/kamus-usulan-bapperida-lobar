@@ -115,6 +115,8 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedKategori, setSelectedKategori] = useState("Semua Kategori");
   const [selectedOpd, setSelectedOpd] = useState("Semua OPD");
+  const [selectedBidangBapperida, setSelectedBidangBapperida] = useState("Semua Bidang Bapperida");
+  const [selectedUrusan, setSelectedUrusan] = useState("Semua Bidang Urusan");
   const [selectedAksi, setSelectedAksi] = useState("Semua Aksi Prioritas");
   const [showHelperGuide, setShowHelperGuide] = useState(true);
 
@@ -243,7 +245,7 @@ export default function App() {
   useEffect(() => {
     setCurrentPage(1);
     setVisibleCountCards(25);
-  }, [searchQuery, selectedKategori, selectedOpd, selectedAksi, rowsPerPage]);
+  }, [searchQuery, selectedKategori, selectedOpd, selectedBidangBapperida, selectedUrusan, selectedAksi, rowsPerPage]);
 
   // Load dari Secure LocalStorage saat pertama kali buka aplikasi
   useEffect(() => {
@@ -285,11 +287,37 @@ export default function App() {
     return [...customForYear, ...baseList];
   }, [selectedYear, customKamusList]);
 
-  // Daftar OPD unik pada tahun terpilih
+  // Daftar 4 Bidang SOTK Bapperida Lombok Barat
+  const bidangBapperidaOptions = useMemo(() => [
+    "Semua Bidang Bapperida",
+    "Bidang PSDAIK",
+    "Bidang P2M",
+    "Bidang RIDA",
+    "Bidang P2EPD"
+  ], []);
+
+  // Daftar OPD unik pada tahun terpilih (tersaring jika memilih Bidang Bapperida)
   const opdOptions = useMemo(() => {
-    const setOpd = new Set(allKamusForYear.map((it) => it.opd).filter(Boolean));
+    let list = allKamusForYear;
+    if (selectedBidangBapperida !== "Semua Bidang Bapperida") {
+      list = list.filter((it) => (it.bidangBapperida || it.bidang) === selectedBidangBapperida);
+    }
+    const setOpd = new Set(list.map((it) => it.opd).filter(Boolean));
     return ["Semua OPD", ...Array.from(setOpd).sort()];
-  }, [allKamusForYear]);
+  }, [allKamusForYear, selectedBidangBapperida]);
+
+  // Daftar Bidang Urusan unik pada tahun / OPD / Bidang terpilih
+  const urusanOptions = useMemo(() => {
+    let list = allKamusForYear;
+    if (selectedBidangBapperida !== "Semua Bidang Bapperida") {
+      list = list.filter((it) => (it.bidangBapperida || it.bidang) === selectedBidangBapperida);
+    }
+    if (selectedOpd !== "Semua OPD") {
+      list = list.filter((it) => it.opd === selectedOpd);
+    }
+    const setU = new Set(list.map((it) => it.urusan).filter(Boolean));
+    return ["Semua Bidang Urusan", ...Array.from(setU).sort()];
+  }, [allKamusForYear, selectedBidangBapperida, selectedOpd]);
 
   // Daftar 9 Aksi Prioritas unik
   const aksiOptions = useMemo(() => {
@@ -379,8 +407,24 @@ export default function App() {
         return false;
       }
 
-      // 3. Filter OPD
+      // 3. Filter PIC Bidang Bapperida (SOTK Baru)
+      if (
+        selectedBidangBapperida !== "Semua Bidang Bapperida" &&
+        (item.bidangBapperida || item.bidang) !== selectedBidangBapperida
+      ) {
+        return false;
+      }
+
+      // 4. Filter OPD
       if (selectedOpd !== "Semua OPD" && item.opd !== selectedOpd) {
+        return false;
+      }
+
+      // 5. Filter Bidang Urusan
+      if (
+        selectedUrusan !== "Semua Bidang Urusan" &&
+        item.urusan !== selectedUrusan
+      ) {
         return false;
       }
 
@@ -394,14 +438,16 @@ export default function App() {
 
       // 5. Pencarian teks bebas
       if (!q) return true;
-      const haystack = `${item.usulanKegiatan} ${item.usulanPermasalahan} ${item.opd} ${item.program} ${item.kegiatan} ${item.subKegiatan} ${item.sasaranPenerima} ${item.kategoriMudah}`.toLowerCase();
+      const haystack = `${item.usulanKegiatan} ${item.usulanPermasalahan} ${item.opd} ${item.urusan || ''} ${item.bidangBapperida || item.bidang || ''} ${item.program} ${item.kegiatan} ${item.subKegiatan} ${item.sasaranPenerima} ${item.kategoriMudah}`.toLowerCase();
       return haystack.includes(q);
     });
   }, [
     allKamusForYear,
     searchQuery,
     selectedKategori,
+    selectedBidangBapperida,
     selectedOpd,
+    selectedUrusan,
     selectedAksi,
     smartFilterMode,
     desaTriage
@@ -641,6 +687,8 @@ export default function App() {
       "Tahun",
       "Desa/Kelurahan Pengusul",
       "OPD Tujuan",
+      "Bidang Urusan",
+      "PIC Bidang Bapperida",
       "Kategori",
       "Usulan Kegiatan Riil",
       "Permasalahan Desa",
@@ -655,6 +703,8 @@ export default function App() {
       u.tahun,
       u.desaPengusul,
       u.opd,
+      u.urusan || "-",
+      u.bidangBapperida || u.bidang || "-",
       u.kategoriMudah,
       u.usulanKegiatan,
       u.usulanPermasalahan,
@@ -923,14 +973,18 @@ export default function App() {
                     </span>
                     {(searchQuery ||
                       selectedKategori !== "Semua Kategori" ||
+                      selectedBidangBapperida !== "Semua Bidang Bapperida" ||
                       selectedOpd !== "Semua OPD" ||
+                      selectedUrusan !== "Semua Bidang Urusan" ||
                       selectedAksi !== "Semua Aksi Prioritas") && (
                       <button
                         className="btn btn-danger-ghost"
                         onClick={() => {
                           setSearchQuery("");
                           setSelectedKategori("Semua Kategori");
+                          setSelectedBidangBapperida("Semua Bidang Bapperida");
                           setSelectedOpd("Semua OPD");
+                          setSelectedUrusan("Semua Bidang Urusan");
                           setSelectedAksi("Semua Aksi Prioritas");
                         }}
                       >
@@ -993,6 +1047,28 @@ export default function App() {
                         );
                       })}
                     </div>
+                  </div>
+
+                  {/* Dropdown PIC Bidang di Bapperida (SOTK Baru) */}
+                  <div className="filter-field-group">
+                    <label className="filter-label" style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                      <Building2 size={13} color="var(--gov-navy-700)" /> PIC Bidang di Bapperida:
+                    </label>
+                    <select
+                      className="form-select"
+                      value={selectedBidangBapperida}
+                      onChange={(e) => {
+                        setSelectedBidangBapperida(e.target.value);
+                        setSelectedOpd("Semua OPD");
+                        setSelectedUrusan("Semua Bidang Urusan");
+                      }}
+                    >
+                      {bidangBapperidaOptions.map((b) => (
+                        <option key={b} value={b}>
+                          {b === "Semua Bidang Bapperida" ? "🏢 Semua Bidang di Bapperida" : b}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   {/* Dropdown Dinas / OPD */}
@@ -1774,7 +1850,7 @@ export default function App() {
                       <thead>
                         <tr>
                           <th style={{ width: "50px", textAlign: "center" }}>No</th>
-                          <th style={{ minWidth: "190px" }}>Perangkat Daerah (OPD)</th>
+                          <th style={{ minWidth: "220px" }}>Perangkat Daerah (OPD) & Bidang Urusan</th>
                           <th style={{ minWidth: "160px" }}>Program</th>
                           <th style={{ minWidth: "160px" }}>Kegiatan</th>
                           <th style={{ minWidth: "170px" }}>Sub Kegiatan</th>
@@ -1803,10 +1879,50 @@ export default function App() {
                               <tr key={item.id} className={isSaved ? "row-saved" : ""}>
                                 <td className="td-no">{rowNumber}</td>
                                 <td>
-                                  <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap", marginBottom: "4px" }}>
-                                    <span className="badge badge-opd">
-                                      {item.opd}
-                                    </span>
+                                  {/* Nama OPD */}
+                                  <div style={{ fontWeight: 800, color: "var(--gov-navy-900)", fontSize: "13px", lineHeight: 1.35, marginBottom: "5px" }}>
+                                    {item.opd}
+                                  </div>
+
+                                  {/* Bidang Urusan (Persis seperti dokumen Excel resmi) */}
+                                  {item.urusan && (
+                                    <div style={{
+                                      display: "inline-flex",
+                                      alignItems: "center",
+                                      gap: "4px",
+                                      background: "#f0fdf4",
+                                      border: "1px solid #bbf7d0",
+                                      color: "#166534",
+                                      padding: "2px 7px",
+                                      borderRadius: "4px",
+                                      fontSize: "11px",
+                                      fontWeight: 700,
+                                      marginBottom: "4px"
+                                    }}>
+                                      <span>📂 <b>Urusan:</b> {item.urusan}</span>
+                                    </div>
+                                  )}
+
+                                  {/* PIC Bidang di Bapperida (SOTK Baru: PSDAIK, P2M, RIDA, P2EPD) */}
+                                  <div style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "4px",
+                                    fontSize: "11px",
+                                    color: "#475569",
+                                    background: "#f8fafc",
+                                    padding: "2px 6px",
+                                    borderRadius: "4px",
+                                    border: "1px solid #e2e8f0",
+                                    marginBottom: "4px",
+                                    width: "fit-content"
+                                  }}>
+                                    <Building2 size={11} color="#0070b8" />
+                                    <span>PIC Bapperida: <b style={{ color: "var(--gov-navy-800)" }}>{item.bidangBapperida || item.bidang}</b></span>
+                                  </div>
+
+                                  {/* Status Triage Desa */}
+                                  <div style={{ display: "flex", alignItems: "center", gap: "5px", flexWrap: "wrap" }}>
                                     {desaTriage.opdKritis.includes(item.opd) && (
                                       <span className="badge-kritis-desa" title={`Sektor KRITIS di ${activeDesaObj.nama} (<70%)`}>
                                         🔴 Prioritas Kritis
@@ -1822,9 +1938,6 @@ export default function App() {
                                         <Lock size={10} /> Sektor Aman
                                       </span>
                                     )}
-                                  </div>
-                                  <div style={{ fontSize: "11px", color: "var(--slate-500)" }}>
-                                    {item.bidang}
                                   </div>
                                 </td>
                                 <td className="td-text-col">{item.program}</td>
@@ -2014,6 +2127,14 @@ export default function App() {
                                 <Lock size={10} /> Sektor Aman
                               </span>
                             )}
+                            {item.urusan && (
+                              <span className="badge" style={{ background: "#f0fdf4", color: "#166534", border: "1px solid #bbf7d0", fontWeight: 700 }}>
+                                📂 {item.urusan}
+                              </span>
+                            )}
+                            <span className="badge" style={{ background: "#f8fafc", color: "#334155", border: "1px solid #cbd5e1", fontWeight: 700 }}>
+                              🏢 PIC: {item.bidangBapperida || item.bidang}
+                            </span>
                             <span className="badge badge-kat">{item.kategoriMudah}</span>
                             <span className="badge badge-syarat">
                               Syarat: {item.sasaranPenerima}
@@ -3533,8 +3654,12 @@ export default function App() {
                   <div>{detailItem.opd}</div>
                 </div>
                 <div>
-                  <strong>Bidang Koordinasi:</strong>
-                  <div>{detailItem.bidang}</div>
+                  <strong>Bidang Urusan:</strong>
+                  <div style={{ color: "#166534", fontWeight: 700 }}>{detailItem.urusan || "(Urusan Utama)"}</div>
+                </div>
+                <div>
+                  <strong>PIC Bidang di Bapperida:</strong>
+                  <div style={{ color: "var(--gov-navy-800)", fontWeight: 700 }}>{detailItem.bidangBapperida || detailItem.bidang}</div>
                 </div>
                 <div>
                   <strong>Program:</strong>
