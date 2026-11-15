@@ -5893,69 +5893,177 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Filter & Toolbar Pengguna */}
-                <div className="gov-dossier-card" style={{ padding: "14px 18px", margin: 0 }}>
-                  <div style={{
+                {/* Filter & Toolbar Pengguna Presisi */}
+                <div
+                  className="gov-dossier-card"
+                  style={{
+                    padding: "16px 20px",
+                    margin: 0,
                     display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    flexWrap: "wrap",
-                    gap: "12px"
-                  }}>
-                    <div style={{ display: "flex", gap: "10px", flex: 1, minWidth: "260px", flexWrap: "wrap" }}>
-                      {/* Search Bar */}
-                      <div className="search-bar-inner" style={{ flex: 1, minWidth: "200px" }}>
-                        <Search size={16} className="search-icon" />
-                        <input
-                          type="text"
-                          className="search-input"
-                          style={{ paddingLeft: "36px", height: "38px" }}
-                          placeholder="Cari nama pengguna, username, NIP, instansi..."
-                          value={userSearchQuery}
-                          onChange={(e) => setUserSearchQuery(e.target.value)}
-                        />
-                        {userSearchQuery && (
-                          <button
-                            type="button"
-                            className="search-clear-btn"
-                            onClick={() => setUserSearchQuery("")}
-                          >
-                            <X size={14} />
-                          </button>
-                        )}
-                      </div>
+                    flexDirection: "column",
+                    gap: "14px",
+                    background: "#ffffff",
+                    borderRadius: "12px",
+                    boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+                    border: "1px solid var(--slate-200)"
+                  }}
+                >
+                  {/* Baris 1: Filter & Pencarian (Presisi Penuh 3 Kolom & Teks Center) */}
+                  <div className="user-toolbar-grid">
+                    {/* Kolom Pencarian (Teks di Center & Icon di Dalam) */}
+                    <div style={{ position: "relative", display: "flex", alignItems: "center", width: "100%" }}>
+                      <Search
+                        size={16}
+                        color="#64748b"
+                        style={{ position: "absolute", left: "14px", pointerEvents: "none", zIndex: 2 }}
+                      />
+                      <input
+                        type="text"
+                        className="form-input search-input-centered"
+                        style={{
+                          textAlign: "center",
+                          paddingLeft: "38px",
+                          paddingRight: "38px",
+                          height: "40px",
+                          width: "100%",
+                          background: "#ffffff",
+                          border: "1.5px solid var(--slate-300)",
+                          borderRadius: "8px",
+                          fontSize: "13px",
+                          fontWeight: 500,
+                          color: "var(--slate-800)"
+                        }}
+                        placeholder="Cari nama pengguna, username, NIP, instansi..."
+                        value={userSearchQuery}
+                        onChange={(e) => setUserSearchQuery(e.target.value)}
+                      />
+                      {userSearchQuery && (
+                        <button
+                          type="button"
+                          onClick={() => setUserSearchQuery("")}
+                          title="Hapus kata kunci pencarian"
+                          style={{
+                            position: "absolute",
+                            right: "12px",
+                            background: "transparent",
+                            border: "none",
+                            cursor: "pointer",
+                            color: "#64748b",
+                            display: "flex",
+                            alignItems: "center",
+                            padding: "2px",
+                            zIndex: 2
+                          }}
+                        >
+                          <X size={15} />
+                        </button>
+                      )}
+                    </div>
 
-                      {/* Filter Role */}
+                    {/* Filter Role Pengguna */}
+                    <div style={{ position: "relative", width: "100%" }}>
                       <select
                         className="form-select"
-                        style={{ width: "auto", minWidth: "160px", height: "38px" }}
+                        style={{
+                          height: "40px",
+                          width: "100%",
+                          background: "#ffffff",
+                          border: "1.5px solid var(--slate-300)",
+                          borderRadius: "8px",
+                          fontWeight: 600,
+                          fontSize: "12.5px",
+                          color: "var(--slate-800)",
+                          paddingLeft: "12px",
+                          cursor: "pointer"
+                        }}
                         value={userRoleFilter}
                         onChange={(e) => setUserRoleFilter(e.target.value)}
                       >
-                        <option value="all">Semua Role Pengguna</option>
-                        <option value="Super Admin">Super Admin (Kabupaten)</option>
-                        <option value="Verifikator">Verifikator (Bapperida/OPD)</option>
-                        <option value="Operator Desa">Operator Desa / Kelurahan</option>
+                        <option value="all">👥 Semua Role Pengguna</option>
+                        <option value="Super Admin">🔴 Super Admin (Kabupaten)</option>
+                        <option value="Verifikator">🔵 Verifikator (Bapperida/OPD)</option>
+                        <option value="Operator Desa">🟢 Operator Desa / Kelurahan</option>
                       </select>
+                    </div>
 
-                      {/* Filter 2FA */}
+                    {/* Filter Google Authenticator 2FA */}
+                    <div style={{ position: "relative", width: "100%" }}>
                       <select
                         className="form-select"
-                        style={{ width: "auto", minWidth: "160px", height: "38px" }}
+                        style={{
+                          height: "40px",
+                          width: "100%",
+                          background: "#ffffff",
+                          border: "1.5px solid var(--slate-300)",
+                          borderRadius: "8px",
+                          fontWeight: 600,
+                          fontSize: "12.5px",
+                          color: "var(--slate-800)",
+                          paddingLeft: "12px",
+                          cursor: "pointer"
+                        }}
                         value={user2faFilter}
                         onChange={(e) => setUser2faFilter(e.target.value)}
                       >
-                        <option value="all">Semua Status Google 2FA</option>
+                        <option value="all">🛡️ Semua Status Google 2FA</option>
                         <option value="active">🟢 2FA Aktif Terproteksi</option>
                         <option value="inactive">⚪ 2FA Belum Aktif</option>
                       </select>
                     </div>
+                  </div>
 
-                    <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                  {/* Baris 2: Status Ringkasan & Tombol Aksi Presisi */}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      flexWrap: "wrap",
+                      gap: "12px",
+                      paddingTop: "12px",
+                      borderTop: "1px solid var(--slate-200)"
+                    }}
+                  >
+                    {/* Indikator Status & Hasil Filter */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                      <span style={{ fontSize: "12.5px", color: "var(--slate-600)", fontWeight: 600 }}>
+                        Menampilkan <b>{filteredSystemUsers.length}</b> dari <b>{systemUsers.length}</b> akun terdaftar
+                      </span>
+                      {(userSearchQuery || userRoleFilter !== "all" || user2faFilter !== "all") && (
+                        <span
+                          className="badge"
+                          style={{
+                            background: "#eff6ff",
+                            color: "#1d4ed8",
+                            border: "1px solid #bfdbfe",
+                            padding: "2px 8px",
+                            fontSize: "11px",
+                            fontWeight: 700,
+                            borderRadius: "12px"
+                          }}
+                        >
+                          Penyaringan Aktif
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Kelompok Tombol Aksi Presisi & Rapi */}
+                    <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
                       <button
+                        type="button"
                         className="btn btn-secondary"
                         onClick={handleExportUsersCSV}
-                        style={{ height: "38px", display: "inline-flex", alignItems: "center", gap: "6px" }}
+                        style={{
+                          height: "38px",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          fontWeight: 700,
+                          fontSize: "12.5px",
+                          padding: "0 14px",
+                          borderRadius: "8px",
+                          boxShadow: "0 1px 2px rgba(0,0,0,0.05)"
+                        }}
                         title="Unduh rekap 143 akun pengguna resmi dalam format CSV"
                       >
                         <FileSpreadsheet size={15} />
@@ -5963,9 +6071,20 @@ export default function App() {
                       </button>
 
                       <button
+                        type="button"
                         className="btn btn-gold"
                         onClick={handleResetToStandardUsersConfirm}
-                        style={{ height: "38px", display: "inline-flex", alignItems: "center", gap: "6px" }}
+                        style={{
+                          height: "38px",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          fontWeight: 700,
+                          fontSize: "12.5px",
+                          padding: "0 14px",
+                          borderRadius: "8px",
+                          boxShadow: "0 1px 2px rgba(0,0,0,0.05)"
+                        }}
                         title="Pulihkan seluruh 143 akun standar resmi (Super Admin, 20 OPD, 122 Desa)"
                       >
                         <RotateCcw size={15} />
@@ -5973,9 +6092,20 @@ export default function App() {
                       </button>
 
                       <button
+                        type="button"
                         className="btn btn-primary"
                         onClick={handleOpenAddUser}
-                        style={{ height: "38px" }}
+                        style={{
+                          height: "38px",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          fontWeight: 700,
+                          fontSize: "12.5px",
+                          padding: "0 16px",
+                          borderRadius: "8px",
+                          boxShadow: "0 1px 2px rgba(0,0,0,0.08)"
+                        }}
                       >
                         <UserPlus size={15} />
                         <span>Tambah Pengguna</span>

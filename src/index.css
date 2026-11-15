@@ -2266,4 +2266,32 @@ body {
   transition: all 0.3s ease;
 }
 
+/* ==========================================================================
+   TOOLBAR KELOLA PENGGUNA: PRESISI, SIMETRIS & TEXT-ALIGN CENTER
+   ========================================================================== */
+
+.search-input-centered {
+  text-align: center !important;
+}
+
+.search-input-centered::placeholder {
+  text-align: center !important;
+  color: var(--slate-400) !important;
+  font-weight: 500;
+}
+
+.user-toolbar-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 2.2fr) minmax(200px, 1.4fr) minmax(200px, 1.4fr);
+  gap: 12px;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .user-toolbar-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+
 
