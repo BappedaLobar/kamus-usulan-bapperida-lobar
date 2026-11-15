@@ -42,7 +42,8 @@ import {
   User,
   Navigation,
   Mail,
-  Globe
+  Globe,
+  ArrowRight
 } from "lucide-react";
 import rawKamusData from "./data/kamusData.json";
 import {
@@ -76,6 +77,10 @@ import {
   deleteUsulanFromCloud,
   syncLocalUsulanToCloud
 } from "./utils/cloudDatabase.js";
+import {
+  mapProblemToSolution,
+  getDesaMappedProblems
+} from "./utils/problemMapper.js";
 
 const KATEGORI_LIST = [
   "Semua Kategori",
@@ -157,6 +162,10 @@ export default function App() {
   const [smartFilterMode, setSmartFilterMode] = useState("kritis");
   const [filterTriaseDesaTab, setFilterTriaseDesaTab] = useState("all"); // "all" | "kritis" | "sedang" | "aman"
   const [showProblemListModal, setShowProblemListModal] = useState(false);
+
+  // State Fokus Masalah Spesifik Desa (Problem-to-Program Engine)
+  const [activeProblemFocus, setActiveProblemFocus] = useState(null); // { title, opd, bidangBapperida, urusan, keyword, rekomendasi, source, volume, satuan }
+  const [selectedProblemFilterId, setSelectedProblemFilterId] = useState("all");
 
   // State Sinergi PATJU 360 (Kemiskinan Ekstrem & Data Sasaran)
   const [patjuKecFilter, setPatjuKecFilter] = useState("Semua Kecamatan");
@@ -353,6 +362,66 @@ export default function App() {
   const desaTriage = useMemo(() => {
     return getTriageStatusDesa(activeDesaObj);
   }, [activeDesaObj]);
+
+  // Daftar Masalah Terpetakan ke OPD & Program untuk Desa Aktif (Problem-to-Program Matrix)
+  const mappedDesaProblems = useMemo(() => {
+    return getDesaMappedProblems(activeDesaObj);
+  }, [activeDesaObj]);
+
+  // Handler: Fokuskan Solusi Masalah Desa ke Kamus OPD
+  const handleApplyProblemSolution = (mappedProb, sourceName = "Indeks Desa") => {
+    if (!mappedProb) return;
+    
+    // 1. Kunci OPD pengampu
+    if (mappedProb.opd) {
+      setSelectedOpd(mappedProb.opd);
+    }
+    
+    // 2. Kunci Bidang Bapperida
+    if (mappedProb.bidangBapperida) {
+      setSelectedBidangBapperida(mappedProb.bidangBapperida);
+    }
+    
+    // 3. Kunci Bidang Urusan jika ada
+    if (mappedProb.urusan) {
+      setSelectedUrusan(mappedProb.urusan);
+    }
+    
+    // 4. Set kata kunci pencarian
+    setSearchQuery(mappedProb.keyword || "");
+    
+    // 5. Set ID filter jika ada
+    if (mappedProb.id) {
+      setSelectedProblemFilterId(mappedProb.id);
+    }
+    
+    // 6. Simpan state fokus
+    setActiveProblemFocus({
+      title: mappedProb.problemTitle || mappedProb.title,
+      opd: mappedProb.opd,
+      bidangBapperida: mappedProb.bidangBapperida,
+      urusan: mappedProb.urusan,
+      keyword: mappedProb.keyword,
+      rekomendasi: mappedProb.rekomendasi,
+      volume: mappedProb.volume,
+      satuan: mappedProb.satuan,
+      source: sourceName
+    });
+    
+    // 7. Alihkan ke Kamus Usulan dalam mode tabel
+    setActiveTab("kamus");
+    setViewMode("table");
+    setShowProblemListModal(false);
+    if (selectedDesaDetail) setSelectedDesaDetail(null);
+    
+    showToast(`Fokus Solusi Masalah: ${mappedProb.opd}`);
+  };
+
+  // Reset fokus masalah jika desa berganti
+  useEffect(() => {
+    setSelectedProblemFilterId("all");
+    setActiveProblemFocus(null);
+  }, [activeDesaPengusul]);
 
   // Sinkronkan pilihan Kecamatan jika Desa Pengusul berganti dari kartu wilayah
   useEffect(() => {
@@ -976,7 +1045,8 @@ export default function App() {
                       selectedBidangBapperida !== "Semua Bidang Bapperida" ||
                       selectedOpd !== "Semua OPD" ||
                       selectedUrusan !== "Semua Bidang Urusan" ||
-                      selectedAksi !== "Semua Aksi Prioritas") && (
+                      selectedAksi !== "Semua Aksi Prioritas" ||
+                      activeProblemFocus) && (
                       <button
                         className="btn btn-danger-ghost"
                         onClick={() => {
@@ -986,10 +1056,73 @@ export default function App() {
                           setSelectedOpd("Semua OPD");
                           setSelectedUrusan("Semua Bidang Urusan");
                           setSelectedAksi("Semua Aksi Prioritas");
+                          setActiveProblemFocus(null);
+                          setSelectedProblemFilterId("all");
                         }}
                       >
                         <RotateCcw size={11} /> Reset
                       </button>
+                    )}
+                  </div>
+
+                  {/* Dropdown Fokus Masalah Spesifik Desa (Problem-to-Program Link) */}
+                  <div className="filter-field-group" style={{ background: "#fff1f2", padding: "10px", borderRadius: "8px", border: "1px solid #fecdd3" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                      <label className="filter-label" style={{ marginBottom: 0, display: "flex", alignItems: "center", gap: "5px", color: "#9f1239", fontWeight: 800 }}>
+                        <Target size={13} color="#e11d48" /> Fokus Masalah Desa:
+                      </label>
+                      <span style={{ fontSize: "10px", background: "#e11d48", color: "#fff", padding: "1px 6px", borderRadius: "99px", fontWeight: 800 }}>
+                        {mappedDesaProblems.length} Masalah
+                      </span>
+                    </div>
+                    <select
+                      className="form-select form-select-sm"
+                      style={{ borderColor: "#fda4af", background: "#ffffff", fontWeight: 700, fontSize: "11px", color: "#0f172a" }}
+                      value={selectedProblemFilterId}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setSelectedProblemFilterId(val);
+                        if (val === "all") {
+                          setActiveProblemFocus(null);
+                          setSelectedOpd("Semua OPD");
+                          setSelectedBidangBapperida("Semua Bidang Bapperida");
+                          setSelectedUrusan("Semua Bidang Urusan");
+                          setSearchQuery("");
+                        } else {
+                          const found = mappedDesaProblems.find((p) => p.id === val);
+                          if (found) {
+                            handleApplyProblemSolution(found, `Masalah Lapangan ${activeDesaObj.nama}`);
+                          }
+                        }
+                      }}
+                      title="Pilih salah satu masalah desa untuk langsung mengunci OPD penanggung jawab dan program solusinya"
+                    >
+                      <option value="all">
+                        🎯 Semua Masalah ({mappedDesaProblems.length} Masalah Terdeteksi)
+                      </option>
+                      {mappedDesaProblems.map((prob) => (
+                        <option key={prob.id} value={prob.id}>
+                          {prob.level === "kritis" ? "🔴" : "🟡"} {prob.problemTitle.length > 36 ? prob.problemTitle.slice(0, 36) + "..." : prob.problemTitle} ➔ {prob.opd.replace("Dinas ", "").replace("Badan ", "").slice(0, 24)}
+                        </option>
+                      ))}
+                    </select>
+                    {activeProblemFocus && (
+                      <div style={{ fontSize: "10.5px", color: "#881337", marginTop: "5px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <span>Kunci: <b>{activeProblemFocus.opd.replace("Dinas ", "").replace("Badan ", "").slice(0, 20)}</b></span>
+                        <button
+                          style={{ background: "transparent", border: "none", color: "#e11d48", fontWeight: 700, cursor: "pointer", fontSize: "10.5px", padding: 0 }}
+                          onClick={() => {
+                            setSelectedProblemFilterId("all");
+                            setActiveProblemFocus(null);
+                            setSelectedOpd("Semua OPD");
+                            setSelectedBidangBapperida("Semua Bidang Bapperida");
+                            setSelectedUrusan("Semua Bidang Urusan");
+                            setSearchQuery("");
+                          }}
+                        >
+                          ✕ Batalkan
+                        </button>
+                      </div>
                     )}
                   </div>
 
@@ -1433,6 +1566,37 @@ export default function App() {
                               <div className="triage-opd-preview">
                                 OPD Prioritas: {(k.opdKritisAktif && k.opdKritisAktif.length > 0 ? k.opdKritisAktif : k.opdPengampu).join(", ")}
                               </div>
+                              <button
+                                className="btn btn-sm"
+                                style={{
+                                  background: "#ffffff",
+                                  border: "1px solid #fecdd3",
+                                  color: "#be123c",
+                                  fontSize: "10.5px",
+                                  fontWeight: 700,
+                                  padding: "2px 8px",
+                                  marginTop: "4px",
+                                  borderRadius: "4px",
+                                  display: "inline-flex",
+                                  alignItems: "center",
+                                  gap: "4px",
+                                  cursor: "pointer"
+                                }}
+                                onClick={() => {
+                                  const opds = k.opdKritisAktif && k.opdKritisAktif.length > 0 ? k.opdKritisAktif : k.opdPengampu;
+                                  const targetOpd = opds[0];
+                                  const kw = k.key === "layananDasar" ? "kesehatan" : k.key === "ekonomi" ? "pertanian" : k.key === "lingkungan" ? "sampah" : k.key === "aksesibilitas" ? "jalan" : "";
+                                  handleApplyProblemSolution({
+                                    problemTitle: `Sektor Kritis: ${k.nama} (${activeDesaObj.nama})`,
+                                    opd: targetOpd,
+                                    bidangBapperida: targetOpd.includes("Pendidikan") || targetOpd.includes("Kesehatan") || targetOpd.includes("Sosial") ? "Bidang P2M" : "Bidang PSDAIK",
+                                    keyword: kw,
+                                    rekomendasi: `Intervensi Terpadu Sektor ${k.nama}`
+                                  }, `Sektor Kritis ${k.nama}`);
+                                }}
+                              >
+                                <Sparkles size={11} /> Buka Solusi Sektor {k.nama} ➔
+                              </button>
                             </div>
                             <span style={{ fontWeight: 800, color: "#e11d48", fontSize: "12px", marginLeft: "6px" }}>
                               {k.persen}%
@@ -1732,6 +1896,88 @@ export default function App() {
                   </div>
                 </div>
               </div>
+
+              {/* BANNER FOKUS MASALAH DESA TERPILIH (PROBLEM-TO-PROGRAM ENGINE) */}
+              {activeProblemFocus && (
+                <div
+                  style={{
+                    background: "linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)",
+                    border: "1px solid #93c5fd",
+                    borderRadius: "10px",
+                    padding: "12px 16px",
+                    marginBottom: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    flexWrap: "wrap",
+                    gap: "10px",
+                    boxShadow: "0 2px 6px rgba(37, 99, 235, 0.08)"
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <div
+                      style={{
+                        background: "#2563eb",
+                        color: "#ffffff",
+                        width: "38px",
+                        height: "38px",
+                        borderRadius: "8px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0
+                      }}
+                    >
+                      <Target size={20} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "11px", fontWeight: 800, color: "#1d4ed8", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                        🎯 Mode Fokus Solusi Masalah: <b>{activeDesaObj.nama}</b> ({activeProblemFocus.source})
+                      </div>
+                      <div style={{ fontSize: "14px", fontWeight: 800, color: "#1e3a8a", marginTop: "1px" }}>
+                        {activeProblemFocus.title}
+                      </div>
+                      <div style={{ fontSize: "11.5px", color: "#1e40af", marginTop: "3px", display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
+                        <span>🏢 OPD Pengampu: <b>{activeProblemFocus.opd}</b></span>
+                        <span>•</span>
+                        <span>🏛️ PIC Bapperida: <b>{activeProblemFocus.bidangBapperida}</b></span>
+                        {activeProblemFocus.urusan && (
+                          <>
+                            <span>•</span>
+                            <span>📂 Urusan: <b>{activeProblemFocus.urusan}</b></span>
+                          </>
+                        )}
+                        {activeProblemFocus.volume !== undefined && activeProblemFocus.volume > 0 && (
+                          <>
+                            <span>•</span>
+                            <span>📊 Potensi Sasaran: <b>{Number(activeProblemFocus.volume).toLocaleString('id-ID')} {activeProblemFocus.satuan}</b></span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    style={{
+                      background: "#ffffff",
+                      borderColor: "#bfdbfe",
+                      color: "#1e40af",
+                      fontWeight: 700
+                    }}
+                    onClick={() => {
+                      setActiveProblemFocus(null);
+                      setSelectedProblemFilterId("all");
+                      setSelectedOpd("Semua OPD");
+                      setSelectedBidangBapperida("Semua Bidang Bapperida");
+                      setSelectedUrusan("Semua Bidang Urusan");
+                      setSearchQuery("");
+                      showToast("Fokus masalah direset: Menampilkan seluruh kamus usulan.");
+                    }}
+                  >
+                    <RotateCcw size={12} /> Reset Fokus / Tampilkan Semua
+                  </button>
+                </div>
+              )}
 
               {/* -------------------- KONDISI KHUSUS TAHUN 2029 (BELUM FINAL / KOSONG) -------------------- */}
               {selectedYear === "2029" && allKamusForYear.length === 0 ? (
@@ -3160,17 +3406,33 @@ export default function App() {
                               <div style={{ display: "flex", gap: "6px", marginTop: "4px" }}>
                                 <button
                                   className="btn btn-secondary"
-                                  style={{ flex: 1, fontSize: "11px", padding: "6px 8px" }}
+                                  style={{ flex: 1, fontSize: "11px", padding: "6px 8px", background: "#f0fdf4", borderColor: "#86efac", color: "#166534", fontWeight: 700 }}
                                   onClick={() => {
-                                    setSelectedOpd(trt.targetOpdKamus);
-                                    setSelectedYear("2027");
-                                    setViewMode("table");
-                                    setActiveTab("kamus");
-                                    showToast(`Membuka Kamus Usulan untuk ${trt.targetOpdKamus}`);
+                                    const desaLabel = `${selectedPatjuDesa.tipe} ${selectedPatjuDesa.namaDesa} (Kec. ${selectedPatjuDesa.kecamatan})`;
+                                    setActiveDesaPengusul(desaLabel);
+                                    setSelectedKecamatanPengusul(selectedPatjuDesa.kecamatan);
+                                    
+                                    const kw = trt.rekomendasiVolumeKey === "rtlhCount" ? "rumah" 
+                                      : trt.rekomendasiVolumeKey === "tanpaJambanCount" ? "sanitasi" 
+                                      : trt.kategori.includes("UMKM") ? "usaha" 
+                                      : trt.kategori.includes("Perikanan") ? "perikanan"
+                                      : trt.kategori.includes("Pertanian") ? "pertanian"
+                                      : "";
+
+                                    handleApplyProblemSolution({
+                                      problemTitle: trt.namaProgram,
+                                      opd: trt.targetOpdKamus,
+                                      bidangBapperida: trt.targetOpdKamus.includes("Pendidikan") || trt.targetOpdKamus.includes("Kesehatan") || trt.targetOpdKamus.includes("Sosial") ? "Bidang P2M" : "Bidang PSDAIK",
+                                      urusan: trt.targetOpdKamus.includes("Pekerjaan Umum") ? (kw === "rumah" ? "Urusan Perumahan Dan Kawasan Permukiman" : "Urusan Pekerjaan Umum Dan Penataan Ruang") : "",
+                                      keyword: kw,
+                                      rekomendasi: trt.deskripsiPaket,
+                                      volume: sasaranDesa,
+                                      satuan: satuanSasaran
+                                    }, `Sinergi PATJU 360 (${selectedPatjuDesa.namaDesa})`);
                                   }}
                                 >
-                                  <BookOpen size={12} />
-                                  <span>Kamus OPD</span>
+                                  <Sparkles size={12} />
+                                  <span>Solusi Kamus OPD ➔</span>
                                 </button>
 
                                 <button
@@ -4035,27 +4297,51 @@ export default function App() {
                       Daftar {modalTriage.jmlKritis} Indikator Masalah Kritis (Skor 1 dari 127 Indikator Sheet RUMUSAN):
                     </h4>
                     <div style={{ display: "flex", flexDirection: "column", gap: "5px", maxHeight: "200px", overflowY: "auto", paddingRight: "4px" }}>
-                      {modalTriage.masalahKritisDetail.map((indName, idx) => (
-                        <div
-                          key={idx}
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "8px",
-                            padding: "6px 10px",
-                            background: "#fff5f5",
-                            border: "1px solid #fecdd3",
-                            borderRadius: "6px",
-                            fontSize: "11.5px",
-                            color: "#881337"
-                          }}
-                        >
-                          <span style={{ background: "#e11d48", color: "#fff", fontSize: "10px", fontWeight: 800, padding: "1px 6px", borderRadius: "99px" }}>
-                            #{idx + 1}
-                          </span>
-                          <span style={{ fontWeight: 600 }}>{indName}</span>
-                        </div>
-                      ))}
+                      {modalTriage.masalahKritisDetail.map((indName, idx) => {
+                        const mapped = mapProblemToSolution(indName);
+                        return (
+                          <div
+                            key={idx}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              flexWrap: "wrap",
+                              gap: "8px",
+                              padding: "8px 12px",
+                              background: "#fff5f5",
+                              border: "1px solid #fecdd3",
+                              borderRadius: "6px",
+                              fontSize: "11.5px",
+                              color: "#881337"
+                            }}
+                          >
+                            <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", flex: "1 1 300px" }}>
+                              <span style={{ background: "#e11d48", color: "#fff", fontSize: "10px", fontWeight: 800, padding: "1px 6px", borderRadius: "99px", flexShrink: 0, marginTop: "2px" }}>
+                                #{idx + 1}
+                              </span>
+                              <div>
+                                <div style={{ fontWeight: 700, color: "#881337" }}>{indName}</div>
+                                <div style={{ fontSize: "10.5px", color: "#64748b", marginTop: "2px" }}>
+                                  OPD Pengampu: <b style={{ color: "#0f172a" }}>{mapped.opd}</b> ({mapped.bidangBapperida})
+                                </div>
+                              </div>
+                            </div>
+                            <button
+                              className="btn btn-primary btn-sm"
+                              style={{ fontSize: "10.5px", padding: "3px 8px", flexShrink: 0 }}
+                              onClick={() => {
+                                const desaLabel = `${selectedDesaDetail.tipe} ${selectedDesaDetail.nama} (Kec. ${selectedDesaDetail.kecamatan})`;
+                                setActiveDesaPengusul(desaLabel);
+                                setSelectedKecamatanPengusul(selectedDesaDetail.kecamatan);
+                                handleApplyProblemSolution(mapped, `Masalah ${selectedDesaDetail.nama}`);
+                              }}
+                            >
+                              <Sparkles size={11} /> Buka Solusi Kamus ➔
+                            </button>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -4150,43 +4436,68 @@ export default function App() {
 
               <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginTop: "6px" }}>
                 {desaTriage.masalahKritisDetail && desaTriage.masalahKritisDetail.length > 0 ? (
-                  desaTriage.masalahKritisDetail.map((item, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        display: "flex",
-                        alignItems: "flex-start",
-                        gap: "10px",
-                        padding: "9px 12px",
-                        background: "#fff5f5",
-                        border: "1px solid #fed7aa",
-                        borderRadius: "6px",
-                        fontSize: "12px",
-                        color: "#9f1239"
-                      }}
-                    >
-                      <span
+                  desaTriage.masalahKritisDetail.map((item, idx) => {
+                    const mapped = mapProblemToSolution(item);
+                    return (
+                      <div
+                        key={idx}
                         style={{
-                          background: "#e11d48",
-                          color: "#ffffff",
-                          fontSize: "10px",
-                          fontWeight: 800,
-                          padding: "2px 7px",
-                          borderRadius: "99px",
-                          flexShrink: 0,
-                          marginTop: "2px"
+                          display: "flex",
+                          alignItems: "flex-start",
+                          justifyContent: "space-between",
+                          flexWrap: "wrap",
+                          gap: "10px",
+                          padding: "10px 14px",
+                          background: "#fff5f5",
+                          border: "1px solid #fed7aa",
+                          borderRadius: "8px",
+                          fontSize: "12px",
+                          color: "#9f1239"
                         }}
                       >
-                        #{idx + 1}
-                      </span>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 700, color: "#881337" }}>{item}</div>
-                        <div style={{ fontSize: "10.5px", color: "#b91c1c", marginTop: "2px" }}>
-                          Status: <b>Defisit Akut (Skor 1 dari 5)</b> • Membutuhkan alokasi kegiatan OPD / APBD
+                        <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", flex: "1 1 340px" }}>
+                          <span
+                            style={{
+                              background: "#e11d48",
+                              color: "#ffffff",
+                              fontSize: "10px",
+                              fontWeight: 800,
+                              padding: "2px 7px",
+                              borderRadius: "99px",
+                              flexShrink: 0,
+                              marginTop: "2px"
+                            }}
+                          >
+                            #{idx + 1}
+                          </span>
+                          <div style={{ flex: 1 }}>
+                            <div style={{ fontWeight: 800, color: "#881337", fontSize: "12.5px" }}>{item}</div>
+                            <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap", marginTop: "4px" }}>
+                              <span className="badge" style={{ background: "#ffffff", color: "#334155", border: "1px solid #cbd5e1", fontSize: "10.5px", fontWeight: 700 }}>
+                                🏢 {mapped.opd}
+                              </span>
+                              <span className="badge" style={{ background: "#eff6ff", color: "#1d4ed8", border: "1px solid #bfdbfe", fontSize: "10.5px", fontWeight: 700 }}>
+                                🏛️ {mapped.bidangBapperida}
+                              </span>
+                              <span className="badge" style={{ background: "#f0fdf4", color: "#166534", border: "1px solid #bbf7d0", fontSize: "10.5px", fontWeight: 700 }}>
+                                📂 {mapped.urusan}
+                              </span>
+                            </div>
+                            <div style={{ fontSize: "11px", color: "#64748b", marginTop: "4px", fontStyle: "italic" }}>
+                              💡 Rekomendasi Solusi: {mapped.rekomendasi}
+                            </div>
+                          </div>
                         </div>
+                        <button
+                          className="btn btn-primary btn-sm"
+                          style={{ fontSize: "11px", padding: "6px 12px", flexShrink: 0, marginTop: "2px" }}
+                          onClick={() => handleApplyProblemSolution(mapped, `Masalah Lapangan ${activeDesaObj.nama}`)}
+                        >
+                          <Sparkles size={12} /> Buka Solusi di Kamus OPD ➔
+                        </button>
                       </div>
-                    </div>
-                  ))
+                    );
+                  })
                 ) : (
                   <div style={{ textAlign: "center", padding: "20px", color: "#64748b" }}>
                     Desa ini tidak memiliki indikator berskor 1. Seluruh layanan berada pada kategori Sedang atau Baik.
