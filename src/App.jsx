@@ -1817,10 +1817,10 @@ export default function App() {
   if (!currentUser) {
     return (
       <div className="sipd-login-wrapper">
-        {/* SISI KIRI: VISUAL GRAFIS & ANIMASI DESA LOMBOK BARAT */}
+        {/* SISI KIRI: VISUAL GRAFIS & KANTOR BUPATI LOMBOK BARAT */}
         <div
           className="sipd-login-left"
-          style={{ backgroundImage: `url('/lombok_barat_portal_bg.jpg')` }}
+          style={{ backgroundImage: `url('/kantor_bupati_lobar_bg.jpg')` }}
         >
           <div className="sipd-login-left-overlay" />
           <div className="sipd-login-left-content">

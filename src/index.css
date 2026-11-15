@@ -2007,8 +2007,8 @@ body {
 .sipd-login-left-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 58, 138, 0.85) 50%, rgba(2, 132, 199, 0.78) 100%);
-  backdrop-filter: blur(2px);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.80) 0%, rgba(30, 58, 138, 0.68) 50%, rgba(2, 132, 199, 0.58) 100%);
+  backdrop-filter: blur(1.5px);
   z-index: 1;
 }
 
