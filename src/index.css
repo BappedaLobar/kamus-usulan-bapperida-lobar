@@ -2274,10 +2274,14 @@ body {
   text-align: center !important;
 }
 
-.search-input-centered::placeholder {
+.search-input-centered::placeholder,
+.search-input-centered::-webkit-input-placeholder,
+.search-input-centered:-moz-placeholder,
+.search-input-centered::-moz-placeholder,
+.search-input-centered:-ms-input-placeholder {
   text-align: center !important;
   color: var(--slate-400) !important;
-  font-weight: 500;
+  font-weight: 500 !important;
 }
 
 .user-toolbar-grid {
@@ -2292,6 +2296,47 @@ body {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* Utilitas Global Form & Search Input Presisi Tinggi */
+.search-bar-inner {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.search-icon {
+  position: absolute !important;
+  left: 14px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+  color: var(--slate-400) !important;
+}
+
+.search-input {
+  width: 100% !important;
+  height: 42px !important;
+  padding: 9px 38px 9px 38px !important;
+  border-radius: var(--radius-md) !important;
+  border: 1.5px solid var(--slate-300) !important;
+  font-family: inherit !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: var(--slate-900) !important;
+  background: var(--pure-white) !important;
+  box-sizing: border-box !important;
+  transition: all 0.18s ease !important;
+}
+
+.search-input:focus {
+  outline: none !important;
+  border-color: var(--gov-navy-600) !important;
+  box-shadow: 0 0 0 3px rgba(11, 79, 138, 0.15) !important;
+}
+
 
 
 
