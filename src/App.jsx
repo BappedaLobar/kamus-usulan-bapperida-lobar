@@ -1130,6 +1130,24 @@ export default function App() {
                     )}
                   </div>
 
+                  {/* Dropdown Bidang Urusan */}
+                  <div className="filter-field-group">
+                    <label className="filter-label" style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                      <Layers size={13} color="var(--gov-navy-700)" /> Bidang Urusan:
+                    </label>
+                    <select
+                      className="form-select"
+                      value={selectedUrusan}
+                      onChange={(e) => setSelectedUrusan(e.target.value)}
+                    >
+                      {urusanOptions.map((u) => (
+                        <option key={u} value={u}>
+                          {u === "Semua Bidang Urusan" ? "📂 Semua Bidang Urusan" : u}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
                   {/* Dropdown 9 Aksi Prioritas Bupati */}
                   <div className="filter-field-group">
                     <label className="filter-label">Aksi Prioritas Bupati:</label>
