@@ -1211,13 +1211,17 @@ export default function App() {
                       {desaTriage.opdStatusMap[selectedOpd] && (
                         <span style={{ fontSize: "10px", fontWeight: 800 }}>
                           {desaTriage.opdStatusMap[selectedOpd].status === "kritis" && (
-                            <span style={{ color: "#e11d48" }}>🔴 Kritis</span>
+                            desaTriage.opdStatusMap[selectedOpd].persen < 70 ? (
+                              <span style={{ color: "#e11d48" }}>🔴 Sektor Kritis ({desaTriage.opdStatusMap[selectedOpd].persen}%)</span>
+                            ) : (
+                              <span style={{ color: "#e11d48" }}>🔴 Ada Masalah Skor 1 (Sektor {desaTriage.opdStatusMap[selectedOpd].persen}%)</span>
+                            )
                           )}
                           {desaTriage.opdStatusMap[selectedOpd].status === "sedang" && (
-                            <span style={{ color: "#d97706" }}>🟡 Sedang</span>
+                            <span style={{ color: "#d97706" }}>🟡 Sektor Sedang ({desaTriage.opdStatusMap[selectedOpd].persen}%)</span>
                           )}
                           {desaTriage.opdStatusMap[selectedOpd].status === "aman" && (
-                            <span style={{ color: "#16a34a" }}>🟢 Aman (Terkunci)</span>
+                            <span style={{ color: "#166534" }}>🟢 Sektor Mandiri ({desaTriage.opdStatusMap[selectedOpd].persen}% - Terkunci)</span>
                           )}
                         </span>
                       )}
@@ -1234,9 +1238,17 @@ export default function App() {
                         const st = desaTriage.opdStatusMap[opd];
                         let prefix = "";
                         if (st) {
-                          if (st.status === "kritis") prefix = `🔴 [KRITIS ${st.persen}%] `;
-                          else if (st.status === "sedang") prefix = `🟡 [SEDANG ${st.persen}%] `;
-                          else if (st.status === "aman") prefix = `🟢 [AMAN ${st.persen}% - Terkunci] `;
+                          if (st.status === "kritis") {
+                            if (st.persen < 70) {
+                              prefix = `🔴 [Sektor Kritis ${st.persen}%] `;
+                            } else {
+                              prefix = `🔴 [Ada Masalah Skor 1 • Sektor ${st.persen}%] `;
+                            }
+                          } else if (st.status === "sedang") {
+                            prefix = `🟡 [Sektor Sedang ${st.persen}%] `;
+                          } else if (st.status === "aman") {
+                            prefix = `🟢 [Aman Mandiri ${st.persen}% - Terkunci] `;
+                          }
                         }
                         return (
                           <option key={opd} value={opd}>
@@ -1246,7 +1258,7 @@ export default function App() {
                       })}
                     </select>
 
-                    {/* Peringatan interaktif jika memilih OPD yang sektornya sudah aman */}
+                    {/* Penjelasan Interaktif Status OPD Terpilih */}
                     {selectedOpd !== "Semua OPD" && desaTriage.opdStatusMap[selectedOpd]?.status === "aman" && (
                       <div style={{
                         marginTop: "6px",
@@ -1258,7 +1270,35 @@ export default function App() {
                         color: "#166534",
                         lineHeight: 1.4
                       }}>
-                        🔒 <b>Sektor Aman di {activeDesaObj.nama}:</b> Capaian sektor ini sudah mencapai <b>{desaTriage.opdStatusMap[selectedOpd].persen}%</b>. Berdasarkan prioritas Sheet RUMUSAN, usulan desa disarankan fokus pada sektor Kritis (🔴).
+                        🔒 <b>Sektor Mandiri (Aman) di {activeDesaObj.nama}:</b> Capaian sektor {desaTriage.opdStatusMap[selectedOpd].dimensi} sudah tinggi (<b>{desaTriage.opdStatusMap[selectedOpd].persen}%</b>) dan tidak memiliki indikator masalah kritis (0 Skor 1). Usulan desa difokuskan ke OPD yang memiliki masalah riil.
+                      </div>
+                    )}
+                    {selectedOpd !== "Semua OPD" && desaTriage.opdStatusMap[selectedOpd]?.status === "kritis" && desaTriage.opdStatusMap[selectedOpd].persen >= 70 && (
+                      <div style={{
+                        marginTop: "6px",
+                        padding: "6px 9px",
+                        background: "#fff1f2",
+                        border: "1px solid #fecdd3",
+                        borderRadius: "6px",
+                        fontSize: "11px",
+                        color: "#9f1239",
+                        lineHeight: 1.4
+                      }}>
+                        💡 <b>Penjelasan Status Prioritas:</b> Capaian umum sektor {desaTriage.opdStatusMap[selectedOpd].dimensi} di desa ini bernilai <b>{desaTriage.opdStatusMap[selectedOpd].persen}%</b>. OPD ini ditandai <b>Prioritas (🔴)</b> karena memiliki <b>indikator masalah riil bernilai Skor 1</b> di lapangan yang memerlukan intervensi kegiatan.
+                      </div>
+                    )}
+                    {selectedOpd !== "Semua OPD" && desaTriage.opdStatusMap[selectedOpd]?.status === "kritis" && desaTriage.opdStatusMap[selectedOpd].persen < 70 && (
+                      <div style={{
+                        marginTop: "6px",
+                        padding: "6px 9px",
+                        background: "#fff1f2",
+                        border: "1px solid #fecdd3",
+                        borderRadius: "6px",
+                        fontSize: "11px",
+                        color: "#9f1239",
+                        lineHeight: 1.4
+                      }}>
+                        🚨 <b>Sektor Kritis Lapangan:</b> Capaian sektor {desaTriage.opdStatusMap[selectedOpd].dimensi} di desa ini masih di bawah ambang batas (<b>{desaTriage.opdStatusMap[selectedOpd].persen}% &lt; 70%</b>), menjadikannya prioritas penanganan utama di APBD/RKPD.
                       </div>
                     )}
                   </div>
