@@ -69,6 +69,13 @@ import {
   getSecurityAuditLogs,
   sanitizeInput
 } from "./utils/secureStorage.js";
+import {
+  checkCloudDatabaseStatus,
+  fetchAllUsulanFromCloud,
+  saveUsulanToCloud,
+  deleteUsulanFromCloud,
+  syncLocalUsulanToCloud
+} from "./utils/cloudDatabase.js";
 
 const KATEGORI_LIST = [
   "Semua Kategori",
@@ -176,6 +183,30 @@ export default function App() {
     message: "Memeriksa koneksi database..."
   });
   const [isSyncingCloud, setIsSyncingCloud] = useState(false);
+
+  // Auto-koneksi ke Cloudflare D1 saat aplikasi pertama kali dibuka
+  useEffect(() => {
+    let isMounted = true;
+    async function autoConnectD1() {
+      try {
+        const status = await checkCloudDatabaseStatus();
+        if (isMounted) {
+          setCloudDbStatus({ checked: true, ...status });
+          if (status.connected) {
+            const cloudRes = await fetchAllUsulanFromCloud();
+            if (cloudRes.ok && Array.isArray(cloudRes.data) && cloudRes.data.length > 0) {
+              setSavedUsulanDesa(cloudRes.data);
+              saveSecureData("SAVED_USULAN_DESA", cloudRes.data);
+            }
+          }
+        }
+      } catch (e) {
+        console.warn("Auto D1 connect error:", e);
+      }
+    }
+    autoConnectD1();
+    return () => { isMounted = false; };
+  }, []);
 
   const showToast = (msg) => {
     setToastMsg(msg);
